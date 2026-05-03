@@ -683,10 +683,16 @@ function isPronounceableAcronym(token) {
  */
 function findPronounceableAcronyms(text) {
   if (!text) return [];
+  // Strip phoneme tags so hyphenated tokens *inside* the catch-all's
+  // <phoneme ph="…">X-Y-Z</phoneme> wraps are still visible to the
+  // regex. The catch-all already chose letter-spell IPA for these; if
+  // the token is actually pronounceable, we want to upgrade it to a
+  // word-pronunciation IPA via LLM resolution.
+  const stripped = text.replace(/<phoneme[^>]*>([^<]*)<\/phoneme>/g, '$1');
   const seen = new Set();
-  const re = /\b[A-Z](?:-[A-Z0-9])+\b(?![^<]*<\/phoneme>)/g;
+  const re = /\b[A-Z](?:-[A-Z0-9])+\b/g;
   let m;
-  while ((m = re.exec(text)) !== null) {
+  while ((m = re.exec(stripped)) !== null) {
     const tok = m[0];
     if (seen.has(tok)) continue;
     if (!isPronounceableAcronym(tok)) continue;
