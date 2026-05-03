@@ -459,6 +459,11 @@
     "learned": "2026-05-02",
     "source": "oral-alzheimers-drug-buntanetap-shows-cognitive-gains-and-biomarker-shifts-in-ph-web-mol4aoh2"
   },
+  "c-a": {
+    "ipa": "ˌsiːˈeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "c-a-d": {
     "ipa": "kæd",
     "learned": "2026-05-03",
@@ -518,6 +523,11 @@
     "ipa": "tʃɪp",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "c-i-m-t": {
+    "ipa": "ˌsiːaɪɛmˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "c-i-s-e": {
     "ipa": "ˌsiːaɪɛsˈiː",
@@ -589,6 +599,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "ca": {
+    "ipa": "ˌsiːˈeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "cad": {
     "ipa": "kæd",
     "learned": "2026-05-03",
@@ -658,6 +673,11 @@
     "ipa": "ˈkiːmoʊˌkaɪnz",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "cimt": {
+    "ipa": "ˌsiːaɪɛmˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "citicoline": {
     "ipa": "ˌsɪtɪˈkoʊliːn",
@@ -1734,6 +1754,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "l-t": {
+    "ipa": "ˌɛlˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "lactobacillus": {
     "ipa": "ˌlæktoʊbəˈsɪləs",
     "learned": "2026-05-03",
@@ -2054,6 +2079,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "n-c-c-n": {
+    "ipa": "ˌɛnsiːsiːˈɛn",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "n-d-t": {
     "ipa": "ˌɛndiːˈtiː",
     "learned": "2026-05-03",
@@ -2179,6 +2209,16 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "o-c-s": {
+    "ipa": "ˌoʊsiːˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "o-h": {
+    "ipa": "ˌoʊˈeɪtʃ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "o-k": {
     "ipa": "ˌoʊˈkeɪ",
     "learned": "2026-05-03",
@@ -2188,6 +2228,11 @@
     "ipa": "ˈɔrəkəl",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "oh": {
+    "ipa": "ˌoʊˈeɪtʃ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "ok": {
     "ipa": "ˌoʊˈkeɪ",
@@ -2508,6 +2553,11 @@
     "ipa": "rɪˈpɛrd",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "r-f": {
+    "ipa": "ˌɑːrˈɛf",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "r-n-a": {
     "ipa": "ˌɑːrɛnˈeɪ",
@@ -3199,6 +3249,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "u-k-c-t-o-c-s": {
+    "ipa": "ˌjuːkeɪsiːtiːoʊsiːˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "u-n-s-c-e-a-r": {
     "ipa": "ˌjuːɛnɛssiːiːeɪˈɑːr",
     "learned": "2026-05-03",
@@ -3241,6 +3296,11 @@
   },
   "uk": {
     "ipa": "ˌjuːˈkeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "ukctocs": {
+    "ipa": "ˌjuːkeɪsiːtiːoʊsiːˈɛs",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -3408,6 +3468,11 @@
     "ipa": "ˌˈdʌbəl.juːeɪtʃˈoʊ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "w-m-h": {
+    "ipa": "ˌˈdʌbəl.juːɛmˈeɪtʃ",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "whi": {
     "ipa": "ˌˈdʌbəl.juːeɪtʃˈaɪ",
