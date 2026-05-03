@@ -1,0 +1,1772 @@
+{
+  "a-d-p": {
+    "ipa": "ˌeɪdiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-f-f-i-r-m-l-i-t-e": {
+    "ipa": "əˈfɜːrmˌlaɪt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-l-a": {
+    "ipa": "ˌeɪɛlˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-p-o-b": {
+    "ipa": "ˌeɪpoʊˈbiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-p-o-e": {
+    "ipa": "ˌeɪpoʊˈiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-r-e-d-s": {
+    "ipa": "ˈeɪrɛdz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-t-l-a-s": {
+    "ipa": "ˈætləs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-t-p": {
+    "ipa": "ˌeɪtiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "a-t-t-r": {
+    "ipa": "ˈætɚ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "acarbose": {
+    "ipa": "ˈeɪkɑːrboʊs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "acylcarnitine": {
+    "ipa": "ˌeɪsɪlˈkɑːrnɪˌtiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "acylcarnitines": {
+    "ipa": "ˌeɪsɪlˈkɑːrnɪˌtiːnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "adipokine": {
+    "ipa": "ˈædɪpoʊˌkaɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "adipokines": {
+    "ipa": "ˈædɪpoʊˌkaɪnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "aducanumab": {
+    "ipa": "ˌæduːˈkænjuːmæb",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "akkermansia": {
+    "ipa": "ˌækərˈmænsiə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "akt": {
+    "ipa": "ækt",
+    "learned": "2026-04-27",
+    "source": "manual"
+  },
+  "allopurinol": {
+    "ipa": "ˌæloʊˈpjʊərɪnɒl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "anastrozole": {
+    "ipa": "əˈnæstrəzoʊl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "androderm": {
+    "ipa": "ˈændroʊdɜːrm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "androfeme": {
+    "ipa": "ˈændroʊfiːm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "androgel": {
+    "ipa": "ˈændroʊdʒɛl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "apigenin": {
+    "ipa": "ˌæpɪˈdʒɛnɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "apoptosis": {
+    "ipa": "ˌæpɒpˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "astaxanthin": {
+    "ipa": "ˌæstəˈzænθɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "atorvastatin": {
+    "ipa": "əˌtɔːrvəˈstætɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "attia": {
+    "ipa": "ˈætiə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "autophagy": {
+    "ipa": "ɔːˈtɒfədʒi",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "aveed": {
+    "ipa": "əˈviːd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "axiron": {
+    "ipa": "ˈæksɪrɒn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "azathioprine": {
+    "ipa": "ˌæzəˈθaɪəpriːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "b-m-i": {
+    "ipa": "ˌbiːɛmˈaɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "b-r-c-a": {
+    "ipa": "ˈbrækə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "bacteroidetes": {
+    "ipa": "ˌbæktəˈrɔɪdɪtiːz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "batimastat": {
+    "ipa": "ˌbæt.ɪ.ˈmæs.tæt",
+    "learned": "2026-05-02",
+    "source": "tutorial-ecm-remodeling-therapeutic-frontiers-and-precision-interventions"
+  },
+  "berberine": {
+    "ipa": "ˈbɜːrbəriːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "bifidobacterium": {
+    "ipa": "ˌbɪfɪdoʊbækˈtɪəriəm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "bioartificial": {
+    "ipa": "ˌbaɪ.oʊ.ɑɹ.tɪ.ˈfɪʃ.əl",
+    "learned": "2026-05-02",
+    "source": "liver-support-systems-show-no-clear-survival-benefit-in-acute-liver-failure"
+  },
+  "buntanetap": {
+    "ipa": "ˌbʌn.tə.ˈnɛ.tæp",
+    "learned": "2026-05-02",
+    "source": "oral-alzheimers-drug-buntanetap-shows-cognitive-gains-and-biomarker-shifts-in-ph-web-mol4aoh2"
+  },
+  "c-a-l-e-r-i-e": {
+    "ipa": "kəˈlɪri",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-a-n-t-o-s": {
+    "ipa": "kænˈtoʊs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-a-r-e-t": {
+    "ipa": "ˈkærət",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-g-m": {
+    "ipa": "ˌsiːdʒiːˈɛm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-h-i-p": {
+    "ipa": "tʃɪp",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-o-m-t": {
+    "ipa": "koʊmt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-o-v-i-d": {
+    "ipa": "ˈkoʊvɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-p-i-c": {
+    "ipa": "ˈsiːpɪk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-r-a-b": {
+    "ipa": "kræb",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-r-p": {
+    "ipa": "ˌsiːɑːrˈpiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "c-y-p": {
+    "ipa": "sɪp",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "capecitabine": {
+    "ipa": "ˌkeɪpɛˈsɪtəˌbiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "centenarian": {
+    "ipa": "ˌsɛntəˈnɛəriən",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "centenarians": {
+    "ipa": "ˌsɛntəˈnɛəriəns",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cerebrolysin": {
+    "ipa": "ˌsɛrəbroʊˈlaɪsɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "ceruloplasmin": {
+    "ipa": "sɪˌruːloʊˈplæzmɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cgas": {
+    "ipa": "ˌsiːˈɡæs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "chemokine": {
+    "ipa": "ˈkiːmoʊˌkaɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "chemokines": {
+    "ipa": "ˈkiːmoʊˌkaɪnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "citicoline": {
+    "ipa": "ˌsɪtɪˈkoʊliːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "clomiphene": {
+    "ipa": "ˈkloʊməfiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "connectome": {
+    "ipa": "kəˈnɛktoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "connectomic": {
+    "ipa": "ˌkənɛkˈtoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "curcumin": {
+    "ipa": "ˈkɜːrkjuːmɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cyclosporine": {
+    "ipa": "ˌsaɪkloʊˈspɔːriːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cypionate": {
+    "ipa": "sɪˈpaɪəneɪt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cytof": {
+    "ipa": "ˈsaɪtɔːf",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cytokine": {
+    "ipa": "ˈsaɪtoʊˌkaɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cytokines": {
+    "ipa": "ˈsaɪtoʊˌkaɪnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "cytomel": {
+    "ipa": "ˈsaɪtoʊmɛl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "d-h-a": {
+    "ipa": "ˌdiːeɪtʃˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "d-i-m": {
+    "ipa": "dɪm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "d-i-o": {
+    "ipa": "ˈdaɪoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "d-n-a": {
+    "ipa": "ˌdiːɛnˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "d-n-m-t-three-a": {
+    "ipa": "ˌdiːɛnɛmˈtiːθriːeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "d-u-t-c-h": {
+    "ipa": "dʌtʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "damps": {
+    "ipa": "dæmps",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "dasatinib": {
+    "ipa": "dəˈsætɪnɪb",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "deiodinase": {
+    "ipa": "diːˈaɪədɪneɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "deiodinases": {
+    "ipa": "diːˈaɪədɪneɪsɪz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "diosgenin": {
+    "ipa": "ˌdaɪəsˈdʒɛnɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "donanemab": {
+    "ipa": "doʊˈnænəmæb",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "drospirenone": {
+    "ipa": "droʊˈspaɪrənoʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "dulaglutide": {
+    "ipa": "ˌduːləˈɡluːtaɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "dunedin": {
+    "ipa": "dʌˈniːdɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "dutasteride": {
+    "ipa": "duːˈtæstərɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "e-l-i-t-e": {
+    "ipa": "ɪˈliːt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "e-p-a": {
+    "ipa": "ˌiːpiːˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "e-p-i-c": {
+    "ipa": "ˈɛpɪk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "elamipretide": {
+    "ipa": "ɪˈlæmɪˌpriːtaɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "eleuthero": {
+    "ipa": "ɪˈluːθəroʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "elevenlabs": {
+    "ipa": "ɪˈlɛvənlæbz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "enanthate": {
+    "ipa": "ɪˈnænθeɪt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "enclomiphene": {
+    "ipa": "ɛnˈkloʊməfiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "epha2": {
+    "ipa": "ˈɛf.eɪ.ˈtuː",
+    "learned": "2026-05-02",
+    "source": "tutorial-reprogramming-the-aged-immune-system-senolytics-cytokine-blockade-and-epigenetic"
+  },
+  "epha5": {
+    "ipa": "ˈɛf.eɪ.ˈfaɪv",
+    "learned": "2026-05-02",
+    "source": "tutorial-reprogramming-the-aged-immune-system-senolytics-cytokine-blockade-and-epigenetic"
+  },
+  "ephrin": {
+    "ipa": "ˈɛf.rɪn",
+    "learned": "2026-05-02",
+    "source": "tutorial-reprogramming-the-aged-immune-system-senolytics-cytokine-blockade-and-epigenetic"
+  },
+  "epigenome": {
+    "ipa": "ˌɛpɪˈdʒiːnoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "epigenomes": {
+    "ipa": "ˌɛpɪˈdʒiːnoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "epigenomic": {
+    "ipa": "ˌɛpɪdʒəˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "epigenomics": {
+    "ipa": "ˌɛpɪdʒəˈnoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "epitalon": {
+    "ipa": "ˌɛpɪˈtælɒn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "ergothioneine": {
+    "ipa": "ˌɜːrɡoʊθaɪoʊˈniːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "erythrocytosis": {
+    "ipa": "ɪˌrɪθroʊsaɪˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "estrace": {
+    "ipa": "ˈɛstreɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "estradiol": {
+    "ipa": "ˌɛstrəˈdaɪɒl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "estring": {
+    "ipa": "ˈɛstrɪŋ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "ethinyl": {
+    "ipa": "ˈɛθɪnɪl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "exosome": {
+    "ipa": "ˈɛksəˌsoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "exosomes": {
+    "ipa": "ˈɛksəˌsoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "exposome": {
+    "ipa": "ɛksˈpoʊsoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "exposomic": {
+    "ipa": "ɛksˌpoʊˈsoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "ezetimibe": {
+    "ipa": "ɛˈzɛtəmɪb",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "f-i-s-h": {
+    "ipa": "fɪʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "f-s-h": {
+    "ipa": "ˌɛfɛsˈeɪtʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "f-u-t": {
+    "ipa": "fʌt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "faecalibacterium": {
+    "ipa": "ˌfiːkəlibækˈtɪəriəm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "fascia": {
+    "ipa": "ˈfeɪʃə",
+    "learned": "2026-04-27",
+    "source": "manual"
+  },
+  "feedforward": {
+    "ipa": "ˈfid.ˌfɔɹ.wəɹd",
+    "learned": "2026-04-29",
+    "source": "tutorial-chrono-metabolic-precision-advanced-mechanisms-of-circadian-fasting-integration"
+  },
+  "ferroptosis": {
+    "ipa": "ˌfɛrɒpˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "finasteride": {
+    "ipa": "fɪˈnæstərɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "finkle": {
+    "ipa": "ˈfɪŋkəl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "fisetin": {
+    "ipa": "ˈfaɪsɪtɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "fluorouracil": {
+    "ipa": "ˌflʊəroʊˈjʊərəsɪl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "fortesta": {
+    "ipa": "fɔːrˈtɛstə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "fucoidan": {
+    "ipa": "fjuːˈkɔɪdən",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "g-a-b-a": {
+    "ipa": "ˈɡæbə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "g-f-r": {
+    "ipa": "ˌdʒiːɛfˈɑːr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "galphas": {
+    "ipa": "ˈdʒiː.ˈæl.fəz",
+    "learned": "2026-04-29",
+    "source": "tutorial-glp-1-receptor-signaling-camp-pka-pathways-and-metabolic-reprogramming-in-longev"
+  },
+  "genome": {
+    "ipa": "ˈdʒiːnoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "genomes": {
+    "ipa": "ˈdʒiːnoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "genomic": {
+    "ipa": "dʒəˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "genomics": {
+    "ipa": "dʒəˈnoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "glycome": {
+    "ipa": "ˈɡlaɪkoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "glycomic": {
+    "ipa": "ɡlaɪˈkoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "glycomics": {
+    "ipa": "ɡlaɪˈkoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "gonadorelin": {
+    "ipa": "ˌɡoʊnædoʊˈrɛlɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "gynecomastia": {
+    "ipa": "ˌɡaɪnəkoʊˈmæstiə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "h-d-l": {
+    "ipa": "ˌeɪtʃdiːˈɛl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "h-o-m-a-i-r": {
+    "ipa": "ˌhoʊməˈaɪɑːr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "h-r-v": {
+    "ipa": "ˌeɪtʃɑːrˈviː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hashimoto": {
+    "ipa": "ˌhɑːʃɪˈmoʊtoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hashimoto’s": {
+    "ipa": "ˌhɑːʃɪˈmoʊtoʊz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hawthorn": {
+    "ipa": "ˈhɔːθɔːrn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hayflick": {
+    "ipa": "ˈheɪflɪk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hepatokine": {
+    "ipa": "ˈhɛpətoʊˌkaɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hepatokines": {
+    "ipa": "ˈhɛpətoʊˌkaɪnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "hexarelin": {
+    "ipa": "hɛksəˈrɛlɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "homa": {
+    "ipa": "ˈhoʊmə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "horvath": {
+    "ipa": "ˈhɔːrvɑːθ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "humanin": {
+    "ipa": "ˈhjuːmənɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "ibutamoren": {
+    "ipa": "ɪˈbjuːtəmɔːrɛn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "imvexxy": {
+    "ipa": "ɪmˈvɛksi",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "inflammaging": {
+    "ipa": "ˌɪnflæmˈeɪdʒɪŋ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "interactome": {
+    "ipa": "ˌɪntərˈæktoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "interactomic": {
+    "ipa": "ˌɪntərækˈtoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "intrarosa": {
+    "ipa": "ˌɪntrəˈroʊzə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "ipamorelin": {
+    "ipa": "ɪˌpæməˈrɛlɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "irinotecan": {
+    "ipa": "aɪˈrɪnəˌtiːkæn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "j-a-m-a": {
+    "ipa": "ˈdʒæmə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "jatenzo": {
+    "ipa": "dʒəˈtɛnzoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "jefferies": {
+    "ipa": "ˈdʒɛfəriz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "k-e-e-p-s": {
+    "ipa": "kiːps",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "keap1": {
+    "ipa": "ˈkeɪ.æp.wʌn",
+    "learned": "2026-05-02",
+    "source": "tutorial-phytonutrients-decoded-nrf2-epigenetics-the-clinical-evidence"
+  },
+  "kinome": {
+    "ipa": "ˈkaɪnoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "kinomic": {
+    "ipa": "kaɪˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "kinomics": {
+    "ipa": "kaɪˈnoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "kisspeptin": {
+    "ipa": "ˈkɪsˌpɛptɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "klotho": {
+    "ipa": "ˈkloʊθoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "kynurenine": {
+    "ipa": "ˌkaɪˈnʊərəniːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "kynurenines": {
+    "ipa": "ˌkaɪˈnʊərəniːnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "l-h": {
+    "ipa": "ˌɛlˈeɪtʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "l-i-f-e": {
+    "ipa": "laɪf",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "lactobacillus": {
+    "ipa": "ˌlæktoʊbəˈsɪləs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "lecanemab": {
+    "ipa": "ləˈkænəmæb",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "levonorgestrel": {
+    "ipa": "ˌlɛvoʊnɔːrˈdʒɛstrəl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "levothyroxine": {
+    "ipa": "ˌliːvoʊθaɪˈrɒksiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "levoxyl": {
+    "ipa": "ləˈvɒksɪl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "liothyronine": {
+    "ipa": "ˌlaɪoʊˈθaɪroʊniːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "lipidome": {
+    "ipa": "ˈlɪpɪdoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "lipidomic": {
+    "ipa": "ˌlɪpɪˈdoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "lipidomics": {
+    "ipa": "ˌlɪpɪˈdoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "lipodystrophy": {
+    "ipa": "ˌlɪpoʊˈdɪstrəfi",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "liraglutide": {
+    "ipa": "ˌlɪrəˈɡluːtaɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "m-a-s-h": {
+    "ipa": "mæʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "m-i-n-d": {
+    "ipa": "maɪnd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "m-r-n-a": {
+    "ipa": "ˌɛmɑːrɛnˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "m-t-h-f-r": {
+    "ipa": "ˈɛm.ˈtiː.ˈeɪtʃ.ˈɛf.ˈɑːr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "macimorelin": {
+    "ipa": "ˌmæsɪmoʊˈrɛlɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "macroautophagy": {
+    "ipa": "ˌmækroʊɔːˈtɒfədʒi",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "marimastat": {
+    "ipa": "ˌmær.ɪ.məˈstæt",
+    "learned": "2026-05-02",
+    "source": "tutorial-ecm-remodeling-therapeutic-frontiers-and-precision-interventions"
+  },
+  "mattson": {
+    "ipa": "ˈmætsən",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "medroxyprogesterone": {
+    "ipa": "mɛˌdrɒksiproʊˈdʒɛstəroʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "metabolome": {
+    "ipa": "məˈtæbəˌloʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metabolomes": {
+    "ipa": "məˈtæbəˌloʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metabolomic": {
+    "ipa": "məˌtæbəˈloʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metabolomics": {
+    "ipa": "məˌtæbəˈloʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metagenome": {
+    "ipa": "ˌmɛtəˈdʒiːnoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metagenomic": {
+    "ipa": "ˌmɛtədʒəˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metagenomics": {
+    "ipa": "ˌmɛtədʒəˈnoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "metformin": {
+    "ipa": "mɛtˈfɔːrmɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "methylene": {
+    "ipa": "ˈmɛθɪliːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "methylome": {
+    "ipa": "ˈmɛθɪloʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "methylomes": {
+    "ipa": "ˈmɛθɪloʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "methylomic": {
+    "ipa": "ˌmɛθɪˈloʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "microbiome": {
+    "ipa": "ˌmaɪkroʊˈbaɪoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "microbiomes": {
+    "ipa": "ˌmaɪkroʊˈbaɪoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "microbiomic": {
+    "ipa": "ˌmaɪkroʊbaɪˈoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "micronized": {
+    "ipa": "ˈmaɪkrənaɪzd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "mitophagy": {
+    "ipa": "mɪˈtɒfədʒi",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "morgentaler": {
+    "ipa": "ˈmɔːrɡəntɑːlər",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "mosconi": {
+    "ipa": "məˈskoʊni",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "mthfr": {
+    "ipa": "ˈɛm.ˈtiː.ˈeɪtʃ.ˈɛf.ˈɑːr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "mtor": {
+    "ipa": "ˈɛm.tɔːr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "mtorc1": {
+    "ipa": "ˌɛmˈtɔːr.siː.wʌn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "mtorc2": {
+    "ipa": "ˌɛmˈtɔːr.siː.tuː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "muciniphila": {
+    "ipa": "ˌmjuːsɪnɪˈfɪlə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "multi-omic": {
+    "ipa": "ˌmʌltiˈoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "multi-omics": {
+    "ipa": "ˌmʌltiˈoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "myokine": {
+    "ipa": "ˈmaɪoʊˌkaɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "myokines": {
+    "ipa": "ˈmaɪoʊˌkaɪnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "n-a-c": {
+    "ipa": "ˌɛneɪˈsiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "n-a-s-h": {
+    "ipa": "næʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "nafld": {
+    "ipa": "ˈnæf ɛl diː",
+    "learned": "2026-04-27",
+    "source": "manual"
+  },
+  "natesto": {
+    "ipa": "nəˈtɛstoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "nattokinase": {
+    "ipa": "ˌnætoʊˈkaɪneɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "naviaux": {
+    "ipa": "næviˈoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "navitoclax": {
+    "ipa": "ˌnæv.ɪ.ˈtoʊ.læks",
+    "learned": "2026-05-02",
+    "source": "tutorial-vascular-rejuvenation-advanced-interventions-to-reverse-arterial-aging"
+  },
+  "nebido": {
+    "ipa": "nəˈbiːdoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "necroptosis": {
+    "ipa": "ˌnɛkrɒpˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "norethindrone": {
+    "ipa": "ˌnɔːrˈɛθɪndroʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "omic": {
+    "ipa": "ˈoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "omics": {
+    "ipa": "ˈoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "osteopenia": {
+    "ipa": "ˌɒstioʊˈpiːniə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "osteoporosis": {
+    "ipa": "ˌɒstioʊpəˈroʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "p-gp": {
+    "ipa": "ˌpiːdʒiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "p-p-a-r-g-c-one-a": {
+    "ipa": "piːpiːˌeɪɑːrdʒiːsiːˈwʌneɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "p-r-e-d-i-m-e-d": {
+    "ipa": "ˌpriːdɪˈmɛd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "p-s-a": {
+    "ipa": "ˌpiːɛsˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "palmitate": {
+    "ipa": "ˈpælmɪteɪt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "pamps": {
+    "ipa": "pæmps",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "pangenome": {
+    "ipa": "pænˈdʒiːnoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "pangenomic": {
+    "ipa": "ˌpændʒəˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "pangenomics": {
+    "ipa": "ˌpændʒəˈnoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "paroxetine": {
+    "ipa": "pəˈrɒksətiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "phagocytosis": {
+    "ipa": "ˌfæɡəsaɪˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "pharmacogenomic": {
+    "ipa": "ˌfɑrməkoʊdʒəˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "pharmacogenomics": {
+    "ipa": "ˌfɑrməkoʊdʒəˈnoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "phenome": {
+    "ipa": "ˈfiːnoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "phenomes": {
+    "ipa": "ˈfiːnoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "phenomic": {
+    "ipa": "fiˈnoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "pinealon": {
+    "ipa": "ˌpɪniˈæloʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "pinocytosis": {
+    "ipa": "ˌpaɪnəsaɪˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "pioglitazone": {
+    "ipa": "ˌpaɪoʊˈɡlɪtəzoʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "prasterone": {
+    "ipa": "ˈpræstəroʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "prasugrel": {
+    "ipa": "ˈpræsuːɡrɛl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "prausnitzii": {
+    "ipa": "praʊsˈnɪtsiaɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "prevotella": {
+    "ipa": "ˌprɛvəˈtɛlə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "prometrium": {
+    "ipa": "proʊˈmiːtriəm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "proteome": {
+    "ipa": "ˈproʊtiˌoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "proteomes": {
+    "ipa": "ˈproʊtiˌoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "proteomic": {
+    "ipa": "ˌproʊtiˈoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "proteomics": {
+    "ipa": "ˌproʊtiˈoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "pten": {
+    "ipa": "ˈpiːtɛn",
+    "learned": "2026-04-27",
+    "source": "manual"
+  },
+  "pterostilbene": {
+    "ipa": "ˌtɛroʊˈstɪlbiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "pyroptosis": {
+    "ipa": "ˌpaɪrɒpˈtoʊsɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "quercetin": {
+    "ipa": "ˈkwɜːrsətɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "r-e-m": {
+    "ipa": "rɛm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "r-n-a": {
+    "ipa": "ˌɑːrɛnˈeɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "radiolabeled": {
+    "ipa": "ˌreɪ.di.oʊˈleɪ.bəld",
+    "learned": "2026-04-29",
+    "source": "tutorial-ucp1-and-thermogenesis-brown-adipose-tissue-activation-pathways"
+  },
+  "raltegravir": {
+    "ipa": "ˌrɑːlˈtɛɡrəvɪr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "rapamycin": {
+    "ipa": "ˌræpəˈmaɪsɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "reiter": {
+    "ipa": "ˈraɪtər",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "rem": {
+    "ipa": "rɛm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "remi": {
+    "ipa": "ˈrɛmi",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "resveratrol": {
+    "ipa": "rɛzˈvɛrətrɒl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "retatrutide": {
+    "ipa": "ˌrɛtəˈtruːtaɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "retinyl": {
+    "ipa": "ˈrɛtɪnɪl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "rosuvastatin": {
+    "ipa": "roʊˌsuːvəˈstætɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "route": {
+    "ipa": "raʊt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "routed": {
+    "ipa": "ˈraʊtɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "routes": {
+    "ipa": "raʊts",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "routing": {
+    "ipa": "ˈraʊtɪŋ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "rouzier": {
+    "ipa": "ˈruːzieɪ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "s-a-s-p": {
+    "ipa": "sæsp",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "s-e-r-m": {
+    "ipa": "sɜːrm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "s-e-r-ms": {
+    "ipa": "sɜːrmz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "s-i-b-o": {
+    "ipa": "ˈsiːboʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "s-u-l-t-one-a-one": {
+    "ipa": "ˌɛsjuːɛlˌtiːwʌneɪˈwʌn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sarcopenia": {
+    "ipa": "ˌsɑːrkoʊˈpiːniə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sarcopenic": {
+    "ipa": "ˌsɑːrkoʊˈpɛnɪk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "schisandra": {
+    "ipa": "skɪˈsændrə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "secretagogue": {
+    "ipa": "sɪˈkriːtəɡɒɡ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "secretagogues": {
+    "ipa": "sɪˈkriːtəɡɒɡz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "secretome": {
+    "ipa": "ˈsiːkrətoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "secretomic": {
+    "ipa": "ˌsiːkrəˈtoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "selank": {
+    "ipa": "ˈsɛlæŋk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "semaglutide": {
+    "ipa": "ˌsɛməˈɡluːtaɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "semax": {
+    "ipa": "ˈsɛmæks",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "senescence": {
+    "ipa": "sɪˈnɛsəns",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "senolytic": {
+    "ipa": "ˌsɛnoʊˈlɪtɪk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "senolytics": {
+    "ipa": "ˌsɛnoʊˈlɪtɪks",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sensoril": {
+    "ipa": "ˈsɛnsɔːrɪl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "serine15": {
+    "ipa": "ˈsɛr.iːn ˈfɪf.tiːn",
+    "learned": "2026-04-29",
+    "source": "tutorial-nrf2-keap1-and-p53-foxo-signaling-molecular-pathways-of-hormetic-stress-response"
+  },
+  "serine20": {
+    "ipa": "ˈsɛr.iːn ˈtwɛn.ti",
+    "learned": "2026-04-29",
+    "source": "tutorial-nrf2-keap1-and-p53-foxo-signaling-molecular-pathways-of-hormetic-stress-response"
+  },
+  "serine317": {
+    "ipa": "ˈsɛr.iːn ˈθɹiː ˈhʌn.dɹəd ˈsɛv.ən.tiːn",
+    "learned": "2026-04-29",
+    "source": "tutorial-mtor-ulk1-signaling-cascade-molecular-switches-of-autophagy-initiation"
+  },
+  "serine777": {
+    "ipa": "ˈsɛr.iːn ˈsɛv.ən ˈsɛv.ən.ti ˈsɛv.ən",
+    "learned": "2026-04-29",
+    "source": "tutorial-mtor-ulk1-signaling-cascade-molecular-switches-of-autophagy-initiation"
+  },
+  "serm": {
+    "ipa": "sɜːrm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sermorelin": {
+    "ipa": "ˌsɜːrmoʊˈrɛlɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "serms": {
+    "ipa": "sɜːrmz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "serrapeptase": {
+    "ipa": "ˌsɛrəˈpɛpteɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "shilajit": {
+    "ipa": "ʃɪlədʒɪt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "simvastatin": {
+    "ipa": "sɪmvəˈstætɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sirolimus": {
+    "ipa": "sɪˈroʊlɪməs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "spermidine": {
+    "ipa": "ˈspɜːrmɪdiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "spironolactone": {
+    "ipa": "ˌspaɪrənəˈlæktoʊn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sting": {
+    "ipa": "stɪŋ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "striant": {
+    "ipa": "ˈstraɪənt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sulforaphane": {
+    "ipa": "ˌsʌlfəˈræfeɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "sult1a1": {
+    "ipa": "ˌɛsjuːɛlˌtiːwʌneɪˈwʌn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "supercentenarian": {
+    "ipa": "ˌsuːpərsɛntəˈnɛəriən",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "supraphysiologic": {
+    "ipa": "ˌsuːprəˌfɪzioʊˈlɒdʒɪk",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "synovitis": {
+    "ipa": "ˌsaɪnəˈvaɪtɪs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "synthroid": {
+    "ipa": "ˈsɪnθrɔɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "t-a-m-e": {
+    "ipa": "teɪm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "t-r-a-v-e-r-s-e": {
+    "ipa": "trəˈvɜːrs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "t-r-u-s-t": {
+    "ipa": "trʌst",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "t-s-h": {
+    "ipa": "ˌtiːɛsˈeɪtʃ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "tacrolimus": {
+    "ipa": "tæˈkroʊlɪməs",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "tesamorelin": {
+    "ipa": "ˌtɛsəmoʊˈrɛlɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "testim": {
+    "ipa": "ˈtɛstɪm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "testopel": {
+    "ipa": "ˈtɛstoʊpɛl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "thiopurine": {
+    "ipa": "ˌθaɪoʊˈpjʊəriːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "thiopurines": {
+    "ipa": "ˌθaɪoʊˈpjʊəriːnz",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "thioredoxin": {
+    "ipa": "ˌθaɪoʊˈrɛdɒksɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "threonine": {
+    "ipa": "ˈθrɛ.ə.nin",
+    "learned": "2026-04-29",
+    "source": "tutorial-glp-1-receptor-signaling-camp-pka-pathways-and-metabolic-reprogramming-in-longev"
+  },
+  "thymosin": {
+    "ipa": "ˈθaɪməsɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "ticagrelor": {
+    "ipa": "tɪˈkæɡrəlɔːr",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "tirzepatide": {
+    "ipa": "tɜːrˈzɛpətaɪd",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "tlando": {
+    "ipa": "ˈtlændoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "tongkat": {
+    "ipa": "ˈtɒŋkæt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "transcriptome": {
+    "ipa": "trænˈskrɪptoʊm",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "transcriptomes": {
+    "ipa": "trænˈskrɪptoʊmz",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "transcriptomic": {
+    "ipa": "trænˌskrɪpˈtoʊmɪk",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "transcriptomics": {
+    "ipa": "trænˌskrɪpˈtoʊmɪks",
+    "learned": "2026-05-03",
+    "source": "omic-migration"
+  },
+  "troponin": {
+    "ipa": "ˈtroʊpəˌnɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "undecanoate": {
+    "ipa": "ˌʌndɪˈkænoʊeɪt",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "urolithin": {
+    "ipa": "jʊˈrɒlɪθɪn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "vagifem": {
+    "ipa": "ˈvædʒɪfɛm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "varicocele": {
+    "ipa": "ˈværɪkəsiːl",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "vigen": {
+    "ipa": "ˈvaɪɡən",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "vogelxo": {
+    "ipa": "voʊˈdʒɛlksoʊ",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "w-a-d-a": {
+    "ipa": "ˈwɑːdə",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "yuvafem": {
+    "ipa": "ˈjuːvəfɛm",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  },
+  "zuclomiphene": {
+    "ipa": "zuːˈkloʊməfiːn",
+    "learned": "2026-05-03",
+    "source": "clinical-migration"
+  }
+}

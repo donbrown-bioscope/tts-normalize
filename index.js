@@ -543,8 +543,16 @@ function coreNormalize(text) {
 
 // ─── LEARNED PRONUNCIATIONS ─────────────────────────────────
 
-const LEARNED_PATH     = path.join(__dirname, '..', 'data', 'learned-pronunciations.json');
-const LEARNED_IPA_PATH = path.join(__dirname, '..', 'data', 'learned-ipa.json');
+// Persist learned IPAs inside the package itself so both the Precision
+// Longevity course and CAFMI consume the same dictionary via npm.
+// Previously this used path.join(__dirname, '..', 'data', ...) which
+// resolved correctly only when this file lived at <project>/scripts/lib/
+// inside CAFMI's tree; in the shared-package layout that path landed
+// outside the installed package and was wiped on every npm install.
+// Promote new entries by editing data/*.json here and pushing to the
+// shared repo; consumers pick them up via `npm update`.
+const LEARNED_PATH     = path.join(__dirname, 'data', 'learned-pronunciations.json');
+const LEARNED_IPA_PATH = path.join(__dirname, 'data', 'learned-ipa.json');
 
 let _learnedPronunciations = {};
 try {
