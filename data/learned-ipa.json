@@ -264,6 +264,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "c-e-o": {
+    "ipa": "ˌsiːiːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "c-g-m": {
     "ipa": "ˌsiːdʒiːˈɛm",
     "learned": "2026-05-03",
@@ -338,6 +343,11 @@
     "ipa": "ˌsɛntəˈnɛəriəns",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "ceo": {
+    "ipa": "ˌsiːiːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "cerebrolysin": {
     "ipa": "ˌsɛrəbroʊˈlaɪsɪn",
@@ -944,6 +954,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "i-c-u": {
+    "ipa": "ˌaɪsiːˈjuː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "i-l": {
     "ipa": "ˌaɪˈɛl",
     "learned": "2026-05-03",
@@ -954,6 +969,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "i-r": {
+    "ipa": "ˌaɪˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "i-t": {
     "ipa": "ˌaɪˈtiː",
     "learned": "2026-05-03",
@@ -963,6 +983,11 @@
     "ipa": "ɪˈbjuːtəmɔːrɛn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "icu": {
+    "ipa": "ˌaɪsiːˈjuː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "il": {
     "ipa": "ˌaɪˈɛl",
@@ -1003,6 +1028,11 @@
     "ipa": "ɪˌpæməˈrɛlɪn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "ir": {
+    "ipa": "ˌaɪˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "irinotecan": {
     "ipa": "aɪˈrɪnəˌtiːkæn",
@@ -1079,6 +1109,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "l-c": {
+    "ipa": "ˌɛlˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "l-h": {
     "ipa": "ˌɛlˈeɪtʃ",
     "learned": "2026-05-03",
@@ -1088,6 +1123,11 @@
     "ipa": "laɪf",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "l-p": {
+    "ipa": "ˌɛlˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "lactobacillus": {
     "ipa": "ˌlæktoʊbəˈsɪləs",
@@ -2289,6 +2329,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "v-o": {
+    "ipa": "ˌviːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "vagifem": {
     "ipa": "ˈvædʒɪfɛm",
     "learned": "2026-05-03",
@@ -2308,6 +2353,11 @@
     "ipa": "ˈvaɪtəl",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "vo": {
+    "ipa": "ˌviːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "vogelxo": {
     "ipa": "voʊˈdʒɛlksoʊ",
