@@ -9,6 +9,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "a-c-r": {
+    "ipa": "ˌeɪsiːˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "a-c-t-n": {
     "ipa": "ˌeɪsiːtiːˈɛn",
     "learned": "2026-05-03",
@@ -36,6 +41,11 @@
   },
   "a-l-s": {
     "ipa": "ˌeɪɛlˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "a-l-t": {
+    "ipa": "ˌeɪɛlˈtiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -79,6 +89,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "a-s-t": {
+    "ipa": "ˌeɪɛsˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "a-t-b-c": {
     "ipa": "ˌeɪtiːbiːˈsiː",
     "learned": "2026-05-03",
@@ -111,6 +126,11 @@
   },
   "acmg": {
     "ipa": "ˌeɪsiːɛmˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "acr": {
+    "ipa": "ˌeɪsiːˈɑːr",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -169,6 +189,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "alt": {
+    "ipa": "ˌeɪɛlˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "amp": {
     "ipa": "æmp",
     "learned": "2026-05-03",
@@ -221,6 +246,11 @@
   },
   "asd": {
     "ipa": "ˌeɪɛsˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "ast": {
+    "ipa": "ˌeɪɛsˈtiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -389,6 +419,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "c-a-p": {
+    "ipa": "ˌsiːeɪˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "c-a-r-e": {
     "ipa": "kɛr",
     "learned": "2026-05-03",
@@ -464,6 +499,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "c-t-a": {
+    "ipa": "ˌsiːtiːˈeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "c-t-l-a": {
     "ipa": "ˌsiːtiːɛlˈeɪ",
     "learned": "2026-05-03",
@@ -483,6 +523,11 @@
     "ipa": "keɪdʒ",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "cap": {
+    "ipa": "ˌsiːeɪˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "capecitabine": {
     "ipa": "ˌkeɪpɛˈsɪtəˌbiːn",
@@ -563,6 +608,11 @@
     "ipa": "ˈkɜrɪdʒ",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "cta": {
+    "ipa": "ˌsiːtiːˈeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "ctla": {
     "ipa": "ˌsiːtiːɛlˈeɪ",
@@ -949,6 +999,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "f-i-b": {
+    "ipa": "ˌɛfaɪˈbiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "f-i-s-h": {
     "ipa": "fɪʃ",
     "learned": "2026-05-03",
@@ -1018,6 +1073,11 @@
     "ipa": "ˌfɛrɒpˈtoʊsɪs",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "fib": {
+    "ipa": "ˌɛfaɪˈbiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "finasteride": {
     "ipa": "fɪˈnæstərɪd",
@@ -1324,6 +1384,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "i-m-t": {
+    "ipa": "ˌaɪɛmˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "i-n-f": {
     "ipa": "ˌaɪɛnˈɛf",
     "learned": "2026-05-03",
@@ -1383,6 +1448,11 @@
     "ipa": "ˈɪmpækt",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "imt": {
+    "ipa": "ˌaɪɛmˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "imvexxy": {
     "ipa": "ɪmˈvɛksi",
@@ -1624,6 +1694,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "m-a-s-l-d": {
+    "ipa": "ˌɛmeɪɛsɛlˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "m-c-a-d": {
     "ipa": "ˌɛmsiːeɪˈdiː",
     "learned": "2026-05-03",
@@ -1683,6 +1758,11 @@
     "ipa": "ˌmær.ɪ.məˈstæt",
     "learned": "2026-05-02",
     "source": "tutorial-ecm-remodeling-therapeutic-frontiers-and-precision-interventions"
+  },
+  "masld": {
+    "ipa": "ˌɛmeɪɛsɛlˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "mattson": {
     "ipa": "ˈmætsən",
@@ -1838,6 +1918,11 @@
     "ipa": "ˈmaɪoʊˌkaɪnz",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "n-a": {
+    "ipa": "ˌɛnˈeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "n-a-c": {
     "ipa": "ˌɛneɪˈsiː",
@@ -2399,6 +2484,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "s-h-b-g": {
+    "ipa": "ˌɛseɪtʃbiːˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "s-h-i-e-l-d": {
     "ipa": "ʃild",
     "learned": "2026-05-03",
@@ -2754,6 +2844,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "t-r-t": {
+    "ipa": "ˌtiːɑːrˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "t-r-u-s-t": {
     "ipa": "trʌst",
     "learned": "2026-05-03",
@@ -3024,6 +3119,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "v-t-e": {
+    "ipa": "ˌviːtiːˈiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "vaf": {
     "ipa": "ˌviːeɪˈɛf",
     "learned": "2026-05-03",
@@ -3069,6 +3169,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "vte": {
+    "ipa": "ˌviːtiːˈiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "w-a-d-a": {
     "ipa": "ˈwɑːdə",
     "learned": "2026-05-03",
@@ -3079,8 +3184,18 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "w-h-i": {
+    "ipa": "ˌˈdʌbəl.juːeɪtʃˈaɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "w-h-o": {
     "ipa": "ˌˈdʌbəl.juːeɪtʃˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "whi": {
+    "ipa": "ˌˈdʌbəl.juːeɪtʃˈaɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
