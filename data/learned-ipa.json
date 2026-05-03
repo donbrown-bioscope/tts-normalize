@@ -679,6 +679,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "f-o-r-e-v-e-r": {
+    "ipa": "fərˈɛvər",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "f-s-h": {
     "ipa": "ˌɛfɛsˈeɪtʃ",
     "learned": "2026-05-03",
@@ -733,6 +738,11 @@
     "ipa": "ˌflʊəroʊˈjʊərəsɪl",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "forever": {
+    "ipa": "fərˈɛvər",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "fortesta": {
     "ipa": "fɔːrˈtɛstə",
@@ -839,6 +849,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "h-o-r-i-z-o-n": {
+    "ipa": "həˈrɪzən",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "h-r-v": {
     "ipa": "ˌeɪtʃɑːrˈviː",
     "learned": "2026-05-03",
@@ -886,6 +901,11 @@
   },
   "hope": {
     "ipa": "hoʊp",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
+  "horizon": {
+    "ipa": "həˈrɪzən",
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
@@ -1029,6 +1049,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "l-a-n-d-m-a-r-k": {
+    "ipa": "ˈlændmɑrk",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "l-h": {
     "ipa": "ˌɛlˈeɪtʃ",
     "learned": "2026-05-03",
@@ -1043,6 +1068,11 @@
     "ipa": "ˌlæktoʊbəˈsɪləs",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "landmark": {
+    "ipa": "ˈlændmɑrk",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "lecanemab": {
     "ipa": "ləˈkænəmæb",
@@ -1444,6 +1474,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "p-i-o-n-e-e-r": {
+    "ipa": "paɪəˈnɪr",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "p-p-a-r-g-c-one-a": {
     "ipa": "piːpiːˌeɪɑːrdʒiːsiːˈwʌneɪ",
     "learned": "2026-05-03",
@@ -1558,6 +1593,11 @@
     "ipa": "ˌpaɪoʊˈɡlɪtəzoʊn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "pioneer": {
+    "ipa": "paɪəˈnɪr",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "prasterone": {
     "ipa": "ˈpræstəroʊn",
