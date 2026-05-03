@@ -179,6 +179,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "b-o-o-s-t": {
+    "ipa": "ˌbiːoʊoʊɛsˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "b-r-c-a": {
     "ipa": "ˈbrækə",
     "learned": "2026-05-03",
@@ -208,6 +213,11 @@
     "ipa": "ˌbaɪ.oʊ.ɑɹ.tɪ.ˈfɪʃ.əl",
     "learned": "2026-05-02",
     "source": "liver-support-systems-show-no-clear-survival-benefit-in-acute-liver-failure"
+  },
+  "boost": {
+    "ipa": "ˌbiːoʊoʊɛsˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "buntanetap": {
     "ipa": "ˌbʌn.tə.ˈnɛ.tæp",
@@ -1759,6 +1769,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "s-t-a-r": {
+    "ipa": "stɑɹ",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "s-u-l-t-one-a-one": {
     "ipa": "ˌɛsjuːɛlˌtiːwʌneɪˈwʌn",
     "learned": "2026-05-03",
@@ -1934,6 +1949,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "star": {
+    "ipa": "stɑɹ",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "sting": {
     "ipa": "stɪŋ",
     "learned": "2026-05-03",
@@ -1978,6 +1998,11 @@
     "ipa": "teɪm",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "t-h-r-i-v-e": {
+    "ipa": "θɹaɪv",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "t-r-a-c-e": {
     "ipa": "treɪs",
@@ -2038,6 +2063,11 @@
     "ipa": "ˈθrɛ.ə.nin",
     "learned": "2026-04-29",
     "source": "tutorial-glp-1-receptor-signaling-camp-pka-pathways-and-metabolic-reprogramming-in-longev"
+  },
+  "thrive": {
+    "ipa": "θɹaɪv",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "thymosin": {
     "ipa": "ˈθaɪməsɪn",
