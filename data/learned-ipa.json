@@ -1,4 +1,9 @@
 {
+  "a-c-m-g": {
+    "ipa": "ˌeɪsiːɛmˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "a-d-p": {
     "ipa": "ˌeɪdiːˈpiː",
     "learned": "2026-05-03",
@@ -19,6 +24,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "a-l-s": {
+    "ipa": "ˌeɪɛlˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "a-p-a-c-h-e": {
     "ipa": "əˈpætʃi",
     "learned": "2026-05-03",
@@ -33,6 +43,11 @@
     "ipa": "ˌeɪpoʊˈiː",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "a-p-o-l": {
+    "ipa": "ˌeɪpiːoʊˈɛl",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "a-r-e-d-s": {
     "ipa": "ˈeɪrɛdz",
@@ -63,6 +78,11 @@
     "ipa": "ˈeɪkɑːrboʊs",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "acmg": {
+    "ipa": "ˌeɪsiːɛmˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "acylcarnitine": {
     "ipa": "ˌeɪsɪlˈkɑːrnɪˌtiːn",
@@ -109,6 +129,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "als": {
+    "ipa": "ˌeɪɛlˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "anastrozole": {
     "ipa": "əˈnæstrəzoʊl",
     "learned": "2026-05-03",
@@ -138,6 +163,11 @@
     "ipa": "ˌæpɪˈdʒɛnɪn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "apol": {
+    "ipa": "ˌeɪpiːoʊˈɛl",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "apoptosis": {
     "ipa": "ˌæpɒpˈtoʊsɪs",
@@ -239,6 +269,11 @@
     "learned": "2026-05-02",
     "source": "oral-alzheimers-drug-buntanetap-shows-cognitive-gains-and-biomarker-shifts-in-ph-web-mol4aoh2"
   },
+  "c-a-d": {
+    "ipa": "kæd",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "c-a-g-e": {
     "ipa": "keɪdʒ",
     "learned": "2026-05-03",
@@ -318,6 +353,11 @@
     "ipa": "sɪp",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "cad": {
+    "ipa": "kæd",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "cage": {
     "ipa": "keɪdʒ",
@@ -469,6 +509,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "d-p-y-d": {
+    "ipa": "ˌdiːpiːwaɪˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "d-u-t-c-h": {
     "ipa": "dʌtʃ",
     "learned": "2026-05-03",
@@ -508,6 +553,11 @@
     "ipa": "doʊˈnænəmæb",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "dpyd": {
+    "ipa": "ˌdiːpiːwaɪˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "drospirenone": {
     "ipa": "droʊˈspaɪrənoʊn",
@@ -874,6 +924,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "h-l-a-b": {
+    "ipa": "ˌeɪtʃɛleɪˈbiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "h-o-m-a-i-r": {
     "ipa": "ˌhoʊməˈaɪɑːr",
     "learned": "2026-05-03",
@@ -929,6 +984,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "hlab": {
+    "ipa": "ˌeɪtʃɛleɪˈbiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "homa": {
     "ipa": "ˈhoʊmə",
     "learned": "2026-05-03",
@@ -954,6 +1014,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "i-b-d": {
+    "ipa": "ˌaɪbiːˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "i-c-u": {
     "ipa": "ˌaɪsiːˈjuː",
     "learned": "2026-05-03",
@@ -976,6 +1041,11 @@
   },
   "i-t": {
     "ipa": "ˌaɪˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "ibd": {
+    "ipa": "ˌaɪbiːˈdiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -1109,6 +1179,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "l-b-p": {
+    "ipa": "ˌɛlbiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "l-c": {
     "ipa": "ˌɛlˈsiː",
     "learned": "2026-05-03",
@@ -1199,6 +1274,16 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "m-c-a-d": {
+    "ipa": "ˌɛmsiːeɪˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "m-c-v": {
+    "ipa": "ˌɛmsiːˈviː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "m-i-n-d": {
     "ipa": "maɪnd",
     "learned": "2026-05-03",
@@ -1243,6 +1328,11 @@
     "ipa": "ˈmætsən",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "mcad": {
+    "ipa": "ˌɛmsiːeɪˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "medroxyprogesterone": {
     "ipa": "mɛˌdrɒksiproʊˈdʒɛstəroʊn",
@@ -1744,6 +1834,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "r-d-w": {
+    "ipa": "ˌɑːrdiːˈˈdʌbəl.juː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "r-e-m": {
     "ipa": "rɛm",
     "learned": "2026-05-03",
@@ -1753,6 +1848,11 @@
     "ipa": "ˌɑːrɛnˈeɪ",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "r-o-i": {
+    "ipa": "ˌɑːroʊˈaɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "radiolabeled": {
     "ipa": "ˌreɪ.di.oʊˈleɪ.bəld",
@@ -1799,6 +1899,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "roi": {
+    "ipa": "ˌɑːroʊˈaɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "rosuvastatin": {
     "ipa": "roʊˌsuːvəˈstætɪn",
     "learned": "2026-05-03",
@@ -1836,6 +1941,11 @@
   },
   "s-a-g-e": {
     "ipa": "seɪdʒ",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
+  "s-a-h": {
+    "ipa": "sæ",
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
@@ -1911,6 +2021,11 @@
   },
   "sage": {
     "ipa": "seɪdʒ",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
+  "sah": {
+    "ipa": "sæ",
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
@@ -2139,10 +2254,20 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "t-h-f": {
+    "ipa": "ˌtiːeɪtʃˈɛf",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "t-h-r-i-v-e": {
     "ipa": "θɹaɪv",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "t-p-m-t": {
+    "ipa": "ˌtiːpiːɛmˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "t-r-a-c-e": {
     "ipa": "treɪs",
@@ -2163,6 +2288,11 @@
     "ipa": "ˌtiːɛsˈeɪtʃ",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "t-t-r": {
+    "ipa": "ˌtiːtiːˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "tacrolimus": {
     "ipa": "tæˈkroʊlɪməs",
@@ -2329,6 +2459,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "v-k-o-r-c": {
+    "ipa": "ˌviːkeɪoʊɑːrˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "v-o": {
     "ipa": "ˌviːˈoʊ",
     "learned": "2026-05-03",
@@ -2354,6 +2489,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "vkorc": {
+    "ipa": "ˌviːkeɪoʊɑːrˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "vo": {
     "ipa": "ˌviːˈoʊ",
     "learned": "2026-05-03",
@@ -2368,6 +2508,11 @@
     "ipa": "ˈwɑːdə",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "w-b-c": {
+    "ipa": "ˌˈdʌbəl.juːbiːˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "w-h-o": {
     "ipa": "ˌˈdʌbəl.juːeɪtʃˈoʊ",
