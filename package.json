@@ -1,8 +1,14 @@
 {
   "name": "@bioscope/tts-normalize",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": true,
   "description": "Shared text normalization for Google Cloud TTS — pronunciation overrides, SSML phoneme wrapping, learned-pronunciation cache. Consumed by both CAFMI and the Precision Longevity course.",
   "main": "index.js",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "@anthropic-ai/sdk": ">=0.50.0"
+  },
+  "peerDependenciesMeta": {
+    "@anthropic-ai/sdk": { "optional": true }
+  }
 }

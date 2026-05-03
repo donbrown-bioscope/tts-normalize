@@ -655,16 +655,17 @@ function autoDiscover(word, ipa) {
  * onset clusters, too short/long).
  */
 function isPronounceableAcronym(token) {
+  // Keep this filter permissive — its only job is to skip tokens the
+  // LLM would obviously letter-spell (no vowels, all-consonant runs)
+  // so we don't pay for hopeless calls. Anything plausibly word-shaped
+  // gets forwarded; the LLM has the final say. Authoring rule: be
+  // surprised if a real English word is excluded here.
   const word = token.replace(/-/g, '').replace(/\d+$/, '');
-  if (word.length < 3 || word.length > 7) return false;
+  if (word.length < 2 || word.length > 9) return false;
   if (!/^[A-Z]+$/.test(word)) return false;
-  const vowels = (word.match(/[AEIOUY]/g) || []).length;
-  const ratio = vowels / word.length;
-  if (ratio < 0.25 || ratio > 0.7) return false;
-  // Reject 3+ consonant runs anywhere — not English-pronounceable.
-  if (/[BCDFGHJKLMNPQRSTVWXZ]{3,}/.test(word)) return false;
-  // Reject common clearly-letter-spelled patterns (DN-, NM-, MR- onsets).
-  if (/^(DN|NM|MR|TN|GN|PT|FM|JN|XL|RV)/.test(word)) return false;
+  // Need at least one vowel (Y counts) — without one the token is by
+  // construction letter-spelled (W-G-S, M-T-H-F-R, T-N-F).
+  if (!/[AEIOUY]/.test(word)) return false;
   return true;
 }
 
@@ -705,6 +706,132 @@ function findPronounceableAcronyms(text) {
     seen.add(tok);
   }
   return [...seen];
+}
+
+/**
+ * Resolve word-pronounceable acronyms in `text` via Claude and persist
+ * accepted IPAs to data/learned-ipa.json. This is a higher-level
+ * convenience for audio-gen scripts: one call before per-section
+ * normalize and the dictionary is upgraded so word pronunciations
+ * (PACE → /peɪs/) win over letter-by-letter (P-A-C-E).
+ *
+ * Required env vars:
+ *   ANTHROPIC_API_KEY                  — standard Claude API key
+ *   BIOSCOPE_TTS_NORMALIZE_DEV_PATH    — path to a working clone of
+ *                                        this shared repo (where the
+ *                                        learned-ipa.json mutations
+ *                                        actually persist).
+ *
+ * No-op if either env var is unset, or no candidates are found.
+ *
+ * Returns { candidates, accepted, rejected } so the caller can log
+ * what happened. After this resolves, call reloadLearnedIpa() before
+ * normalizing per-section text.
+ */
+async function resolveAndPersistAcronyms(text, opts = {}) {
+  const log = opts.log || console;
+  const candidates = findPronounceableAcronyms(text);
+  if (!candidates.length) return { candidates: [], accepted: [], rejected: [] };
+  if (!process.env.ANTHROPIC_API_KEY) {
+    log.warn && log.warn('  ⚠ ANTHROPIC_API_KEY not set; skipping word-pronunciation resolution.');
+    return { candidates, accepted: [], rejected: candidates };
+  }
+  if (!process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH) {
+    log.warn && log.warn('  ⚠ BIOSCOPE_TTS_NORMALIZE_DEV_PATH not set; skipping word-pronunciation persistence.');
+    return { candidates, accepted: [], rejected: candidates };
+  }
+  let Anthropic;
+  try { ({ default: Anthropic } = await import('@anthropic-ai/sdk')); }
+  catch (e) {
+    log.warn && log.warn(`  ⚠ @anthropic-ai/sdk not available (${e.message}); skipping resolution.`);
+    return { candidates, accepted: [], rejected: candidates };
+  }
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const list = candidates.map(c => `- ${c} (collapsed: ${c.replace(/-/g, '')})`).join('\n');
+  const prompt = `You are advising a clinical/biomedical TTS pipeline on how acronyms are conventionally pronounced.
+
+The question for each acronym is: when a clinician, researcher, or educated speaker reads this aloud in the relevant field, do they say it as a single word or letter-by-letter? Use established convention, not theoretical pronounceability.
+
+Pronounced as a WORD (return IPA): PACE → /peɪs/, GRACE → /ɡreɪs/, SOFA → /ˈsoʊfə/, FISH → /fɪʃ/, CHIP → /tʃɪp/, SIBO → /ˈsiːboʊ/, NASH /næʃ/, MASH /mæʃ/, AIDS /eɪdz/, MACE /meɪs/, STING /stɪŋ/, NICE /naɪs/, GERD /ɡɜːrd/, AMP /æmp/, RAS /ræs/.
+
+Pronounced LETTER-BY-LETTER (return null) — including when the collapsed form is a real English word but convention spells it: WHO ("double-you-aitch-oh", not "who"), IT, US, FDA, DNA, RNA, WGS, BRCA, HLA, MRI, CT, EKG, CGM, MTHFR, NIH, CDC, NEJM, JAMA, PCOS.
+
+If you're uncertain, prefer the convention used in the relevant clinical or research literature. The goal is to match what speakers actually say. Some collapsed forms that could be sayable are nonetheless letter-spelled (WHO, IT, ABLE), and some that look unlikely are spoken as words (CHIP, SASP). Use your knowledge of the field.
+
+For word pronunciations, give IPA in narrow transcription with primary stress (ˈ). Use standard English phonetic IPA — peɪs, ˈsoʊfə, ɡreɪs, fɪʃ, tʃɪp. No slashes, brackets, or commentary.
+
+For letter-by-letter, return null.
+
+Acronyms to evaluate:
+${list}
+
+Respond with ONLY a raw JSON array (no markdown fences, no prose). Field names: "acronym" (hyphenated as in the input) and "ipa":
+[
+  {"acronym": "P-A-C-E", "ipa": "peɪs"},
+  {"acronym": "W-H-O", "ipa": null},
+  {"acronym": "D-N-A", "ipa": null}
+]`;
+  const resp = await client.messages.create({
+    model: opts.model || 'claude-haiku-4-5-20251001',
+    max_tokens: 2000,
+    messages: [{ role: 'user', content: prompt }],
+  });
+  const respText = resp.content.map(b => b.type === 'text' ? b.text : '').join('').trim();
+  const jsonMatch = respText.match(/\[[\s\S]*\]/);
+  if (!jsonMatch) {
+    log.warn && log.warn(`  ⚠ LLM response had no JSON array; rejecting all.`);
+    return { candidates, accepted: [], rejected: candidates };
+  }
+  let parsed;
+  try { parsed = JSON.parse(jsonMatch[0]); }
+  catch (e) {
+    log.warn && log.warn(`  ⚠ LLM JSON parse failed: ${e.message}; rejecting all.`);
+    return { candidates, accepted: [], rejected: candidates };
+  }
+  // Tolerate field renaming (ipa / pronunciation / IPA) and acronym
+  // hyphen-stripping that some models do.
+  const byKey = new Map();
+  for (const item of parsed) {
+    if (!item || typeof item !== 'object') continue;
+    const acro = typeof item.acronym === 'string' ? item.acronym : null;
+    if (!acro) continue;
+    const ipa = item.ipa ?? item.pronunciation ?? item.IPA ?? null;
+    byKey.set(acro, ipa || null);
+    byKey.set(acro.replace(/-/g, ''), ipa || null);
+  }
+  const accepted = [];
+  const rejected = [];
+  for (const c of candidates) {
+    const ipa = byKey.get(c) ?? byKey.get(c.replace(/-/g, '')) ?? null;
+    if (!ipa) { rejected.push(c); continue; }
+    if (!isValidIpaString(ipa)) {
+      log.warn && log.warn(`  ⚠ ${c}: rejecting invalid IPA "${ipa}"`);
+      rejected.push(c);
+      continue;
+    }
+    // Persist both bare and hyphenated forms — only the hyphenated
+    // form actually appears post-CAFMI in narration text, but having
+    // both lets future direct-text lookups (e.g. authored markup)
+    // succeed too.
+    addLearnedIPA(c.replace(/-/g, ''), ipa, 'auto-llm');
+    addLearnedIPA(c, ipa, 'auto-llm');
+    accepted.push({ acronym: c, ipa });
+  }
+  return { candidates, accepted, rejected };
+}
+
+// Validate that an IPA string contains only legal IPA characters (plus
+// stress marks and the syllable-break dot). Rejects garbage from the
+// LLM that would poison the dictionary.
+const _IPA_CHARSET = /^[a-zA-Zɑɒæʌəɛɪɔʊʃʒθðŋɹɾɫɢʁʔˈˌːʰʲʷ.̩̃̆ˀ\s]+$/;
+function isValidIpaString(ipa) {
+  if (!ipa || typeof ipa !== 'string') return false;
+  if (ipa.length < 2 || ipa.length > 30) return false;
+  if (!_IPA_CHARSET.test(ipa)) return false;
+  // Reject if it's just ASCII letters with no IPA-specific marks —
+  // that suggests the model returned the spelling, not IPA.
+  if (/^[a-zA-Z]+$/.test(ipa)) return false;
+  return true;
 }
 
 /**
@@ -1881,6 +2008,7 @@ module.exports = {
   flushAutoDiscoveredIpa,
   isPronounceableAcronym,
   findPronounceableAcronyms,
+  resolveAndPersistAcronyms,
   reloadLearnedIpa,
   selfTest,
 };
