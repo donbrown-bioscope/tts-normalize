@@ -367,6 +367,45 @@ function coreNormalize(text) {
   //     Uses (?!\d) instead of \b so "2,500mg" (number + unit, no space) also matches
   t = t.replace(/\b(\d{1,3})(,\d{3})+(?!\d)/g, (match) => match.replace(/,/g, ''));
 
+  // 1c. Currency. Without this pass, "$50,000" survives as a literal "$"
+  // attached to the spelled-out number; Google TTS reads "$N" as
+  // "N dollars" (always plural), which mispronounces compound-adjective
+  // uses like "$15,000–$50,000 annual membership" as "…dollars annual
+  // membership". Spell the amount + "dollar(s)" inline so the synth
+  // never sees a bare "$".
+  //
+  // Pluralization heuristic:
+  //   • Range ($X–$Y) followed by a lowercase noun → compound adjective,
+  //     singular ("X to Y dollar <noun>").
+  //   • Range followed by " per " → rate, plural ("X to Y dollars per…").
+  //   • Range at end-of-clause → plural.
+  //   • Single $NNN → plural (the dominant case; "for under $500",
+  //     "costs $50M"). Compound-adjective singulars with a single
+  //     amount ("a $50,000 plan") are rare and stay plural until a
+  //     real example shows up.
+  const _currExpand = (numStr, mag) => {
+    const w = convertNumber(numStr);
+    if (mag === 'K') return `${w} thousand`;
+    if (mag === 'M') return `${w} million`;
+    if (mag === 'B') return `${w} billion`;
+    return w;
+  };
+  t = t.replace(
+    /\$(\d+(?:\.\d+)?)([KMB])?\s*[-–—]\s*\$(\d+(?:\.\d+)?)([KMB])?(?=(\s+per\b|\s+[a-z]|\s|$|[^\w]))/g,
+    (_match, n1, m1, n2, m2, lookahead) => {
+      const w1 = _currExpand(n1, m1);
+      const w2 = _currExpand(n2, m2);
+      // Compound adjective: range + lowercase noun (not "per") → singular.
+      if (/^\s+[a-z]/.test(lookahead) && !/^\s+per\b/.test(lookahead)) {
+        return `${w1} to ${w2} dollar`;
+      }
+      return `${w1} to ${w2} dollars`;
+    }
+  );
+  t = t.replace(/\$(\d+(?:\.\d+)?)([KMB])?/g, (_match, n, m) => {
+    return `${_currExpand(n, m)} dollars`;
+  });
+
   // 2. Replace compound terms first (before other replacements break them)
   //    Sort longest first to prevent partial matches (e.g. VO2max before O2)
   const sortedCompounds = Object.entries(COMPOUND_TERMS).sort((a, b) => b[0].length - a[0].length);
@@ -959,6 +998,16 @@ const PRE_ABBREVIATIONS = {
   // LC3-II / LC3-I autophagy ratio.
   'LC3-II/LC3-I': 'L-C three, two over L-C three, one',
   'LC3-II / LC3-I': 'L-C three, two over L-C three, one',
+  // LC-MS — liquid-chromatography mass spectrometry. Bare "LC-MS"
+  // survives the core (only one inter-letter hyphen, so the catch-all
+  // \b[A-Z](?:-[A-Z0-9])+\b doesn't match) and Chirp reads it as a
+  // single mumbled token. Clinicians say "L-C mass spec" — letter-spell
+  // the L-C and pronounce "spec" as the word /spɛk/ ("speck") so Chirp
+  // doesn't letter-spell it.
+  'LC-MS': 'L-C mass speck',
+  'LC/MS': 'L-C mass speck',
+  'GC-MS': 'G-C mass speck',
+  'GC/MS': 'G-C mass speck',
   // Imaging — Chirp HD reads the hyphenated "DEX-A" as letter-spelled
   // "DEC ZAY". Plain lowercase word lets Chirp produce the natural
   // "DEX-uh" reading.
@@ -1307,7 +1356,7 @@ const CLINICAL_IPA = {
   // acronym pipeline preserves the bare token (no letter spelling),
   // so this CLINICAL_IPA entry matches the unmangled form. The IPA
   // letter chain renders it as one fluid clinical token.
-  'SLCO1B1':   'ɛs.ɛl.siː.oʊ.wʌn.biː.wʌn',
+  'SLCO1B1':   'ˌɛs.ˌɛl.ˌsiː.ˌoʊ.ˌwʌn.ˌbiː.ˌwʌn',
   // HOMA-IR — the core letter-spells the whole token to "H-O-M-A-I-R".
   // Read as the word "homa" + the letters "I-R" said quickly. The full
   // post-core form lives here as one CLINICAL_IPA entry rather than
@@ -1893,14 +1942,14 @@ function postprocessForTTS(text) {
   // SSRI — the default fast-glue IPA ˌɛsɛsɑːrˈaɪ produces an audible
   // beat between the first and second /s/ on Chirp HD (the synth re-
   // articulates adjacent identical fricatives). Rewrite the exact tag
-  // emitted above, binding the SS into one stressed beat (primary on
-  // the first ɛs, secondary on the second) with a syllable break before
-  // the AR so the cluster resolves cleanly into "ess-ess-AR-eye".
-  // Direct string replace because POST_OVERRIDES' \b word boundaries
-  // don't match around phoneme tag punctuation.
+  // emitted above so the SS cluster carries a single primary stress
+  // (no internal stress shift — the previous attempt with ˈɛsˌɛs still
+  // beat between the two s's because Chirp interprets the secondary-
+  // stress mark as a syllable boundary). Periods around the AR and
+  // the EYE keep those letters cleanly articulated.
   t = t.replaceAll(
     '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪ">S-S-R-I</phoneme>',
-    '<phoneme alphabet="ipa" ph="ˈɛsˌɛs.ɑːrˌaɪ">S-S-R-I</phoneme>',
+    '<phoneme alphabet="ipa" ph="ˈɛsɛs.ˌɑːr.ˌaɪ">S-S-R-I</phoneme>',
   );
 
   return t;
@@ -1969,10 +2018,10 @@ function selfTest() {
     ['SASP and DIM',
       '<phoneme alphabet="ipa" ph="sæsp">S-A-S-P</phoneme> and <phoneme alphabet="ipa" ph="dɪm">D-I-M</phoneme>'],
     ["per CPIC's SSRI guideline",
-      'per <phoneme alphabet="ipa" ph="ˈsiːpɪk">C-P-I-C</phoneme>\'s <phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪ">S-S-R-I</phoneme> guideline'],
+      'per <phoneme alphabet="ipa" ph="ˈsiːpɪk">C-P-I-C</phoneme>\'s <phoneme alphabet="ipa" ph="ˈɛsɛs.ˌɑːr.ˌaɪ">S-S-R-I</phoneme> guideline'],
     // SLCO1B1 — POST_OVERRIDES emits a phoneme tag with fluid letter chain.
     ['SLCO1B1 *5/*5',
-      '<phoneme alphabet="ipa" ph="ɛs.ɛl.siː.oʊ.wʌn.biː.wʌn">SLCO1B1</phoneme> *five/*five'],
+      '<phoneme alphabet="ipa" ph="ˌɛs.ˌɛl.ˌsiː.ˌoʊ.ˌwʌn.ˌbiː.ˌwʌn">SLCO1B1</phoneme> *five/*five'],
     // ─── Snake_case identifier preprocess.
     ['call update_identity on the patient',
       'call update identity on the patient'],

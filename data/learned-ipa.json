@@ -315,9 +315,10 @@
     "source": "auto-letter-spell"
   },
   "ai": {
-    "ipa": "ˌeɪˈaɪ",
+    "ipa": "ˈeɪˌaɪ",
     "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "source": "auto-letter-spell",
+    "note": "Primary stress on AY, secondary on EYE — inverted from the auto-discovered ˌeɪˈaɪ to remove the audible beat between letters on Chirp HD (same fix shape as SSRI in index.js)."
   },
   "aids": {
     "ipa": "eɪdz",
@@ -1144,6 +1145,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "d-g-l": {
+    "ipa": "ˌdiːdʒiːˈɛl",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "d-h-a": {
     "ipa": "ˌdiːeɪtʃˈeɪ",
     "learned": "2026-05-03",
@@ -1173,6 +1179,11 @@
     "ipa": "ˌdiːaɪˈwaɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "d-m": {
+    "ipa": "ˌdiːˈɛm",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "d-n-a": {
     "ipa": "ˌdiːɛnˈeɪ",
@@ -1366,6 +1377,11 @@
   },
   "e-s-h-o-l-d": {
     "ipa": "ˌiːɛseɪtʃoʊɛlˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "e-s-r": {
+    "ipa": "ˌiːɛsˈɑːr",
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
@@ -1594,6 +1610,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "f-a-q": {
+    "ipa": "ˌɛfeɪˈkjuː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "f-a-s-t": {
     "ipa": "fæst",
     "learned": "2026-05-03",
@@ -1603,6 +1624,11 @@
     "ipa": "fæt",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "f-f-r": {
+    "ipa": "ˌɛfɛfˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "f-f-s": {
     "ipa": "ˌɛfɛfˈɛs",
@@ -1919,6 +1945,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "h-c-m": {
+    "ipa": "ˌeɪtʃsiːˈɛm",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "h-d-l": {
     "ipa": "ˌeɪtʃdiːˈɛl",
     "learned": "2026-05-03",
@@ -2144,6 +2175,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "i-d-o": {
+    "ipa": "ˌaɪdiːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "i-f": {
     "ipa": "ˌaɪˈɛf",
     "learned": "2026-05-03",
@@ -2188,6 +2224,11 @@
     "ipa": "ˌaɪɛmˈdʌbəl.juːˈdʒiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "i-n-c-o-r-r-e": {
+    "ipa": "ˌaɪɛnsiːoʊɑːrɑːrˈiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "i-n-f": {
     "ipa": "ˌaɪɛnˈɛf",
@@ -2569,6 +2610,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "l-m": {
+    "ipa": "ˌɛlˈɛm",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "l-n-g-i-u-d": {
     "ipa": "ˌɛlɛndʒiːaɪjuːˈdiː",
     "learned": "2026-05-03",
@@ -2591,6 +2637,11 @@
   },
   "l-t": {
     "ipa": "ˌɛlˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "l-y": {
+    "ipa": "ˌɛlˈwaɪ",
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
@@ -2739,6 +2790,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "m-g": {
+    "ipa": "ˌɛmˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "m-g-f": {
     "ipa": "ˌɛmdʒiːˈɛf",
     "learned": "2026-05-03",
@@ -2761,6 +2817,11 @@
   },
   "m-m-a-g-i-n-g": {
     "ipa": "ˌɛmɛmeɪdʒiːaɪɛnˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "m-o-s-t": {
+    "ipa": "ˌɛmoʊɛsˈtiː",
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
@@ -3144,6 +3205,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "n-l-r": {
+    "ipa": "ˌɛnɛlˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "n-m-d-a": {
     "ipa": "ˌɛnɛmdiːˈeɪ",
     "learned": "2026-05-03",
@@ -3314,6 +3380,11 @@
     "learned": "2026-05-03",
     "source": "manual-override"
   },
+  "o-m-a-d": {
+    "ipa": "ˌoʊɛmeɪˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "o-r-a-c-l-e": {
     "ipa": "ˈɔrəkəl",
     "learned": "2026-05-03",
@@ -3328,6 +3399,11 @@
     "ipa": "ˌoʊtiːˈsiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "o-v-e": {
+    "ipa": "ˌoʊviːˈiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "oatp": {
     "ipa": "ˌoʊeɪtiːˈpiː",
@@ -3401,6 +3477,11 @@
   },
   "p-c-p": {
     "ipa": "ˌpiːsiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "p-c-r": {
+    "ipa": "ˌpiːsiːˈɑːr",
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
@@ -3793,6 +3874,11 @@
     "ipa": "ˌɑːroʊˈaɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "r-o-s": {
+    "ipa": "ˌɑːroʊˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "r-p": {
     "ipa": "ˌɑːrˈpiː",
@@ -4429,6 +4515,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "t-p": {
+    "ipa": "ˌtiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "t-p-h": {
     "ipa": "ˌtiːpiːˈeɪtʃ",
     "learned": "2026-05-03",
@@ -4849,6 +4940,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "v-z-v": {
+    "ipa": "ˌviːziːˈviː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "vaf": {
     "ipa": "ˌviːeɪˈɛf",
     "learned": "2026-05-03",
@@ -4911,6 +5007,11 @@
   },
   "w-b-c": {
     "ipa": "ˌˈdʌbəl.juːbiːˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "w-e-s": {
+    "ipa": "ˌˈdʌbəl.juːiːˈɛs",
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
