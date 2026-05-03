@@ -803,19 +803,31 @@ Respond with ONLY a raw JSON array (no markdown fences, no prose). Field names: 
   const rejected = [];
   for (const c of candidates) {
     const ipa = byKey.get(c) ?? byKey.get(c.replace(/-/g, '')) ?? null;
-    if (!ipa) { rejected.push(c); continue; }
-    if (!isValidIpaString(ipa)) {
+    if (ipa && !isValidIpaString(ipa)) {
       log.warn && log.warn(`  ⚠ ${c}: rejecting invalid IPA "${ipa}"`);
       rejected.push(c);
+      // Fall through to letter-spell persistence below.
+    } else if (ipa) {
+      // LLM returned a valid word IPA — persist as the canonical
+      // pronunciation. Both bare and hyphenated forms so future direct-
+      // text lookups (authored markup) succeed too.
+      addLearnedIPA(c.replace(/-/g, ''), ipa, 'auto-llm');
+      addLearnedIPA(c, ipa, 'auto-llm');
+      accepted.push({ acronym: c, ipa });
       continue;
+    } else {
+      rejected.push(c);
     }
-    // Persist both bare and hyphenated forms — only the hyphenated
-    // form actually appears post-CAFMI in narration text, but having
-    // both lets future direct-text lookups (e.g. authored markup)
-    // succeed too.
-    addLearnedIPA(c.replace(/-/g, ''), ipa, 'auto-llm');
-    addLearnedIPA(c, ipa, 'auto-llm');
-    accepted.push({ acronym: c, ipa });
+    // LLM said null OR returned invalid IPA → letter-spell. Persist
+    // the buildFastChainIpa result so future runs hit the dict pass
+    // directly instead of falling through to the catch-all every time.
+    // Tag it source: 'auto-letter-spell' so it's distinguishable from
+    // word pronunciations during review.
+    const letterIpa = buildFastChainIpa(c);
+    if (letterIpa) {
+      addLearnedIPA(c, letterIpa, 'auto-letter-spell');
+      addLearnedIPA(c.replace(/-/g, ''), letterIpa, 'auto-letter-spell');
+    }
   }
   return { candidates, accepted, rejected };
 }
@@ -823,13 +835,14 @@ Respond with ONLY a raw JSON array (no markdown fences, no prose). Field names: 
 // Validate that an IPA string contains only legal IPA characters (plus
 // stress marks and the syllable-break dot). Rejects garbage from the
 // LLM that would poison the dictionary.
-// Permissive IPA validation: allow ASCII letters, the Unicode IPA
-// Extensions block (U+0250–U+02AF), Spacing Modifier Letters
-// (U+02B0–U+02FF — includes ˈˌːʰʲʷ), Combining Diacritical Marks
-// (U+0300–U+036F — tone marks, nasalization), plus explicit common
-// glyphs that fall outside those blocks (ɡ U+0261 looks like an
-// ASCII g but is a separate codepoint; some IPA charts emit ʍ etc).
-const _IPA_CHARSET = /^[a-zA-Zɡɢɐ-˿̀-ͯ.\s]+$/;
+// Permissive IPA validation: allow any Unicode letter (covers ASCII
+// letters, æ ø ç in Latin-1 Supplement, IPA Extensions ɐɛɪɔ…, the
+// extended Latin needed for some glyphs), any combining mark (stress,
+// tone, nasalization), plus the IPA syllable break dot and whitespace.
+// We deliberately don't try to deeply validate IPA correctness — the
+// goal is to reject obvious garbage (LLM returning a sentence or
+// punctuation-heavy string) before persisting to the shared dict.
+const _IPA_CHARSET = /^[\p{Letter}\p{Mark}.\s]+$/u;
 function isValidIpaString(ipa) {
   if (!ipa || typeof ipa !== 'string') return false;
   if (ipa.length < 2 || ipa.length > 30) return false;
