@@ -644,6 +644,78 @@ function autoDiscover(word, ipa) {
 }
 
 /**
+ * Heuristic: would this letter-spelled acronym likely be pronounced
+ * as a word by a clinician/researcher? Used by audio-gen scripts to
+ * select candidates worth resolving via LLM (PACE → /peɪs/ rather
+ * than letter-by-letter "P-A-C-E").
+ *
+ * Input is the post-CAFMI hyphenated form ("P-A-C-E") or the bare
+ * acronym ("PACE"). Returns true for plausibly word-shaped tokens,
+ * false for definitely-letter-spelled ones (no vowels, awkward
+ * onset clusters, too short/long).
+ */
+function isPronounceableAcronym(token) {
+  const word = token.replace(/-/g, '').replace(/\d+$/, '');
+  if (word.length < 3 || word.length > 7) return false;
+  if (!/^[A-Z]+$/.test(word)) return false;
+  const vowels = (word.match(/[AEIOUY]/g) || []).length;
+  const ratio = vowels / word.length;
+  if (ratio < 0.25 || ratio > 0.7) return false;
+  // Reject 3+ consonant runs anywhere — not English-pronounceable.
+  if (/[BCDFGHJKLMNPQRSTVWXZ]{3,}/.test(word)) return false;
+  // Reject common clearly-letter-spelled patterns (DN-, NM-, MR- onsets).
+  if (/^(DN|NM|MR|TN|GN|PT|FM|JN|XL|RV)/.test(word)) return false;
+  return true;
+}
+
+/**
+ * Scan text for letter-spelled acronyms (post-CAFMI form X-Y-Z) that
+ * (a) aren't yet wrapped in a phoneme tag,
+ * (b) aren't in any built-in OMIC/CLINICAL dict or the learned-ipa
+ *     dictionary, and
+ * (c) pass the pronounceability heuristic above.
+ *
+ * Audio-gen scripts call this on the concatenated source text BEFORE
+ * per-section TTS, batch-resolve the result via an LLM, and write IPA
+ * entries to `data/learned-ipa.json`. By the time per-section
+ * normalization runs, the dictionary already wraps these tokens with
+ * a word-pronunciation IPA instead of letter-by-letter.
+ */
+function findPronounceableAcronyms(text) {
+  if (!text) return [];
+  const seen = new Set();
+  const re = /\b[A-Z](?:-[A-Z0-9])+\b(?![^<]*<\/phoneme>)/g;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const tok = m[0];
+    if (seen.has(tok)) continue;
+    if (!isPronounceableAcronym(tok)) continue;
+    const bare = tok.replace(/-/g, '').toLowerCase();
+    const hyphenated = tok.toLowerCase();
+    // Already covered by a built-in dict?
+    if (CLINICAL_IPA[tok] || CLINICAL_IPA[bare] || CLINICAL_IPA[hyphenated]) continue;
+    if (OMIC_IPA[tok] || OMIC_IPA[bare] || OMIC_IPA[hyphenated]) continue;
+    if (_learnedIPA[bare] || _learnedIPA[hyphenated]) continue;
+    seen.add(tok);
+  }
+  return [...seen];
+}
+
+/**
+ * Re-read `data/learned-ipa.json` from disk into the in-memory
+ * dictionary. Audio-gen scripts call this after writing newly
+ * resolved entries (via addLearnedIPA) so the catch-all sees them
+ * during the subsequent per-section normalize.
+ */
+function reloadLearnedIpa() {
+  try {
+    if (fs.existsSync(LEARNED_IPA_PATH)) {
+      _learnedIPA = JSON.parse(fs.readFileSync(LEARNED_IPA_PATH, 'utf-8'));
+    }
+  } catch { /* keep existing in-memory dict if reload fails */ }
+}
+
+/**
  * Write any auto-discovered entries from the current process to the
  * developer working-copy `data/learned-ipa.json`. Returns metadata
  * useful for an audio-gen script to commit + push the change.
@@ -1796,4 +1868,13 @@ function selfTest() {
   return passed === tests.length;
 }
 
-module.exports = { normalizeForTTS, addLearnedPronunciation, addLearnedIPA, flushAutoDiscoveredIpa, selfTest };
+module.exports = {
+  normalizeForTTS,
+  addLearnedPronunciation,
+  addLearnedIPA,
+  flushAutoDiscoveredIpa,
+  isPronounceableAcronym,
+  findPronounceableAcronyms,
+  reloadLearnedIpa,
+  selfTest,
+};
