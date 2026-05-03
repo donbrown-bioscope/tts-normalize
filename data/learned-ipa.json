@@ -524,6 +524,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "c-j-c": {
+    "ipa": "ˌsiːdʒeɪˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "c-l-e-a-r": {
     "ipa": "klɪr",
     "learned": "2026-05-03",
@@ -2664,6 +2669,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "s-l-a": {
+    "ipa": "ˌɛsɛlˈeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "s-m-a-r-t": {
     "ipa": "smɑrt",
     "learned": "2026-05-03",
@@ -2861,6 +2871,11 @@
   },
   "sirt": {
     "ipa": "ˌɛsaɪɑːrˈtiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "sla": {
+    "ipa": "ˌɛsɛlˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
