@@ -823,7 +823,13 @@ Respond with ONLY a raw JSON array (no markdown fences, no prose). Field names: 
 // Validate that an IPA string contains only legal IPA characters (plus
 // stress marks and the syllable-break dot). Rejects garbage from the
 // LLM that would poison the dictionary.
-const _IPA_CHARSET = /^[a-zA-Zɑɒæʌəɛɪɔʊʃʒθðŋɹɾɫɢʁʔˈˌːʰʲʷ.̩̃̆ˀ\s]+$/;
+// Permissive IPA validation: allow ASCII letters, the Unicode IPA
+// Extensions block (U+0250–U+02AF), Spacing Modifier Letters
+// (U+02B0–U+02FF — includes ˈˌːʰʲʷ), Combining Diacritical Marks
+// (U+0300–U+036F — tone marks, nasalization), plus explicit common
+// glyphs that fall outside those blocks (ɡ U+0261 looks like an
+// ASCII g but is a separate codepoint; some IPA charts emit ʍ etc).
+const _IPA_CHARSET = /^[a-zA-Zɡɢɐ-˿̀-ͯ.\s]+$/;
 function isValidIpaString(ipa) {
   if (!ipa || typeof ipa !== 'string') return false;
   if (ipa.length < 2 || ipa.length > 30) return false;
