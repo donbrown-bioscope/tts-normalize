@@ -39,6 +39,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "a-s-d": {
+    "ipa": "ˌeɪɛsˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "a-t-l-a-s": {
     "ipa": "ˈætləs",
     "learned": "2026-05-03",
@@ -139,6 +144,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "asd": {
+    "ipa": "ˌeɪɛsˈdiː",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "astaxanthin": {
     "ipa": "ˌæstəˈzænθɪn",
     "learned": "2026-05-03",
@@ -183,6 +193,11 @@
     "ipa": "ˌbiːoʊoʊɛsˈtiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "b-p-c": {
+    "ipa": "ˌbiːpiːˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "b-r-c-a": {
     "ipa": "ˈbrækə",
@@ -679,6 +694,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "f-o-d-m-a-p": {
+    "ipa": "ˈfoʊdmæp",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "f-o-r-e-v-e-r": {
     "ipa": "fərˈɛvər",
     "learned": "2026-05-03",
@@ -738,6 +758,11 @@
     "ipa": "ˌflʊəroʊˈjʊərəsɪl",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "fodmap": {
+    "ipa": "ˈfoʊdmæp",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
   },
   "forever": {
     "ipa": "fərˈɛvər",
@@ -1144,6 +1169,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "m-s-g": {
+    "ipa": "ˌɛmɛsˈdʒiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "m-t-h-f-r": {
     "ipa": "ˈɛm.ˈtiː.ˈeɪtʃ.ˈɛf.ˈɑːr",
     "learned": "2026-05-03",
@@ -1494,6 +1524,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "p-r-p": {
+    "ipa": "ˌpiːɑːrˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "p-s-a": {
     "ipa": "ˌpiːɛsˈeɪ",
     "learned": "2026-05-03",
@@ -1769,6 +1804,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "s-b-s": {
+    "ipa": "ˌɛsbiːˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "s-c-a-n": {
     "ipa": "skæn",
     "learned": "2026-05-03",
@@ -1811,6 +1851,11 @@
   },
   "s-t-a-r": {
     "ipa": "stɑɹ",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
+  "s-t-e-m": {
+    "ipa": "stɛm",
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
@@ -1994,6 +2039,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "stem": {
+    "ipa": "stɛm",
+    "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
   "sting": {
     "ipa": "stɪŋ",
     "learned": "2026-05-03",
@@ -2038,6 +2088,16 @@
     "ipa": "teɪm",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "t-b": {
+    "ipa": "ˌtiːˈbiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "t-d-p": {
+    "ipa": "ˌtiːdiːˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "t-h-r-i-v-e": {
     "ipa": "θɹaɪv",
@@ -2164,8 +2224,18 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "u-c-l": {
+    "ipa": "ˌjuːsiːˈɛl",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "u-k": {
     "ipa": "ˌjuːˈkeɪ",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "u-p-f": {
+    "ipa": "ˌjuːpiːˈɛf",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -2179,6 +2249,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "ucl": {
+    "ipa": "ˌjuːsiːˈɛl",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
   "uk": {
     "ipa": "ˌjuːˈkeɪ",
     "learned": "2026-05-03",
@@ -2188,6 +2263,11 @@
     "ipa": "ˌʌndɪˈkænoʊeɪt",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "upf": {
+    "ipa": "ˌjuːpiːˈɛf",
+    "learned": "2026-05-03",
+    "source": "auto-letter-spell"
   },
   "urolithin": {
     "ipa": "jʊˈrɒlɪθɪn",
