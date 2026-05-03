@@ -601,6 +601,66 @@ function addLearnedIPA(word, ipa, source) {
   fs.writeFileSync(LEARNED_IPA_PATH, JSON.stringify(_learnedIPA, null, 2) + '\n', 'utf-8');
 }
 
+// ─── AUTO-DISCOVERED IPA ─────────────────────────────────────────────
+// When the catch-all letter-spell wrap (in postprocessForTTS) builds an
+// IPA for an unfamiliar acronym, optionally persist it back to a
+// developer working copy of this package so all consumers (e.g. the
+// Precision Longevity course and CAFMI) inherit the entry on next
+// `npm update`. Persistence is gated by BIOSCOPE_TTS_NORMALIZE_DEV_PATH
+// — set it to the absolute path of your local clone of this repo. When
+// unset (Amplify, fresh installs, anyone but the developer who owns
+// the shared repo), discovery is in-memory only: the catch-all still
+// produces the right IPA for the current run, no disk write.
+
+const DEV_LEARNED_IPA_PATH = process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH
+  ? path.join(process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH, 'data', 'learned-ipa.json')
+  : null;
+
+let _devDict = null;
+let _devDirty = false;
+
+function loadDev() {
+  if (_devDict !== null) return _devDict;
+  if (!DEV_LEARNED_IPA_PATH || !fs.existsSync(DEV_LEARNED_IPA_PATH)) {
+    _devDict = {};
+    return _devDict;
+  }
+  try { _devDict = JSON.parse(fs.readFileSync(DEV_LEARNED_IPA_PATH, 'utf-8')); }
+  catch { _devDict = {}; }
+  return _devDict;
+}
+
+function autoDiscover(word, ipa) {
+  if (!DEV_LEARNED_IPA_PATH) return;
+  const dict = loadDev();
+  const key = word.toLowerCase();
+  if (dict[key]) return; // already known by the canonical dict
+  dict[key] = {
+    ipa,
+    learned: new Date().toISOString().slice(0, 10),
+    source: 'auto-glue',
+  };
+  _devDirty = true;
+}
+
+/**
+ * Write any auto-discovered entries from the current process to the
+ * developer working-copy `data/learned-ipa.json`. Returns metadata
+ * useful for an audio-gen script to commit + push the change.
+ *
+ * No-op if BIOSCOPE_TTS_NORMALIZE_DEV_PATH is unset or no discoveries
+ * were made.
+ */
+function flushAutoDiscoveredIpa() {
+  if (!_devDirty || !DEV_LEARNED_IPA_PATH) return { written: false, count: 0 };
+  const dict = loadDev();
+  const sorted = {};
+  for (const k of Object.keys(dict).sort()) sorted[k] = dict[k];
+  fs.writeFileSync(DEV_LEARNED_IPA_PATH, JSON.stringify(sorted, null, 2) + '\n', 'utf-8');
+  _devDirty = false;
+  return { written: true, count: Object.keys(sorted).length, path: DEV_LEARNED_IPA_PATH };
+}
+
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -1598,6 +1658,15 @@ function postprocessForTTS(text) {
     (match) => {
       const ipa = buildFastChainIpa(match);
       if (!ipa) return match;
+      // Persist the discovery: when BIOSCOPE_TTS_NORMALIZE_DEV_PATH is
+      // set, write the new entry into the shared package's working-copy
+      // data/learned-ipa.json so future runs (in this project AND any
+      // other consumer like CAFMI) inherit it via the _learnedIPA pass
+      // above instead of regenerating it on every run. Gated on the env
+      // var so installed-package consumers (Amplify, fresh clones) don't
+      // try to write to a node_modules path. Buffered in memory; flush
+      // at end of audio-gen via flushAutoDiscoveredIpa().
+      autoDiscover(match, ipa);
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     }
   );
@@ -1727,4 +1796,4 @@ function selfTest() {
   return passed === tests.length;
 }
 
-module.exports = { normalizeForTTS, addLearnedPronunciation, addLearnedIPA, selfTest };
+module.exports = { normalizeForTTS, addLearnedPronunciation, addLearnedIPA, flushAutoDiscoveredIpa, selfTest };
