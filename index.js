@@ -1839,11 +1839,30 @@ function postprocessForTTS(text) {
 
   // Apply Whisper-discovered IPA entries (learned at runtime from mispronunciation QA).
   // Same phoneme machinery as CLINICAL_IPA; longer keys first.
+  //
+  // Case sensitivity: entries from `auto-letter-spell` and `auto-glue`
+  // sources are letter-spelled acronym IPAs ("IT" → ˌaɪˈtiː, "BOOST" →
+  // ˌbiːoʊoʊɛsˈtiː) persisted under a lowercased key. Matching them
+  // case-insensitively would substitute the IPA for every English-prose
+  // occurrence of the homograph ("it", "us", "who", "boost"…). For
+  // these entries, match against the uppercase form with case-sensitive
+  // `g` flag. Other sources keep `gi`:
+  //   • auto-llm word IPAs are by construction homophonic with the
+  //     English word the LLM accepted (PACE → /peɪs/), so firing on
+  //     prose is a benign redundant wrap.
+  //   • tutorial-* / clinical-migration / omic-migration / manual are
+  //     word-shaped scientific terms ("fisetin", "genome", "threonine",
+  //     "navitoclax") that must match whatever case the author wrote.
   const learnedIpaSorted = Object.entries(_learnedIPA).sort((a, b) => b[0].length - a[0].length);
   for (const [word, entry] of learnedIpaSorted) {
     const ipa = typeof entry === 'string' ? entry : entry.ipa;
     if (!ipa) continue;
-    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b(?![^<]*</phoneme>)`, 'gi'), (match) => {
+    const source = (typeof entry === 'object' && entry && entry.source) || '';
+    const isLetterSpelledAcronym =
+      source === 'auto-letter-spell' || source === 'auto-glue';
+    const pattern = isLetterSpelledAcronym ? word.toUpperCase() : word;
+    const flags = isLetterSpelledAcronym ? 'g' : 'gi';
+    t = t.replace(new RegExp(`\\b${escapeRegex(pattern)}\\b(?![^<]*</phoneme>)`, flags), (match) => {
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     });
   }
