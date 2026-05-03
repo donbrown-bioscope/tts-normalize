@@ -1370,9 +1370,9 @@
     "source": "clinical-migration"
   },
   "o-k": {
-    "ipa": "ˈoʊkeɪ",
+    "ipa": "ˌoʊˈkeɪ",
     "learned": "2026-05-03",
-    "source": "auto-llm"
+    "source": "manual-override"
   },
   "o-r-a-c-l-e": {
     "ipa": "ˈɔrəkəl",
@@ -1380,9 +1380,9 @@
     "source": "auto-llm"
   },
   "ok": {
-    "ipa": "ˈoʊkeɪ",
+    "ipa": "ˌoʊˈkeɪ",
     "learned": "2026-05-03",
-    "source": "auto-llm"
+    "source": "manual-override"
   },
   "omic": {
     "ipa": "ˈoʊmɪk",
@@ -1415,9 +1415,9 @@
     "source": "auto-llm"
   },
   "p-c-o-s": {
-    "ipa": "ˌpiːsiːoʊˈɛs",
+    "ipa": "piːˈkɒs",
     "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "source": "manual-override"
   },
   "p-e-a-c-e": {
     "ipa": "ˈpiːs",
@@ -1425,7 +1425,7 @@
     "source": "auto-llm"
   },
   "p-e-t": {
-    "ipa": "ˌpiːiːˈtiː",
+    "ipa": "pɛt",
     "learned": "2026-05-03",
     "source": "manual-override"
   },
@@ -1490,9 +1490,9 @@
     "source": "clinical-migration"
   },
   "pcos": {
-    "ipa": "ˌpiːsiːoʊˈɛs",
+    "ipa": "piːˈkɒs",
     "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "source": "manual-override"
   },
   "peace": {
     "ipa": "ˈpiːs",
@@ -1500,7 +1500,7 @@
     "source": "auto-llm"
   },
   "pet": {
-    "ipa": "ˌpiːiːˈtiː",
+    "ipa": "pɛt",
     "learned": "2026-05-03",
     "source": "manual-override"
   },
