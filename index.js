@@ -561,18 +561,17 @@ try {
   }
 } catch { /* start fresh if corrupt */ }
 
-// Prefer the dev working copy if configured — when a developer is
-// iterating on the shared dictionary, their edits there are the
-// authoritative source. Falls back to the installed package file for
-// regular consumers (Amplify builds, fresh installs, anyone without
-// BIOSCOPE_TTS_NORMALIZE_DEV_PATH set).
-const _initialLearnedIpaPath = process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH
-  ? path.join(process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH, 'data', 'learned-ipa.json')
-  : LEARNED_IPA_PATH;
+// Read/write at the package's own data dir. When consumers want to
+// contribute back to the shared dictionary, they `npm link` this
+// package — node_modules/@bioscope/tts-normalize becomes a symlink to
+// their local clone, so __dirname resolves to the shared repo's
+// working tree and writes here go straight to source. CI consumers
+// (npm install from git+https) get a read-only copy that's wiped on
+// next install — fine, since CI isn't the canonical write path.
 let _learnedIPA = {};
 try {
-  if (fs.existsSync(_initialLearnedIpaPath)) {
-    _learnedIPA = JSON.parse(fs.readFileSync(_initialLearnedIpaPath, 'utf-8'));
+  if (fs.existsSync(LEARNED_IPA_PATH)) {
+    _learnedIPA = JSON.parse(fs.readFileSync(LEARNED_IPA_PATH, 'utf-8'));
   }
 } catch { /* start fresh if corrupt */ }
 
@@ -606,35 +605,24 @@ function addLearnedIPA(word, ipa, source) {
     learned: new Date().toISOString().slice(0, 10),
     source: source || 'unknown',
   };
-  // Write to the dev working copy when BIOSCOPE_TTS_NORMALIZE_DEV_PATH
-  // is set — that's what gets committed and shared between projects.
-  // Otherwise fall back to the package's installed data file (mostly
-  // useful for tests; the installed file is wiped on `npm install`).
-  const writePath = (process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH
-    ? path.join(process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH, 'data', 'learned-ipa.json')
-    : LEARNED_IPA_PATH);
   // Sort keys so the file diffs cleanly between runs.
   const sorted = {};
   for (const k of Object.keys(_learnedIPA).sort()) sorted[k] = _learnedIPA[k];
-  fs.writeFileSync(writePath, JSON.stringify(sorted, null, 2) + '\n', 'utf-8');
+  fs.writeFileSync(LEARNED_IPA_PATH, JSON.stringify(sorted, null, 2) + '\n', 'utf-8');
 }
 
 // ─── AUTO-DISCOVERED IPA ─────────────────────────────────────────────
 // When the catch-all letter-spell wrap (in postprocessForTTS) builds an
-// IPA for an unfamiliar acronym, optionally persist it back to a
-// developer working copy of this package so all consumers (e.g. the
-// Precision Longevity course and CAFMI) inherit the entry on next
-// `npm update`. Persistence happens via addLearnedIPA — which now
-// writes to BIOSCOPE_TTS_NORMALIZE_DEV_PATH/data/learned-ipa.json when
-// the env var is set, otherwise to the package's installed data file.
-// flushAutoDiscoveredIpa is retained for compatibility with audio-gen
-// scripts but is now a no-op summary; addLearnedIPA writes
-// synchronously per-call, so no buffer to flush.
+// IPA for an unfamiliar acronym, persist it back to data/learned-ipa.json
+// so all consumers (e.g. the Precision Longevity course and CAFMI)
+// inherit the entry on next `npm update` (or immediately, if they're
+// using `npm link` to a shared clone). findPronounceableAcronyms
+// ignores `auto-glue` entries, so they remain eligible for later upgrade
+// to a word-pronounced IPA via resolveAndPersistAcronyms.
 
 let _autoDiscoveredCount = 0;
 
 function autoDiscover(word, ipa) {
-  if (!process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH) return;
   const key = word.toLowerCase();
   if (_learnedIPA[key]) return; // already in the dict
   addLearnedIPA(word, ipa, 'auto-glue');
@@ -700,7 +688,12 @@ function findPronounceableAcronyms(text) {
     // Already covered by a built-in dict?
     if (CLINICAL_IPA[tok] || CLINICAL_IPA[bare] || CLINICAL_IPA[hyphenated]) continue;
     if (OMIC_IPA[tok] || OMIC_IPA[bare] || OMIC_IPA[hyphenated]) continue;
-    if (_learnedIPA[bare] || _learnedIPA[hyphenated]) continue;
+    // `auto-glue` entries are letter-spell IPAs cached by the catch-all,
+    // not authoritative — they remain eligible for upgrade to a word
+    // pronunciation. Other learned entries (manual-override, auto-llm,
+    // auto-letter-spell) are authoritative and skip the candidate.
+    const learned = _learnedIPA[bare] || _learnedIPA[hyphenated];
+    if (learned && learned.source !== 'auto-glue') continue;
     seen.add(tok);
   }
   return [...seen];
@@ -713,14 +706,10 @@ function findPronounceableAcronyms(text) {
  * normalize and the dictionary is upgraded so word pronunciations
  * (PACE → /peɪs/) win over letter-by-letter (P-A-C-E).
  *
- * Required env vars:
- *   ANTHROPIC_API_KEY                  — standard Claude API key
- *   BIOSCOPE_TTS_NORMALIZE_DEV_PATH    — path to a working clone of
- *                                        this shared repo (where the
- *                                        learned-ipa.json mutations
- *                                        actually persist).
- *
- * No-op if either env var is unset, or no candidates are found.
+ * Required: ANTHROPIC_API_KEY. Persistence writes to this package's
+ * own data/learned-ipa.json — when consumers `npm link` to a local
+ * clone of this repo, those writes land in the shared working tree and
+ * can be committed back. No-op if no candidates are found.
  *
  * Returns { candidates, accepted, rejected } so the caller can log
  * what happened. After this resolves, call reloadLearnedIpa() before
@@ -732,10 +721,6 @@ async function resolveAndPersistAcronyms(text, opts = {}) {
   if (!candidates.length) return { candidates: [], accepted: [], rejected: [] };
   if (!process.env.ANTHROPIC_API_KEY) {
     log.warn && log.warn('  ⚠ ANTHROPIC_API_KEY not set; skipping word-pronunciation resolution.');
-    return { candidates, accepted: [], rejected: candidates };
-  }
-  if (!process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH) {
-    log.warn && log.warn('  ⚠ BIOSCOPE_TTS_NORMALIZE_DEV_PATH not set; skipping word-pronunciation persistence.');
     return { candidates, accepted: [], rejected: candidates };
   }
   let Anthropic;
@@ -866,22 +851,14 @@ function reloadLearnedIpa() {
 }
 
 /**
- * Write any auto-discovered entries from the current process to the
- * developer working-copy `data/learned-ipa.json`. Returns metadata
- * useful for an audio-gen script to commit + push the change.
- *
- * No-op if BIOSCOPE_TTS_NORMALIZE_DEV_PATH is unset or no discoveries
- * were made.
+ * Returns a summary of auto-glue discoveries from the current process.
+ * Useful for audio-gen scripts that want to commit + push the change
+ * back to the shared repo. addLearnedIPA writes synchronously per-call,
+ * so there's no buffered state to flush — this just hands back metadata.
  */
 function flushAutoDiscoveredIpa() {
-  // addLearnedIPA writes synchronously per-call now, so this is purely
-  // a summary for callers (audio-gen scripts) that want to commit the
-  // changes. Returns { written, count, path } if anything was added.
-  if (_autoDiscoveredCount === 0 || !process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH) {
-    return { written: false, count: 0 };
-  }
-  const writePath = path.join(process.env.BIOSCOPE_TTS_NORMALIZE_DEV_PATH, 'data', 'learned-ipa.json');
-  const out = { written: true, count: _autoDiscoveredCount, path: writePath };
+  if (_autoDiscoveredCount === 0) return { written: false, count: 0 };
+  const out = { written: true, count: _autoDiscoveredCount, path: LEARNED_IPA_PATH };
   _autoDiscoveredCount = 0;
   return out;
 }
@@ -1883,14 +1860,12 @@ function postprocessForTTS(text) {
     (match) => {
       const ipa = buildFastChainIpa(match);
       if (!ipa) return match;
-      // Persist the discovery: when BIOSCOPE_TTS_NORMALIZE_DEV_PATH is
-      // set, write the new entry into the shared package's working-copy
-      // data/learned-ipa.json so future runs (in this project AND any
-      // other consumer like CAFMI) inherit it via the _learnedIPA pass
-      // above instead of regenerating it on every run. Gated on the env
-      // var so installed-package consumers (Amplify, fresh clones) don't
-      // try to write to a node_modules path. Buffered in memory; flush
-      // at end of audio-gen via flushAutoDiscoveredIpa().
+      // Cache the catch-all output back into data/learned-ipa.json so
+      // future runs find it pre-resolved. When the consumer is using
+      // `npm link` to a local clone of this repo, the write lands in
+      // the shared working tree and can be committed up. Marked
+      // `auto-glue` so resolveAndPersistAcronyms can still upgrade
+      // the entry to a word-pronounced IPA.
       autoDiscover(match, ipa);
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     }
