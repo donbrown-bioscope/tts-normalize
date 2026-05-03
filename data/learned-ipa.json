@@ -164,6 +164,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "b-w-w-z": {
+    "ipa": "ˌbiːˈdʌbəl.juːˈdʌbəl.juːˈziː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "bacteroidetes": {
     "ipa": "ˌbæktəˈrɔɪdɪtiːz",
     "learned": "2026-05-03",
@@ -208,6 +213,11 @@
     "ipa": "ˈkærət",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "c-e-o": {
+    "ipa": "ˌsiːiːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "c-g-m": {
     "ipa": "ˌsiːdʒiːˈɛm",
@@ -749,6 +759,16 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "i-c-u": {
+    "ipa": "ˌaɪsiːˈjuː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "i-r": {
+    "ipa": "ˌaɪˈɑːr",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "ibutamoren": {
     "ipa": "ɪˈbjuːtəmɔːrɛn",
     "learned": "2026-05-03",
@@ -849,6 +869,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "l-c": {
+    "ipa": "ˌɛlˈsiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "l-h": {
     "ipa": "ˌɛlˈeɪtʃ",
     "learned": "2026-05-03",
@@ -858,6 +883,11 @@
     "ipa": "laɪf",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "l-p": {
+    "ipa": "ˌɛlˈpiː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "lactobacillus": {
     "ipa": "ˌlæktoʊbəˈsɪləs",
@@ -1324,6 +1354,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "q-q-x-y-z": {
+    "ipa": "ˌkjuːkjuːɛkswaɪˈziː",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "quercetin": {
     "ipa": "ˈkwɜːrsətɪn",
     "learned": "2026-05-03",
@@ -1733,6 +1768,11 @@
     "ipa": "jʊˈrɒlɪθɪn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "v-o": {
+    "ipa": "ˌviːˈoʊ",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
   },
   "vagifem": {
     "ipa": "ˈvædʒɪfɛm",
