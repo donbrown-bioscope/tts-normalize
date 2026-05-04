@@ -1352,11 +1352,11 @@ const CLINICAL_IPA = {
   'C-O-M-T':   'koʊmt',        // Catechol-O-methyltransferase
   'C-P-I-C':   'ˈsiːpɪk',      // Clinical Pharmacogenetics Implementation Consortium
   'A-T-T-R':   'ˈætɚ',         // Transthyretin amyloidosis
-  // SLCO1B1 — hepatic statin-uptake transporter gene. The core's
-  // acronym pipeline preserves the bare token (no letter spelling),
-  // so this CLINICAL_IPA entry matches the unmangled form. The IPA
-  // letter chain renders it as one fluid clinical token.
-  'SLCO1B1':   'ˌɛs.ˌɛl.ˌsiː.ˌoʊ.ˌwʌn.ˌbiː.ˌwʌn',
+  // SLCO1B1 moved to POST_OVERRIDES with a <sub alias="…"> rewrite —
+  // IPA stress markers weren't enough to keep Chirp HD from slurring
+  // the leading S, and adding more `ˌ` made no audible difference.
+  // The <sub> approach hands Chirp natural English words, which it
+  // articulates crisply.
   // HOMA-IR — the core letter-spells the whole token to "H-O-M-A-I-R".
   // Read as the word "homa" + the letters "I-R" said quickly. The full
   // post-core form lives here as one CLINICAL_IPA entry rather than
@@ -1737,10 +1737,12 @@ const POST_OVERRIDES = {
   // "L" surrounded by hyphens, which the units pipeline would expand
   // to "liters".
   'HLA-DRB1': 'H-L-A-D-R-B-one',
-  // SLCO1B1 IPA wrap is in CLINICAL_IPA above; the core preserves
-  // the bare token through its acronym pass, so the CLINICAL_IPA
-  // loop matches \bSLCO1B1\b directly without needing a POST_OVERRIDES
-  // hop through the old letter-spelled comma form.
+  // SLCO1B1 — hepatic statin-uptake transporter gene. Chirp HD slurs
+  // an IPA letter-chain ("ɛs.ɛl.siː.oʊ.wʌn.biː.wʌn") with the leading
+  // /s/ buried; secondary-stress marks on every letter didn't help.
+  // <sub alias="…"> hands the synth seven natural English words, which
+  // it articulates crisply with normal clinical cadence.
+  'SLCO1B1': '<sub alias="ess L C O one B one">SLCO1B1</sub>',
   // The core normalizes "read" → "reed" globally. In course lessons
   // the verb most often appears as past-perfect ("have read") which is
   // the /rɛd/ sound. Override auxiliary-verb contexts back to "red".
@@ -1939,17 +1941,15 @@ function postprocessForTTS(text) {
     }
   );
 
-  // SSRI — the default fast-glue IPA ˌɛsɛsɑːrˈaɪ produces an audible
-  // beat between the first and second /s/ on Chirp HD (the synth re-
-  // articulates adjacent identical fricatives). Rewrite the exact tag
-  // emitted above so the SS cluster carries a single primary stress
-  // (no internal stress shift — the previous attempt with ˈɛsˌɛs still
-  // beat between the two s's because Chirp interprets the secondary-
-  // stress mark as a syllable boundary). Periods around the AR and
-  // the EYE keep those letters cleanly articulated.
+  // SSRI — Chirp HD re-articulates adjacent identical fricatives, so
+  // any IPA letter-chain through "S-S" lands with an audible beat
+  // between the two /s/'s. Stress-mark tweaks (ˈɛsˌɛs, ˈɛsɛs.ˌɑːr.ˌaɪ)
+  // didn't change the output. Switching to a <sub alias="…"> rewrite
+  // hands the synth four natural English words and bypasses IPA
+  // entirely; Chirp speaks them with normal word cadence.
   t = t.replaceAll(
     '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪ">S-S-R-I</phoneme>',
-    '<phoneme alphabet="ipa" ph="ˈɛsɛs.ˌɑːr.ˌaɪ">S-S-R-I</phoneme>',
+    '<sub alias="ess ess R I">SSRI</sub>',
   );
 
   return t;
@@ -2018,10 +2018,11 @@ function selfTest() {
     ['SASP and DIM',
       '<phoneme alphabet="ipa" ph="sæsp">S-A-S-P</phoneme> and <phoneme alphabet="ipa" ph="dɪm">D-I-M</phoneme>'],
     ["per CPIC's SSRI guideline",
-      'per <phoneme alphabet="ipa" ph="ˈsiːpɪk">C-P-I-C</phoneme>\'s <phoneme alphabet="ipa" ph="ˈɛsɛs.ˌɑːr.ˌaɪ">S-S-R-I</phoneme> guideline'],
-    // SLCO1B1 — POST_OVERRIDES emits a phoneme tag with fluid letter chain.
+      'per <phoneme alphabet="ipa" ph="ˈsiːpɪk">C-P-I-C</phoneme>\'s <sub alias="ess ess R I">SSRI</sub> guideline'],
+    // SLCO1B1 — POST_OVERRIDES emits a <sub alias> rewrite (IPA stress
+    // tweaks didn't keep Chirp HD from slurring the leading S).
     ['SLCO1B1 *5/*5',
-      '<phoneme alphabet="ipa" ph="ˌɛs.ˌɛl.ˌsiː.ˌoʊ.ˌwʌn.ˌbiː.ˌwʌn">SLCO1B1</phoneme> *five/*five'],
+      '<sub alias="ess L C O one B one">SLCO1B1</sub> *five/*five'],
     // ─── Snake_case identifier preprocess.
     ['call update_identity on the patient',
       'call update identity on the patient'],
