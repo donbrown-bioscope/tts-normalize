@@ -2265,6 +2265,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "i-s-s-n": {
+    "ipa": "ˌaɪɛsɛsˈɛn",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "i-t": {
     "ipa": "ˌaɪˈtiː",
     "learned": "2026-05-03",
@@ -3185,6 +3190,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "n-h-a-n-e-s": {
+    "ipa": "ˌɛneɪtʃeɪɛniːˈɛs",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
   "n-h-e-j": {
     "ipa": "ˌɛneɪtʃiːˈdʒeɪ",
     "learned": "2026-05-03",
@@ -3537,6 +3547,11 @@
   },
   "p-m": {
     "ipa": "ˌpiːˈɛm",
+    "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "p-m-i-d": {
+    "ipa": "ˌpiːɛmaɪˈdiː",
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
