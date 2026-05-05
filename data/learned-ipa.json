@@ -1310,6 +1310,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "d-a-b-c-l": {
+    "ipa": "ˌdiːeɪbiːsiːˈɛl",
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
+  },
   "d-a-o": {
     "ipa": "ˈdaʊ",
     "learned": "2026-05-03",
@@ -1404,6 +1409,11 @@
     "ipa": "dʌtʃ",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "dabcl": {
+    "ipa": "ˌdiːeɪbiːsiːˈɛl",
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
   },
   "damps": {
     "ipa": "dæmps",
@@ -1859,6 +1869,11 @@
     "ipa": "ˈfæti",
     "learned": "2026-05-05",
     "source": "auto-llm"
+  },
+  "f-d-g": {
+    "ipa": "ˌɛfdiːˈdʒiː",
+    "learned": "2026-05-05",
+    "source": "auto-glue"
   },
   "f-f-r": {
     "ipa": "ˌɛfɛfˈɑːr",
@@ -2465,6 +2480,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "i-d": {
+    "ipa": "ˌaɪˈdiː",
+    "learned": "2026-05-05",
+    "source": "auto-glue"
+  },
   "i-d-h": {
     "ipa": "ˌaɪdiːˈeɪtʃ",
     "learned": "2026-05-03",
@@ -2990,6 +3010,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "l-o-f": {
+    "ipa": "ˌɛloʊˈɛf",
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
+  },
   "l-p": {
     "ipa": "ˌɛlˈpiː",
     "learned": "2026-05-03",
@@ -3083,6 +3108,11 @@
   "lngiud": {
     "ipa": "ˌɛlɛndʒiːaɪjuːˈdiː",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "lof": {
+    "ipa": "ˌɛloʊˈɛf",
+    "learned": "2026-05-05",
     "source": "auto-letter-spell"
   },
   "lpa": {
@@ -3620,6 +3650,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "n-l-a": {
+    "ipa": "ˌɛnɛlˈeɪ",
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
+  },
   "n-l-r": {
     "ipa": "ˌɛnɛlˈɑːr",
     "learned": "2026-05-03",
@@ -3754,6 +3789,11 @@
     "ipa": "nɪst",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "nla": {
+    "ipa": "ˌɛnɛlˈeɪ",
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
   },
   "nmda": {
     "ipa": "ˌɛnɛmdiːˈeɪ",
@@ -4032,8 +4072,8 @@
   },
   "p-m-i-d": {
     "ipa": "ˌpiːɛmaɪˈdiː",
-    "learned": "2026-05-03",
-    "source": "auto-glue"
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
   },
   "p-n-g": {
     "ipa": "ˌpiːɛnˈdʒiː",
@@ -4244,6 +4284,11 @@
     "ipa": "paɪəˈnɪr",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "pmid": {
+    "ipa": "ˌpiːɛmaɪˈdiː",
+    "learned": "2026-05-05",
+    "source": "auto-letter-spell"
   },
   "poi": {
     "ipa": "ˌpiːoʊˈaɪ",
