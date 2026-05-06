@@ -1325,10 +1325,19 @@ const CLINICAL_IPA = {
   // letter-spelled. Case-insensitive matching covers HOMA / Homa /
   // homa, including the "Homa-I-R" rewrite from PRE_ABBREVIATIONS.
   'Homa': 'ˈhoʊmə',
-  // mTOR — letter "M" + word "tor" ("EM-tor"), single fluid token.
-  'mTORC1': 'ˌɛmˈtɔːr.siː.wʌn',
-  'mTORC2': 'ˌɛmˈtɔːr.siː.tuː',
-  'mTOR':   'ˈɛm.tɔːr',
+  // mTOR — letter "M" + word "tore" ("EM-tore"), single fluid token.
+  // Primary stress on the leading "m" (the letter), secondary on
+  // "tore" — matches how clinicians say it.
+  // PRE_ABBREVIATIONS rewrites mTOR → m-TOR / mTORC1 → m-TORC-one
+  // before CLINICAL_IPA runs, so all entries are keyed on the
+  // post-split hyphenated form.  The bare un-hyphenated forms are
+  // kept as belt-and-suspenders in case PRE_ABBREVIATIONS is bypassed.
+  'm-TORC-one': 'ˈɛmˌtɔːrsiːwʌn',
+  'm-TORC-two': 'ˈɛmˌtɔːrsiːtuː',
+  'm-TOR':      'ˈɛmˌtɔːr',
+  'mTORC1':     'ˈɛmˌtɔːrsiːwʌn',
+  'mTORC2':     'ˈɛmˌtɔːrsiːtuː',
+  'mTOR':       'ˈɛmˌtɔːr',
   // ─── Acronyms read as a single word in clinical / scientific use.
   // All keyed on the post-core hyphenated form (the core letter-spells
   // bare acronyms like CPIC into C-P-I-C before postprocess sees them).
@@ -1352,6 +1361,32 @@ const CLINICAL_IPA = {
   'C-O-M-T':   'koʊmt',        // Catechol-O-methyltransferase
   'C-P-I-C':   'ˈsiːpɪk',      // Clinical Pharmacogenetics Implementation Consortium
   'A-T-T-R':   'ˈætɚ',         // Transthyretin amyloidosis
+  // AI's — possessive of "AI". Without this entry, the bare "AI" gets
+  // wrapped in <phoneme>…</phoneme> and the trailing 's is read as a
+  // separate letter "S" ("AY-eye S"). Wrap the whole token so the
+  // apostrophe-s renders as a possessive sibilant ("AY-eyez").
+  "AI's":      'ˈeɪˌaɪz',
+  "AIs":       'ˈeɪˌaɪz',
+  // Firmicutes — Latin binomial, the dominant gut bacterial phylum
+  // alongside Bacteroidetes. Clinical pronunciation rhymes with
+  // "fer-MICK-you-teez" ("fer" as in Fermi).
+  'Firmicutes': 'fɜːrˈmɪkjuːtiːz',
+  'firmicutes': 'fɜːrˈmɪkjuːtiːz',
+  // SAH — S-adenosylhomocysteine. Read as the three letters "S-A-H"
+  // ("ess-ay-aitch"), in pair with SAMe in the methylation panel.
+  // Without this entry, something else in the pipeline was wrapping
+  // S-A-H with a partial "sæ" phoneme that elided the H entirely.
+  'S-A-H':     'ɛseɪˈeɪtʃ',
+  'SAH':       'ɛseɪˈeɪtʃ',
+  // TREM — Triggering Receptor Expressed on Myeloid cells. Clinical
+  // pronunciation rhymes with "trim", not "trem". sTREM2 / sTREM-two
+  // are pre-rewritten in POST_OVERRIDES to "soluble TREM two", and
+  // the core's all-caps letter-spell pass would otherwise turn the
+  // bare TREM into "T-R-E-M". Both the hyphenated post-core form and
+  // the bare word get the trim-rhyming IPA.
+  'T-R-E-M':   'trɪm',
+  'TREM':      'trɪm',
+  'trem':      'trɪm',
   // SLCO1B1 moved to POST_OVERRIDES with a <sub alias="…"> rewrite —
   // IPA stress markers weren't enough to keep Chirp HD from slurring
   // the leading S, and adding more `ˌ` made no audible difference.
@@ -1743,6 +1778,16 @@ const POST_OVERRIDES = {
   // <sub alias="…"> hands the synth seven natural English words, which
   // it articulates crisply with normal clinical cadence.
   'SLCO1B1': '<sub alias="ess L C O one B one">SLCO1B1</sub>',
+  // Clinical-noun "read" — assessment / quick interpretation. Chirp
+  // defaults the past-tense /rɛd/ for ambiguous "read" tokens; pre-
+  // rewrite the established noun phrases to "reed" so they speak as
+  // /riːd/. Add new phrases here as they show up.
+  'microbiome read':  'microbiome reed',
+  'immune read':      'immune reed',
+  'proteomic read':   'proteomic reed',
+  'metabolomic read': 'metabolomic reed',
+  'genomic read':     'genomic reed',
+  'epigenetic read':  'epigenetic reed',
   // The core normalizes "read" → "reed" globally. In course lessons
   // the verb most often appears as past-perfect ("have read") which is
   // the /rɛd/ sound. Override auxiliary-verb contexts back to "red".
@@ -1875,7 +1920,12 @@ function postprocessForTTS(text) {
   // reliably. The literal word stays inside the tag so any voice that
   // ignores SSML still produces audio (graceful fallback).
   for (const [word, ipa] of OMIC_IPA_SORTED) {
-    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b`, 'gi'), (match) => {
+    // Negative lookahead skips matches already inside a <phoneme>
+    // wrap. Without this, sorting puts "multi-omic" first (wraps the
+    // whole phrase), then "omic" matches inside that wrap and nests
+    // a second <phoneme> tag — Chirp / Google TTS truncate playback
+    // when it encounters nested phoneme SSML.
+    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b(?![^<]*</phoneme>)`, 'gi'), (match) => {
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     });
   }
