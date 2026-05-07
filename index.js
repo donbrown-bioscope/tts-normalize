@@ -205,6 +205,11 @@ const ABBREVIATIONS = {
   // learned-ipa word entry (ˈænə) added by auto-llm in 2026-05-03.
   'ANA':   '<phoneme alphabet="ipa" ph="ˌeɪ.ɛn.ˈeɪ">A-N-A</phoneme>',
   'DNA':   '<phoneme alphabet="ipa" ph="ˌdiː.ɛn.ˈeɪ">D-N-A</phoneme>',
+  // HRT — auto-glue ˌeɪtʃɑːrˈtiː rendered the trailing tiː as a voiced
+  // "D" in some contexts (HRT → "HRD"). Same hybrid pattern as ANA/DNA:
+  // secondary on H, period break, no stress on R, primary on T to force
+  // a clear voiceless articulation.
+  'HRT':   '<phoneme alphabet="ipa" ph="ˌeɪtʃ.ɑːr.ˈtiː">H-R-T</phoneme>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
