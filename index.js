@@ -176,15 +176,15 @@ const ABBREVIATIONS = {
   'CRP': 'C-R-P', 'hsCRP': 'high sensitivity C-R-P',
   'IGF-1': 'I-G-F-one', 'IGF1': 'I-G-F-one',
   'MCP-1': 'M-C-P-one', 'MCP1': 'M-C-P-one',
-  // Comma-separated letter expansion for the long alpha-digit-alpha
-  // gene IDs. Earlier we tried IPA overrides on the hyphenated form
-  // (D-N-M-T-three-A → ˌdiːˌɛnˌɛmˌtiːˌθriːˈeɪ etc.); Chirp 3 HD parsed
-  // them but flattened the stress so the letters still slurred (the
-  // multi-foot stress pattern that works for "Broad MGH" doesn't scale
-  // to 5–6 letters). Commas inject hard prosodic pauses Chirp honors
-  // unconditionally, so each letter becomes audibly distinct.
-  'DNMT3A': 'D, N, M, T, three, A',
-  'ASXL1':  'A, S, X, L, one',
+  // Long alpha-digit-alpha gene IDs are split into 2–3 phone chunks,
+  // each in its own <phoneme> tag. Single long IPAs (5–6 phones) made
+  // Chirp 3 HD slur ("ASXL1" → "ISXL1"); comma-separated text was clear
+  // but painfully slow. Concatenated short tags use the same prosody
+  // shape that works for two-letter acronyms (TET2, JAK2) — Chirp
+  // articulates each chunk crisply, and back-to-back tags read as one
+  // fluid utterance instead of a punctuation-paused sequence.
+  'DNMT3A': '<phoneme alphabet="ipa" ph="ˌdiːˈɛn">D-N</phoneme><phoneme alphabet="ipa" ph="ˌɛmˈtiː">M-T</phoneme><phoneme alphabet="ipa" ph="ˌθriːˈeɪ">3-A</phoneme>',
+  'ASXL1':  '<phoneme alphabet="ipa" ph="ˌeɪˈɛs">A-S</phoneme><phoneme alphabet="ipa" ph="ˌɛksɛlˈwʌn">X-L-1</phoneme>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
