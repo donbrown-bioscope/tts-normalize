@@ -1664,20 +1664,23 @@ const CLINICAL_IPA = {
   // shape FAST_GLUE can't auto-build.
   'SULT1A1':           'ˌɛsjuːɛlˌtiːwʌneɪˈwʌn',
   'S-U-L-T-one-A-one': 'ˌɛsjuːɛlˌtiːwʌneɪˈwʌn',
-  // Mixed alpha-digit-alpha gene IDs not handled by FAST_GLUE.
-  // Per-letter secondary stress forces the synth to articulate each
-  // letter instead of slurring (e.g. "ASXL1" reading as "ISXL1").
-  'D-N-M-T-three-A':   'ˌdiːˌɛnˌɛmˌtiːˌθriːˈeɪ',
-  'A-S-X-L-one':       'ˌeɪˌɛsˌɛksˌɛlˈwʌn',
+  // Mixed alpha-digit-alpha gene IDs not handled by FAST_GLUE. The
+  // period-separator + primary-stress-per-unit pattern (proven by the
+  // working "Broad MGH" entry) forces Chirp 3 HD to articulate each
+  // letter as its own foot. The earlier multi-ˌ secondary-stress form
+  // didn't survive Chirp's prosody normalization — letters still slurred
+  // (notably "ASXL1" reading as "ISXL1").
+  'D-N-M-T-three-A':   'ˈdiː.ˈɛn.ˈɛm.ˈtiː.ˈθriː.ˈeɪ',
+  'A-S-X-L-one':       'ˈeɪ.ˈɛs.ˈɛks.ˈɛl.ˈwʌn',
   // ANA — anti-nuclear antibody. Without explicit IPA the synth says
-  // "ana" as a word (ˈænə). Force per-letter articulation.
-  'A-N-A':             'ˌeɪˌɛnˈeɪ',
-  // CCP — anti-CCP antibody. Per-letter stress prevents the two C's
-  // from blurring into a single elongated "ssee".
-  'C-C-P':             'ˌsiːˌsiːˈpiː',
-  // SRSF2 — splicing factor gene. Per-letter stress prevents the
+  // "ana" as a word (ˈænə). Period-separated letters force letter-spell.
+  'A-N-A':             'ˈeɪ.ˈɛn.ˈeɪ',
+  // CCP — anti-CCP antibody. Period separator stops the two C's from
+  // blurring into a single elongated "ssee".
+  'C-C-P':             'ˈsiː.ˈsiː.ˈpiː',
+  // SRSF2 — splicing factor gene. Period-separated letters keep the
   // S-R-S sequence from blurring.
-  'S-R-S-F':           'ˌɛsˌɑːrˌɛsˈɛf',
+  'S-R-S-F':           'ˈɛs.ˈɑːr.ˈɛs.ˈɛf',
   'P-P-A-R-G-C-one-A': 'piːpiːˌeɪɑːrdʒiːsiːˈwʌneɪ',
 };
 
