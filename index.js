@@ -190,15 +190,21 @@ const ABBREVIATIONS = {
   // into a single-letter tag + a 2-letter tag so the front letter is
   // explicitly bracketed and can't slur into the next.
   'SRSF2': '<phoneme alphabet="ipa" ph="ˌɛsˈɑːr">S-R</phoneme><phoneme alphabet="ipa" ph="ˌɛsɛfˈtuː">S-F-2</phoneme>',
-  // ANA / DNA — 3-letter chains where the auto-glue single tag slurs
-  // (DNA's diː→ɛn ran into "die-N-A") AND the multi-tag concat with a
-  // 1-letter chunk introduces an audible pause between tags. Single
-  // tag with period-separated primary-stress IPA (Broad MGH's trailing
-  // pattern `broʊd.ˈɛm.ˈdʒiː.ˈeɪtʃ`) avoids both: separators force
-  // articulation, single tag avoids the inter-tag gap.
-  // ANA also needs to bypass the learned-ipa word entry (ˈænə).
-  'ANA':   '<phoneme alphabet="ipa" ph="ˈeɪ.ˈɛn.ˈeɪ">A-N-A</phoneme>',
-  'DNA':   '<phoneme alphabet="ipa" ph="ˈdiː.ˈɛn.ˈeɪ">D-N-A</phoneme>',
+  // ANA / DNA — single-tag overrides for two 3-letter chains that
+  // each break Chirp 3 HD differently in their default forms:
+  //   - Auto-glue ˌdiːɛnˈeɪ slurs DNA's diː into the next ɛn so the
+  //     synth renders "die-N-A".
+  //   - Period-each-foot ˈdiː.ˈɛn.ˈeɪ triggers a leading-vowel
+  //     misrender — the ˈ-prefixed leading diphthong comes out as the
+  //     wrong vowel (DNA → "die-N-A", ANA → "eye-N-A").
+  // Hybrid that survives both: secondary stress on the leading letter
+  // (no primary, which kills the diphthong-misrender bug), period
+  // immediately after to break the slur into the middle letter, no
+  // stress on the middle, primary on the trailing letter.
+  // ANA also needs the override to bypass the shared package's
+  // learned-ipa word entry (ˈænə) added by auto-llm in 2026-05-03.
+  'ANA':   '<phoneme alphabet="ipa" ph="ˌeɪ.ɛn.ˈeɪ">A-N-A</phoneme>',
+  'DNA':   '<phoneme alphabet="ipa" ph="ˌdiː.ɛn.ˈeɪ">D-N-A</phoneme>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
