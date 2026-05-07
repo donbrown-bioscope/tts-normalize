@@ -175,6 +175,9 @@ const ABBREVIATIONS = {
   'IL-10': 'interleukin ten', 'IL-17': 'interleukin seventeen',
   'CRP': 'C-R-P', 'hsCRP': 'high sensitivity C-R-P',
   'IGF-1': 'I-G-F-one', 'IGF1': 'I-G-F-one',
+  'MCP-1': 'M-C-P-one', 'MCP1': 'M-C-P-one',
+  'DNMT3A': 'D-N-M-T-three-A',
+  'ASXL1': 'A-S-X-L-one',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
@@ -221,6 +224,8 @@ const ABBREVIATIONS = {
 // Special compound terms — replaced FIRST before any other processing
 const COMPOUND_TERMS = {
   'NAD+': 'N-A-D-plus', 'NAD⁺': 'N-A-D-plus',
+  'CD4+': 'C-D-four-plus', 'CD4⁺': 'C-D-four-plus',
+  'CD8+': 'C-D-eight-plus', 'CD8⁺': 'C-D-eight-plus',
   'NADH': 'N-A-D-H', 'NADPH': 'N-A-D-P-H',
   'Ca2+': 'calcium two plus', 'Mg2+': 'magnesium two plus',
   'Fe2+': 'iron two plus', 'Fe3+': 'iron three plus',
@@ -1660,7 +1665,19 @@ const CLINICAL_IPA = {
   'SULT1A1':           'ˌɛsjuːɛlˌtiːwʌneɪˈwʌn',
   'S-U-L-T-one-A-one': 'ˌɛsjuːɛlˌtiːwʌneɪˈwʌn',
   // Mixed alpha-digit-alpha gene IDs not handled by FAST_GLUE.
-  'D-N-M-T-three-A':   'ˌdiːɛnɛmˈtiːθriːeɪ',
+  // Per-letter secondary stress forces the synth to articulate each
+  // letter instead of slurring (e.g. "ASXL1" reading as "ISXL1").
+  'D-N-M-T-three-A':   'ˌdiːˌɛnˌɛmˌtiːˌθriːˈeɪ',
+  'A-S-X-L-one':       'ˌeɪˌɛsˌɛksˌɛlˈwʌn',
+  // ANA — anti-nuclear antibody. Without explicit IPA the synth says
+  // "ana" as a word (ˈænə). Force per-letter articulation.
+  'A-N-A':             'ˌeɪˌɛnˈeɪ',
+  // CCP — anti-CCP antibody. Per-letter stress prevents the two C's
+  // from blurring into a single elongated "ssee".
+  'C-C-P':             'ˌsiːˌsiːˈpiː',
+  // SRSF2 — splicing factor gene. Per-letter stress prevents the
+  // S-R-S sequence from blurring.
+  'S-R-S-F':           'ˌɛsˌɑːrˌɛsˈɛf',
   'P-P-A-R-G-C-one-A': 'piːpiːˌeɪɑːrdʒiːsiːˈwʌneɪ',
 };
 
