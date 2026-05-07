@@ -190,8 +190,15 @@ const ABBREVIATIONS = {
   // into a single-letter tag + a 2-letter tag so the front letter is
   // explicitly bracketed and can't slur into the next.
   'SRSF2': '<phoneme alphabet="ipa" ph="ˌɛsˈɑːr">S-R</phoneme><phoneme alphabet="ipa" ph="ˌɛsɛfˈtuː">S-F-2</phoneme>',
-  'CCP':   '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˌsiːˈpiː">C-P</phoneme>',
-  'ANA':   '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˌɛnˈeɪ">N-A</phoneme>',
+  // ANA / DNA — 3-letter chains where the auto-glue single tag slurs
+  // (DNA's diː→ɛn ran into "die-N-A") AND the multi-tag concat with a
+  // 1-letter chunk introduces an audible pause between tags. Single
+  // tag with period-separated primary-stress IPA (Broad MGH's trailing
+  // pattern `broʊd.ˈɛm.ˈdʒiː.ˈeɪtʃ`) avoids both: separators force
+  // articulation, single tag avoids the inter-tag gap.
+  // ANA also needs to bypass the learned-ipa word entry (ˈænə).
+  'ANA':   '<phoneme alphabet="ipa" ph="ˈeɪ.ˈɛn.ˈeɪ">A-N-A</phoneme>',
+  'DNA':   '<phoneme alphabet="ipa" ph="ˈdiː.ˈɛn.ˈeɪ">D-N-A</phoneme>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
