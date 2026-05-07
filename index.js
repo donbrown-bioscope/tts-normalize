@@ -185,6 +185,13 @@ const ABBREVIATIONS = {
   // fluid utterance instead of a punctuation-paused sequence.
   'DNMT3A': '<phoneme alphabet="ipa" ph="ˌdiːˈɛn">D-N</phoneme><phoneme alphabet="ipa" ph="ˌɛmˈtiː">M-T</phoneme><phoneme alphabet="ipa" ph="ˌθriːˈeɪ">3-A</phoneme>',
   'ASXL1':  '<phoneme alphabet="ipa" ph="ˌeɪˈɛs">A-S</phoneme><phoneme alphabet="ipa" ph="ˌɛksɛlˈwʌn">X-L-1</phoneme>',
+  // Same 2-phone-chunk pattern for SRSF2 (4 letters + digit, same shape
+  // as ASXL1) and CCP / ANA (3 letters). For the 3-letter forms we split
+  // into a single-letter tag + a 2-letter tag so the front letter is
+  // explicitly bracketed and can't slur into the next.
+  'SRSF2': '<phoneme alphabet="ipa" ph="ˌɛsˈɑːr">S-R</phoneme><phoneme alphabet="ipa" ph="ˌɛsɛfˈtuː">S-F-2</phoneme>',
+  'CCP':   '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˌsiːˈpiː">C-P</phoneme>',
+  'ANA':   '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˌɛnˈeɪ">N-A</phoneme>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
@@ -1676,15 +1683,9 @@ const CLINICAL_IPA = {
   // driven prosodic pauses guarantee letter-by-letter articulation. The
   // hyphenated CLINICAL_IPA overrides we tried previously are no longer
   // matched and have been removed.
-  // ANA — anti-nuclear antibody. Without explicit IPA the synth says
-  // "ana" as a word (ˈænə). Period-separated letters force letter-spell.
-  'A-N-A':             'ˈeɪ.ˈɛn.ˈeɪ',
-  // CCP — anti-CCP antibody. Period separator stops the two C's from
-  // blurring into a single elongated "ssee".
-  'C-C-P':             'ˈsiː.ˈsiː.ˈpiː',
-  // SRSF2 — splicing factor gene. Period-separated letters keep the
-  // S-R-S sequence from blurring.
-  'S-R-S-F':           'ˈɛs.ˈɑːr.ˈɛs.ˈɛf',
+  // (ANA / CCP / SRSF2 use the same concatenated 2-phone <phoneme>
+  // chunks as DNMT3A / ASXL1 — see ABBREVIATIONS, where the SSML lives.
+  // Single multi-foot IPAs flattened audibly under Chirp 3 HD.)
   'P-P-A-R-G-C-one-A': 'piːpiːˌeɪɑːrdʒiːsiːˈwʌneɪ',
 };
 
