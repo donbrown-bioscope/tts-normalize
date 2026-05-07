@@ -176,8 +176,15 @@ const ABBREVIATIONS = {
   'CRP': 'C-R-P', 'hsCRP': 'high sensitivity C-R-P',
   'IGF-1': 'I-G-F-one', 'IGF1': 'I-G-F-one',
   'MCP-1': 'M-C-P-one', 'MCP1': 'M-C-P-one',
-  'DNMT3A': 'D-N-M-T-three-A',
-  'ASXL1': 'A-S-X-L-one',
+  // Comma-separated letter expansion for the long alpha-digit-alpha
+  // gene IDs. Earlier we tried IPA overrides on the hyphenated form
+  // (D-N-M-T-three-A → ˌdiːˌɛnˌɛmˌtiːˌθriːˈeɪ etc.); Chirp 3 HD parsed
+  // them but flattened the stress so the letters still slurred (the
+  // multi-foot stress pattern that works for "Broad MGH" doesn't scale
+  // to 5–6 letters). Commas inject hard prosodic pauses Chirp honors
+  // unconditionally, so each letter becomes audibly distinct.
+  'DNMT3A': 'D, N, M, T, three, A',
+  'ASXL1':  'A, S, X, L, one',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
@@ -1664,14 +1671,11 @@ const CLINICAL_IPA = {
   // shape FAST_GLUE can't auto-build.
   'SULT1A1':           'ˌɛsjuːɛlˌtiːwʌneɪˈwʌn',
   'S-U-L-T-one-A-one': 'ˌɛsjuːɛlˌtiːwʌneɪˈwʌn',
-  // Mixed alpha-digit-alpha gene IDs not handled by FAST_GLUE. The
-  // period-separator + primary-stress-per-unit pattern (proven by the
-  // working "Broad MGH" entry) forces Chirp 3 HD to articulate each
-  // letter as its own foot. The earlier multi-ˌ secondary-stress form
-  // didn't survive Chirp's prosody normalization — letters still slurred
-  // (notably "ASXL1" reading as "ISXL1").
-  'D-N-M-T-three-A':   'ˈdiː.ˈɛn.ˈɛm.ˈtiː.ˈθriː.ˈeɪ',
-  'A-S-X-L-one':       'ˈeɪ.ˈɛs.ˈɛks.ˈɛl.ˈwʌn',
+  // DNMT3A / ASXL1 now expand to comma-separated letter form in
+  // ABBREVIATIONS (e.g. "D, N, M, T, three, A") so Chirp's punctuation-
+  // driven prosodic pauses guarantee letter-by-letter articulation. The
+  // hyphenated CLINICAL_IPA overrides we tried previously are no longer
+  // matched and have been removed.
   // ANA — anti-nuclear antibody. Without explicit IPA the synth says
   // "ana" as a word (ˈænə). Period-separated letters force letter-spell.
   'A-N-A':             'ˈeɪ.ˈɛn.ˈeɪ',
