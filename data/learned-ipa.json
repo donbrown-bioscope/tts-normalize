@@ -4385,6 +4385,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "r-a": {
+    "ipa": "ˌɑːrˈeɪ",
+    "learned": "2026-05-07",
+    "source": "auto-letter-spell"
+  },
   "r-b-c": {
     "ipa": "ˌɑːrbiːˈsiː",
     "learned": "2026-05-03",
@@ -4435,6 +4440,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "r-o": {
+    "ipa": "ˌɑːrˈoʊ",
+    "learned": "2026-05-07",
+    "source": "auto-letter-spell"
+  },
   "r-o-a": {
     "ipa": "ˌɑːroʊˈeɪ",
     "learned": "2026-05-05",
@@ -4464,6 +4474,11 @@
     "ipa": "ˈrʌptʃər",
     "learned": "2026-05-05",
     "source": "auto-llm"
+  },
+  "ra": {
+    "ipa": "ˌɑːrˈeɪ",
+    "learned": "2026-05-07",
+    "source": "auto-letter-spell"
   },
   "radiolabeled": {
     "ipa": "ˌreɪ.di.oʊˈleɪ.bəld",
@@ -4523,6 +4538,11 @@
   "riss": {
     "ipa": "ˌɑːraɪɛsˈɛs",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "ro": {
+    "ipa": "ˌɑːrˈoʊ",
+    "learned": "2026-05-07",
     "source": "auto-letter-spell"
   },
   "roi": {
