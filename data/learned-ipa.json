@@ -1575,6 +1575,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "e-c-t": {
+    "ipa": "ˌiːsiːˈtiː",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "e-d": {
     "ipa": "ˌiːˈdiː",
     "learned": "2026-05-09",
@@ -1709,6 +1714,11 @@
     "ipa": "ˈɛkoʊ",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "ect": {
+    "ipa": "ˌiːsiːˈtiː",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "ed": {
     "ipa": "ˌiːˈdiː",
@@ -1885,6 +1895,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "f-a": {
+    "ipa": "ˌɛfˈeɪ",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "f-a-i-l": {
     "ipa": "ˌɛfeɪaɪˈɛl",
     "learned": "2026-05-03",
@@ -2004,6 +2019,11 @@
     "ipa": "fʌt",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "fa": {
+    "ipa": "ˌɛfˈeɪ",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "faecalibacterium": {
     "ipa": "ˌfiːkəlibækˈtɪəriəm",
@@ -2624,6 +2644,11 @@
     "ipa": "ˌaɪɛnˈɑːr",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "i-o-n": {
+    "ipa": "ˌaɪoʊˈɛn",
+    "learned": "2026-05-09",
+    "source": "auto-glue"
   },
   "i-p": {
     "ipa": "ˌaɪˈpiː",
@@ -5250,6 +5275,11 @@
     "learned": "2026-05-09",
     "source": "auto-letter-spell"
   },
+  "t-c-e-r-t-i-f-i": {
+    "ipa": "ˌtiːsiːiːɑːrtiːaɪɛfˈaɪ",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "t-c-f-a": {
     "ipa": "ˌtiːsiːɛfˈeɪ",
     "learned": "2026-05-05",
@@ -5337,8 +5367,8 @@
   },
   "t-i-o-n": {
     "ipa": "ˌtiːaɪoʊˈɛn",
-    "learned": "2026-05-03",
-    "source": "auto-glue"
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "t-m": {
     "ipa": "ˌtiːˈɛm",
@@ -5460,6 +5490,11 @@
     "learned": "2026-05-09",
     "source": "auto-letter-spell"
   },
+  "tcertifi": {
+    "ipa": "ˌtiːsiːiːɑːrtiːaɪɛfˈaɪ",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "tcfa": {
     "ipa": "ˌtiːsiːɛfˈeɪ",
     "learned": "2026-05-05",
@@ -5549,6 +5584,11 @@
     "ipa": "tɪm",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "tion": {
+    "ipa": "ˌtiːaɪoʊˈɛn",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "tirzepatide": {
     "ipa": "tɜːrˈzɛpətaɪd",
