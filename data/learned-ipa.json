@@ -266,8 +266,8 @@
   },
   "a-t": {
     "ipa": "ˌeɪˈtiː",
-    "learned": "2026-05-05",
-    "source": "auto-glue"
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "a-t-a": {
     "ipa": "ˌeɪtiːˈeɪ",
@@ -589,6 +589,11 @@
     "ipa": "ˌæstəˈzænθɪn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "at": {
+    "ipa": "ˌeɪˈtiː",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "ata": {
     "ipa": "ˌeɪtiːˈeɪ",
@@ -1005,6 +1010,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "c-o-n": {
+    "ipa": "kɑn",
+    "learned": "2026-05-09",
+    "source": "auto-llm"
+  },
   "c-o-q": {
     "ipa": "ˌsiːoʊˈkjuː",
     "learned": "2026-05-03",
@@ -1233,6 +1243,11 @@
   "colcot": {
     "ipa": "ˈkɑlkɑt",
     "learned": "2026-05-05",
+    "source": "auto-llm"
+  },
+  "con": {
+    "ipa": "kɑn",
+    "learned": "2026-05-09",
     "source": "auto-llm"
   },
   "connectome": {
@@ -3585,6 +3600,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "n-a-l": {
+    "ipa": "ˌɛneɪˈɛl",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "n-a-m-s": {
     "ipa": "ˌɛneɪɛmˈɛs",
     "learned": "2026-05-03",
@@ -3724,6 +3744,11 @@
     "ipa": "ˈnæf ɛl diː",
     "learned": "2026-04-27",
     "source": "manual"
+  },
+  "nal": {
+    "ipa": "ˌɛneɪˈɛl",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "nams": {
     "ipa": "ˌɛneɪɛmˈɛs",
@@ -4430,6 +4455,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "r-e": {
+    "ipa": "ˌɑːrˈiː",
+    "learned": "2026-05-09",
+    "source": "auto-glue"
+  },
   "r-e-m": {
     "ipa": "rɛm",
     "learned": "2026-05-03",
@@ -4650,6 +4680,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "s-c-o-r-e": {
+    "ipa": "skɔr",
+    "learned": "2026-05-09",
+    "source": "auto-llm"
+  },
   "s-c-o-t-h-e-a-r-t": {
     "ipa": "ˈskɑtˌhɑrt",
     "learned": "2026-05-05",
@@ -4689,6 +4724,11 @@
     "ipa": "ˈsiːboʊ",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "s-i-r-a-n": {
+    "ipa": "ˌɛsaɪɑːreɪˈɛn",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "s-i-r-t": {
     "ipa": "ˌɛsaɪɑːrˈtiː",
@@ -4800,6 +4840,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "s-u-b": {
+    "ipa": "sʌb",
+    "learned": "2026-05-09",
+    "source": "auto-llm"
+  },
   "s-u-l-t": {
     "ipa": "ˌɛsjuːɛlˈtiː",
     "learned": "2026-05-03",
@@ -4859,6 +4904,11 @@
     "ipa": "skɪˈsændrə",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "score": {
+    "ipa": "skɔr",
+    "learned": "2026-05-09",
+    "source": "auto-llm"
   },
   "scotheart": {
     "ipa": "ˈskɑtˌhɑrt",
@@ -4980,6 +5030,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "siran": {
+    "ipa": "ˌɛsaɪɑːreɪˈɛn",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "sirolimus": {
     "ipa": "sɪˈroʊlɪməs",
     "learned": "2026-05-03",
@@ -5069,6 +5124,11 @@
     "ipa": "ˈstraɪənt",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "sub": {
+    "ipa": "sʌb",
+    "learned": "2026-05-09",
+    "source": "auto-llm"
   },
   "sulforaphane": {
     "ipa": "sʌlˈfɔːrəfeɪn",
