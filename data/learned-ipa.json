@@ -206,8 +206,8 @@
   },
   "a-r": {
     "ipa": "ˌeɪˈɑːr",
-    "learned": "2026-05-03",
-    "source": "auto-glue"
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
   },
   "a-r-b": {
     "ipa": "ˌeɪɑːrˈbiː",
@@ -236,8 +236,8 @@
   },
   "a-s": {
     "ipa": "ˌeɪˈɛs",
-    "learned": "2026-05-05",
-    "source": "auto-glue"
+    "learned": "2026-05-08",
+    "source": "auto-letter-spell"
   },
   "a-s-c": {
     "ipa": "ˌeɪɛsˈsiː",
@@ -530,6 +530,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "ar": {
+    "ipa": "ˌeɪˈɑːr",
+    "learned": "2026-05-09",
+    "source": "auto-letter-spell"
+  },
   "arb": {
     "ipa": "ˌeɪɑːrˈbiː",
     "learned": "2026-05-05",
@@ -549,6 +554,11 @@
     "ipa": "əˈraɪv",
     "learned": "2026-05-05",
     "source": "auto-llm"
+  },
+  "as": {
+    "ipa": "ˌeɪˈɛs",
+    "learned": "2026-05-08",
+    "source": "auto-letter-spell"
   },
   "asc": {
     "ipa": "ˌeɪɛsˈsiː",
@@ -2565,6 +2575,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "i-n-f-l-a-m": {
+    "ipa": "ˌaɪɛnɛfɛleɪˈɛm",
+    "learned": "2026-05-08",
+    "source": "auto-letter-spell"
+  },
   "i-n-k": {
     "ipa": "ɪŋk",
     "learned": "2026-05-03",
@@ -2718,6 +2733,11 @@
   "imwg": {
     "ipa": "ˌaɪɛmˈdʌbəl.juːˈdʒiː",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "inflam": {
+    "ipa": "ˌaɪɛnɛfɛleɪˈɛm",
+    "learned": "2026-05-08",
     "source": "auto-letter-spell"
   },
   "inflammaging": {
@@ -2896,9 +2916,9 @@
     "source": "auto-glue"
   },
   "keap1": {
-    "ipa": "ˈkeɪ.æp.wʌn",
-    "learned": "2026-05-02",
-    "source": "tutorial-phytonutrients-decoded-nrf2-epigenetics-the-clinical-evidence"
+    "ipa": "kiːp.wʌn",
+    "learned": "2026-05-08",
+    "source": "user-respelling-keep-one"
   },
   "kihd": {
     "ipa": "ˌkeɪaɪeɪtʃˈdiː",
@@ -3476,9 +3496,9 @@
     "source": "clinical-migration"
   },
   "mitophagy": {
-    "ipa": "mɪˈtɒfədʒi",
-    "learned": "2026-05-03",
-    "source": "clinical-migration"
+    "ipa": "maɪˈtɒfədʒi",
+    "learned": "2026-05-08",
+    "source": "user-respelling-long-i-short-a"
   },
   "morgentaler": {
     "ipa": "ˈmɔːrɡəntɑːlər",
@@ -5051,9 +5071,9 @@
     "source": "clinical-migration"
   },
   "sulforaphane": {
-    "ipa": "ˌsʌlfəˈræfeɪn",
-    "learned": "2026-05-03",
-    "source": "clinical-migration"
+    "ipa": "sʌlˈfɔːrəfeɪn",
+    "learned": "2026-05-08",
+    "source": "user-pronunciation-lookup-sul-FOR-uh-fane"
   },
   "sult": {
     "ipa": "ˌɛsjuːɛlˈtiː",
