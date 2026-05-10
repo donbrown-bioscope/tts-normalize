@@ -265,9 +265,9 @@
     "source": "auto-letter-spell"
   },
   "a-s-p-r-e-e": {
-    "ipa": "æˈspri",
-    "learned": "2026-05-05",
-    "source": "auto-llm"
+    "ipa": "ˈæsˌpriː",
+    "learned": "2026-05-10",
+    "source": "manual-override"
   },
   "a-s-t": {
     "ipa": "ˌeɪɛsˈtiː",
@@ -413,6 +413,11 @@
     "ipa": "ˌæduːˈkænjuːmæb",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "aerobic": {
+    "ipa": "ɛˈroʊbɪk",
+    "learned": "2026-05-10",
+    "source": "manual-override"
   },
   "aghd": {
     "ipa": "ˌeɪdʒiːeɪtʃˈdiː",
@@ -596,9 +601,9 @@
     "source": "auto-letter-spell"
   },
   "aspree": {
-    "ipa": "æˈspri",
-    "learned": "2026-05-05",
-    "source": "auto-llm"
+    "ipa": "ˈæsˌpriː",
+    "learned": "2026-05-10",
+    "source": "manual-override"
   },
   "ast": {
     "ipa": "ˌeɪɛsˈtiː",
@@ -2085,6 +2090,11 @@
     "learned": "2026-04-27",
     "source": "manual"
   },
+  "fasciitis": {
+    "ipa": "ˌfæʃiˈaɪtɪs",
+    "learned": "2026-05-10",
+    "source": "manual-override"
+  },
   "fast": {
     "ipa": "fæst",
     "learned": "2026-05-03",
@@ -2971,9 +2981,9 @@
     "source": "auto-letter-spell"
   },
   "j-a-m-a": {
-    "ipa": "ˈdʒæmə",
-    "learned": "2026-05-03",
-    "source": "clinical-migration"
+    "ipa": "ˈdʒæmˌæ",
+    "learned": "2026-05-10",
+    "source": "manual-override"
   },
   "j-s-o-n": {
     "ipa": "ˌdʒeɪɛsoʊˈɛn",
@@ -3274,6 +3284,11 @@
     "ipa": "ˌlɪpoʊˈdɪstrəfi",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "lipoprotein": {
+    "ipa": "ˌlaɪpoʊˈproʊtiːn",
+    "learned": "2026-05-10",
+    "source": "manual-override"
   },
   "liraglutide": {
     "ipa": "ˌlɪrəˈɡluːtaɪd",
@@ -4103,6 +4118,11 @@
   "o-v-e": {
     "ipa": "ˌoʊviːˈiː",
     "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "o-x": {
+    "ipa": "ˌoʊˈɛks",
+    "learned": "2026-05-10",
     "source": "auto-glue"
   },
   "oatp": {
