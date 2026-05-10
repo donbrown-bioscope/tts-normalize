@@ -1465,9 +1465,13 @@ const CLINICAL_IPA = {
   // Remi — clinical-AI-team persona name. Short-e /ɛ/ ("REH-mee").
   'Remi': 'ˈrɛmi',
   'remi': 'ˈrɛmi',
-  // APOE / APOB — clinicians say "AY-poh-EE" / "AY-poh-BEE".
+  // APOE / APOB — clinicians say "AY-poh-EE" / "AY-poh-BEE" (one fluid
+  // utterance with the /p/ flowing between vowels — not letter-spelled
+  // A-P-O-B). Course-local ABBREVIATIONS additionally pre-wraps the
+  // mixed-case forms (apoB / ApoB / APOB; same for apoE) so the FAST
+  // letter-spell pass doesn't fire on them.
   'A-P-O-E': 'ˌeɪpoʊˈiː',
-  'A-P-O-B': 'ˌeIpoʊˈbiː',
+  'A-P-O-B': 'ˌeɪpoʊˈbiː',
   // High-frequency letter-spelled acronyms — single fast 2-3 syllable
   // utterance ("dee-en-AY") instead of slow per-letter pauses.
   'D-N-A':   'ˌdiːɛnˈeɪ',

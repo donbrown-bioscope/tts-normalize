@@ -1440,6 +1440,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "d-u": {
+    "ipa": "ˌdiːˈjuː",
+    "learned": "2026-05-10",
+    "source": "auto-glue"
+  },
   "d-u-t-c-h": {
     "ipa": "dʌtʃ",
     "learned": "2026-05-03",
@@ -1604,6 +1609,11 @@
     "ipa": "ˌiːɛmˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "e-n-d": {
+    "ipa": "ˌiːɛnˈdiː",
+    "learned": "2026-05-10",
+    "source": "auto-glue"
   },
   "e-p": {
     "ipa": "ˌiːˈpiː",
@@ -1933,6 +1943,11 @@
   "f-d-g": {
     "ipa": "ˌɛfdiːˈdʒiː",
     "learned": "2026-05-05",
+    "source": "auto-glue"
+  },
+  "f-f": {
+    "ipa": "ˌɛfˈɛf",
+    "learned": "2026-05-10",
     "source": "auto-glue"
   },
   "f-f-r": {
@@ -2570,6 +2585,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "i-e-n-t": {
+    "ipa": "ˌaɪiːɛnˈtiː",
+    "learned": "2026-05-10",
+    "source": "auto-glue"
+  },
   "i-f": {
     "ipa": "ˌaɪˈɛf",
     "learned": "2026-05-03",
@@ -2649,6 +2669,11 @@
     "ipa": "ˌaɪɛnˈɑːr",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "i-n-t-u-i": {
+    "ipa": "ˌaɪɛntiːjuːˈaɪ",
+    "learned": "2026-05-10",
+    "source": "auto-glue"
   },
   "i-o-n": {
     "ipa": "ˌaɪoʊˈɛn",
@@ -3819,6 +3844,11 @@
     "ipa": "ˈɛnseɪd",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "n-t": {
+    "ipa": "ˌɛnˈtiː",
+    "learned": "2026-05-10",
+    "source": "auto-glue"
   },
   "n-u-d-t": {
     "ipa": "ˌɛnjuːdiːˈtiː",
