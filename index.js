@@ -1544,6 +1544,83 @@ const CLINICAL_IPA = {
   'azathioprine':    'ˌæzəˈθaɪəpriːn',
   'allopurinol':     'ˌæloʊˈpjʊərɪnɒl',
   'ezetimibe':       'ɛˈzɛtəmɪb',
+  // ─── Medication IPA additions — generic drug names that survive past
+  // the gene/acronym pre-passes and would otherwise get stress-misplaced
+  // by Chirp HD on first encounter. Grouped by class for maintenance.
+  // Statins (atorvastatin / simvastatin / rosuvastatin already above).
+  'pravastatin':       'ˌprævəˈstætɪn',
+  // Lipid-lowering monoclonals + RNAi/ASO/oral apo(a)-disruption agents.
+  'alirocumab':        'ˌæləˈroʊkjuːmæb',
+  'evolocumab':        'ˌɛvoʊˈloʊkjuːmæb',
+  'inclisiran':        'ɪnˈklɪsɪˌræn',
+  'pelacarsen':        'ˌpɛləˈkɑːrsɛn',
+  'olpasiran':         'ˌoʊlpəˈsaɪˌræn',
+  'lepodisiran':       'ˌlɛpoʊˈdaɪsɪˌræn',
+  'muvalaplin':        'ˌmuːvəˈlæplɪn',
+  'bempedoic':         'ˌbɛmpəˈdoʊɪk',
+  // Anti-inflammatory monoclonals (canakinumab IL-1β; ziltivekimab IL-6).
+  'canakinumab':       'ˌkænəˈkɪnjuːmæb',
+  'ziltivekimab':      'ˌzɪltɪˈvɛkɪmæb',
+  // Anti-inflammatory small molecules.
+  'colchicine':        'ˈkɒltʃəsiːn',
+  'methotrexate':      'ˌmɛθəˈtrɛkˌseɪt',
+  // Omega-3 (EPA-only).
+  'icosapent':         'ˌaɪkoʊˈsæpɛnt',
+  // SGLT2 inhibitors — gliflozins.
+  'empagliflozin':     'ɛmˌpæɡlɪˈfloʊzɪn',
+  'dapagliflozin':     'ˌdæpəɡlɪˈfloʊzɪn',
+  // Anticoagulants — DOACs + warfarin + heparin + aspirin.
+  'warfarin':          'ˈwɔːrfərɪn',
+  'apixaban':          'əˈpɪksəˌbæn',
+  'rivaroxaban':       'ˌrɪvəˈrɒksəˌbæn',
+  'dabigatran':        'dæˈbɪɡəˌtræn',
+  'edoxaban':          'ɛˈdɒksəˌbæn',
+  'heparin':           'ˈhɛpərɪn',
+  'aspirin':           'ˈæspərɪn',
+  // Antiplatelets.
+  'clopidogrel':       'kloʊˈpɪdoʊɡrɛl',
+  // Non-DHP calcium-channel blockers.
+  'verapamil':         'vəˈræpəˌmɪl',
+  'diltiazem':         'dɪlˈtaɪəzɛm',
+  // Mineralocorticoid-receptor antagonists.
+  'finerenone':        'faɪˈnɛrəˌnoʊn',
+  // Sex hormones (estradiol / testosterone-cypionate-enanthate-undecanoate above).
+  'estriol':           'ˈɛstriˌɒl',
+  'estrone':           'ˈɛstroʊn',
+  'progesterone':      'proʊˈdʒɛstəˌroʊn',
+  'testosterone':      'tɛˈstɒstəˌroʊn',
+  'tamoxifen':         'təˈmɒksəˌfɛn',
+  // Glucocorticoids / mineralocorticoids.
+  'hydrocortisone':    'ˌhaɪdroʊˈkɔːrtɪˌsoʊn',
+  'fludrocortisone':   'ˌfluːdroʊˈkɔːrtɪˌsoʊn',
+  // Glycemic emergency hormone.
+  'glucagon':          'ˈɡluːkəˌɡɒn',
+  // B3 vitamin / lipid agent.
+  'niacin':            'ˈnaɪəsɪn',
+  // Sleep / circadian peptides.
+  'melatonin':         'ˌmɛləˈtoʊnɪn',
+  'oxytocin':          'ˌɒksɪˈtoʊsɪn',
+  // PTH analogue (long-acting).
+  'palopegteriparatide': 'ˌpæloʊpɛɡˌtɛrɪˈpærəˌtaɪd',
+  // Antidepressants — SSRIs and others.
+  'sertraline':        'ˈsɜːrtrəliːn',
+  'citalopram':        'saɪˈtæləˌpræm',
+  'escitalopram':      'ˌɛsaɪˈtæləˌpræm',
+  'fluoxetine':        'fluːˈɒksəˌtiːn',
+  'bupropion':         'bjuːˈproʊpiˌɒn',
+  'mirtazapine':       'mɪrˈtæzəˌpiːn',
+  'trazodone':         'ˈtræzəˌdoʊn',
+  // Anti-seizure / mood stabilizer.
+  'carbamazepine':     'ˌkɑːrbəˈmæzəˌpiːn',
+  'lithium':           'ˈlɪθiəm',
+  // Macrolide antibiotics (CYP3A4 / P-gp interactions with colchicine).
+  'clarithromycin':    'kləˌrɪθroʊˈmaɪsɪn',
+  'erythromycin':      'ɪˌrɪθroʊˈmaɪsɪn',
+  // PPI.
+  'omeprazole':        'oʊˈmɛprəˌzoʊl',
+  // Opioids.
+  'codeine':           'ˈkoʊdiːn',
+  'tramadol':          'ˈtræməˌdɒl',
   // Difficult biology / measurement terms.
   'autophagy':       'ɔːˈtɒfədʒi',
   'mitophagy':       'maɪˈtɒfədʒi',
