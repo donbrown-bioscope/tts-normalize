@@ -184,10 +184,20 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "a-p": {
+    "ipa": "ˌeɪˈpiː",
+    "learned": "2026-05-10",
+    "source": "auto-glue"
+  },
   "a-p-a-c-h-e": {
     "ipa": "əˈpætʃi",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "a-p-i": {
+    "ipa": "ˌeɪpiːˈaɪ",
+    "learned": "2026-05-10",
+    "source": "auto-letter-spell"
   },
   "a-p-o-b": {
     "ipa": "ˌeɪpoʊˈbiː",
@@ -440,6 +450,11 @@
     "learned": "2026-04-27",
     "source": "manual"
   },
+  "alanine": {
+    "ipa": "ˈæl.ə.niːn",
+    "learned": "2026-05-10",
+    "source": "manual-override"
+  },
   "aldh": {
     "ipa": "ˌeɪɛldiːˈeɪtʃ",
     "learned": "2026-05-03",
@@ -514,6 +529,11 @@
     "ipa": "əˈpætʃi",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "api": {
+    "ipa": "ˌeɪpiːˈaɪ",
+    "learned": "2026-05-10",
+    "source": "auto-letter-spell"
   },
   "apigenin": {
     "ipa": "ˌæpɪˈdʒɛnɪn",
@@ -5591,9 +5611,9 @@
     "source": "clinical-migration"
   },
   "threonine": {
-    "ipa": "ˈθrɛ.ə.nin",
-    "learned": "2026-04-29",
-    "source": "tutorial-glp-1-receptor-signaling-camp-pka-pathways-and-metabolic-reprogramming-in-longev"
+    "ipa": "ˈθriː.ə.niːn",
+    "learned": "2026-05-10",
+    "source": "manual-override"
   },
   "threshold": {
     "ipa": "ˌtiːeɪtʃɑːriːɛseɪtʃoʊɛlˈdiː",
