@@ -1548,7 +1548,7 @@ const CLINICAL_IPA = {
   'cyclosporine':    'ˌsaɪkloʊˈspɔːriːn',
   'azathioprine':    'ˌæzəˈθaɪəpriːn',
   'allopurinol':     'ˌæloʊˈpjʊərɪnɒl',
-  'ezetimibe':       'ɛˈzɛtəmɪb',
+  'ezetimibe':       'ɛˈzɛtɪˌmaɪb',
   // ─── Medication IPA additions — generic drug names that survive past
   // the gene/acronym pre-passes and would otherwise get stress-misplaced
   // by Chirp HD on first encounter. Grouped by class for maintenance.
@@ -1584,9 +1584,20 @@ const CLINICAL_IPA = {
   'aspirin':           'ˈæspərɪn',
   // Antiplatelets.
   'clopidogrel':       'kloʊˈpɪdoʊɡrɛl',
+  // ACE inhibitor — lisinopril (most-prescribed antihypertensive in US).
+  'lisinopril':        'laɪˈsɪnəˌprɪl',
+  // Beta blocker — metoprolol (cardio-selective β1).
+  'metoprolol':        'məˈtoʊprəˌlɒl',
   // Non-DHP calcium-channel blockers.
   'verapamil':         'vəˈræpəˌmɪl',
   'diltiazem':         'dɪlˈtaɪəzɛm',
+  // Dihydropyridine CCB — amlodipine.
+  'amlodipine':        'æmˈloʊdɪˌpiːn',
+  // IL-6 receptor monoclonal — tocilizumab (RA, COVID-19, CRS).
+  'tocilizumab':       'ˌtoʊsɪlˈɪzuːˌmæb',
+  // HIV antiretrovirals (NRTI + PI).
+  'abacavir':          'əˈbækəˌvɪr',
+  'atazanavir':        'ˌætəˈzænəˌvɪr',
   // Mineralocorticoid-receptor antagonists.
   'finerenone':        'faɪˈnɛrəˌnoʊn',
   // Sex hormones (estradiol / testosterone-cypionate-enanthate-undecanoate above).
