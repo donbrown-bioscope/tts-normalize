@@ -1430,6 +1430,7 @@ const CLINICAL_IPA = {
   'T-R-E-M':   'trɪm',
   'TREM':      'trɪm',
   'trem':      'trɪm',
+  'M-A-P-K':   'ˈmæpkeɪ',      // MAP kinase — word "map" + letter K
   // SLCO1B1 moved to POST_OVERRIDES with a <sub alias="…"> rewrite —
   // IPA stress markers weren't enough to keep Chirp HD from slurring
   // the leading S, and adding more `ˌ` made no audible difference.
