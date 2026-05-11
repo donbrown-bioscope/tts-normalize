@@ -580,7 +580,15 @@ function coreNormalize(text) {
   // gene-rule above; this list is for surprise word/acronym collisions like
   // EORTC, AICR, etc. — currently empty; add as collisions surface).
   const LETTER_SPELL_OVERRIDE = new Set([]);
-  t = t.replace(/\b([A-Z]{3,})\b/g, (match) => {
+  // Skip matches inside SSML elements whose contents are
+  // pronunciation-prescribed (sub alias / say-as / existing phoneme).
+  // Without this guard the catch-all would letter-spell SSRI to S-S-R-I
+  // even when the author already wrapped it as
+  // `<sub alias="ess ess R I">SSRI</sub>`, leaving a redundant hyphenated
+  // string inside the sub element that subsequent passes can't recover
+  // back to the natural form. See WRAP_GUARDS in postprocessForTTS for
+  // the matching protection on the phoneme/sub/say-as wraps themselves.
+  t = t.replace(/\b([A-Z]{3,})\b(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, (match) => {
     if (SKIP_UPPERCASE.has(match)) return match;
     // 4+ letter ALL-CAPS tokens: authors emphasize drug/gene/term names by
     // capping them in source text (figure labels: CONVENTIONAL / TREAT
@@ -2117,25 +2125,39 @@ function postprocessForTTS(text) {
   t = t.replace(/\[\[pause-medium\]\]/g, '<break time="600ms"/>');
   t = t.replace(/\[\[pause-long\]\]/g,   '<break time="1200ms"/>');
 
+  // Guard string for every \b…\b IPA wrap. Four negative lookaheads in
+  // sequence reject matches that would corrupt existing SSML structure:
+  //   (?![^<>]*>)        — inside an *open tag* (e.g. attribute area of
+  //                        `<sub alias="…">`). Without this, a learned
+  //                        entry for a common word colliding with an
+  //                        SSML element name (sub, voice, p, s, audio)
+  //                        wraps the element name itself, producing
+  //                        invalid XML and a Google TTS 400.
+  //   (?![^<]*</phoneme>)
+  //                      — inside an existing <phoneme>…</phoneme> wrap.
+  //                        Prevents nested phoneme tags, which Chirp
+  //                        truncates on.
+  //   (?![^<]*</sub>)    — inside a <sub alias="…">…</sub> rewrite
+  //                        (e.g. SSRI → <sub alias="ess ess R I">SSRI
+  //                        </sub>). Without this, the CLINICAL_IPA pass
+  //                        re-wraps the inner SSRI and produces nested
+  //                        <sub><sub>SSRI</sub></sub> on a second run.
+  //   (?![^<]*</say-as>) — inside <say-as>…</say-as>, which authors use
+  //                        for explicit pronunciation override.
+  const WRAP_GUARDS = '(?![^<>]*>)(?![^<]*</phoneme>)(?![^<]*</sub>)(?![^<]*</say-as>)';
+
   // Wrap every omics word with an SSML phoneme tag carrying the IPA
   // pronunciation. Google Cloud TTS Neural2 and Chirp 3 HD honor these
   // reliably. The literal word stays inside the tag so any voice that
   // ignores SSML still produces audio (graceful fallback).
   for (const [word, ipa] of OMIC_IPA_SORTED) {
-    // Negative lookahead skips matches already inside a <phoneme>
-    // wrap. Without this, sorting puts "multi-omic" first (wraps the
-    // whole phrase), then "omic" matches inside that wrap and nests
-    // a second <phoneme> tag — Chirp / Google TTS truncate playback
-    // when it encounters nested phoneme SSML.
-    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b(?![^<]*</phoneme>)`, 'gi'), (match) => {
+    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b${WRAP_GUARDS}`, 'gi'), (match) => {
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     });
   }
-  // Same machinery for clinical / scientific words. Skip any word
-  // already inside a <phoneme> tag (longer omics entry might have
-  // wrapped it earlier).
+  // Same machinery for clinical / scientific words.
   for (const [word, ipa] of CLINICAL_IPA_SORTED) {
-    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b(?![^<]*</phoneme>)`, 'gi'), (match) => {
+    t = t.replace(new RegExp(`\\b${escapeRegex(word)}\\b${WRAP_GUARDS}`, 'gi'), (match) => {
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     });
   }
@@ -2165,7 +2187,7 @@ function postprocessForTTS(text) {
       source === 'auto-letter-spell' || source === 'auto-glue';
     const pattern = isLetterSpelledAcronym ? word.toUpperCase() : word;
     const flags = isLetterSpelledAcronym ? 'g' : 'gi';
-    t = t.replace(new RegExp(`\\b${escapeRegex(pattern)}\\b(?![^<]*</phoneme>)`, flags), (match) => {
+    t = t.replace(new RegExp(`\\b${escapeRegex(pattern)}\\b${WRAP_GUARDS}`, flags), (match) => {
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     });
   }
@@ -2178,7 +2200,7 @@ function postprocessForTTS(text) {
   // fluid instead of per-letter staccato. Explicit "say as word" cases
   // in CLINICAL_IPA win because they run first.
   t = t.replace(
-    /\b[A-Z](?:-[A-Z0-9])+\b(?![^<]*<\/phoneme>)/g,
+    new RegExp(String.raw`\b[A-Z](?:-[A-Z0-9])+\b${WRAP_GUARDS}`, 'g'),
     (match) => {
       const ipa = buildFastChainIpa(match);
       if (!ipa) return match;

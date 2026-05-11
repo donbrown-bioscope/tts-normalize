@@ -5200,11 +5200,6 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
-  "s-u-b": {
-    "ipa": "sʌb",
-    "learned": "2026-05-09",
-    "source": "auto-llm"
-  },
   "s-u-l-t": {
     "ipa": "ˌɛsjuːɛlˈtiː",
     "learned": "2026-05-03",
@@ -5494,11 +5489,6 @@
     "ipa": "ˈstraɪənt",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "sub": {
-    "ipa": "sʌb",
-    "learned": "2026-05-09",
-    "source": "auto-llm"
   },
   "sulforaphane": {
     "ipa": "sʌlˈfɔːrəfeɪn",
