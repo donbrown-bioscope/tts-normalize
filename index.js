@@ -605,6 +605,25 @@ function coreNormalize(text) {
   // 12. Replace em-dashes with commas (natural pause for TTS)
   t = t.replace(/\s*—\s*/g, ', ');
 
+  // 12a. Long comma-separated lists — inject <break> after each comma.
+  // Chirp 3 HD sometimes swallows the first 1–2 commas in a long list
+  // ("…healthspan — exercise, caloric restriction, sauna, …" reads as
+  // "exercise caloric restriction" with no pause), even though it pauses
+  // correctly later in the same list. The prosody model appears to treat
+  // a tight comma run as one constituent when the list-introduction
+  // signal is weak. Force the pacing with an explicit short break at
+  // each comma whenever we detect a run of 4+ short items.
+  //
+  // Heuristic: 4+ consecutive comma-separated segments, each 1–5 words
+  // of [\w'-] characters. Runs at this stage of coreNormalize — phoneme
+  // tags haven't been inserted yet by postprocessForTTS, so the regex
+  // sees plain words and matches cleanly. Threshold of 4 items keeps
+  // ordinary prose ("after dinner, we went home") untouched.
+  t = t.replace(
+    /((?:\b[\w'-]+(?:\s+[\w'-]+){0,4},\s+){3,}\b[\w'-]+(?:\s+[\w'-]+){0,4}\b)/g,
+    (match) => match.replace(/,\s+/g, ', <break time="120ms"/> ')
+  );
+
   // 13. Pronunciation fixes — ONLY for words ElevenLabs genuinely mispronounces
   //     Note: ElevenLabs handles most scientific terms (Klotho, kynurenine,
   //     phosphoribosyltransferase, Szostak, Mirabegron, etc.) correctly without
