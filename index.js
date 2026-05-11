@@ -35,6 +35,25 @@
 const fs = require('fs');
 const path = require('path');
 
+// ─── English wordlist (lazy) ──────────────────────────────────────────
+// Loaded once on first use; backs the ALL-CAPS catch-all so common English
+// words emphasized in narration ("CONVENTIONAL", "INSULIN") don't get
+// letter-spelled. ~275k entries from `an-array-of-english-words`. The cost
+// is one ~30 MB Set built at first audio-gen call; subsequent normalize
+// calls are O(1) lookups. Wrapped in try/catch so consumers without the
+// dep installed still get the legacy SKIP_UPPERCASE-only behavior.
+let _englishWordSet = null;
+function _englishWords() {
+  if (_englishWordSet !== null) return _englishWordSet;
+  try {
+    const list = require('an-array-of-english-words');
+    _englishWordSet = new Set(list);
+  } catch {
+    _englishWordSet = new Set();
+  }
+  return _englishWordSet;
+}
+
 // ─── NUMBER TO WORDS ────────────────────────────────────────
 
 const ONES = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
@@ -556,8 +575,30 @@ function coreNormalize(text) {
     // Fragments from abbreviation expansions (mTOR → "m TOR", etc.) + standalone NAD
     'NAD','TOR','TORC','FOX','SIR',
   ]);
+  // 4+ letter ALL-CAPS tokens that ARE English words but should letter-spell
+  // anyway because the field reads them as acronyms (BRCA→B-R-C-A is in the
+  // gene-rule above; this list is for surprise word/acronym collisions like
+  // EORTC, AICR, etc. — currently empty; add as collisions surface).
+  const LETTER_SPELL_OVERRIDE = new Set([]);
   t = t.replace(/\b([A-Z]{3,})\b/g, (match) => {
     if (SKIP_UPPERCASE.has(match)) return match;
+    // 4+ letter ALL-CAPS tokens: authors emphasize drug/gene/term names by
+    // capping them in source text (figure labels: CONVENTIONAL / TREAT
+    // EARLY / EZETIMIBE; narration emphasis: INSULIN / RESILIENCE). Without
+    // this check, every such token landed on a hand-curated downcase list
+    // in each consumer (PL's tts-normalize.mjs had ~80 entries). Auto-
+    // downcase when the lowercased form is recognized by any of three
+    // sources: (a) the bundled English wordlist (CONVENTIONAL, INSULIN),
+    // (b) CAFMI's CLINICAL_IPA dict (EZETIMIBE / EVOLOCUMAB — domain
+    // drug names with their own phoneme wraps in postprocess), (c) OMIC_IPA
+    // (gene/protein names). 3-letter tokens keep the old behavior — too
+    // many short clinical acronyms (LDL, CRP, GFR, etc.) for the check to
+    // be safe at that length.
+    if (match.length >= 4 && !LETTER_SPELL_OVERRIDE.has(match)) {
+      const lower = match.toLowerCase();
+      if (_englishWords().has(lower)) return lower;
+      if (CLINICAL_IPA[lower] || OMIC_IPA[lower]) return lower;
+    }
     return match.split('').join('-');
   });
 
