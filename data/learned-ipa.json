@@ -2853,7 +2853,7 @@
   "i-i-i": {
     "ipa": "ˌaɪaɪˈaɪ",
     "learned": "2026-05-12",
-    "source": "auto-glue"
+    "source": "auto-letter-spell"
   },
   "i-l": {
     "ipa": "ˌaɪˈɛl",
@@ -3053,6 +3053,11 @@
   "ihd": {
     "ipa": "ˌaɪeɪtʃˈdiː",
     "learned": "2026-05-10",
+    "source": "auto-letter-spell"
+  },
+  "iii": {
+    "ipa": "ˌaɪaɪˈaɪ",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "il": {
