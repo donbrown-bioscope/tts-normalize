@@ -750,6 +750,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "b-a-m": {
+    "ipa": "ˌbiːeɪˈɛm",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "b-b-b": {
     "ipa": "ˌbiːbiːˈbiː",
     "learned": "2026-05-03",
@@ -874,6 +879,11 @@
     "ipa": "ˌbæktəˈrɔɪdɪtiːz",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "bam": {
+    "ipa": "ˌbiːeɪˈɛm",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "batimastat": {
     "ipa": "ˌbæt.ɪ.ˈmæs.tæt",
@@ -1725,6 +1735,11 @@
     "learned": "2026-05-12",
     "source": "auto-glue"
   },
+  "d-y-s-b-i-o-t-i-c": {
+    "ipa": "dɪsbaɪˈɑtɪk",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "dabcl": {
     "ipa": "ˌdiːeɪbiːsiːˈɛl",
     "learned": "2026-05-05",
@@ -1849,6 +1864,11 @@
     "ipa": "ˌdiːwaɪɛsˈbiː",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
+  },
+  "dysbiotic": {
+    "ipa": "dɪsbaɪˈɑtɪk",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
   },
   "e-a-r-l-y": {
     "ipa": "ˈɜrli",
@@ -2295,6 +2315,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "f-a-s-t-q": {
+    "ipa": "ˌɛfeɪɛstiːˈkjuː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "f-a-t": {
     "ipa": "fæt",
     "learned": "2026-05-03",
@@ -2434,6 +2459,11 @@
     "ipa": "fæst",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "fastq": {
+    "ipa": "ˌɛfeɪɛstiːˈkjuː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "fat": {
     "ipa": "fæt",
@@ -3015,6 +3045,11 @@
     "learned": "2026-05-05",
     "source": "auto-glue"
   },
+  "i-d-a-t": {
+    "ipa": "ˌaɪdiːeɪˈtiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "i-d-h": {
     "ipa": "ˌaɪdiːˈeɪtʃ",
     "learned": "2026-05-03",
@@ -3243,6 +3278,11 @@
   "icu": {
     "ipa": "ˌaɪsiːˈjuː",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "idat": {
+    "ipa": "ˌaɪdiːeɪˈtiː",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "idh": {
@@ -3940,6 +3980,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "m-m-a-t": {
+    "ipa": "ˌɛmɛmeɪˈtiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "m-m-s-e": {
     "ipa": "ˌɛmɛmɛsˈiː",
     "learned": "2026-05-12",
@@ -3989,6 +4034,11 @@
     "ipa": "ˌɛmˈɛs",
     "learned": "2026-05-03",
     "source": "auto-glue"
+  },
+  "m-s-a": {
+    "ipa": "ˌɛmɛsˈeɪ",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "m-s-g": {
     "ipa": "ˌɛmɛsˈdʒiː",
@@ -4205,6 +4255,11 @@
     "learned": "2026-05-08",
     "source": "user-respelling-long-i-short-a"
   },
+  "mmat": {
+    "ipa": "ˌɛmɛmeɪˈtiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "mmse": {
     "ipa": "ˌɛmɛmɛsˈiː",
     "learned": "2026-05-12",
@@ -4233,6 +4288,11 @@
   "mpo": {
     "ipa": "ˌɛmpiːˈoʊ",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "msa": {
+    "ipa": "ˌɛmɛsˈeɪ",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "mtatp": {
@@ -4343,6 +4403,11 @@
   "n-e-r": {
     "ipa": "ˌɛniːˈɑːr",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "n-e-u-r-o-i": {
+    "ipa": "ˌɛniːjuːɑːroʊˈaɪ",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "n-f": {
@@ -4538,6 +4603,11 @@
   "ner": {
     "ipa": "ˌɛniːˈɑːr",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "neuroi": {
+    "ipa": "ˌɛniːjuːɑːroʊˈaɪ",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "nfe": {
@@ -4925,6 +4995,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "p-m-a": {
+    "ipa": "ˌpiːɛmˈeɪ",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "p-m-i-d": {
     "ipa": "ˌpiːɛmaɪˈdiː",
     "learned": "2026-05-05",
@@ -5173,6 +5248,11 @@
   "pla": {
     "ipa": "ˌpiːɛlˈeɪ",
     "learned": "2026-05-10",
+    "source": "auto-letter-spell"
+  },
+  "pma": {
+    "ipa": "ˌpiːɛmˈeɪ",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "pmid": {
@@ -6638,7 +6718,7 @@
   "u-p": {
     "ipa": "ˌjuːˈpiː",
     "learned": "2026-05-12",
-    "source": "auto-glue"
+    "source": "auto-letter-spell"
   },
   "u-p-d-r": {
     "ipa": "ˌjuːpiːdiːˈɑːr",
@@ -6734,6 +6814,11 @@
     "ipa": "ʌnˈtritəd",
     "learned": "2026-05-05",
     "source": "auto-llm"
+  },
+  "up": {
+    "ipa": "ˌjuːˈpiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "updr": {
     "ipa": "ˌjuːpiːdiːˈɑːr",

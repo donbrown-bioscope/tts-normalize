@@ -111,6 +111,28 @@ function convertNumber(str) {
   return numberToWords(parseInt(str, 10));
 }
 
+// Pronounce a 4-digit calendar year the way a human would:
+//   1996 → "nineteen ninety-six"
+//   1900 → "nineteen hundred"
+//   1905 → "nineteen oh five"
+//   2000 → "two thousand"
+//   2007 → "two thousand seven"
+//   2023 → "twenty twenty-three"
+//
+// Returns null when the number doesn't fit the year shape (so the caller
+// can fall back to the regular number reading).
+function yearToWords(n) {
+  if (!Number.isInteger(n) || n < 1500 || n > 2099) return null;
+  const hi = Math.floor(n / 100);
+  const lo = n % 100;
+  if (n === 2000) return 'two thousand';
+  if (hi === 20 && lo > 0 && lo < 10) return `two thousand ${numberToWords(lo)}`;
+  const hiWords = numberToWords(hi);
+  if (lo === 0) return `${hiWords} hundred`;
+  if (lo < 10) return `${hiWords} oh ${numberToWords(lo)}`;
+  return `${hiWords} ${numberToWords(lo)}`;
+}
+
 // ─── UNIT EXPANSIONS ────────────────────────────────────────
 
 const UNITS = {
@@ -536,6 +558,16 @@ function coreNormalize(text) {
 
   // 8. Replace percentage sign
   t = t.replace(/(\d+\.?\d*)\s*%/g, (_, num) => `${convertNumber(num)} percent`);
+
+  // 8b. Read bare 4-digit numbers in the calendar-year range as years
+  //     (1996 → "nineteen ninety-six", 2023 → "twenty twenty-three").
+  //     Unit-bound and currency numbers have already been rewritten by
+  //     earlier passes, so any standalone 1500–2099 here is almost
+  //     always a year in this corpus.
+  t = t.replace(/\b(1[5-9]\d{2}|20\d{2})\b/g, (m) => {
+    const w = yearToWords(parseInt(m, 10));
+    return w == null ? m : w;
+  });
 
   // 9. Replace remaining standalone numbers (not already converted)
   t = t.replace(/\b(\d+\.?\d*)\b/g, (_, num) => convertNumber(num));
