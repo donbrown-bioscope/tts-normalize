@@ -1710,6 +1710,11 @@
     "learned": "2026-05-12",
     "source": "auto-glue"
   },
+  "d-y-s-b": {
+    "ipa": "ˌdiːwaɪɛsˈbiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "d-y-s-b-i": {
     "ipa": "ˌdiːwaɪɛsbiːˈaɪ",
     "learned": "2026-05-12",
@@ -1829,6 +1834,11 @@
     "ipa": "duːˈtæstərɪd",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "dysb": {
+    "ipa": "ˌdiːwaɪɛsˈbiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "e-a-r-l-y": {
     "ipa": "ˈɜrli",
@@ -2840,6 +2850,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "h-u-b": {
+    "ipa": "hʌb",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "h-y": {
     "ipa": "ˌeɪtʃˈwaɪ",
     "learned": "2026-05-05",
@@ -2939,6 +2954,11 @@
     "ipa": "ˌeɪtʃpiːtiːˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "hub": {
+    "ipa": "hʌb",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
   },
   "humanin": {
     "ipa": "ˈhjuːmənɪn",
@@ -4879,6 +4899,11 @@
     "ipa": "paɪəˈnɪr",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "p-l": {
+    "ipa": "ˌpiːˈɛl",
+    "learned": "2026-05-12",
+    "source": "auto-glue"
   },
   "p-l-a": {
     "ipa": "ˌpiːɛlˈeɪ",
