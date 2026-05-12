@@ -1585,6 +1585,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "d-a-y": {
+    "ipa": "deɪ",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "d-b-h": {
     "ipa": "ˌdiːbiːˈeɪtʃ",
     "learned": "2026-05-03",
@@ -1748,6 +1753,11 @@
   "dash": {
     "ipa": "dæʃ",
     "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
+  "day": {
+    "ipa": "deɪ",
+    "learned": "2026-05-12",
     "source": "auto-llm"
   },
   "deiodinase": {
@@ -6340,6 +6350,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "t-w-o": {
+    "ipa": "tuː",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "t-y": {
     "ipa": "ˌtiːˈwaɪ",
     "learned": "2026-05-05",
@@ -6554,6 +6569,11 @@
     "ipa": "ˌtiːjuːdiːsiːˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "two": {
+    "ipa": "tuː",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
   },
   "u-c-e": {
     "ipa": "ˌjuːsiːˈiː",
@@ -6924,6 +6944,16 @@
     "ipa": "ˌˈdʌbəl.juːeɪtʃˈoʊ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "y-o-u": {
+    "ipa": "juː",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
+  "you": {
+    "ipa": "juː",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
   },
   "yuvafem": {
     "ipa": "ˈjuːvəfɛm",
