@@ -5450,6 +5450,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "s-p-e-c-t": {
+    "ipa": "spɛkt",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "s-p-e-p": {
     "ipa": "ˌɛspiːiːˈpiː",
     "learned": "2026-05-03",
@@ -5763,6 +5768,11 @@
   "sofa": {
     "ipa": "ˈsoʊfə",
     "learned": "2026-05-03",
+    "source": "auto-llm"
+  },
+  "spect": {
+    "ipa": "spɛkt",
+    "learned": "2026-05-12",
     "source": "auto-llm"
   },
   "spep": {
@@ -6315,6 +6325,16 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "u-h": {
+    "ipa": "ˌjuːˈeɪtʃ",
+    "learned": "2026-05-12",
+    "source": "auto-glue"
+  },
+  "u-h-m-s": {
+    "ipa": "ˌjuːeɪtʃɛmˈɛs",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "u-k": {
     "ipa": "ˌjuːˈkeɪ",
     "learned": "2026-05-03",
@@ -6393,6 +6413,11 @@
   "ugt": {
     "ipa": "ˌjuːdʒiːˈtiː",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "uhms": {
+    "ipa": "ˌjuːeɪtʃɛmˈɛs",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "uk": {
