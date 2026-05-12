@@ -1156,6 +1156,19 @@ const PRE_ABBREVIATIONS = {
   'LC/MS': 'L-C mass speck',
   'GC-MS': 'G-C mass speck',
   'GC/MS': 'G-C mass speck',
+  // Interventional-cardiology word-pronounced acronyms. NIRS = "neers"
+  // /nɪərz/ (near-infrared spectroscopy, rhymes with "ears"); IVUS =
+  // "EYE-vus" /ˈaɪvəs/ (intravascular ultrasound). Standard cath-lab
+  // usage at TCT/CRT and in Infraredx/Nipro product literature. Has to
+  // live in PRE_ABBREVIATIONS — leaving NIRS bare to the post-core
+  // letter-spell pass lets the existing "IRS" entry in learned-ipa.json
+  // grab the trailing 3 letters and produce "N + I-R-S". Same trap for
+  // IVUS (FAST_GLUE_ACRONYMS has "VUS" for variant-of-uncertain-
+  // significance, so an unhandled "IVUS" splits to "I + V-U-S").
+  // Longest-first sort guarantees "NIRS-IVUS" wins over the singletons.
+  'NIRS-IVUS': '<phoneme alphabet="ipa" ph="nɪərz">neers</phoneme> <phoneme alphabet="ipa" ph="ˈaɪvəs">eye-vus</phoneme>',
+  'NIRS':      '<phoneme alphabet="ipa" ph="nɪərz">neers</phoneme>',
+  'IVUS':      '<phoneme alphabet="ipa" ph="ˈaɪvəs">eye-vus</phoneme>',
   // Imaging — Chirp HD reads the hyphenated "DEX-A" as letter-spelled
   // "DEC ZAY". Plain lowercase word lets Chirp produce the natural
   // "DEX-uh" reading.
