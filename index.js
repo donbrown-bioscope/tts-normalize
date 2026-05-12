@@ -1875,6 +1875,14 @@ const CLINICAL_IPA = {
   'varicocele':      'ˈværɪkəsiːl',
   'ceruloplasmin':   'sɪˌruːloʊˈplæzmɪn',
   'lipodystrophy':   'ˌlɪpoʊˈdɪstrəfi',
+  // Medical convention is "LIP-oh-PROH-teen" (short i, primary stress on
+  // "pro-", secondary on the trailing "-teen"). Merriam-Webster's primary
+  // entry is \ˌli-pō-ˈprō-ˌtēn\; clinicians in cardiology and lipidology
+  // almost universally use the LIP- form, not the LYE- form some
+  // dictionaries also list. An earlier POST_OVERRIDES sub-alias rendered
+  // it as "lie poe protein" which slurred on Chirp HD.
+  'lipoprotein':     'ˌlɪpoʊˈproʊˌtiːn',
+  'lipoproteins':    'ˌlɪpoʊˈproʊˌtiːnz',
   'gynecomastia':    'ˌɡaɪnəkoʊˈmæstiə',
   'erythrocytosis':  'ɪˌrɪθroʊsaɪˈtoʊsɪs',
   // Compound proper nouns / herbal names.
@@ -2039,13 +2047,6 @@ const POST_OVERRIDES = {
   // <sub alias="…"> hands the synth seven natural English words, which
   // it articulates crisply with normal clinical cadence.
   'SLCO1B1': '<sub alias="ess L C O one B one">SLCO1B1</sub>',
-  // lipoprotein — IPA wraps (any stress placement tried) led Chirp HD
-  // to land the perceptual stress on the trailing "-tein", so the word
-  // came out as "lipo-pro-TEEN" instead of natural "LY-poh PROtein".
-  // Sub-alias hands Chirp three sayable English-ish tokens and lets the
-  // "protein" segment use Chirp's native rendering, which is correct.
-  'lipoprotein':  '<sub alias="lie poe protein">lipoprotein</sub>',
-  'lipoproteins': '<sub alias="lie poe proteins">lipoproteins</sub>',
   // apoCIII — apolipoprotein C-III. The bare/PascalCase form ("apoCIII"
   // / "ApoCIII") passes through every letter-spell pass (mixed case +
   // Roman-numeral tail) and Chirp mumbles it; the hyphenated form
