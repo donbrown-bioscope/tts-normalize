@@ -732,8 +732,8 @@
   },
   "b-i-a": {
     "ipa": "ˌbiːaɪˈeɪ",
-    "learned": "2026-05-11",
-    "source": "auto-glue"
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "b-i-d": {
     "ipa": "bɪd",
@@ -824,6 +824,11 @@
     "ipa": "ˈbɜːrbəriːn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "bia": {
+    "ipa": "ˌbiːaɪˈeɪ",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "bid": {
     "ipa": "bɪd",
@@ -1095,6 +1100,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "c-p-e-t": {
+    "ipa": "ˌsiːpiːiːˈtiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "c-p-i-c": {
     "ipa": "ˈsiːpɪk",
     "learned": "2026-05-03",
@@ -1133,6 +1143,11 @@
   "c-v-d": {
     "ipa": "ˌsiːviːˈdiː",
     "learned": "2026-05-03",
+    "source": "auto-glue"
+  },
+  "c-y": {
+    "ipa": "ˌsiːˈwaɪ",
+    "learned": "2026-05-12",
     "source": "auto-glue"
   },
   "c-y-c-l-e": {
@@ -1339,6 +1354,11 @@
     "ipa": "siːpæp",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "cpet": {
+    "ipa": "ˌsiːpiːiːˈtiː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "cta": {
     "ipa": "ˌsiːtiːˈeɪ",
@@ -1757,8 +1777,8 @@
   },
   "e-s-r": {
     "ipa": "ˌiːɛsˈɑːr",
-    "learned": "2026-05-03",
-    "source": "auto-glue"
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "e-t-a": {
     "ipa": "ˈeɪtə",
@@ -1958,6 +1978,11 @@
   "esc": {
     "ipa": "ˌiːɛsˈsiː",
     "learned": "2026-05-05",
+    "source": "auto-letter-spell"
+  },
+  "esr": {
+    "ipa": "ˌiːɛsˈɑːr",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "estrace": {
@@ -2745,6 +2770,11 @@
     "learned": "2026-05-10",
     "source": "auto-letter-spell"
   },
+  "i-i-i": {
+    "ipa": "ˌaɪaɪˈaɪ",
+    "learned": "2026-05-12",
+    "source": "auto-glue"
+  },
   "i-l": {
     "ipa": "ˌaɪˈɛl",
     "learned": "2026-05-03",
@@ -3400,11 +3430,6 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
-  "lipoprotein": {
-    "ipa": "ˌlaɪpoʊˈproʊtiːn",
-    "learned": "2026-05-10",
-    "source": "manual-override"
-  },
   "liraglutide": {
     "ipa": "ˌlɪrəˈɡluːtaɪd",
     "learned": "2026-05-03",
@@ -3448,6 +3473,11 @@
   "m-a-o-i": {
     "ipa": "ˌɛmeɪoʊˈaɪ",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "m-a-p": {
+    "ipa": "ˌɛmeɪˈpiː",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "m-a-s-h": {
@@ -3663,6 +3693,11 @@
   "maoi": {
     "ipa": "ˌɛmeɪoʊˈaɪ",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "map": {
+    "ipa": "ˌɛmeɪˈpiː",
+    "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
   "marimastat": {
@@ -4505,6 +4540,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "p-r-o-m-i-s": {
+    "ipa": "ˈprɑːmɪs",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "p-r-o-m-i-s-e": {
     "ipa": "ˈprɑməs",
     "learned": "2026-05-05",
@@ -4715,6 +4755,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "promis": {
+    "ipa": "ˈprɑːmɪs",
+    "learned": "2026-05-12",
+    "source": "auto-llm"
+  },
   "promise": {
     "ipa": "ˈprɑməs",
     "learned": "2026-05-05",
@@ -4815,6 +4860,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "r-e-s-t-q": {
+    "ipa": "ˌɑːriːɛstiːˈkjuː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
+  },
   "r-f": {
     "ipa": "ˌɑːrˈɛf",
     "learned": "2026-05-03",
@@ -4914,6 +4964,11 @@
     "ipa": "rɪˈpɛrd",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "restq": {
+    "ipa": "ˌɑːriːɛstiːˈkjuː",
+    "learned": "2026-05-12",
+    "source": "auto-letter-spell"
   },
   "resveratrol": {
     "ipa": "rɛzˈvɛrətrɒl",
@@ -6271,14 +6326,15 @@
     "source": "clinical-migration"
   },
   "z-e-u-s": {
-    "ipa": "ˈzjuəs",
-    "learned": "2026-05-05",
-    "source": "auto-llm"
+    "ipa": "zuːs",
+    "learned": "2026-05-11",
+    "source": "manual-override",
+    "note": "ZEUS (cardiovascular outcomes trial, ziltivekimab). Greek-god pronunciation — one syllable /zuːs/, rhymes with 'loose'. The auto-llm result ˈzjuəs (two syllables, 'ZYOO-uhss') sounded like 'zay-oose'."
   },
   "zeus": {
-    "ipa": "ˈzjuəs",
-    "learned": "2026-05-05",
-    "source": "auto-llm"
+    "ipa": "zuːs",
+    "learned": "2026-05-11",
+    "source": "manual-override"
   },
   "zuclomiphene": {
     "ipa": "zuːˈkloʊməfiːn",

@@ -183,6 +183,10 @@ const ABBREVIATIONS = {
   // Lipid / variant tokens with mixed case or embedded chars the
   // gene regex skips.
   'ApoB': 'apo-B', 'ApoE': 'apo-E',
+  // Monoclonal antibody — the bare "mAb" / "mAbs" tokens slip past the
+  // letter-spell catch-all (mixed case) and Chirp mumbles them.
+  // Expand to the full phrase clinicians actually say.
+  'mAb': 'monoclonal antibody', 'mAbs': 'monoclonal antibodies',
   'Lp(a)': 'L-P-little-a', 'Lp-a': 'L-P-little-a',
   'HLA-DRB1': 'H-L-A-D-R-B-one',
   // One-hop enzyme abbreviations that English readers know but TTS
@@ -237,7 +241,7 @@ const ABBREVIATIONS = {
   'AMPK': 'A-M-P-K', 'mTOR': 'm-TOR', 'mTORC1': 'm-TORC-one',
   'SIRT1': 'sert-one', 'SIRT2': 'sert-two', 'SIRT3': 'sert-three',
   'SIRT4': 'sert-four', 'SIRT5': 'sert-five', 'SIRT6': 'sert-six', 'SIRT7': 'sert-seven',
-  'GlycA': '<phoneme alphabet="ipa" ph="ˌɡlɪkˈeɪ">glyc-A</phoneme>',
+  'GlycA': '<phoneme alphabet="ipa" ph="ˌɡlaɪkˈeɪ">glyc-A</phoneme>',
   'KEAP1': '<phoneme alphabet="ipa" ph="kiːp.wʌn">keep-one</phoneme>',
   'p53': 'p fifty three', 'p38': 'p thirty eight', 'p21': 'p twenty one',
   'FOXO3': 'foxo three', 'FOXO': 'foxo',
@@ -629,7 +633,7 @@ function coreNormalize(text) {
   // ordinary prose ("after dinner, we went home") untouched.
   t = t.replace(
     /((?:\b[\w'-]+(?:\s+[\w'-]+){0,4},\s+){3,}\b[\w'-]+(?:\s+[\w'-]+){0,4}\b)/g,
-    (match) => match.replace(/,\s+/g, ', <break time="120ms"/> ')
+    (match) => match.replace(/,\s+/g, ', <break time="100ms"/> ')
   );
 
   // 13. Pronunciation fixes — ONLY for words ElevenLabs genuinely mispronounces
@@ -675,6 +679,7 @@ function coreNormalize(text) {
     // Roman numeral terms handled in ABBREVIATIONS (step 6)
     'vitamin A', 'vitamin B', 'vitamin C', 'vitamin D', 'vitamin E', 'vitamin K',
     'coenzyme Q', 'cytochrome C', 'cytochrome P',
+    'cystatin C',
     'protein kinase A', 'protein kinase B', 'protein kinase C',
     'group A', 'group B',
     'receptor A', 'receptor B', 'receptor C',
@@ -1190,6 +1195,12 @@ const PRE_ABBREVIATIONS = {
   // with Chirp's letter-spell heuristic. Spell explicitly.
   'p16INK4a': 'p-sixteen I-N-K-four-A',
   'p16INK4A': 'p-sixteen I-N-K-four-A',
+  // apoC-III — hyphenated form. Catch here, before the Roman-numeral
+  // pass letter-spells "III" into "I-I-I" and the POST_OVERRIDES
+  // wrapper for "apoCIII" can't find the original token. PascalCase
+  // and bare forms are handled in POST_OVERRIDES.
+  'apoC-III': 'apoCIII',
+  'ApoC-III': 'apoCIII',
   // LC3 isoforms — Roman numerals after a hyphen. Spaces (not hyphens)
   // in the substitution so the core's number-range handler doesn't
   // read "three-two" as "three to two".
@@ -1518,6 +1529,14 @@ const CLINICAL_IPA = {
   // fisetin — senolytic flavonoid; FY-sit-in.
   'fisetin': 'ˈfaɪsɪtɪn',
   'Fisetin': 'ˈfaɪsɪtɪn',
+  // cystatin — protease inhibitor family; cystatin C is the renal-function
+  // marker. Clinical pronunciation rhymes with the drug-class "statin":
+  // "sis-TAT-in" /sɪˈstætɪn/. CLINICAL_IPA matches case-insensitively, so
+  // one entry covers cystatin / Cystatin / CYSTATIN. The trailing C in
+  // "cystatin C" is glued to the protein by HYPHENATE_TERMS upstream so
+  // Chirp doesn't pause between the protein name and the letter.
+  'cystatin':  'sɪˈstætɪn',
+  'cystatins': 'sɪˈstætɪnz',
   // kynurenine — tryptophan catabolite, kai-NEW-ruh-neen.
   'kynurenine':  'ˌkaɪˈnʊərəniːn',
   'kynurenines': 'ˌkaɪˈnʊərəniːnz',
@@ -1988,6 +2007,20 @@ const POST_OVERRIDES = {
   // <sub alias="…"> hands the synth seven natural English words, which
   // it articulates crisply with normal clinical cadence.
   'SLCO1B1': '<sub alias="ess L C O one B one">SLCO1B1</sub>',
+  // lipoprotein — IPA wraps (any stress placement tried) led Chirp HD
+  // to land the perceptual stress on the trailing "-tein", so the word
+  // came out as "lipo-pro-TEEN" instead of natural "LY-poh PROtein".
+  // Sub-alias hands Chirp three sayable English-ish tokens and lets the
+  // "protein" segment use Chirp's native rendering, which is correct.
+  'lipoprotein':  '<sub alias="lie poe protein">lipoprotein</sub>',
+  'lipoproteins': '<sub alias="lie poe proteins">lipoproteins</sub>',
+  // apoCIII — apolipoprotein C-III. The bare/PascalCase form ("apoCIII"
+  // / "ApoCIII") passes through every letter-spell pass (mixed case +
+  // Roman-numeral tail) and Chirp mumbles it; the hyphenated form
+  // ("apoC-III") is handled earlier in PRE_ABBREVIATIONS so the Roman
+  // III isn't letter-spelled into I-I-I before this runs. Read as
+  // "ape-O-see-three" — same family shape as apoB / apoE.
+  'apoCIII':  '<sub alias="ape oh see three">apoCIII</sub>',
   // Clinical-noun "read" — assessment / quick interpretation. Chirp
   // defaults the past-tense /rɛd/ for ambiguous "read" tokens; pre-
   // rewrite the established noun phrases to "reed" so they speak as
@@ -2098,7 +2131,13 @@ function postprocessForTTS(text) {
   t = t.replace(/\b([A-Z])(one|two|three|four|five|six|seven|eight|nine)\sliters\b/g, '$1-$2-L');
 
   // Lp(a) — replaced here, after the bare-L → "liters" pass has run,
-  // so the leading L survives intact.
+  // so the leading L survives intact. Hyphenated-compound form first
+  // ("Lp(a)-directed", "Lp(a)-lowering"): the trailing tail of the
+  // expansion ("little-a") would otherwise chain through the compound
+  // hyphen into one slurred token. Insert a space so the Lp(a) phrase
+  // stays glued ("L-P-little-a" reads fluidly) but the next word stands
+  // on its own.
+  t = t.replace(/\bLp(?:\(a\)|-a\b)-([a-z])/g, 'L-P-little-a $1');
   t = t.replace(LP_LITTLE_A_REGEX, 'L-P-little-a');
 
   // Variant-code trailing-L recovery — preprocess emits patterns like
@@ -2225,6 +2264,23 @@ function postprocessForTTS(text) {
     '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪ">S-S-R-I</phoneme>',
     '<sub alias="ess ess R I">SSRI</sub>',
   );
+
+  // Hyphenated compounds adjacent to an IPA-wrapped acronym ("AI-based",
+  // "APOE-guided", "NK-cell", "post-ASCVD"): Chirp HD treats the whole
+  // compound as one prosodic unit and slurs the IPA pronunciation — the
+  // leading vowel of "AI" /ˈeɪˌaɪ/ gets eaten so "AI-based" lands as
+  // "II-based". Swap the joining hyphen for a space so the synth renders
+  // the wrapped term and the adjacent word as distinct utterances. The
+  // text the user reads doesn't change; only the SSML stream the synth
+  // consumes does.
+  //
+  // Exception: "little-a" is part of the Lp(a) expansion ("L-P-little-a")
+  // and is deliberately hyphen-glued to the wrapped "L-P" so Chirp reads
+  // the whole abbreviation as one fluid phrase. Leave that glue intact;
+  // the Lp(a)-X compound case is already handled upstream by inserting a
+  // space between "little-a" and the next word.
+  t = t.replace(/(<\/(?:phoneme|sub|say-as)>)-(?!little-a\b)([a-z])/g, '$1 $2');
+  t = t.replace(/([a-z])-(<(?:phoneme|sub|say-as)\b)/g, '$1 $2');
 
   return t;
 }
