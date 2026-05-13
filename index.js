@@ -1888,14 +1888,11 @@ const CLINICAL_IPA = {
   'varicocele':      'ˈværɪkəsiːl',
   'ceruloplasmin':   'sɪˌruːloʊˈplæzmɪn',
   'lipodystrophy':   'ˌlɪpoʊˈdɪstrəfi',
-  // Medical convention is "LIP-oh-PROH-teen" (short i, primary stress on
-  // "pro-", secondary on the trailing "-teen"). Merriam-Webster's primary
-  // entry is \ˌli-pō-ˈprō-ˌtēn\; clinicians in cardiology and lipidology
-  // almost universally use the LIP- form, not the LYE- form some
-  // dictionaries also list. An earlier POST_OVERRIDES sub-alias rendered
-  // it as "lie poe protein" which slurred on Chirp HD.
-  'lipoprotein':     'ˌlɪpoʊˈproʊˌtiːn',
-  'lipoproteins':    'ˌlɪpoʊˈproʊˌtiːnz',
+  // "LYE-poh-PROH-teen" — long-i on the first syllable. Both LIP- and LYE-
+  // are listed in major dictionaries; the course faculty prefers the LYE-
+  // form, so we render it that way here.
+  'lipoprotein':     'ˌlaɪpoʊˈproʊˌtiːn',
+  'lipoproteins':    'ˌlaɪpoʊˈproʊˌtiːnz',
   'gynecomastia':    'ˌɡaɪnəkoʊˈmæstiə',
   'erythrocytosis':  'ɪˌrɪθroʊsaɪˈtoʊsɪs',
   // Compound proper nouns / herbal names.
@@ -2012,7 +2009,7 @@ const FAST_GLUE_ACRONYMS = [
   // Pharmacogenomic enzyme.
   'MTHFR',
   // Lipoprotein / lipid.
-  'LDL', 'HDL',
+  'LDL', 'HDL', 'VLDL',
   // Endocrine receptor families.
   'GLP', 'SGLT',
   // MHC class-II beta chain.
