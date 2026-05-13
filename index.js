@@ -162,6 +162,17 @@ const UNITS = {
   'IU': 'international units', 'mg/kg': 'milligrams per kilogram',
   'bpm': 'beats per minute', 'rpm': 'respirations per minute',
   'mmol': 'millimoles', 'µmol': 'micromoles', 'nmol': 'nanomoles',
+  'mIU/L': 'milli international units per liter',
+  'mIU/mL': 'milli international units per milliliter',
+  'mIU/ml': 'milli international units per milliliter',
+  'IU/mL': 'international units per milliliter',
+  'IU/ml': 'international units per milliliter',
+  'µIU/mL': 'micro international units per milliliter',
+  'µIU/ml': 'micro international units per milliliter',
+  'μIU/mL': 'micro international units per milliliter',
+  'μIU/ml': 'micro international units per milliliter',
+  'µIU': 'micro international units',
+  'μIU': 'micro international units',
   'mIU': 'milli international units', 'pg/mg': 'picograms per milligram',
   'CFU': 'colony forming units',
   // Distance/size
@@ -174,7 +185,7 @@ const UNITS = {
 const ABBREVIATIONS = {
   // Spell out as individual letters (hyphenated so TTS reads each letter distinctly)
   'DNA': 'D-N-A', 'RNA': 'R-N-A', 'mRNA': 'm-R-N-A', 'tRNA': 't-R-N-A',
-  'BMI': 'B-M-I', 'BMR': 'B-M-R', 'RDA': 'R-D-A', 'FDA': 'F-D-A',
+  'BMI': 'B-M-I', 'BMR': 'B-M-R', 'SMR': 'S-M-R', 'RDA': 'R-D-A', 'FDA': 'F-D-A',
   'NIH': 'N-I-H', 'WHO': 'W-H-O', 'CDC': 'C-D-C',
   'ATP': 'A-T-P', 'ADP': 'A-D-P', 'AMP': 'A-M-P',
   'HDL': 'H-D-L', 'LDL': 'L-D-L', 'VLDL': 'V-L-D-L',
@@ -415,6 +426,7 @@ const GENE_PRONOUNCEABLE_PREFIXES = {
   'RAPTOR': 'rap-tor',
   'TERT':   'tert',       // telomerase reverse transcriptase
   'TERC':   'terc',       // telomerase RNA component
+  'TET':    'tet',        // ten-eleven translocation (TET2 CHIP gene)
   'PRDM':   'prdm',
 };
 
@@ -2016,6 +2028,14 @@ const FAST_GLUE_ACRONYMS = [
   'HLA', 'DRB',
   // MR-PDFF fragments.
   'MR', 'PDFF',
+  // Standardized mortality ratio — the 'MR' tail above would otherwise
+  // wrap only the M-R, leaving a bare leading "S-" that Chirp slurs into
+  // the next phoneme ("S-em-ar" → "sim-are").
+  'SMR',
+  // BCG (Bacillus Calmette-Guérin) — same shape: 'c-g' auto-glue entry
+  // in learned-ipa wraps just C-G, leaving bare "B-" that slurs into
+  // the IPA. Register the full chain so it beats the partial.
+  'BCG',
   // GHK-Cu peptide leading fragment.
   'GHK',
   // qPCR.
