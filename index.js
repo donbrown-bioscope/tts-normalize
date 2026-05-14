@@ -202,6 +202,9 @@ const UNITS = {
   // Distance/size
   'nm': 'nanometers', 'µm': 'micrometers', 'mm': 'millimeters',
   'cm': 'centimeters', 'km': 'kilometers',
+  // Radiation dose
+  'mSv': 'millisieverts', 'µSv': 'microsieverts', 'μSv': 'microsieverts',
+  'Sv': 'sieverts', 'Gy': 'grays', 'mGy': 'milligrays',
 };
 
 // ─── ABBREVIATION EXPANSIONS ────────────────────────────────
@@ -211,6 +214,11 @@ const ABBREVIATIONS = {
   'DNA': 'D-N-A', 'RNA': 'R-N-A', 'mRNA': 'm-R-N-A', 'tRNA': 't-R-N-A',
   'BMI': 'B-M-I', 'BMR': 'B-M-R', 'SMR': 'S-M-R', 'RDA': 'R-D-A', 'FDA': 'F-D-A',
   'NIH': 'N-I-H', 'WHO': 'W-H-O', 'CDC': 'C-D-C',
+  // BEIR VII — the 7th US NAS Biological Effects of Ionizing Radiation
+  // report. "BEIR" pronunciation locked via learned-ipa /bɪər/; expand
+  // the Roman numeral here so it reads "beer seven" instead of "B-E-I-R
+  // V-I-I". UNSCEAR also has a learned-ipa entry (/ʌnˈskɛər/, "un-scare").
+  'BEIR VII': 'BEIR seven',
   'ATP': 'A-T-P', 'ADP': 'A-D-P', 'AMP': 'A-M-P',
   'HDL': 'H-D-L', 'LDL': 'L-D-L', 'VLDL': 'V-L-D-L',
   'HbA1c': 'H-b-A-one-c', 'A1C': 'A-one-C',
@@ -296,8 +304,17 @@ const ABBREVIATIONS = {
   'DHEA': 'D-H-E-A', 'DHA': 'D-H-A', 'EPA': 'E-P-A',
   'NMN': 'N-M-N', 'NR': 'N-R', 'CoQ10': 'co-Q-ten',
   'AMPK': 'A-M-P-K', 'mTOR': 'm-TOR', 'mTORC1': 'm-TORC-one',
-  'SIRT1': 'sert-one', 'SIRT2': 'sert-two', 'SIRT3': 'sert-three',
-  'SIRT4': 'sert-four', 'SIRT5': 'sert-five', 'SIRT6': 'sert-six', 'SIRT7': 'sert-seven',
+  // SIRT1-7 — pronounce "SIRT" as a word (rhymes with "shirt"), not
+  // letter-spelled. These entries are effectively dead: preprocessForTTS
+  // converts SIRT(\d+) → phoneme-wrapped form before step 6b. Kept as
+  // documentation of the intended pronunciation.
+  'SIRT1': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-one',
+  'SIRT2': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-two',
+  'SIRT3': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-three',
+  'SIRT4': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-four',
+  'SIRT5': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-five',
+  'SIRT6': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-six',
+  'SIRT7': '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-seven',
   'GlycA': '<phoneme alphabet="ipa" ph="ˌɡlaɪkˈeɪ">glyc-A</phoneme>',
   'KEAP1': '<phoneme alphabet="ipa" ph="kiːp.wʌn">keep-one</phoneme>',
   'p53': 'p fifty three', 'p38': 'p thirty eight', 'p21': 'p twenty one',
@@ -688,6 +705,14 @@ function coreNormalize(text) {
       const lower = match.toLowerCase();
       if (_englishWords().has(lower)) return lower;
       if (CLINICAL_IPA[lower] || OMIC_IPA[lower]) return lower;
+      // Word-pronounced learned-ipa entries (BEIR → /bɪər/, UNSCEAR →
+      // /ʌnˈskɛər/, etc.) mean the token reads as a word, not letter-by-
+      // letter. Skip the letter-spell so the postprocess learned-ipa
+      // pass can wrap the uppercase form with the correct IPA.
+      const learned = _learnedIPA[lower];
+      if (learned && learned.source !== 'auto-letter-spell' && learned.source !== 'auto-glue') {
+        return match;
+      }
     }
     return match.split('').join('-');
   });
@@ -1407,9 +1432,23 @@ function preprocessForTTS(text) {
     return `r-s, ${words}`;
   });
 
-  // SIRT-family genes — colloquial "sirt one" (single syllable +
-  // number), not "sirtuin one".
-  t = t.replace(/\bSIRT(\d+)\b/g, (_, n) => `sirt ${numWord(n)}`);
+  // Nrf2 — nuclear factor erythroid 2-related factor 2. Capitalization
+  // is inconsistent in source text (Nrf2 / NRF2 / nrf2 / NRF-2 / Nrf-2);
+  // Chirp HD reads "nrf2" as gibberish and the optional hyphen confuses
+  // the gene-number regex. Normalize every variant to a clearly-enunciated
+  // letter-spelled IPA wrap ("en-arr-eff two") so the pronunciation is
+  // locked regardless of how the author typed it.
+  t = t.replace(/\b[Nn][Rr][Ff]-?2\b/g, '<phoneme alphabet="ipa" ph="ˌɛnɑːrˈɛf">N-R-F</phoneme>-two');
+
+  // SIRT-family genes — colloquial single-syllable "sirt" + number (not
+  // "sirtuin one", not letter-spelled "S-I-R-T one"). Wrap "sirt" in an
+  // IPA phoneme tag so Chirp HD locks the /sɜːrt/ pronunciation (the
+  // bare word "sirt" is otherwise ambiguous to the synth). The trailing
+  // number is left as a plain English word — including its IPA would
+  // require θ for "three", which collides with the Greek-letter pass.
+  t = t.replace(/\bSIRT(\d+)\b/g, (_, n) => {
+    return `<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-${numWord(parseInt(n, 10))}`;
+  });
 
   // BPC-### / TB-### / MK-### / PE-##-## peptide identifiers — spoken
   // form ("B-P-C one fifty-seven") rather than "one hundred fifty
@@ -2423,7 +2462,7 @@ function selfTest() {
     // Pre-pass course-tuned regexes
     ['CYP1A2 enzyme', 'sipp-one-A-two enzyme'],
     ['rs1801133 variant', 'r-s, one, eight, oh, one, one, three, three variant'],
-    ['SIRT3 expression', 'sirt three expression'],
+    ['SIRT3 expression', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> three expression'],
     ['BPC-157 peptide', '<phoneme alphabet="ipa" ph="ˌbiːpiːˈsiː">B-P-C</phoneme> one fifty-seven peptide'],
     // 78th passes through the core's number/ordinal pipeline unchanged
     // (not in ORDINAL_MAP; the trailing "th" defeats the bare-number

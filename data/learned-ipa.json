@@ -901,9 +901,10 @@
     "source": "auto-letter-spell"
   },
   "beir": {
-    "ipa": "ˌbiːiːaɪˈɑːr",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "ipa": "bɪər",
+    "learned": "2026-05-14",
+    "source": "manual-override",
+    "note": "BEIR (Biological Effects of Ionizing Radiation, US NAS report series) is pronounced 'beer'."
   },
   "ber": {
     "ipa": "ˌbiːiːˈɑːr",
@@ -6071,9 +6072,10 @@
     "source": "clinical-migration"
   },
   "sirt": {
-    "ipa": "ˌɛsaɪɑːrˈtiː",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "ipa": "sɜːrt",
+    "learned": "2026-05-14",
+    "source": "manual-override",
+    "note": "SIRT (sirtuin gene family) is pronounced as a word (rhymes with shirt), not letter-spelled. SIRT1-SIRT7 phoneme-wrapped in preprocessForTTS; this entry covers bare SIRT references."
   },
   "sla": {
     "ipa": "ˌɛsɛlˈeɪ",
@@ -6806,9 +6808,10 @@
     "source": "clinical-migration"
   },
   "unscear": {
-    "ipa": "ˌjuːɛnɛssiːiːeɪˈɑːr",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "ipa": "ʌnˈskɛər",
+    "learned": "2026-05-14",
+    "source": "manual-override",
+    "note": "UNSCEAR (UN Scientific Committee on the Effects of Atomic Radiation) is pronounced 'un-scare'."
   },
   "untreated": {
     "ipa": "ʌnˈtritəd",
