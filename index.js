@@ -219,7 +219,12 @@ const ABBREVIATIONS = {
   // the Roman numeral here so it reads "beer seven" instead of "B-E-I-R
   // V-I-I". UNSCEAR also has a learned-ipa entry (/ʌnˈskɛər/, "un-scare").
   'BEIR VII': 'BEIR seven',
-  'ATP': 'A-T-P', 'ADP': 'A-D-P', 'AMP': 'A-M-P',
+  // ATP — auto-glued form heard as "ADP" (different molecule, high-risk
+  // confusion). Same terminal-voicing-consonant failure mode as the
+  // terminal-T cohort (HRT/TRT/VTE) — fix per the same pattern: one
+  // <phoneme> tag per letter, primary stress on each, no separator.
+  'ATP':  '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  'ADP': 'A-D-P', 'AMP': 'A-M-P',
   'HDL': 'H-D-L', 'LDL': 'L-D-L', 'VLDL': 'V-L-D-L',
   'HbA1c': 'H-b-A-one-c', 'A1C': 'A-one-C',
   // T-helper cell subsets — "Th17" has mixed case so it misses the
@@ -293,11 +298,79 @@ const ABBREVIATIONS = {
   // learned-ipa word entry (ˈænə) added by auto-llm in 2026-05-03.
   'ANA':   '<phoneme alphabet="ipa" ph="ˌeɪ.ɛn.ˈeɪ">A-N-A</phoneme>',
   'DNA':   '<phoneme alphabet="ipa" ph="ˌdiː.ɛn.ˈeɪ">D-N-A</phoneme>',
-  // HRT — auto-glue ˌeɪtʃɑːrˈtiː rendered the trailing tiː as a voiced
-  // "D" in some contexts (HRT → "HRD"). Same hybrid pattern as ANA/DNA:
-  // secondary on H, period break, no stress on R, primary on T to force
-  // a clear voiceless articulation.
-  'HRT':   '<phoneme alphabet="ipa" ph="ˌeɪtʃ.ɑːr.ˈtiː">H-R-T</phoneme>',
+  // Terminal-T (and other voicing-prone) clinical acronyms — Chirp HD
+  // voices the trailing /t/ to /d/ inside a single <phoneme> tag (HRT
+  // → "HRD", TRT → "TRD", VTE → "VDE", etc.) regardless of stress
+  // marks or period separators in the IPA. Splitting into one
+  // <phoneme> tag per letter, concatenated without separators, blocks
+  // the slur at the tag boundary while preserving DNMT3A-style cadence
+  // (no audible inter-letter pause). Confirmed by ear on TRT
+  // (appendix-g) before being rolled out across the cohort.
+  // Each entry is dual-keyed: the plain ALL-CAPS form (matches body
+  // prose like "she started HRT") and the hyphenated form (matches
+  // figure-narration overrides in car-mode.json, which the author
+  // pre-spells as "H-R-T"). Both keys point at the same SSML so the
+  // pronunciation is identical regardless of which form the upstream
+  // text uses.
+  'HRT':     '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'H-R-T':   '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'TRT':     '<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'T-R-T':   '<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'BHRT':    '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'B-H-R-T': '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'MHT':     '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'M-H-T':   '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'VTE':     '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
+  'V-T-E':   '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
+  'ITT':     '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'I-T-T':   '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'ATBC':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  'A-T-B-C': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  'ACTH':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
+  'A-C-T-H': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
+  'ATTR':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  'A-T-T-R': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  // Terminal-P / terminal-C analogs — same failure mode as terminal-T
+  // (Chirp HD voicing the final consonant inside a single auto-glued
+  // <phoneme> tag). SNP → "S P" (N dropped), ETC → "EDC", UCP → "USOP".
+  'SNP':     '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  'S-N-P':   '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  'ETC':     '<phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  'E-T-C':   '<phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  'UCP':     '<phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  'U-C-P':   '<phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  'HSC':     '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  'H-S-C':   '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  // NAD — auto-glue ˌɛnˈeɪdiː heard as "NID" (medial /eɪ/ flattened
+  // by Whisper to /i/). Single-letter tags per the cohort pattern.
+  'NAD':     '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme>',
+  'N-A-D':   '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme>',
+  // Initial-letter-dropped class — BER → "BR", NER → "NER" intact
+  // but parallels its sibling; NHEJ → "an HEJ" (leading N swallowed
+  // into preceding article). Same per-letter-tag pattern blocks the
+  // elision at the first tag boundary.
+  'BER':     '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  'B-E-R':   '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  'NER':     '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  'N-E-R':   '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  'NHEJ':    '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈdʒeɪ">J</phoneme>',
+  'N-H-E-J': '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈdʒeɪ">J</phoneme>',
+  // Author also uses the irregular "N-HE-J" form in figure narration.
+  'N-HE-J':  '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈdʒeɪ">J</phoneme>',
+  // Letter+digit gene IDs — default path is GENE_PRONOUNCEABLE_PREFIXES
+  // ("TET" → "tet") + digit-to-word ("2" → "two"), yielding "tet two".
+  // Whisper hears that liaison as "TETU" (one word). Force letter-spell
+  // form to match the author's letter-by-letter spoken intent.
+  'TET2':    '<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
+  'T-E-T-2': '<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
+  'FUT2':    '<phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
+  'F-U-T-2': '<phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
+  // DHEA-S — 5-letter hyphenated. ABBREVIATIONS['DHEA'] expands the
+  // first 4 letters, leaving "-S" which step 11's catch-all letter-
+  // spells into auto-glue "D-H-E-A-S" — Whisper hears "DH EACE".
+  // Per-letter form keeps the terminal S clean.
+  'DHEA-S':   '<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme>',
+  'D-H-E-A-S':'<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
@@ -341,7 +414,11 @@ const ABBREVIATIONS = {
   'D3': 'D-three', 'D2': 'D-two', 'K2': 'K-two', 'K1': 'K-one',
   'C60': 'C-sixty', 'Q10': 'Q-ten',
   // Protein/gene names — pronounceable words or hyphenated to prevent TTS pauses
-  'UCP1': 'U-C-P-one', 'UCP2': 'U-C-P-two', 'UCP3': 'U-C-P-three',
+  // UCP1/2/3 use the per-letter <phoneme> form (matches the terminal-T
+  // cohort pattern) to avoid the auto-glue "USOP1" slur.
+  'UCP1': '<phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme> one',
+  'UCP2': '<phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme> two',
+  'UCP3': '<phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme> three',
   'ERK1/2': 'erk-one-two', 'ERK 1/2': 'erk-one-two',
   'ERK1-2': 'erk-one-two', 'ERK 1-2': 'erk-one-two',
   'ERK one-two': 'erk-one-two', 'ERK one two': 'erk-one-two',

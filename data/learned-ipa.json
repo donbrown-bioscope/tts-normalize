@@ -4743,8 +4743,8 @@
   },
   "o-l-e": {
     "ipa": "ˌoʊɛlˈiː",
-    "learned": "2026-05-05",
-    "source": "auto-glue"
+    "learned": "2026-05-15",
+    "source": "auto-letter-spell"
   },
   "o-m-a-d": {
     "ipa": "ˌoʊɛmeɪˈdiː",
@@ -4850,6 +4850,11 @@
     "ipa": "ˌoʊˈkeɪ",
     "learned": "2026-05-03",
     "source": "manual-override"
+  },
+  "ole": {
+    "ipa": "ˌoʊɛlˈiː",
+    "learned": "2026-05-15",
+    "source": "auto-letter-spell"
   },
   "omic": {
     "ipa": "ˈoʊmɪk",
