@@ -2511,6 +2511,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "foci": {
+    "ipa": "ˈfoʊsaɪ",
+    "learned": "2026-05-16",
+    "source": "manual-override"
+  },
   "fodmap": {
     "ipa": "ˈfoʊdmæp",
     "learned": "2026-05-03",
