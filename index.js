@@ -349,20 +349,26 @@ const ABBREVIATIONS = {
   // but parallels its sibling; NHEJ → "an HEJ" (leading N swallowed
   // into preceding article). Same per-letter-tag pattern blocks the
   // elision at the first tag boundary.
-  'BER':     '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
-  'B-E-R':   '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
-  'NER':     '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
-  'N-E-R':   '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  // BER/NER — medial E gets swallowed when all three letters carry
+  // primary stress (heard as "BR" / "NR"). Shift primary stress onto
+  // the middle letter and demote the outer letters to secondary stress
+  // so Chirp gives the E more vowel duration.
+  'BER':     '<phoneme alphabet="ipa" ph="ˌbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˌɑːr">R</phoneme>',
+  'B-E-R':   '<phoneme alphabet="ipa" ph="ˌbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˌɑːr">R</phoneme>',
+  'NER':     '<phoneme alphabet="ipa" ph="ˌɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˌɑːr">R</phoneme>',
+  'N-E-R':   '<phoneme alphabet="ipa" ph="ˌɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˌɑːr">R</phoneme>',
   'NHEJ':    '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈdʒeɪ">J</phoneme>',
   'N-H-E-J': '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈdʒeɪ">J</phoneme>',
   // Author also uses the irregular "N-HE-J" form in figure narration.
   'N-HE-J':  '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈdʒeɪ">J</phoneme>',
-  // Letter+digit gene IDs — default path is GENE_PRONOUNCEABLE_PREFIXES
-  // ("TET" → "tet") + digit-to-word ("2" → "two"), yielding "tet two".
-  // Whisper hears that liaison as "TETU" (one word). Force letter-spell
-  // form to match the author's letter-by-letter spoken intent.
-  'TET2':    '<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
-  'T-E-T-2': '<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
+  // TET / TET2 — clinical convention reads TET as the word "tett"
+  // (ten-eleven translocation), not letter-spelled. GENE_PRONOUNCEABLE_
+  // PREFIXES already maps TET→"tet" for digit-suffixed forms like TET2;
+  // standalone "TET enzymes" needs an explicit entry here because the
+  // letter-spell catch-all otherwise spells it (heard as "TAT" by
+  // Whisper). Whisper continues to hear "TET2" as "TETU" — accept that
+  // as a known false-positive class; the audio matches clinical usage.
+  'TET':     '<phoneme alphabet="ipa" ph="ˈtɛt">tett</phoneme>',
   'FUT2':    '<phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
   'F-U-T-2': '<phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
   // DHEA-S — 5-letter hyphenated. ABBREVIATIONS['DHEA'] expands the
