@@ -800,8 +800,9 @@ function coreNormalize(text) {
     return match.split('').join('-');
   });
 
-  // 12. Replace em-dashes with commas (natural pause for TTS)
-  t = t.replace(/\s*—\s*/g, ', ');
+  // 12. Replace em-dashes with a comma + short break (150 ms gives a
+  // clear rhetorical pause without feeling like a full sentence stop).
+  t = t.replace(/\s*—\s*/g, ', <break time="150ms"/> ');
 
   // 12a. Long comma-separated lists — inject <break> after each comma.
   // Chirp 3 HD sometimes swallows the first 1–2 commas in a long list
@@ -1521,7 +1522,7 @@ function preprocessForTTS(text) {
   // the gene-number regex. Normalize every variant to a clearly-enunciated
   // letter-spelled IPA wrap ("en-arr-eff two") so the pronunciation is
   // locked regardless of how the author typed it.
-  t = t.replace(/\b[Nn][Rr][Ff]-?2\b/g, '<phoneme alphabet="ipa" ph="ˌɛnɑːrˈɛf">N-R-F</phoneme>-two');
+  t = t.replace(/\b[Nn][Rr][Ff]-?2\b/g, '<phoneme alphabet="ipa" ph="ˌɛnˈɑːr">N-R</phoneme><phoneme alphabet="ipa" ph="ˌɛfˈtuː">F-2</phoneme>');
 
   // SIRT-family genes — colloquial single-syllable "sirt" + number (not
   // "sirtuin one", not letter-spelled "S-I-R-T one"). Wrap "sirt" in an
@@ -2229,6 +2230,16 @@ for (const acro of FAST_GLUE_ACRONYMS) {
 // or it's a whole phrase whose exact form appears in the normalized
 // output.
 const POST_OVERRIDES = {
+  // Contractions — apostrophe (straight or curly) confuses the letter-spell
+  // pass; pin pronunciation with IPA so the synth never stumbles.
+  "You'll":  '<phoneme alphabet="ipa" ph="juːl">You\'ll</phoneme>',
+  "you'll":  '<phoneme alphabet="ipa" ph="juːl">you\'ll</phoneme>',
+  "You’ll": '<phoneme alphabet="ipa" ph="juːl">You’ll</phoneme>',
+  "you’ll": '<phoneme alphabet="ipa" ph="juːl">you’ll</phoneme>',
+  "You're":  '<phoneme alphabet="ipa" ph="jɔːr">You\'re</phoneme>',
+  "you're":  '<phoneme alphabet="ipa" ph="jɔːr">you\'re</phoneme>',
+  "You’re": '<phoneme alphabet="ipa" ph="jɔːr">You’re</phoneme>',
+  "you’re": '<phoneme alphabet="ipa" ph="jɔːr">you’re</phoneme>',
   // RESTQ-Sport — recovery-stress questionnaire; spoken "rest-cue sport".
   'RESTQ-Sport': 'rest-cue sport',
   'RESTQ': 'rest-cue',
