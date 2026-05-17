@@ -184,6 +184,9 @@ const UNITS = {
   'g/week': 'grams per week', 'g/wk': 'grams per week',
   'mg/day': 'milligrams per day', 'g/day': 'grams per day',
   'IU/day': 'international units per day',
+  'steps/day': 'steps per day', 'step/day': 'step per day',
+  'm/s': 'meters per second', 'mL/min': 'milliliters per minute',
+  'ml/min': 'milliliters per minute',
   'bpm': 'beats per minute', 'rpm': 'respirations per minute',
   'mmol': 'millimoles', 'µmol': 'micromoles', 'nmol': 'nanomoles',
   'mIU/L': 'milli international units per liter',
@@ -330,6 +333,16 @@ const ABBREVIATIONS = {
   'A-C-T-H': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
   'ATTR':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
   'A-T-T-R': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
+  // AST — aspartate aminotransferase. Terminal-T cohort; auto-glue
+  // ˌeɪɛsˈtiː slurs and the T gets voiced into a D.
+  'AST':     '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  'A-S-T':   '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  // PDFF — proton density fat fraction. Terminal double-F; the
+  // post-pass's 2+2 concat (P-D + F-F) renders the second F-F chunk
+  // as a single muddy "ef" instead of two letters. Per-letter tags
+  // force each F to articulate.
+  'PDFF':    '<phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme>',
+  'P-D-F-F': '<phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme>',
   // Terminal-P / terminal-C analogs — same failure mode as terminal-T
   // (Chirp HD voicing the final consonant inside a single auto-glued
   // <phoneme> tag). SNP → "S P" (N dropped), ETC → "EDC", UCP → "USOP".
@@ -1690,6 +1703,7 @@ const CLINICAL_IPA = {
   // The auto-wrap fallback later in postprocess would emit a fluid
   // letter spell for these otherwise — these explicit entries override
   // with the actual word pronunciation.
+  'C-A-P':     'kæp',          // Controlled Attenuation Parameter (FibroScan CAP score)
   'C-H-I-P':   'tʃɪp',         // Clonal hematopoiesis (CHIP)
   'S-A-S-P':   'sæsp',         // Senescence-associated secretory phenotype
   'D-I-M':     'dɪm',          // Diindolylmethane

@@ -1001,11 +1001,6 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
-  "c-a-p": {
-    "ipa": "ˌsiːeɪˈpiː",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
-  },
   "c-a-p-p": {
     "ipa": "kæp",
     "learned": "2026-05-03",
@@ -1315,11 +1310,6 @@
     "ipa": "keɪdʒ",
     "learned": "2026-05-03",
     "source": "auto-llm"
-  },
-  "cap": {
-    "ipa": "ˌsiːeɪˈpiː",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
   },
   "capecitabine": {
     "ipa": "ˌkeɪpɛˈsɪtəˌbiːn",
