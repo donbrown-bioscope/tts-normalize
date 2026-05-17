@@ -1548,6 +1548,16 @@ function preprocessForTTS(text) {
   t = t.replace(/\bL\.\s+([a-z]{4,})\b/g, 'Lactobacillus $1');
   t = t.replace(/\bB\.\s+(infantis|longum|breve|adolescentis|bifidum)\b/g, 'Bifidobacterium $1');
 
+  // R577X — ACTN3 variant; 3-digit position must be spoken digit-by-digit
+  // ("are-five-seven-seven-ex"), not as the word "five seventy-seven".
+  // Must precede the generic Letter-digit-letter regex below.
+  t = t.replace(/\bR577X\b/g,
+    '<phoneme alphabet="ipa" ph="ɑːr">R</phoneme>' +
+    '<phoneme alphabet="ipa" ph="faɪv">5</phoneme>' +
+    '<phoneme alphabet="ipa" ph="ˈsɛvən">7</phoneme>' +
+    '<phoneme alphabet="ipa" ph="ˈsɛvən">7</phoneme>' +
+    '<phoneme alphabet="ipa" ph="ɛks">X</phoneme>');
+
   // Letter-digit-letter variant codes (HFE C282Y, SRD5A2 V89L,
   // CFH Y402H). Bare "C282Y" runs into the synth as a single token;
   // spell as "<letter>, <digit-words>, <letter>" with comma beats.
@@ -2219,6 +2229,9 @@ for (const acro of FAST_GLUE_ACRONYMS) {
 // or it's a whole phrase whose exact form appears in the normalized
 // output.
 const POST_OVERRIDES = {
+  // RESTQ-Sport — recovery-stress questionnaire; spoken "rest-cue sport".
+  'RESTQ-Sport': 'rest-cue sport',
+  'RESTQ': 'rest-cue',
   // Publication brand — hyphenated form stays as one compound noun.
   'Longevity Today': 'longevity-today',
   // DunedinPACE figure — hyphenate to glue the phrase.
