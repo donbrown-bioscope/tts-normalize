@@ -417,6 +417,7 @@ const ABBREVIATIONS = {
   'VO2': 'V-O-two', 'VO2max': 'V-O-two-max',
   'pH': 'p-H', 'pO2': 'p-O-two', 'pCO2': 'p-C-O-two',
   'T3': 'T-three', 'T4': 'T-four', 'TSH': 'T-S-H',
+  'fT3': 'free-T-three', 'fT4': 'free-T-four', 'rT3': 'reverse-T-three',
   'PSA': 'P-S-A', 'MRI': 'M-R-I', 'CT': 'C-T', 'PET-CT': 'pet-see-tee',
   'ECG': 'E-C-G', 'EKG': 'E-K-G', 'EEG': 'E-E-G',
   'DEXA': 'D-E-X-A', 'DXA': 'D-X-A',
