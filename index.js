@@ -1756,11 +1756,13 @@ const CLINICAL_IPA = {
   // cystatin — protease inhibitor family; cystatin C is the renal-function
   // marker. Clinical pronunciation rhymes with the drug-class "statin":
   // "sis-TAT-in" /sɪˈstætɪn/. CLINICAL_IPA matches case-insensitively, so
-  // one entry covers cystatin / Cystatin / CYSTATIN. The trailing C in
-  // "cystatin C" is glued to the protein by HYPHENATE_TERMS upstream so
-  // Chirp doesn't pause between the protein name and the letter.
-  'cystatin':  'sɪˈstætɪn',
-  'cystatins': 'sɪˈstætɪnz',
+  // one entry covers cystatin / Cystatin / CYSTATIN. The phrase entry
+  // "cystatin-C" (HYPHENATE_TERMS converts the space to a hyphen upstream)
+  // wraps the whole biomarker — including the letter "C" (/siː/) — in one
+  // phoneme tag so the synth doesn't handle the trailing letter on its own.
+  'cystatin-C': 'sɪˈstætɪn siː',
+  'cystatin':   'sɪˈstætɪn',
+  'cystatins':  'sɪˈstætɪnz',
   // kynurenine — tryptophan catabolite, kai-NEW-ruh-neen.
   'kynurenine':  'ˌkaɪˈnʊərəniːn',
   'kynurenines': 'ˌkaɪˈnʊərəniːnz',
