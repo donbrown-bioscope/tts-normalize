@@ -675,6 +675,24 @@ function coreNormalize(text) {
     t = t.replace(new RegExp(escapeRegex(sym), 'g'), ` ${word} `);
   }
 
+  // 4b. Compound-adjective mass units ("two 30-g meals" → "two thirty-gram
+  //     meals", not "thirty-grams meals"). The number+unit pair is joined by
+  //     a hyphen and modifies a following noun, so the unit stays singular.
+  //     Must run before the standard units pass (step 5) — that pass leaves
+  //     hyphen-joined pairs alone, after which number conversion turns "30"
+  //     into "thirty" and the standalone-unit pass turns "g" into "grams",
+  //     producing the wrong "thirty-grams meals".
+  const MASS_UNIT_SINGULAR = {
+    'g': 'gram', 'mg': 'milligram', 'kg': 'kilogram',
+    'µg': 'microgram', 'μg': 'microgram', 'mcg': 'microgram',
+    'ng': 'nanogram', 'pg': 'picogram',
+  };
+  const sortedMassSing = Object.entries(MASS_UNIT_SINGULAR).sort((a, b) => b[0].length - a[0].length);
+  for (const [unit, singular] of sortedMassSing) {
+    const pattern = new RegExp(`\\b(\\d+\\.?\\d*)-${escapeRegex(unit)}(?=\\s+[a-z])`, 'g');
+    t = t.replace(pattern, (_, num) => `${convertNumber(num)}-${singular}`);
+  }
+
   // 5. Replace multi-word units first (e.g. "mg/dL" before "mg")
   const sortedUnits = Object.entries(UNITS).sort((a, b) => b[0].length - a[0].length);
   for (const [unit, expansion] of sortedUnits) {
@@ -1312,6 +1330,12 @@ const PRE_ABBREVIATIONS = {
   // T/S ratio — telomere-to-single-copy-gene ratio used in qPCR
   // telomere measurements. Slash reads as "SASH" without help.
   'T/S ratio': 'T over S ratio',
+  // SGLT2i — sodium-glucose cotransporter-2 inhibitor class. The trailing
+  // lowercase "i" is the clinician shorthand for "inhibitor(s)"; left bare
+  // Chirp slurs the whole token. Rewrite to the expanded form, which then
+  // flows through the post-core letter-spell + "L"-recovery for SGLT-2.
+  'SGLT2i': 'SGLT-2 inhibitors',
+  'SGLT-2i': 'SGLT-2 inhibitors',
   // LC3-II / LC3-I autophagy ratio.
   'LC3-II/LC3-I': 'L-C three, two over L-C three, one',
   'LC3-II / LC3-I': 'L-C three, two over L-C three, one',
@@ -2257,6 +2281,14 @@ const POST_OVERRIDES = {
   "you're":  '<phoneme alphabet="ipa" ph="jɔːr">you\'re</phoneme>',
   "You’re": '<phoneme alphabet="ipa" ph="jɔːr">You’re</phoneme>',
   "you’re": '<phoneme alphabet="ipa" ph="jɔːr">you’re</phoneme>',
+  "You've":  '<phoneme alphabet="ipa" ph="juːv">You\'ve</phoneme>',
+  "you've":  '<phoneme alphabet="ipa" ph="juːv">you\'ve</phoneme>',
+  "You’ve": '<phoneme alphabet="ipa" ph="juːv">You’ve</phoneme>',
+  "you’ve": '<phoneme alphabet="ipa" ph="juːv">you’ve</phoneme>',
+  "We've":   '<phoneme alphabet="ipa" ph="wiːv">We\'ve</phoneme>',
+  "we've":   '<phoneme alphabet="ipa" ph="wiːv">we\'ve</phoneme>',
+  "We’ve":  '<phoneme alphabet="ipa" ph="wiːv">We’ve</phoneme>',
+  "we’ve":  '<phoneme alphabet="ipa" ph="wiːv">we’ve</phoneme>',
   // RESTQ-Sport — recovery-stress questionnaire; spoken "rest-cue sport".
   'RESTQ-Sport': 'rest-cue sport',
   'RESTQ': 'rest-cue',
