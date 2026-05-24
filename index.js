@@ -260,6 +260,15 @@ const ABBREVIATIONS = {
   // letter-spell catch-all (mixed case) and Chirp mumbles them.
   // Expand to the full phrase clinicians actually say.
   'mAb': 'monoclonal antibody', 'mAbs': 'monoclonal antibodies',
+  // Heart-failure-by-EF taxonomy. Mixed case ("HFrEF") slips past the
+  // letter-spell catch-all and Chirp says "huff-reff" / "huff-puff".
+  // Expand to the full phrase so listeners hear the categorical
+  // distinction (reduced vs mildly-reduced vs preserved EF) every time
+  // — these acronyms get used in close succession in HF discussions
+  // and letter-spelled forms blur into each other.
+  'HFrEF':  'heart failure with reduced ejection fraction',
+  'HFpEF':  'heart failure with preserved ejection fraction',
+  'HFmrEF': 'heart failure with mildly reduced ejection fraction',
   'Lp(a)': 'L-P-little-a', 'Lp-a': 'L-P-little-a',
   'HLA-DRB1': 'H-L-A-D-R-B-one',
   // One-hop enzyme abbreviations that English readers know but TTS
@@ -358,6 +367,12 @@ const ABBREVIATIONS = {
   // by Whisper to /i/). Single-letter tags per the cohort pattern.
   'NAD':     '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme>',
   'N-A-D':   '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme>',
+  // CCD — chronic coronary disease. Double-C in a single tag slurs to
+  // one "see" instead of two (same failure mode as PDFF's terminal
+  // double-F); terminal-D also voicing-prone per the AST/NAD cohort.
+  // Per-letter tags force each C to articulate and lock the D.
+  'CCD':     '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme>',
+  'C-C-D':   '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme>',
   // Initial-letter-dropped class — BER → "BR", NER → "NER" intact
   // but parallels its sibling; NHEJ → "an HEJ" (leading N swallowed
   // into preceding article). Same per-letter-tag pattern blocks the
@@ -411,6 +426,12 @@ const ABBREVIATIONS = {
   'KEAP1': '<phoneme alphabet="ipa" ph="kiːp.wʌn">keep-one</phoneme>',
   'p53': 'p fifty three', 'p38': 'p thirty eight', 'p21': 'p twenty one',
   'FOXO3': 'foxo three', 'FOXO': 'foxo',
+  // SCORE2 — European Society of Cardiology cardiovascular risk
+  // calculator (Systematic COronary Risk Evaluation, 2021 revision).
+  // "SCORE" is a real English word that Chirp says fine; the digit
+  // suffix would otherwise get letter-spelled with the rest as
+  // "S-C-O-R-E-2" by the catch-all. Map to word + word.
+  'SCORE2': 'score-two',
   'Nrf2': 'N-R-F-two', 'NF-kB': 'N-F-kappa-B',
   'VEGF': 'V-E-G-F',
   'EGCG': 'E-G-C-G', 'NAC': 'N-A-C',
@@ -1562,6 +1583,17 @@ function preprocessForTTS(text) {
   // locked regardless of how the author typed it.
   t = t.replace(/\b[Nn][Rr][Ff]-?2\b/g, '<phoneme alphabet="ipa" ph="ˌɛnˈɑːr">N-R</phoneme><phoneme alphabet="ipa" ph="ˌɛfˈtuː">F-2</phoneme>');
 
+  // ACTN-family genes (ACTN1–ACTN4 — alpha-actinin 1–4; ACTN3 is the
+  // R577X-bearing fast-twitch isoform). Five-character mixed letter+digit
+  // tokens slur in Chirp HD; the digit-3 case in particular bleeds into
+  // the trailing "N" without explicit grouping. Concat two 2-phone tags
+  // ("A-C", "T-N") + spoken number, matching the house pattern for
+  // ≥3-character acronyms. Covers ACTN3 / Actn3 / actn3 / ACTN-3.
+  t = t.replace(/\b[Aa][Cc][Tt][Nn]-?(\d+)\b/g, (_, n) =>
+    '<phoneme alphabet="ipa" ph="ˌeɪˈsiː">A-C</phoneme>' +
+    '<phoneme alphabet="ipa" ph="ˌtiːˈɛn">T-N</phoneme>' +
+    ` ${numWord(parseInt(n, 10))}`);
+
   // SIRT-family genes — colloquial single-syllable "sirt" + number (not
   // "sirtuin one", not letter-spelled "S-I-R-T one"). Wrap "sirt" in an
   // IPA phoneme tag so Chirp HD locks the /sɜːrt/ pronunciation (the
@@ -1815,6 +1847,13 @@ const CLINICAL_IPA = {
   'routes':  'raʊts',
   'routed':  'ˈraʊtɪd',
   'routing': 'ˈraʊtɪŋ',
+  // patent — adjective form (open / unobstructed lumen), long-A
+  // ("PAY-tent" /ˈpeɪtənt/). Chirp HD defaults to the noun reading
+  // ("PAT-ent"), which is wrong in every clinical context.
+  'patent':  'ˈpeɪtənt',
+  'Patent':  'ˈpeɪtənt',
+  'patency': 'ˈpeɪtənsi',
+  'Patency': 'ˈpeɪtənsi',
   // Remi — clinical-AI-team persona name. Short-e /ɛ/ ("REH-mee").
   'Remi': 'ˈrɛmi',
   'remi': 'ˈrɛmi',
@@ -2285,6 +2324,10 @@ const POST_OVERRIDES = {
   "you've":  '<phoneme alphabet="ipa" ph="juːv">you\'ve</phoneme>',
   "You’ve": '<phoneme alphabet="ipa" ph="juːv">You’ve</phoneme>',
   "you’ve": '<phoneme alphabet="ipa" ph="juːv">you’ve</phoneme>',
+  "You'd":   '<phoneme alphabet="ipa" ph="juːd">You\'d</phoneme>',
+  "you'd":   '<phoneme alphabet="ipa" ph="juːd">you\'d</phoneme>',
+  "You’d":  '<phoneme alphabet="ipa" ph="juːd">You’d</phoneme>',
+  "you’d":  '<phoneme alphabet="ipa" ph="juːd">you’d</phoneme>',
   "We've":   '<phoneme alphabet="ipa" ph="wiːv">We\'ve</phoneme>',
   "we've":   '<phoneme alphabet="ipa" ph="wiːv">we\'ve</phoneme>',
   "We’ve":  '<phoneme alphabet="ipa" ph="wiːv">We’ve</phoneme>',

@@ -510,11 +510,6 @@
     "source": "auto-letter-spell",
     "note": "Primary stress on AY, secondary on EYE — inverted from the auto-discovered ˌeɪˈaɪ to remove the audible beat between letters on Chirp HD (same fix shape as SSRI in index.js)."
   },
-  "aids": {
-    "ipa": "eɪdz",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "akkermansia": {
     "ipa": "ˌækərˈmænsiə",
     "learned": "2026-05-03",
@@ -565,20 +560,10 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
-  "amp": {
-    "ipa": "æmp",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "ampktfeb": {
     "ipa": "ˌeɪɛmpiːkeɪtiːɛfiːˈbiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
-  },
-  "ana": {
-    "ipa": "ˈænə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "anastrozole": {
     "ipa": "əˈnæstrəzoʊl",
@@ -639,16 +624,6 @@
     "ipa": "ˌeɪɑːrˈbiː",
     "learned": "2026-05-05",
     "source": "auto-letter-spell"
-  },
-  "aria": {
-    "ipa": "ˈɑːriə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "arms": {
-    "ipa": "ɑrmz",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "arrive": {
     "ipa": "əˈraɪv",
@@ -920,11 +895,6 @@
     "ipa": "ˌbiːaɪˈeɪ",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
-  },
-  "bid": {
-    "ipa": "bɪd",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "bifidobacterium": {
     "ipa": "ˌbɪfɪdoʊbækˈtɪəriəm",
@@ -1301,16 +1271,6 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
-  "cad": {
-    "ipa": "kæd",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "cage": {
-    "ipa": "keɪdʒ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "capecitabine": {
     "ipa": "ˌkeɪpɛˈsɪtəˌbiːn",
     "learned": "2026-05-03",
@@ -1318,11 +1278,6 @@
   },
   "capp": {
     "ipa": "kæp",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "care": {
-    "ipa": "kɛr",
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
@@ -1455,11 +1410,6 @@
     "ipa": "ˈkɑːmtiː",
     "learned": "2026-05-10",
     "source": "manual-override"
-  },
-  "con": {
-    "ipa": "kɑn",
-    "learned": "2026-05-09",
-    "source": "auto-llm"
   },
   "connectome": {
     "ipa": "kəˈnɛktoʊm",
@@ -1741,11 +1691,6 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
-  "dao": {
-    "ipa": "ˈdaʊ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "dapa": {
     "ipa": "ˌdiːeɪpiːˈeɪ",
     "learned": "2026-05-10",
@@ -1755,16 +1700,6 @@
     "ipa": "dəˈsætɪnɪb",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "dash": {
-    "ipa": "dæʃ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "day": {
-    "ipa": "deɪ",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
   },
   "deiodinase": {
     "ipa": "diːˈaɪədɪneɪs",
@@ -2066,11 +2001,6 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
-  "echo": {
-    "ipa": "ˈɛkoʊ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "ect": {
     "ipa": "ˌiːsiːˈtiː",
     "learned": "2026-05-09",
@@ -2220,11 +2150,6 @@
     "ipa": "ˈɛstrɪŋ",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "eta": {
-    "ipa": "ˈeɪtə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "etc": {
     "ipa": "ˌiːtiːˈsiː",
@@ -2446,20 +2371,10 @@
     "learned": "2026-05-10",
     "source": "manual-override"
   },
-  "fast": {
-    "ipa": "fæst",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "fastq": {
     "ipa": "ˌɛfeɪɛstiːˈkjuː",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
-  },
-  "fat": {
-    "ipa": "fæt",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "fatty": {
     "ipa": "ˈfæti",
@@ -2709,11 +2624,6 @@
   "grace": {
     "ipa": "ɡreɪs",
     "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "gut": {
-    "ipa": "ɡʌt",
-    "learned": "2026-05-12",
     "source": "auto-llm"
   },
   "gyn": {
@@ -2971,11 +2881,6 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
-  "hope": {
-    "ipa": "hoʊp",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "horizon": {
     "ipa": "həˈrɪzən",
     "learned": "2026-05-03",
@@ -2990,11 +2895,6 @@
     "ipa": "ˌeɪtʃpiːtiːˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
-  },
-  "hub": {
-    "ipa": "hʌb",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
   },
   "humanin": {
     "ipa": "ˈhjuːmənɪn",
@@ -3366,11 +3266,6 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
-  "ink": {
-    "ipa": "ɪŋk",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "inr": {
     "ipa": "ˌaɪɛnˈɑːr",
     "learned": "2026-05-03",
@@ -3721,11 +3616,6 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
-  "lag": {
-    "ipa": "læɡ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "landmark": {
     "ipa": "ˈlændmɑrk",
     "learned": "2026-05-03",
@@ -3740,11 +3630,6 @@
     "ipa": "ləˈkænəmæb",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "led": {
-    "ipa": "lɛd",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
   },
   "levonorgestrel": {
     "ipa": "ˌlɛvoʊnɔːrˈdʒɛstrəl",
@@ -3805,11 +3690,6 @@
     "ipa": "ˌɛloʊˈɛf",
     "learned": "2026-05-05",
     "source": "auto-letter-spell"
-  },
-  "low": {
-    "ipa": "loʊ",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
   },
   "lpa": {
     "ipa": "ˌɛlpiːˈeɪ",
@@ -4066,11 +3946,6 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
-  "mace": {
-    "ipa": "meɪs",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "macimorelin": {
     "ipa": "ˌmæsɪmoʊˈrɛlɪn",
     "learned": "2026-05-03",
@@ -4140,16 +4015,6 @@
     "ipa": "mɛˌdrɒksiproʊˈdʒɛstəroʊn",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "men": {
-    "ipa": "mɛn",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "mesa": {
-    "ipa": "ˈmeɪsə",
-    "learned": "2026-05-05",
-    "source": "auto-llm"
   },
   "metabolome": {
     "ipa": "məˈtæbəˌloʊm",
@@ -4546,11 +4411,6 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
-  "nat": {
-    "ipa": "næt",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "natesto": {
     "ipa": "nəˈtɛstoʊ",
     "learned": "2026-05-03",
@@ -4620,11 +4480,6 @@
     "ipa": "ˌɛnaɪˈeɪ",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
-  },
-  "nice": {
-    "ipa": "naɪs",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "nih": {
     "ipa": "ˌɛnaɪˈeɪtʃ",
@@ -5121,11 +4976,6 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
-  "pace": {
-    "ipa": "peɪs",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "palmitate": {
     "ipa": "ˈpælmɪteɪt",
     "learned": "2026-05-03",
@@ -5296,15 +5146,15 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "predimed": {
+    "ipa": "prɛˈdiːmɛd",
+    "learned": "2026-05-18",
+    "source": "manual-override"
+  },
   "prevotella": {
     "ipa": "ˌprɛvəˈtɛlə",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "prom": {
-    "ipa": "prɑm",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "prometrium": {
     "ipa": "proʊˈmiːtriəm",
@@ -5871,33 +5721,13 @@
     "learned": "2026-05-05",
     "source": "auto-letter-spell"
   },
-  "sad": {
-    "ipa": "sæd",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
-  },
   "sadl": {
     "ipa": "ˌɛseɪdiːˈɛl",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
-  "safe": {
-    "ipa": "seɪf",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "sage": {
-    "ipa": "seɪdʒ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "sah": {
     "ipa": "sæ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
-  "sam": {
-    "ipa": "sæm",
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
@@ -5920,11 +5750,6 @@
     "ipa": "ˌsɑːrkoʊˈpɛnɪk",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "scan": {
-    "ipa": "skæn",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "schisandra": {
     "ipa": "skɪˈsændrə",
@@ -6092,11 +5917,6 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
-  "sofa": {
-    "ipa": "ˈsoʊfə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "spect": {
     "ipa": "spɛkt",
     "learned": "2026-05-12",
@@ -6127,19 +5947,9 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
-  "star": {
-    "ipa": "stɑɹ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "statin": {
     "ipa": "ˈstætən",
     "learned": "2026-05-05",
-    "source": "auto-llm"
-  },
-  "stem": {
-    "ipa": "stɛm",
-    "learned": "2026-05-03",
     "source": "auto-llm"
   },
   "sting": {
@@ -6472,11 +6282,6 @@
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
-  "ten": {
-    "ipa": "tɛn",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
-  },
   "tesamorelin": {
     "ipa": "ˌtɛsəmoʊˈrɛlɪn",
     "learned": "2026-05-03",
@@ -6551,11 +6356,6 @@
     "ipa": "tɪˈkæɡrəlɔːr",
     "learned": "2026-05-03",
     "source": "clinical-migration"
-  },
-  "tim": {
-    "ipa": "tɪm",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "tion": {
     "ipa": "ˌtiːaɪoʊˈɛn",
@@ -6651,11 +6451,6 @@
     "ipa": "ˌtiːjuːdiːsiːˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
-  },
-  "two": {
-    "ipa": "tuː",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
   },
   "u-c-e": {
     "ipa": "ˌjuːsiːˈiː",
@@ -7039,11 +6834,6 @@
     "source": "auto-glue"
   },
   "y-o-u": {
-    "ipa": "juː",
-    "learned": "2026-05-12",
-    "source": "auto-llm"
-  },
-  "you": {
     "ipa": "juː",
     "learned": "2026-05-12",
     "source": "auto-llm"
