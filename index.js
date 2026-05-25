@@ -782,7 +782,35 @@ function coreNormalize(text) {
     return phonetic + '-' + numWords + (suffix ? '-' + suffix : '');
   });
 
-  // 10. Replace number ranges with "to" (e.g. "five-ten" → "five to ten")
+  // 10a. Multi-word digit-spelling chains. When 3+ number-words (with
+  // optional "point"/"oh") are joined by hyphens, the source is spelling
+  // a digit / digit-group sequence, not encoding pairwise ranges.
+  // Examples: "one-point-one-four" (1.14), "zero-point-eight-seven" (0.87),
+  // "rs-seven-six-two-five-five-one" (rsID), "one-fifty-eight" (Val158Met
+  // position), "twelve-ninety-five" (CJC-1295), "C-A-one-twenty-five"
+  // (CA-125), "valine-one-fifty-eight-methionine" (Val158Met).
+  // Optional non-number-word preamble (one token + hyphen) and a trailing
+  // non-number-word suffix (one hyphen + token) are folded into the run
+  // so "rs-seven..." reads as "rs seven..." and "...eight-methionine"
+  // reads as "...eight methionine". Must precede the pairwise range
+  // rule below.
+  const NUM_OR_PT = '(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|point|oh)';
+  const CHAIN_RE = new RegExp(`(?:\\b\\w+[-–])?(?:${NUM_OR_PT})(?:[-–](?:${NUM_OR_PT})){2,}(?:[-–]\\w+\\b)?`, 'gi');
+  t = t.replace(CHAIN_RE, (match) => match.replace(/[-–]/g, ' '));
+
+  // 10a-bis. Decimal-pair digit-spelling after "point": e.g. "zero point
+  // two-six" (0.26) and "one point six-five" (1.65) are digit-spelled
+  // pairs, not ranges. Without this guard the pair would become
+  // "...point two to six...". Looks back for "point " preceding a
+  // hyphen-joined ONES-ONES pair.
+  t = t.replace(/\b(point)\s+([a-z]+)\s*[-–]\s*([a-z]+)\b/gi, (match, pt, a, b) => {
+    const al = a.toLowerCase(), bl = b.toLowerCase();
+    const NW = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+    if (NW.includes(al) && NW.includes(bl)) return `${pt} ${a} ${b}`;
+    return match;
+  });
+
+  // 10b. Replace number ranges with "to" (e.g. "five-ten" → "five to ten")
   // Only for numeric-word ranges, NOT compound adjectives like "iron-rich"
   const NUMBER_WORDS = new Set(['zero','one','two','three','four','five','six','seven','eight','nine',
     'ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen',
@@ -794,6 +822,10 @@ function coreNormalize(text) {
     const al = a.toLowerCase(), bl = b.toLowerCase();
     // Skip compound numbers like "thirty-two", "sixty-five"
     if (TENS_PREFIXES.has(al) && ONES_WORDS.has(bl)) return match;
+    // Spoken compound 3-digit numbers: "one-eighty" (180), "four-thirty"
+    // (430), "twelve-ninety" (1290). ONES/TEEN + TENS_PREFIX is always
+    // a spoken N-hundred-M form, never a range.
+    if ((ONES_WORDS.has(al) || (NUMBER_WORDS.has(al) && !TENS_PREFIXES.has(al) && !MULTIPLIERS.has(al))) && TENS_PREFIXES.has(bl)) return `${a} ${b}`;
     // Skip multiplier compounds like "three-hundred", "hundred-seven"
     if (MULTIPLIERS.has(al) || MULTIPLIERS.has(bl)) return `${a} ${b}`;
     if (NUMBER_WORDS.has(al) && NUMBER_WORDS.has(bl)) return `${a} to ${b}`;
@@ -2712,6 +2744,24 @@ function selfTest() {
     // in any explicit dictionary.
     ['the C-H-D-H pathway',
       'the <phoneme alphabet="ipa" ph="ˌsiːeɪtʃdiːˈeɪtʃ">C-H-D-H</phoneme> pathway'],
+    // ─── Hyphenated number-word handling (v0.9.0).
+    // 2-word ONES + TENS_PREFIX: spoken compound 3-digit number, not range.
+    ['above one-eighty milligrams', 'above one eighty milligrams'],
+    ['or four-thirty nanomoles per liter', 'or four thirty nanomoles per liter'],
+    // 3+ chain: digit-spelling sequence.
+    ['PACE is one-point-one-four',     'pace is one point one four'],
+    ['final PACE is zero-point-eight-seven', 'final pace is zero point eight seven'],
+    ['Day fifty-seven of one-eighty-one', 'Day fifty-seven of one eighty one'],
+    ['twenty-four-seven secure messaging', 'twenty four seven secure messaging'],
+    // Decimal-pair after "point": digit-spelling, not range.
+    ['range is zero point two-six to one point six-five',
+      'range is zero point two six to one point six five'],
+    // Non-regressions: real ranges and compound adjectives stay intact.
+    ['Tabas-Williams response-to-retention model',
+      'Tabas-Williams response-to-retention model'],
+    ['iron-rich diet', 'iron-rich diet'],
+    ['twenty to twenty-five percent', 'twenty to twenty-five percent'],
+    ['three-hundred patients', 'three hundred patients'],
   ];
 
   let passed = 0;
