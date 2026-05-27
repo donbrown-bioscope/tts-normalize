@@ -3397,9 +3397,10 @@
     "source": "clinical-migration"
   },
   "json": {
-    "ipa": "ˌdʒeɪɛsoʊˈɛn",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
+    "ipa": "ˈdʒeɪsɑn",
+    "learned": "2026-05-26",
+    "source": "manual",
+    "note": "JAY-sonn (as in sonnet), not letter-spelled J-S-O-N"
   },
   "jupiter": {
     "ipa": "ˈdʒupətər",
