@@ -1460,8 +1460,9 @@ const PRE_ABBREVIATIONS = {
   // postprocess phoneme-tag pass owns the pronunciation. Leaving the
   // literal "hippa" rewrite here masked the IPA wrap.
   'CLIA':  'cleea',
-  // EMR brand name.
-  'Cerbo': 'sir-bo',
+  // Cerbo (EMR) moved to CLINICAL_IPA with /ˈsɜːrboʊ/ — Chirp HD treated
+  // the literal "sir-bo" with a clipped short-O; IPA holds the long-O
+  // boʊ diphthong cleanly.
   // Short-chain fatty acid acronyms — Chirp HD reads the plural-s on
   // "SCFAs" as an enzyme-name suffix ("SCFase"); singular gets letter-
   // spelled. Plural form first so it wins the longest-match sort.
@@ -1823,6 +1824,17 @@ const CLINICAL_IPA = {
   // "fer-MICK-you-teez" ("fer" as in Fermi).
   'Firmicutes': 'fɜːrˈmɪkjuːtiːz',
   'firmicutes': 'fɜːrˈmɪkjuːtiːz',
+  // Cerbo — concierge-specialty EMR. Brand pronunciation is "SIR-boh"
+  // with a long-O diphthong on the second syllable. Chirp HD clips the
+  // O to a schwa without IPA help; literal "sir-bo" did the same.
+  'Cerbo': 'ˈsɜːrboʊ',
+  'cerbo': 'ˈsɜːrboʊ',
+  // LifeOmic — Bioscope's prior company. Spoken "life-OH-mick" with a
+  // long-O on the middle syllable. Without IPA Chirp slurs the O into
+  // a schwa and the boundary between "life" and "Omic" gets lost.
+  'LifeOmic': 'ˌlaɪfˈoʊmɪk',
+  'Lifeomic': 'ˌlaɪfˈoʊmɪk',
+  'lifeomic': 'ˌlaɪfˈoʊmɪk',
   // SAH — S-adenosylhomocysteine. Read as the three letters "S-A-H"
   // ("ess-ay-aitch"), in pair with SAMe in the methylation panel.
   // Without this entry, something else in the pipeline was wrapping
