@@ -2391,6 +2391,12 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "fhir": {
+    "ipa": "ˈfaɪər",
+    "learned": "2026-05-29",
+    "source": "manual",
+    "note": "HL7 FHIR — pronounced \"fire\" by EMR-integration audiences."
+  },
   "fib": {
     "ipa": "ˌɛfaɪˈbiː",
     "learned": "2026-05-03",
@@ -2850,6 +2856,12 @@
     "ipa": "ˌeɪtʃaɪeɪˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "hipaa": {
+    "ipa": "ˈhɪpə",
+    "learned": "2026-05-29",
+    "source": "manual",
+    "note": "HIPAA — pronounced \"HIP-uh\" as a word, not letter-spelled."
   },
   "hiv": {
     "ipa": "ˌeɪtʃaɪˈviː",

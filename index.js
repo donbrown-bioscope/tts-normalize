@@ -1456,7 +1456,9 @@ const PRE_ABBREVIATIONS = {
   'Factor V': 'Factor five',
   'factor V': 'factor five',
   // US regulatory.
-  'HIPAA': 'hippa',
+  // HIPAA moved to data/learned-ipa.json (IPA /ˈhɪpə/) so the
+  // postprocess phoneme-tag pass owns the pronunciation. Leaving the
+  // literal "hippa" rewrite here masked the IPA wrap.
   'CLIA':  'cleea',
   // EMR brand name.
   'Cerbo': 'sir-bo',
