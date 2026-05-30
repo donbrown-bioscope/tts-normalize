@@ -1825,10 +1825,13 @@ const CLINICAL_IPA = {
   'Firmicutes': 'fɜːrˈmɪkjuːtiːz',
   'firmicutes': 'fɜːrˈmɪkjuːtiːz',
   // Cerbo — concierge-specialty EMR. Brand pronunciation is "SIR-boh"
-  // with a long-O diphthong on the second syllable. Chirp HD clips the
-  // O to a schwa without IPA help; literal "sir-bo" did the same.
-  'Cerbo': 'ˈsɜːrboʊ',
-  'cerbo': 'ˈsɜːrboʊ',
+  // with a long-O diphthong on the second syllable. Earlier attempt
+  // /ˈsɜːrboʊ/ landed as "SAR-bo" on Chirp HD (the /ɜːr/ flattened toward
+  // /ɑː/ before the stop). Rhotic stressed schwa /ɝ/ holds the "sir"
+  // vowel cleanly — same shape as "Firmicutes" doesn't help here because
+  // the consonant tail is different.
+  'Cerbo': 'ˈsɝboʊ',
+  'cerbo': 'ˈsɝboʊ',
   // LifeOmic — Bioscope's prior company. Spoken "life-OH-mick" with a
   // long-O on the middle syllable. Without IPA Chirp slurs the O into
   // a schwa and the boundary between "life" and "Omic" gets lost.
