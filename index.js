@@ -2381,6 +2381,16 @@ const POST_OVERRIDES = {
   // RESTQ-Sport — recovery-stress questionnaire; spoken "rest-cue sport".
   'RESTQ-Sport': 'rest-cue sport',
   'RESTQ': 'rest-cue',
+  // ICD-10 — diagnosis code system, spoken "eye-see-dee-ten" with clean
+  // letter articulation and primary stress on "ten". Core letter-spells
+  // "ICD" → "I-C-D" and converts "10" → "ten", giving us the post-core
+  // form "I-C-D-ten". POST_OVERRIDES runs before the FAST_GLUE-registered
+  // "C-D" wrap (auto-derived from CD8) — without this, that partial wrap
+  // captures just "C-D" and Chirp slurs the detached leading "I-".
+  'I-C-D-ten': '<phoneme alphabet="ipa" ph="ˌaɪˌsiːˌdiːˈtɛn">I-C-D-ten</phoneme>',
+  // Catch ICD-9 too while we're here (rarely used now, but it's still a
+  // referenced legacy system; spoken "eye-see-dee-nine").
+  'I-C-D-nine': '<phoneme alphabet="ipa" ph="ˌaɪˌsiːˌdiːˈnaɪn">I-C-D-nine</phoneme>',
   // Publication brand — hyphenated form stays as one compound noun.
   'Longevity Today': 'longevity-today',
   // DunedinPACE figure — hyphenate to glue the phrase.
@@ -2668,6 +2678,8 @@ function postprocessForTTS(text) {
 
 // ─── PUBLIC ENTRYPOINT ──────────────────────────────────────
 
+function _debugCore(text) { return coreNormalize(preprocessForTTS(text)); }
+module.exports._debugCore = _debugCore;
 function normalizeForTTS(text) {
   if (!text) return '';
   return postprocessForTTS(coreNormalize(preprocessForTTS(text)));
