@@ -1581,6 +1581,16 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "d-i": {
+    "ipa": "ˌdiːˈaɪ",
+    "learned": "2026-06-01",
+    "source": "auto-glue"
+  },
+  "d-i-c-o-m": {
+    "ipa": "ˌdiːaɪsiːoʊˈɛm",
+    "learned": "2026-06-01",
+    "source": "auto-letter-spell"
+  },
   "d-i-m": {
     "ipa": "dɪm",
     "learned": "2026-05-03",
@@ -1719,6 +1729,11 @@
   "dheas": {
     "ipa": "ˌdiːeɪtʃiːeɪˈɛs",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "dicom": {
+    "ipa": "ˌdiːaɪsiːoʊˈɛm",
+    "learned": "2026-06-01",
     "source": "auto-letter-spell"
   },
   "diosgenin": {
