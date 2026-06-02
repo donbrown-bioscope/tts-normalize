@@ -1641,6 +1641,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "d-r": {
+    "ipa": "ˌdiːˈɑːr",
+    "learned": "2026-06-02",
+    "source": "auto-glue"
+  },
   "d-r-e-a-m": {
     "ipa": "ˌdiːɑːriːeɪˈɛm",
     "learned": "2026-05-09",
@@ -2497,6 +2502,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "g-i-p-g-l-p": {
+    "ipa": "ˌdʒiːaɪpiːdʒiːɛlˈpiː",
+    "learned": "2026-06-02",
+    "source": "auto-letter-spell"
+  },
   "g-l": {
     "ipa": "ˌdʒiːˈɛl",
     "learned": "2026-05-12",
@@ -2605,6 +2615,11 @@
   "gi": {
     "ipa": "ˌdʒiːˈaɪ",
     "learned": "2026-05-03",
+    "source": "auto-letter-spell"
+  },
+  "gipglp": {
+    "ipa": "ˌdʒiːaɪpiːdʒiːɛlˈpiː",
+    "learned": "2026-06-02",
     "source": "auto-letter-spell"
   },
   "glycome": {
