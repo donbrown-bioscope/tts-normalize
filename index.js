@@ -2545,9 +2545,14 @@ function postprocessForTTS(text) {
   t = t.replace(/\b(epsilon|alpha|beta|gamma|delta|kappa|lambda|sigma|omega|mu)(\d)/gi,
     (_, name, n) => `${name} ${n}`);
 
-  // Phrase substitutions.
+  // Phrase substitutions. The negative lookahead skips any match that
+  // already sits inside a <phoneme> wrap, so a later key can't re-wrap
+  // the content an earlier key emitted. Without it, the case-insensitive
+  // flag plus both-case keys (e.g. "You'll" and "you'll") double-wrap
+  // contractions into nested <phoneme> tags — invalid SSML that Chirp
+  // then renders by letter-spelling the tail ("you'll" → "you L L").
   for (const [key, val] of Object.entries(POST_OVERRIDES)) {
-    t = t.replace(new RegExp(`\\b${escapeRegex(key)}\\b`, 'gi'), val);
+    t = t.replace(new RegExp(`\\b${escapeRegex(key)}\\b(?![^<]*</phoneme>)`, 'gi'), val);
   }
 
   // Pause tokens → SSML <break/> tags. Authors write [[pause-short]] /
