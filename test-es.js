@@ -47,6 +47,18 @@ const ES = [
   ['el * marcador principal', 'el marcador principal'],
   ['el Dr. Smith y la Dra. Ruiz', 'el doctor Smith y la doctora Ruiz'],
   ['un estudio en EE. UU. vs. placebo, etc.', 'un estudio en Estados Unidos versus placebo, etcétera'],
+  // Tier 2: scientific letter+number, ISO dates, ordinals, scientific units
+  ['tomar vitamina B12 y D3', 'tomar vitamina B doce y D tres'],
+  ['omega-3 y CoQ10', 'omega tres y CoQ diez'],
+  ['niveles de T3 y T4', 'niveles de T tres y T cuatro'],
+  ['el gen PCSK9 y TP53 y SIRT1', 'el gen PCSK9 y TP53 y SIRT1'],
+  ['publicado el 2026-06-20', 'publicado el veinte de junio de dos mil veintiséis'],
+  ['desde el 2026-06-01', 'desde el primero de junio de dos mil veintiséis'],
+  ['la 2.ª fase del 1.º ensayo', 'la segunda fase del primero ensayo'],
+  ['señal de 100 Hz y 60 dB', 'señal de cien hercios y sesenta decibelios'],
+  ['una proteína de 50 kDa', 'una proteína de cincuenta kilodaltons'],
+  ['200 ppm de cloro', 'doscientas partes por millón de cloro'],
+  ['concentración de 5 mM', 'concentración de cinco milimolar'],
   // millions
   ['1000000 de células', 'un millón de células'],
   ['2000000 personas', 'dos millones personas'],

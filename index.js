@@ -2785,11 +2785,25 @@ const UNITS_ES = {
   'km': 'kilómetros', 'cm': 'centímetros', 'mm': 'milímetros', 'nm': 'nanómetros', 'µm': 'micrómetros',
   'lb': 'libras', 'lbs': 'libras', 'oz': 'onzas',
   'hr': 'horas', 'hrs': 'horas', 'min': 'minutos', 'sec': 'segundos', 'ms': 'milisegundos',
+  // Tier 2 scientific units
+  'GHz': 'gigahercios', 'MHz': 'megahercios', 'kHz': 'kilohercios', 'Hz': 'hercios',
+  'dB': 'decibelios', 'kDa': 'kilodaltons', 'Da': 'daltons', 'ppm': 'partes por millón',
+  'ppb': 'partes por mil millones', 'kW': 'kilovatios', 'mW': 'milivatios', 'W': 'vatios',
+  'mV': 'milivoltios', 'V': 'voltios', 'J': 'julios',
+  'mM': 'milimolar', 'µM': 'micromolar', 'μM': 'micromolar', 'nM': 'nanomolar', 'pM': 'picomolar',
 };
 // Units whose Spanish noun is feminine (drive "una" instead of "un" at value 1).
 const ES_FEMININE_UNITS = new Set(['calorías', 'kilocalorías', 'libras', 'onzas', 'horas',
-  'unidades internacionales', 'unidades por litro', 'miliunidades internacionales']);
+  'unidades internacionales', 'unidades por litro', 'miliunidades internacionales',
+  'partes por millón', 'partes por mil millones']);
 const SORTED_UNITS_ES = Object.entries(UNITS_ES).sort((a, b) => b[0].length - a[0].length);
+
+const ES_MONTHS = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const ES_ORD_M = ['', 'primero', 'segundo', 'tercero', 'cuarto', 'quinto', 'sexto',
+  'séptimo', 'octavo', 'noveno', 'décimo', 'undécimo', 'duodécimo'];
+const ES_ORD_F = ['', 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
+  'séptima', 'octava', 'novena', 'décima', 'undécima', 'duodécima'];
 
 function esIsOne(raw) {
   return String(raw).replace(/[.,]/g, '') === '1';
@@ -2848,6 +2862,15 @@ function coreNormalizeEs(text) {
   t = t.replace(/\$\s*(\d[\d.,]*)/g, (_, n) => esUnitPhrase(esNumberToken(n), n, 'dólares'));
   t = t.replace(/€\s*(\d[\d.,]*)/g, (_, n) => esUnitPhrase(esNumberToken(n), n, 'euros'));
 
+  // 3b. ISO dates "2026-06-20" → "veinte de junio de dos mil veintiséis"
+  //     (before ranges so the hyphens aren't read as a numeric range).
+  t = t.replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (m, y, mo, d) => {
+    const mm = parseInt(mo, 10), dd = parseInt(d, 10);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return m;
+    const day = dd === 1 ? 'primero' : esIntWords(dd);
+    return `${day} de ${ES_MONTHS[mm]} de ${esIntWords(parseInt(y, 10))}`;
+  });
+
   // 4. Ranges, with an optional trailing unit applied to the upper bound
   //    ("5–10 mg" → "cinco a diez miligramos"). Runs before the plain unit pass
   //    so the unit pass doesn't consume the upper bound out of the range.
@@ -2875,6 +2898,23 @@ function coreNormalizeEs(text) {
     const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
     t = t.replace(re, (_, n) => esUnitPhrase(esNumberToken(n), n, plural));
   }
+
+  // 5b. Scientific letter+number tokens where the number IS spoken: vitamins
+  //     (B/D/K + number), thyroid (T3/T4), coenzyme Q10, omega-N. Multi-letter
+  //     gene symbols (PCSK9, TP53, FOXO3) are untouched — the leading \b plus
+  //     single-letter class means "B" in "SLCO1B1" (preceded by a digit) won't match.
+  t = t.replace(/\bomega[-\s]?(\d+)\b/gi, (_, n) => `omega ${esIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\bCoQ[-\s]?(\d+)\b/g, (_, n) => `CoQ ${esIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\b([BDKT])-?(\d{1,2})\b/g, (_, L, n) => `${L} ${esIntWords(parseInt(n, 10))}`);
+
+  // 5c. Ordinals: Spanish "1.º/2.ª" + English "1st/2nd" (1–12) → ordinal words.
+  t = t.replace(/\b(\d+)\.?(º|ª)/g, (m, n, ind) => {
+    const i = parseInt(n, 10); if (i < 1 || i > 12) return m;
+    return ind === 'ª' ? ES_ORD_F[i] : ES_ORD_M[i];
+  });
+  t = t.replace(/\b(\d+)(?:st|nd|rd|th)\b/gi, (m, n) => {
+    const i = parseInt(n, 10); return (i >= 1 && i <= 12) ? ES_ORD_M[i] : m;
+  });
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' más ').replace(/\s×\s/g, ' por ').replace(/\s=\s/g, ' igual a ');
