@@ -2688,8 +2688,190 @@ function postprocessForTTS(text) {
 
 function _debugCore(text) { return coreNormalize(preprocessForTTS(text)); }
 module.exports._debugCore = _debugCore;
-function normalizeForTTS(text) {
+
+// ════════════════════════════════════════════════════════════
+// SPANISH (es) NORMALIZATION — v1: numbers, units, symbols.
+// Locale-gated; the English pipeline above is untouched. No IPA /
+// acronym-pronunciation layer (Spanish TTS reads words phonetically).
+// ════════════════════════════════════════════════════════════
+
+const ES_ONES = ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez',
+  'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve', 'veinte',
+  'veintiuno', 'veintidós', 'veintitrés', 'veinticuatro', 'veinticinco', 'veintiséis', 'veintisiete', 'veintiocho', 'veintinueve'];
+const ES_TENS = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+const ES_HUNDREDS = ['', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos',
+  'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+
+// Apocope trailing "uno"/"veintiuno" → "un"/"veintiún" (before a noun, mil, or millón).
+function esApocope(words) {
+  return words.replace(/veintiuno$/, 'veintiún').replace(/(^|\s)uno$/, '$1un');
+}
+
+// Feminine agreement: "doscientos"→"doscientas", "uno"→"una", "veintiuno"→"veintiuna".
+function esFeminize(words) {
+  return words.replace(/cientos\b/g, 'cientas').replace(/veintiuno\b/g, 'veintiuna').replace(/\buno\b/g, 'una');
+}
+
+function esBelow1000(n) {
+  if (n === 100) return 'cien';
+  let out = '';
+  if (n >= 100) { out += ES_HUNDREDS[Math.floor(n / 100)] + ' '; n %= 100; }
+  if (n >= 30) {
+    out += ES_TENS[Math.floor(n / 10)];
+    if (n % 10) out += ' y ' + ES_ONES[n % 10];
+  } else if (n > 0) {
+    out += ES_ONES[n];
+  }
+  return out.trim();
+}
+
+function esIntWords(n) {
+  if (n === 0) return 'cero';
+  if (n < 0) return 'menos ' + esIntWords(-n);
+  const parts = [];
+  const millones = Math.floor(n / 1_000_000);
+  const miles = Math.floor((n % 1_000_000) / 1000);
+  const resto = n % 1000;
+  if (millones) {
+    parts.push(millones === 1 ? 'un millón' : esApocope(esIntWords(millones)) + ' millones');
+  }
+  if (miles) {
+    parts.push(miles === 1 ? 'mil' : esApocope(esBelow1000(miles)) + ' mil');
+  }
+  if (resto) parts.push(esBelow1000(resto));
+  return parts.join(' ').trim();
+}
+
+// Spanish reads decimals digit-by-digit after "coma". `norm` uses '.' as the
+// decimal separator (callers convert a Spanish "," first).
+function esDecimalWords(norm) {
+  const [intp, decp = ''] = norm.split('.');
+  const intWords = esIntWords(parseInt(intp, 10) || 0);
+  const decWords = decp.split('').map((d) => ES_ONES[Number(d)]).join(' ');
+  return `${intWords} coma ${decWords}`;
+}
+
+// Turn a formatted numeric token (with , / . separators) into Spanish words.
+// Heuristics for English- vs Spanish-formatted source:
+//   "10,000" → thousands;  "99,5" → decimal comma;  "3.5" → decimal point;
+//   "1.234,5" → Spanish (',' decimal, '.' thousands).
+function esNumberToken(raw) {
+  const s = String(raw).trim();
+  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return esDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5
+  if (/^\d+,\d{1,2}$/.test(s)) return esDecimalWords(s.replace(',', '.'));        // 99,5  (decimal comma)
+  if (/^\d{1,3}(,\d{3})+$/.test(s)) return esIntWords(parseInt(s.replace(/,/g, ''), 10)); // 10,000 (thousands)
+  if (/^\d{1,3}(\.\d{3})+$/.test(s)) return esIntWords(parseInt(s.replace(/\./g, ''), 10)); // 1.000 (es thousands)
+  if (/^\d+\.\d+$/.test(s)) return esDecimalWords(s);                              // 3.5  (decimal point)
+  if (/^\d+$/.test(s)) return esIntWords(parseInt(s, 10));
+  const cleaned = s.replace(/[.,]/g, '');
+  return /^\d+$/.test(cleaned) ? esIntWords(parseInt(cleaned, 10)) : s;
+}
+
+// Unit plurals (the stored form); singular derived when the value is 1.
+const UNITS_ES = {
+  'mg/dL': 'miligramos por decilitro', 'mg/dl': 'miligramos por decilitro',
+  'mmol/L': 'milimoles por litro', 'µmol/L': 'micromoles por litro', 'μmol/L': 'micromoles por litro',
+  'ng/mL': 'nanogramos por mililitro', 'ng/ml': 'nanogramos por mililitro',
+  'pg/mL': 'picogramos por mililitro', 'µg/dL': 'microgramos por decilitro', 'μg/dL': 'microgramos por decilitro',
+  'g/dL': 'gramos por decilitro', 'IU/L': 'unidades internacionales por litro', 'U/L': 'unidades por litro',
+  'mg/kg': 'miligramos por kilogramo', 'mmHg': 'milímetros de mercurio', 'kPa': 'kilopascales',
+  'mcg': 'microgramos', 'µg': 'microgramos', 'μg': 'microgramos', 'ng': 'nanogramos', 'pg': 'picogramos',
+  'mg': 'miligramos', 'kg': 'kilogramos', 'g': 'gramos',
+  'mL': 'mililitros', 'ml': 'mililitros', 'dL': 'decilitros', 'dl': 'decilitros', 'L': 'litros',
+  'kcal': 'kilocalorías', 'cal': 'calorías', 'kJ': 'kilojulios',
+  'bpm': 'latidos por minuto', 'mmol': 'milimoles', 'µmol': 'micromoles', 'nmol': 'nanomoles',
+  'IU': 'unidades internacionales', 'mIU': 'miliunidades internacionales',
+  'km': 'kilómetros', 'cm': 'centímetros', 'mm': 'milímetros', 'nm': 'nanómetros', 'µm': 'micrómetros',
+  'lb': 'libras', 'lbs': 'libras', 'oz': 'onzas',
+  'hr': 'horas', 'hrs': 'horas', 'min': 'minutos', 'sec': 'segundos', 'ms': 'milisegundos',
+};
+// Units whose Spanish noun is feminine (drive "una" instead of "un" at value 1).
+const ES_FEMININE_UNITS = new Set(['calorías', 'kilocalorías', 'libras', 'onzas', 'horas',
+  'unidades internacionales', 'unidades por litro', 'miliunidades internacionales']);
+const SORTED_UNITS_ES = Object.entries(UNITS_ES).sort((a, b) => b[0].length - a[0].length);
+
+function esIsOne(raw) {
+  return String(raw).replace(/[.,]/g, '') === '1';
+}
+function esSingularize(plural) {
+  // Singularize the leading noun(s); keep a "por …" tail intact.
+  const [head, ...tail] = plural.split(' por ');
+  const sing = head.replace(/ías\b/, 'ía').replace(/s\b/, '');
+  return [sing, ...tail].join(' por ');
+}
+function esUnitPhrase(numWords, raw, plural) {
+  const fem = ES_FEMININE_UNITS.has(plural);
+  if (esIsOne(raw)) return `${fem ? 'una' : 'un'} ${esSingularize(plural)}`;
+  return `${fem ? esFeminize(numWords) : esApocope(numWords)} ${plural}`;
+}
+
+function coreNormalizeEs(text) {
+  let t = ' ' + String(text) + ' ';
+
+  // 1. Percentages: "50%" / "99,5 %" → "… por ciento"
+  t = t.replace(/(\d[\d.,]*)\s*%/g, (_, n) => `${esNumberToken(n)} por ciento`);
+
+  // 2. Temperatures
+  t = t.replace(/(\d[\d.,]*)\s*°\s*C\b/gi, (_, n) => `${esNumberToken(n)} grados Celsius`);
+  t = t.replace(/(\d[\d.,]*)\s*°\s*F\b/gi, (_, n) => `${esNumberToken(n)} grados Fahrenheit`);
+  t = t.replace(/(\d[\d.,]*)\s*°/g, (_, n) => `${esNumberToken(n)} grados`);
+
+  // 3. Currency before the number
+  t = t.replace(/\$\s*(\d[\d.,]*)/g, (_, n) => esUnitPhrase(esNumberToken(n), n, 'dólares'));
+  t = t.replace(/€\s*(\d[\d.,]*)/g, (_, n) => esUnitPhrase(esNumberToken(n), n, 'euros'));
+
+  // 4. Ranges, with an optional trailing unit applied to the upper bound
+  //    ("5–10 mg" → "cinco a diez miligramos"). Runs before the plain unit pass
+  //    so the unit pass doesn't consume the upper bound out of the range.
+  const unitAlt = SORTED_UNITS_ES.map(([u]) => escapeRegex(u)).join('|');
+  t = t.replace(
+    new RegExp(`(\\d[\\d.,]*)\\s*[–—-]\\s*(\\d[\\d.,]*)\\s*(${unitAlt})?(?![A-Za-z])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${esNumberToken(a)} a ${esUnitPhrase(esNumberToken(b), b, UNITS_ES[u])}`
+      : `${esNumberToken(a)} a ${esNumberToken(b)}`),
+  );
+
+  // 4b. Ratios / blood pressure: "120/80" → "ciento veinte sobre ochenta"
+  //     (before units so a trailing unit like "120/80 mmHg" attaches correctly;
+  //     both sides must be 1–3 digit integers, so unit tokens like "mg/dL" and
+  //     4-digit years are unaffected).
+  t = t.replace(
+    new RegExp(`(\\d{1,3})\\s*/\\s*(\\d{1,3})\\s*(${unitAlt})?(?![A-Za-z0-9])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${esNumberToken(a)} sobre ${esUnitPhrase(esNumberToken(b), b, UNITS_ES[u])}`
+      : `${esNumberToken(a)} sobre ${esNumberToken(b)}`),
+  );
+
+  // 5. Number + unit (longest unit keys first so "mg/dL" beats "mg")
+  for (const [u, plural] of SORTED_UNITS_ES) {
+    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    t = t.replace(re, (_, n) => esUnitPhrase(esNumberToken(n), n, plural));
+  }
+
+  // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
+  t = t.replace(/\s\+\s/g, ' más ').replace(/\s×\s/g, ' por ').replace(/\s=\s/g, ' igual a ');
+
+  // 7. Remaining bare numbers
+  t = t.replace(/(?<![\w.,])(\d[\d.,]*\d|\d)(?![\w])/g, (_, n) => esNumberToken(n));
+
+  // 8. Apocope of a trailing "uno"/"veintiuno" before a noun (heuristic: any word
+  //    that isn't a common function word). Numbers in this domain almost always
+  //    quantify a following noun, so "treinta y uno días" → "treinta y un días".
+  const ES_FUNC = 'de|del|por|al|a|en|y|o|u|que|con|sin|para|como|más|menos|según|sobre|entre';
+  // Guard with a following space (not \b — JS \b is ASCII-only and mis-fires on
+  // "años"/accented words that start with a function-word letter).
+  t = t.replace(
+    new RegExp(`\\b(veintiuno|uno)(\\s+)(?!(?:${ES_FUNC})\\s)([a-záéíóúñ])`, 'gi'),
+    (_, num, sp, c) => (num.toLowerCase() === 'veintiuno' ? 'veintiún' : 'un') + sp + c,
+  );
+
+  return t.replace(/\s{2,}/g, ' ').trim();
+}
+
+function normalizeForTTS(text, opts = {}) {
   if (!text) return '';
+  const locale = (opts && opts.locale ? String(opts.locale) : 'en').toLowerCase().split(/[-_]/)[0];
+  if (locale === 'es') return coreNormalizeEs(text);
   return postprocessForTTS(coreNormalize(preprocessForTTS(text)));
 }
 
