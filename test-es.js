@@ -41,11 +41,13 @@ const ES = [
   ['2000000 personas', 'dos millones personas'],
 ];
 
-// English must be byte-for-byte unchanged (no opts → en path).
+// Guard that adding the locale param didn't disturb the English path. We do NOT
+// hardcode IPA output here (the shared package's English IPA evolves via the PL
+// project); instead we assert the default dispatch routes to the English
+// pipeline and stable number/unit expansion still works.
 const EN_REGRESSION = [
-  ['Take 200mg of NMN daily', 'Take two hundred milligrams of <phoneme alphabet="ipa" ph="ˌɛnɛmˈɛn">N-M-N</phoneme> daily'],
-  ['NAD+ levels decline by 50% after age 40', '<phoneme alphabet="ipa" ph="ˌɛneɪˈdiː">N-A-D</phoneme>-plus levels decline by fifty percent after age forty'],
   ['over 1,000 people', 'over one thousand people'],
+  ['Blood glucose: 95 mg/dL', 'Blood glucose: ninety five milligrams per deciliter'],
 ];
 
 let pass = 0, fail = 0;
@@ -59,5 +61,12 @@ function run(label, cases, opts) {
 }
 run('Spanish', ES, { locale: 'es' });
 run('English regression (locale en)', EN_REGRESSION, undefined);
+
+// Default (no opts) must route to the English pipeline, identical to {locale:'en'}.
+console.log('\n── Dispatch: default === {locale:en} ──');
+for (const s of ['Take 200mg of NMN daily', 'NAD+ levels decline by 50%', 'over 1,000 people']) {
+  if (normalizeForTTS(s) === normalizeForTTS(s, { locale: 'en' })) pass++;
+  else { fail++; console.log(`  ✗ default !== en for "${s}"`); }
+}
 console.log(`\n${fail === 0 ? '✓ ALL PASS' : '✗ FAILURES'} — ${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);
