@@ -36,6 +36,17 @@ const ES = [
   ['uno de cada diez', 'uno de cada diez'],
   ['presión de 120/80 mmHg', 'presión de ciento veinte sobre ochenta milímetros de mercurio'],
   ['140/90', 'ciento cuarenta sobre noventa'],
+  // Tier 1: mixed thousands+decimal, comparison/math symbols, markdown, abbreviations
+  ['una tasa de 40,028.5', 'una tasa de cuarenta mil veintiocho coma cinco'],
+  ['valor p < 0.05', 'valor p menor que cero coma cero cinco'],
+  ['riesgo ≥ 2 veces', 'riesgo mayor o igual que dos veces'],
+  ['un cambio de ±3 mg', 'un cambio de más o menos tres miligramos'],
+  ['aproximadamente ~10%', 'aproximadamente aproximadamente diez por ciento'],
+  ['EPA & DHA', 'EPA y DHA'],
+  ['**Hallazgo** clave', 'Hallazgo clave'],
+  ['el * marcador principal', 'el marcador principal'],
+  ['el Dr. Smith y la Dra. Ruiz', 'el doctor Smith y la doctora Ruiz'],
+  ['un estudio en EE. UU. vs. placebo, etc.', 'un estudio en Estados Unidos versus placebo, etcétera'],
   // millions
   ['1000000 de células', 'un millón de células'],
   ['2000000 personas', 'dos millones personas'],

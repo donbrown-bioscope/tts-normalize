@@ -2757,7 +2757,8 @@ function esDecimalWords(norm) {
 //   "1.234,5" → Spanish (',' decimal, '.' thousands).
 function esNumberToken(raw) {
   const s = String(raw).trim();
-  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return esDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5
+  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return esDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5 (es)
+  if (/^\d{1,3}(,\d{3})+\.\d+$/.test(s)) return esDecimalWords(s.replace(/,/g, ''));                     // 40,028.5 (en thousands+decimal)
   if (/^\d+,\d{1,2}$/.test(s)) return esDecimalWords(s.replace(',', '.'));        // 99,5  (decimal comma)
   if (/^\d{1,3}(,\d{3})+$/.test(s)) return esIntWords(parseInt(s.replace(/,/g, ''), 10)); // 10,000 (thousands)
   if (/^\d{1,3}(\.\d{3})+$/.test(s)) return esIntWords(parseInt(s.replace(/\./g, ''), 10)); // 1.000 (es thousands)
@@ -2807,6 +2808,33 @@ function esUnitPhrase(numWords, raw, plural) {
 
 function coreNormalizeEs(text) {
   let t = ' ' + String(text) + ' ';
+
+  // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
+  //     (">" is left for the comparison pass below, not treated as a blockquote.)
+  t = t
+    .replace(/\*\*([^*]+)\*\*/g, '$1')      // **bold**
+    .replace(/\*([^*\n]+)\*/g, '$1')        // *italic*
+    .replace(/(^|\s)[*•#]+\s/g, '$1')       // stray bullets / heading marks
+    .replace(/[`_*#]/g, '');                // leftover markdown chars
+
+  // 0b. Common abbreviations (deterministic backstop; the translation TTS mode
+  //     expands these too, but narration text may arrive un-expanded).
+  const ABBR_ES = [
+    [/\bEE\.?\s?UU\.?/g, 'Estados Unidos'],
+    [/\bDra\.\s*/g, 'doctora '], [/\bDr\.\s*/g, 'doctor '],
+    [/\bvs\.?(?=\W|$)/gi, 'versus'], [/\betc\.?(?=\s|$)/gi, 'etcétera'],
+    [/\bp\.\s?ej\.\b/gi, 'por ejemplo'], [/\baprox\.\b/gi, 'aproximadamente'],
+    [/\bnúm\.\b/gi, 'número'],
+  ];
+  for (const [re, w] of ABBR_ES) t = t.replace(re, w);
+
+  // 0c. Comparison / math operators → words (also when glued to a number).
+  t = t
+    .replace(/\s*≤\s*/g, ' menor o igual que ').replace(/\s*≥\s*/g, ' mayor o igual que ')
+    .replace(/\s*[≈~]\s*/g, ' aproximadamente ').replace(/\s*±\s*/g, ' más o menos ')
+    .replace(/\s*÷\s*/g, ' entre ').replace(/\s*&\s*/g, ' y ')
+    .replace(/(^|[\s\d])<(?=\s*[\d.])/g, '$1 menor que ')
+    .replace(/(^|[\s\d])>(?=\s*[\d.])/g, '$1 mayor que ');
 
   // 1. Percentages: "50%" / "99,5 %" → "… por ciento"
   t = t.replace(/(\d[\d.,]*)\s*%/g, (_, n) => `${esNumberToken(n)} por ciento`);
