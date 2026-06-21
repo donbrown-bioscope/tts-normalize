@@ -2805,6 +2805,18 @@ const ES_ORD_M = ['', 'primero', 'segundo', 'tercero', 'cuarto', 'quinto', 'sext
 const ES_ORD_F = ['', 'primera', 'segunda', 'tercera', 'cuarta', 'quinta', 'sexta',
   'séptima', 'octava', 'novena', 'décima', 'undécima', 'duodécima'];
 
+// Data-driven learned terms (token → spoken Spanish), grown by the weekly
+// gap-scan/learner. Additive + es-only, so it never affects the English path.
+// Each entry: { find: literal string, replace: spoken form }. Applied as literal
+// (non-regex) replacements early in coreNormalizeEs.
+let LEARNED_ES = [];
+try { LEARNED_ES = require('./data/learned-es-terms.json'); } catch { /* none yet */ }
+function reloadLearnedEsTerms() {
+  try { delete require.cache[require.resolve('./data/learned-es-terms.json')]; LEARNED_ES = require('./data/learned-es-terms.json'); }
+  catch { LEARNED_ES = []; }
+  return LEARNED_ES.length;
+}
+
 function esIsOne(raw) {
   return String(raw).replace(/[.,]/g, '') === '1';
 }
@@ -2830,6 +2842,16 @@ function coreNormalizeEs(text) {
     .replace(/\*([^*\n]+)\*/g, '$1')        // *italic*
     .replace(/(^|\s)[*•#]+\s/g, '$1')       // stray bullets / heading marks
     .replace(/[`_*#]/g, '');                // leftover markdown chars
+
+  // 0a2. Learned terms (data-driven; grown by the weekly gap-scan). Applied with
+  //      alphanumeric word boundaries (NOT literal substring) so a short token
+  //      like "IV" never corrupts "división". Applied before the rule passes.
+  for (let i = 0; i < LEARNED_ES.length; i++) {
+    const e = LEARNED_ES[i];
+    if (!e || !e.find) continue;
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])`, 'g');
+    t = t.replace(re, e.replace == null ? '' : e.replace);
+  }
 
   // 0b. Common abbreviations (deterministic backstop; the translation TTS mode
   //     expands these too, but narration text may arrive un-expanded).
@@ -3073,5 +3095,6 @@ module.exports = {
   findPronounceableAcronyms,
   resolveAndPersistAcronyms,
   reloadLearnedIpa,
+  reloadLearnedEsTerms,
   selfTest,
 };

@@ -1,0 +1,93 @@
+[
+  {
+    "find": "BHB",
+    "replace": "B H B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "IA",
+    "replace": "I A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "SOP",
+    "replace": "S O P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "NAA",
+    "replace": "N A A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "BRP",
+    "replace": "B R P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "CPA",
+    "replace": "C P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "AHR",
+    "replace": "A H R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "CAR-T",
+    "replace": "CAR T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "ADC",
+    "replace": "A D C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "TDAH",
+    "replace": "T D A H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "FDA",
+    "replace": "F D A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "NSSI",
+    "replace": "N S S I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  },
+  {
+    "find": "SNC",
+    "replace": "S N C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-21"
+  }
+]

@@ -59,6 +59,10 @@ const ES = [
   ['una proteína de 50 kDa', 'una proteína de cincuenta kilodaltons'],
   ['200 ppm de cloro', 'doscientas partes por millón de cloro'],
   ['concentración de 5 mM', 'concentración de cinco milimolar'],
+  // Learned terms (data-driven, grown by the weekly gap-scan) — word-bounded.
+  ['La FDA aprobó el fármaco', 'La F D A aprobó el fármaco'],
+  ['terapia CAR-T para el SNC', 'terapia CAR T para el S N C'],
+  ['un estudio sobre TDAH', 'un estudio sobre T D A H'],
   // millions
   ['1000000 de células', 'un millón de células'],
   ['2000000 personas', 'dos millones personas'],
