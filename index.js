@@ -2838,6 +2838,7 @@ function coreNormalizeEs(text) {
   // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
   //     (">" is left for the comparison pass below, not treated as a blockquote.)
   t = t
+    .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')    // strip inline HTML tags (<em>, <sub>, <sup>, …)
     .replace(/\*\*([^*]+)\*\*/g, '$1')      // **bold**
     .replace(/\*([^*\n]+)\*/g, '$1')        // *italic*
     .replace(/(^|\s)[*•#]+\s/g, '$1')       // stray bullets / heading marks
@@ -3127,6 +3128,7 @@ function coreNormalizeFr(text) {
 
   // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
   t = t
+    .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')    // strip inline HTML tags (<em>, <sub>, <sup>, …)
     .replace(/\*\*([^*]+)\*\*/g, '$1')      // **bold**
     .replace(/\*([^*\n]+)\*/g, '$1')        // *italic*
     .replace(/(^|\s)[*•#]+\s/g, '$1')       // stray bullets / heading marks
@@ -3225,6 +3227,14 @@ function coreNormalizeFr(text) {
     const i = parseInt(n, 10); if (i < 1 || i > 12) return m;
     return /^(re|ère)$/i.test(suf) ? FR_ORD_F[i] : FR_ORD_M[i];
   });
+
+  // 5d. Compound / product codes: 2+ uppercase letters + optional hyphen + a
+  //     3–4 digit tail (drug candidates like RLS-1496, BPC-157, AC220). Speak
+  //     the tail digit-by-digit so it isn't read as a cardinal ("mille quatre
+  //     cent…"). Units were already consumed in step 5; 1–2 digit tails
+  //     (COVID-19, phase numbers) fall through to the normal number pass.
+  t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
+    (_, pre, digits) => `${pre} ${digits.split('').map((d) => FR_ONES[Number(d)]).join(' ')}`);
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' plus ').replace(/\s×\s/g, ' fois ').replace(/\s=\s/g, ' égale ');

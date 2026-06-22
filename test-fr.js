@@ -76,6 +76,19 @@ const FR = [
   // millions
   ['1000000 de cellules', 'un million de cellules'],
   ['2000000 personnes', 'deux millions personnes'],
+  // HTML tag stripping (inline <em>/<sub> in translated summaries)
+  ['expansion de <em>Faecalibacterium</em> et <sub>2</sub> chez 12 %',
+    'expansion de Faecalibacterium et deux chez douze pour cent'],
+  ['le gène <em>APOE4</em> est un facteur de risque', 'le gène APOE4 est un facteur de risque'],
+  // Compound / product codes: digit-by-digit tail (3–4 digits), not a cardinal
+  ['RLS-1496 a réduit les lésions', 'RLS un quatre neuf six a réduit les lésions'],
+  ['inhibiteur BPC-157', 'inhibiteur BPC un cinq sept'],
+  ['traité avec AC220', 'traité avec AC deux deux zéro'],
+  // 2-digit tails still read as numbers (COVID-19, not a code)
+  ['la pandémie de COVID-19', 'la pandémie de COVID-dix-neuf'],
+  // Seeded acronyms (letter-spelled)
+  ['le taux de LDL et de HDL', 'le taux de L D L et de H D L'],
+  ['une IRM cérébrale et le NAD', 'une I R M cérébrale et le N A D'],
 ];
 
 // Guard that the fr locale param didn't disturb the en/es paths.
