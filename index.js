@@ -2939,6 +2939,14 @@ function coreNormalizeEs(text) {
     const i = parseInt(n, 10); return (i >= 1 && i <= 12) ? ES_ORD_M[i] : m;
   });
 
+  // 5d. Compound / product codes: 2+ uppercase letters + optional hyphen + a
+  //     3–4 digit tail (drug candidates like RLS-1496, BPC-157, AC220). Speak
+  //     the tail digit-by-digit so it isn't read as a cardinal ("mil
+  //     cuatrocientos…"). Units were already consumed in step 5; 1–2 digit
+  //     tails (COVID-19, phase numbers) fall through to the normal number pass.
+  t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
+    (_, pre, digits) => `${pre} ${digits.split('').map((d) => ES_ONES[Number(d)]).join(' ')}`);
+
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' más ').replace(/\s×\s/g, ' por ').replace(/\s=\s/g, ' igual a ');
 

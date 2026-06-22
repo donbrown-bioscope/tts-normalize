@@ -66,6 +66,18 @@ const ES = [
   // millions
   ['1000000 de células', 'un millón de células'],
   ['2000000 personas', 'dos millones personas'],
+  // HTML tag stripping (inline <em>/<sub> in translated summaries)
+  ['expansión de <em>Faecalibacterium</em> y <sub>2</sub> en 12 %',
+    'expansión de Faecalibacterium y dos en doce por ciento'],
+  // Compound / product codes: digit-by-digit tail (3–4 digits), not a cardinal.
+  // (Leading "uno" apocopates to "un" via step 8 — acceptable for a spelled code.)
+  ['RLS-1496 redujo las lesiones', 'RLS un cuatro nueve seis redujo las lesiones'],
+  ['inhibidor BPC-157 y AC220', 'inhibidor BPC un cinco siete y AC dos dos cero'],
+  // 2-digit tails still read as numbers (COVID-19, not a code)
+  ['la pandemia de COVID-19', 'la pandemia de COVID-diecinueve'],
+  // Seeded acronyms (letter-spelled)
+  ['el colesterol LDL y HDL', 'el colesterol L D L y H D L'],
+  ['niveles de NAD y TNF', 'niveles de N A D y T N F'],
 ];
 
 // Guard that adding the locale param didn't disturb the English path. We do NOT

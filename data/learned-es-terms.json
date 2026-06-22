@@ -89,5 +89,12 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-06-21"
-  }
+  },
+  { "find": "LDL", "replace": "L D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "HDL", "replace": "H D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "NAD", "replace": "N A D", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "GLP", "replace": "G L P", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "TNF", "replace": "T N F", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "ALT", "replace": "A L T", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "GSH", "replace": "G S H", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" }
 ]
