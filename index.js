@@ -2958,10 +2958,288 @@ function coreNormalizeEs(text) {
   return t.replace(/\s{2,}/g, ' ').trim();
 }
 
+// ════════════════════════════════════════════════════════════
+// FRENCH (fr) NORMALIZATION — modeled on the Spanish path above:
+// numbers, units, symbols, dates, ordinals. Locale-gated; the
+// English + Spanish pipelines are untouched. No IPA / acronym-
+// pronunciation layer (French TTS reads words phonetically; the
+// learned-fr-terms data file letter-spells the acronyms that need it).
+// ════════════════════════════════════════════════════════════
+
+// 0–19 carry their own names; the teens (dix-sept…) are reused inside
+// soixante-/quatre-vingt- compounds, so the table runs to 19.
+const FR_ONES = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix',
+  'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
+// 70/80/90 are built from soixante/quatre-vingt, so only 20–60 live here.
+const FR_TENS = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', '', '', ''];
+
+// Feminine agreement in French only touches the trailing "un" → "une"
+// (cardinals 2+ and the hundreds/tens words are gender-invariable, unlike
+// Spanish). So "vingt et un calories" → "vingt et une calories".
+function frFeminize(words) {
+  return words.replace(/\bun$/, 'une');
+}
+
+// `mult` = this chunk multiplies "mille", which suppresses the plural -s on a
+// trailing "quatre-vingts"/"cents" ("quatre-vingt mille", "deux cent mille").
+// Before a noun multiplier (million/milliard) the -s stays, so callers pass
+// mult=false there.
+function frBelow100(n, mult) {
+  if (n < 20) return FR_ONES[n];
+  const tens = Math.floor(n / 10), u = n % 10;
+  if (n < 70) {
+    const base = FR_TENS[tens];
+    if (u === 0) return base;
+    if (u === 1) return base + ' et un';      // vingt et un, trente et un, …
+    return base + '-' + FR_ONES[u];           // vingt-deux, …
+  }
+  if (n < 80) {                                // 70–79 = soixante + 10–19
+    const rem = n - 60;
+    if (rem === 11) return 'soixante et onze'; // 71 keeps the "et"
+    return 'soixante-' + FR_ONES[rem];         // soixante-dix, soixante-douze, soixante-dix-neuf
+  }
+  const rem = n - 80;                          // 80–99 = quatre-vingt + 0–19
+  if (rem === 0) return mult ? 'quatre-vingt' : 'quatre-vingts';
+  return 'quatre-vingt-' + FR_ONES[rem];       // no "et" at 81/91; quatre-vingt-un, quatre-vingt-onze
+}
+
+function frBelow1000(n, mult) {
+  if (n < 100) return frBelow100(n, mult);
+  const h = Math.floor(n / 100), rem = n % 100;
+  let centWord;
+  if (h === 1) centWord = 'cent';
+  else centWord = FR_ONES[h] + ' ' + ((rem === 0 && !mult) ? 'cents' : 'cent'); // deux cents / deux cent un
+  if (rem === 0) return centWord;
+  return centWord + ' ' + frBelow100(rem, mult);
+}
+
+function frIntWords(n) {
+  if (n === 0) return 'zéro';
+  if (n < 0) return 'moins ' + frIntWords(-n);
+  const parts = [];
+  const milliards = Math.floor(n / 1_000_000_000);
+  const millions = Math.floor((n % 1_000_000_000) / 1_000_000);
+  const milliers = Math.floor((n % 1_000_000) / 1000);
+  const reste = n % 1000;
+  if (milliards) parts.push(milliards === 1 ? 'un milliard' : frBelow1000(milliards, false) + ' milliards');
+  if (millions) parts.push(millions === 1 ? 'un million' : frBelow1000(millions, false) + ' millions');
+  if (milliers) parts.push(milliers === 1 ? 'mille' : frBelow1000(milliers, true) + ' mille'); // "mille" invariable, never "un mille"
+  if (reste) parts.push(frBelow1000(reste, false));
+  return parts.join(' ').trim();
+}
+
+// French reads decimals digit-by-digit after "virgule". `norm` uses '.' as the
+// decimal separator (callers convert a French "," first).
+function frDecimalWords(norm) {
+  const [intp, decp = ''] = norm.split('.');
+  const intWords = frIntWords(parseInt(intp, 10) || 0);
+  const decWords = decp.split('').map((d) => FR_ONES[Number(d)]).join(' ');
+  return `${intWords} virgule ${decWords}`;
+}
+
+// Turn a formatted numeric token (with , / . separators) into French words.
+// Same English-vs-continental heuristics as the Spanish token reader: French
+// shares the comma-decimal / period-or-space-thousands conventions, and the
+// spaced-thousands case is pre-collapsed in coreNormalizeFr before this runs.
+function frNumberToken(raw) {
+  const s = String(raw).trim();
+  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return frDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5 (fr/es)
+  if (/^\d{1,3}(,\d{3})+\.\d+$/.test(s)) return frDecimalWords(s.replace(/,/g, ''));                     // 40,028.5 (en thousands+decimal)
+  if (/^\d+,\d{1,2}$/.test(s)) return frDecimalWords(s.replace(',', '.'));        // 99,5  (decimal comma)
+  if (/^\d{1,3}(,\d{3})+$/.test(s)) return frIntWords(parseInt(s.replace(/,/g, ''), 10)); // 10,000 (thousands)
+  if (/^\d{1,3}(\.\d{3})+$/.test(s)) return frIntWords(parseInt(s.replace(/\./g, ''), 10)); // 1.000 (continental thousands)
+  if (/^\d+\.\d+$/.test(s)) return frDecimalWords(s);                              // 3.5  (decimal point)
+  if (/^\d+$/.test(s)) return frIntWords(parseInt(s, 10));
+  const cleaned = s.replace(/[.,]/g, '');
+  return /^\d+$/.test(cleaned) ? frIntWords(parseInt(cleaned, 10)) : s;
+}
+
+// Unit plurals (the stored form); singular derived when the value is 1.
+const UNITS_FR = {
+  'mg/dL': 'milligrammes par décilitre', 'mg/dl': 'milligrammes par décilitre',
+  'mmol/L': 'millimoles par litre', 'µmol/L': 'micromoles par litre', 'μmol/L': 'micromoles par litre',
+  'ng/mL': 'nanogrammes par millilitre', 'ng/ml': 'nanogrammes par millilitre',
+  'pg/mL': 'picogrammes par millilitre', 'µg/dL': 'microgrammes par décilitre', 'μg/dL': 'microgrammes par décilitre',
+  'g/dL': 'grammes par décilitre', 'IU/L': 'unités internationales par litre', 'U/L': 'unités par litre',
+  'mg/kg': 'milligrammes par kilogramme', 'mmHg': 'millimètres de mercure', 'kPa': 'kilopascals',
+  'mcg': 'microgrammes', 'µg': 'microgrammes', 'μg': 'microgrammes', 'ng': 'nanogrammes', 'pg': 'picogrammes',
+  'mg': 'milligrammes', 'kg': 'kilogrammes', 'g': 'grammes',
+  'mL': 'millilitres', 'ml': 'millilitres', 'dL': 'décilitres', 'dl': 'décilitres', 'L': 'litres',
+  'kcal': 'kilocalories', 'cal': 'calories', 'kJ': 'kilojoules',
+  'bpm': 'battements par minute', 'mmol': 'millimoles', 'µmol': 'micromoles', 'nmol': 'nanomoles',
+  'IU': 'unités internationales', 'mIU': 'milliunités internationales',
+  'km': 'kilomètres', 'cm': 'centimètres', 'mm': 'millimètres', 'nm': 'nanomètres', 'µm': 'micromètres',
+  'lb': 'livres', 'lbs': 'livres', 'oz': 'onces',
+  'hr': 'heures', 'hrs': 'heures', 'min': 'minutes', 'sec': 'secondes', 'ms': 'millisecondes',
+  // Tier 2 scientific units
+  'GHz': 'gigahertz', 'MHz': 'mégahertz', 'kHz': 'kilohertz', 'Hz': 'hertz',
+  'dB': 'décibels', 'kDa': 'kilodaltons', 'Da': 'daltons', 'ppm': 'parties par million',
+  'ppb': 'parties par milliard', 'kW': 'kilowatts', 'mW': 'milliwatts', 'W': 'watts',
+  'mV': 'millivolts', 'V': 'volts', 'J': 'joules',
+  'mM': 'millimolaire', 'µM': 'micromolaire', 'μM': 'micromolaire', 'nM': 'nanomolaire', 'pM': 'picomolaire',
+};
+// Units whose French noun is feminine — only matters at value 1 to drive
+// "une" instead of "un" (French cardinals 2+ are gender-invariable).
+const FR_FEMININE_UNITS = new Set(['calories', 'kilocalories', 'livres', 'onces', 'heures', 'minutes',
+  'secondes', 'millisecondes', 'millimoles', 'micromoles', 'nanomoles',
+  'unités internationales', 'milliunités internationales', 'unités par litre',
+  'parties par million', 'parties par milliard',
+  'millimoles par litre', 'micromoles par litre', 'unités internationales par litre']);
+const SORTED_UNITS_FR = Object.entries(UNITS_FR).sort((a, b) => b[0].length - a[0].length);
+
+const FR_MONTHS = ['', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+  'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+// Ordinals 1–12. Only "premier/première" inflects for gender; 2+ share one form.
+const FR_ORD_M = ['', 'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième', 'sixième',
+  'septième', 'huitième', 'neuvième', 'dixième', 'onzième', 'douzième'];
+const FR_ORD_F = ['', 'première', 'deuxième', 'troisième', 'quatrième', 'cinquième', 'sixième',
+  'septième', 'huitième', 'neuvième', 'dixième', 'onzième', 'douzième'];
+
+// Data-driven learned terms (token → spoken French), grown by the weekly
+// gap-scan/learner. Additive + fr-only, so it never affects en/es.
+let LEARNED_FR = [];
+try { LEARNED_FR = require('./data/learned-fr-terms.json'); } catch { /* none yet */ }
+function reloadLearnedFrTerms() {
+  try { delete require.cache[require.resolve('./data/learned-fr-terms.json')]; LEARNED_FR = require('./data/learned-fr-terms.json'); }
+  catch { LEARNED_FR = []; }
+  return LEARNED_FR.length;
+}
+
+function frIsOne(raw) {
+  return String(raw).replace(/[.,\s]/g, '') === '1';
+}
+// Singularize each word of the leading noun(s); keep a "par …" tail intact.
+function frSingularize(plural) {
+  const [head, ...tail] = plural.split(' par ');
+  const sing = head.split(' ')
+    .map((w) => (w.length > 2 && w.endsWith('s') ? w.slice(0, -1) : w)) // "hertz" (z) stays; "grammes"→"gramme"
+    .join(' ');
+  return [sing, ...tail].join(' par ');
+}
+function frUnitPhrase(numWords, raw, plural) {
+  const fem = FR_FEMININE_UNITS.has(plural);
+  if (frIsOne(raw)) return `${fem ? 'une' : 'un'} ${frSingularize(plural)}`;
+  return `${fem ? frFeminize(numWords) : numWords} ${plural}`;
+}
+
+function coreNormalizeFr(text) {
+  let t = ' ' + String(text) + ' ';
+
+  // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
+  t = t
+    .replace(/\*\*([^*]+)\*\*/g, '$1')      // **bold**
+    .replace(/\*([^*\n]+)\*/g, '$1')        // *italic*
+    .replace(/(^|\s)[*•#]+\s/g, '$1')       // stray bullets / heading marks
+    .replace(/[`_*#]/g, '');                // leftover markdown chars
+
+  // 0a2. Collapse French spaced thousands ("10 000" / "1 234 567" — incl. the
+  //      narrow/non-breaking spaces French typography uses) so the bare-number
+  //      pass doesn't split them. Requires 3-digit groups, so "20 ans" is safe.
+  t = t.replace(/(\d{1,3}(?:[   ]\d{3})+)(?!\d)/g, (m) => m.replace(/[   ]/g, ''));
+
+  // 0a3. Learned terms (data-driven; grown by the weekly gap-scan). Applied with
+  //      alphanumeric word boundaries (NOT literal substring) so a short token
+  //      never corrupts a longer word. Applied before the rule passes.
+  for (let i = 0; i < LEARNED_FR.length; i++) {
+    const e = LEARNED_FR[i];
+    if (!e || !e.find) continue;
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])`, 'g');
+    t = t.replace(re, e.replace == null ? '' : e.replace);
+  }
+
+  // 0b. Common abbreviations (deterministic backstop). Longest/most-specific first.
+  const ABBR_FR = [
+    [/É\.?-?\s?U\.?/g, 'États-Unis'], [/\bUSA\b/g, 'États-Unis'],
+    [/\bDre\.?\s*/g, 'docteure '], [/\bDr\.?\s*/g, 'docteur '],
+    [/\bMme\.?\s*/g, 'Madame '], [/\bMlle\.?\s*/g, 'Mademoiselle '], [/\bM\.\s+/g, 'Monsieur '],
+    [/\bvs\.?(?=\W|$)/gi, 'contre'], [/\betc\.?(?=\s|$)/gi, 'et cetera'],
+    [/\bp\.\s?ex\.?/gi, 'par exemple'], [/\benv\.\b/gi, 'environ'],
+    [/\bc\.-à-d\.?/gi, "c'est-à-dire"], [/\bn[°º]\.?\s?/gi, 'numéro '],
+  ];
+  for (const [re, w] of ABBR_FR) t = t.replace(re, w);
+
+  // 0c. Comparison / math operators → words (also when glued to a number).
+  t = t
+    .replace(/\s*≤\s*/g, ' inférieur ou égal à ').replace(/\s*≥\s*/g, ' supérieur ou égal à ')
+    .replace(/\s*[≈~]\s*/g, ' environ ').replace(/\s*±\s*/g, ' plus ou moins ')
+    .replace(/\s*÷\s*/g, ' divisé par ').replace(/\s*&\s*/g, ' et ')
+    .replace(/(^|[\s\d])<(?=\s*[\d.])/g, '$1 inférieur à ')
+    .replace(/(^|[\s\d])>(?=\s*[\d.])/g, '$1 supérieur à ');
+
+  // 1. Percentages: "50%" / "99,5 %" → "… pour cent"
+  t = t.replace(/(\d[\d.,]*)\s*%/g, (_, n) => `${frNumberToken(n)} pour cent`);
+
+  // 2. Temperatures (singular "degré" only at value 1)
+  t = t.replace(/(\d[\d.,]*)\s*°\s*C\b/gi, (_, n) => `${frNumberToken(n)} ${frIsOne(n) ? 'degré' : 'degrés'} Celsius`);
+  t = t.replace(/(\d[\d.,]*)\s*°\s*F\b/gi, (_, n) => `${frNumberToken(n)} ${frIsOne(n) ? 'degré' : 'degrés'} Fahrenheit`);
+  t = t.replace(/(\d[\d.,]*)\s*°/g, (_, n) => `${frNumberToken(n)} ${frIsOne(n) ? 'degré' : 'degrés'}`);
+
+  // 3. Currency, symbol before OR after the number (French usually writes "50 $").
+  t = t.replace(/\$\s*(\d[\d.,]*)/g, (_, n) => frUnitPhrase(frNumberToken(n), n, 'dollars'));
+  t = t.replace(/(\d[\d.,]*)\s*\$/g, (_, n) => frUnitPhrase(frNumberToken(n), n, 'dollars'));
+  t = t.replace(/€\s*(\d[\d.,]*)/g, (_, n) => frUnitPhrase(frNumberToken(n), n, 'euros'));
+  t = t.replace(/(\d[\d.,]*)\s*€/g, (_, n) => frUnitPhrase(frNumberToken(n), n, 'euros'));
+
+  // 3b. ISO dates "2026-06-20" → "vingt juin deux mille vingt-six" (day 1 → "premier").
+  //     Before ranges so the hyphens aren't read as a numeric range.
+  t = t.replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (m, y, mo, d) => {
+    const mm = parseInt(mo, 10), dd = parseInt(d, 10);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return m;
+    const day = dd === 1 ? 'premier' : frIntWords(dd);
+    return `${day} ${FR_MONTHS[mm]} ${frIntWords(parseInt(y, 10))}`;
+  });
+
+  // 4. Ranges, with an optional trailing unit applied to the upper bound
+  //    ("5–10 mg" → "cinq à dix milligrammes").
+  const unitAlt = SORTED_UNITS_FR.map(([u]) => escapeRegex(u)).join('|');
+  t = t.replace(
+    new RegExp(`(\\d[\\d.,]*)\\s*[–—-]\\s*(\\d[\\d.,]*)\\s*(${unitAlt})?(?![A-Za-z])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${frNumberToken(a)} à ${frUnitPhrase(frNumberToken(b), b, UNITS_FR[u])}`
+      : `${frNumberToken(a)} à ${frNumberToken(b)}`),
+  );
+
+  // 4b. Ratios / blood pressure: "120/80" → "cent vingt sur quatre-vingts".
+  t = t.replace(
+    new RegExp(`(\\d{1,3})\\s*/\\s*(\\d{1,3})\\s*(${unitAlt})?(?![A-Za-z0-9])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${frNumberToken(a)} sur ${frUnitPhrase(frNumberToken(b), b, UNITS_FR[u])}`
+      : `${frNumberToken(a)} sur ${frNumberToken(b)}`),
+  );
+
+  // 5. Number + unit (longest unit keys first so "mg/dL" beats "mg")
+  for (const [u, plural] of SORTED_UNITS_FR) {
+    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    t = t.replace(re, (_, n) => frUnitPhrase(frNumberToken(n), n, plural));
+  }
+
+  // 5b. Scientific letter+number tokens where the number IS spoken: vitamins
+  //     (B/D/K + number), thyroid (T3/T4), coenzyme Q10, oméga-N. Multi-letter
+  //     gene symbols (PCSK9, TP53, FOXO3) are untouched.
+  t = t.replace(/\bom[ée]ga[-\s]?(\d+)\b/gi, (_, n) => `oméga ${frIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\bCoQ[-\s]?(\d+)\b/g, (_, n) => `CoQ ${frIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\b([BDKT])-?(\d{1,2})\b/g, (_, L, n) => `${L} ${frIntWords(parseInt(n, 10))}`);
+
+  // 5c. Ordinals (1–12): "1er/1re/2e/2ème" → ordinal words.
+  t = t.replace(/\b(\d+)(ère|ème|er|re|nd|e)\b/gi, (m, n, suf) => {
+    const i = parseInt(n, 10); if (i < 1 || i > 12) return m;
+    return /^(re|ère)$/i.test(suf) ? FR_ORD_F[i] : FR_ORD_M[i];
+  });
+
+  // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
+  t = t.replace(/\s\+\s/g, ' plus ').replace(/\s×\s/g, ' fois ').replace(/\s=\s/g, ' égale ');
+
+  // 7. Remaining bare numbers
+  t = t.replace(/(?<![\w.,])(\d[\d.,]*\d|\d)(?![\w])/g, (_, n) => frNumberToken(n));
+
+  return t.replace(/\s{2,}/g, ' ').trim();
+}
+
 function normalizeForTTS(text, opts = {}) {
   if (!text) return '';
   const locale = (opts && opts.locale ? String(opts.locale) : 'en').toLowerCase().split(/[-_]/)[0];
   if (locale === 'es') return coreNormalizeEs(text);
+  if (locale === 'fr') return coreNormalizeFr(text);
   return postprocessForTTS(coreNormalize(preprocessForTTS(text)));
 }
 
@@ -3096,5 +3374,6 @@ module.exports = {
   resolveAndPersistAcronyms,
   reloadLearnedIpa,
   reloadLearnedEsTerms,
+  reloadLearnedFrTerms,
   selfTest,
 };

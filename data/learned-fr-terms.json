@@ -1,0 +1,11 @@
+[
+  { "find": "OMS", "replace": "O M S", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "FDA", "replace": "F D A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "IMC", "replace": "I M C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "VIH", "replace": "V I H", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "TDAH", "replace": "T D A H", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "SNC", "replace": "S N C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "AVC", "replace": "A V C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "ADN", "replace": "A D N", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
+  { "find": "ARN", "replace": "A R N", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" }
+]
