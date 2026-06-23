@@ -3261,11 +3261,273 @@ function coreNormalizeFr(text) {
   return t.replace(/\s{2,}/g, ' ').trim();
 }
 
+// ─── ITALIAN (it) ───────────────────────────────────────────
+// Mirrors the French path. Italian compound numbers are written as ONE word
+// (ventuno, milleduecento, duemilatrecento) with vowel elision before uno/otto
+// and an accented -tré; millions/billions break into separate words.
+const IT_ONES = ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci',
+  'undici', 'dodici', 'tredici', 'quattordici', 'quindici', 'sedici', 'diciassette', 'diciotto', 'diciannove'];
+const IT_TENS = ['', '', 'venti', 'trenta', 'quaranta', 'cinquanta', 'sessanta', 'settanta', 'ottanta', 'novanta'];
+
+function itBelow100(n) {
+  if (n < 20) return IT_ONES[n];
+  const tens = Math.floor(n / 10), u = n % 10;
+  let base = IT_TENS[tens];
+  if (u === 0) return base;
+  if (u === 1 || u === 8) base = base.slice(0, -1); // ventuno, ventotto, trentuno, …
+  if (u === 3) return base + 'tré';                  // ventitré, trentatré, …
+  return base + IT_ONES[u];
+}
+
+function itBelow1000(n) {
+  if (n < 100) return itBelow100(n);
+  const h = Math.floor(n / 100), rem = n % 100;
+  let cent = h === 1 ? 'cento' : IT_ONES[h] + 'cento'; // cento, duecento, trecento, …
+  if (rem === 0) return cent;
+  const remWord = itBelow100(rem);
+  if (remWord.startsWith('ott')) cent = cent.slice(0, -1); // centotto, centottanta, duecentottanta
+  return cent + remWord;
+}
+
+// 0–999 999 as a single concatenated word (mille / Xmila glued to the remainder).
+function itSubMillion(n) {
+  const migliaia = Math.floor(n / 1000), resto = n % 1000;
+  if (migliaia === 0) return itBelow1000(resto);
+  const th = migliaia === 1 ? 'mille' : itBelow1000(migliaia) + 'mila';
+  return resto === 0 ? th : th + itBelow1000(resto); // milleduecento, duemilatrecento
+}
+
+function itIntWords(n) {
+  if (n === 0) return 'zero';
+  if (n < 0) return 'meno ' + itIntWords(-n);
+  const parts = [];
+  const miliardi = Math.floor(n / 1_000_000_000);
+  const milioni = Math.floor((n % 1_000_000_000) / 1_000_000);
+  const sub = n % 1_000_000;
+  if (miliardi) parts.push(miliardi === 1 ? 'un miliardo' : itSubMillion(miliardi) + ' miliardi');
+  if (milioni) parts.push(milioni === 1 ? 'un milione' : itSubMillion(milioni) + ' milioni');
+  if (sub) parts.push(itSubMillion(sub));
+  return parts.join(' ').trim();
+}
+
+// Italian reads decimals digit-by-digit after "virgola" (`norm` uses '.').
+function itDecimalWords(norm) {
+  const [intp, decp = ''] = norm.split('.');
+  const intWords = itIntWords(parseInt(intp, 10) || 0);
+  const decWords = decp.split('').map((d) => IT_ONES[Number(d)]).join(' ');
+  return `${intWords} virgola ${decWords}`;
+}
+
+// Continental conventions: comma decimal, period/space thousands (same heuristics
+// as the fr/es token readers; spaced thousands pre-collapsed in coreNormalizeIt).
+function itNumberToken(raw) {
+  const s = String(raw).trim();
+  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return itDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5
+  if (/^\d{1,3}(,\d{3})+\.\d+$/.test(s)) return itDecimalWords(s.replace(/,/g, ''));                     // 40,028.5 (en)
+  if (/^\d+,\d{1,2}$/.test(s)) return itDecimalWords(s.replace(',', '.'));        // 99,5
+  if (/^\d{1,3}(,\d{3})+$/.test(s)) return itIntWords(parseInt(s.replace(/,/g, ''), 10)); // 10,000
+  if (/^\d{1,3}(\.\d{3})+$/.test(s)) return itIntWords(parseInt(s.replace(/\./g, ''), 10)); // 1.000
+  if (/^\d+\.\d+$/.test(s)) return itDecimalWords(s);                              // 3.5
+  if (/^\d+$/.test(s)) return itIntWords(parseInt(s, 10));
+  const cleaned = s.replace(/[.,]/g, '');
+  return /^\d+$/.test(cleaned) ? itIntWords(parseInt(cleaned, 10)) : s;
+}
+
+// Unit plurals (the stored form); singular derived when the value is 1.
+const UNITS_IT = {
+  'mg/dL': 'milligrammi per decilitro', 'mg/dl': 'milligrammi per decilitro',
+  'mmol/L': 'millimoli per litro', 'µmol/L': 'micromoli per litro', 'μmol/L': 'micromoli per litro',
+  'ng/mL': 'nanogrammi per millilitro', 'ng/ml': 'nanogrammi per millilitro',
+  'pg/mL': 'picogrammi per millilitro', 'µg/dL': 'microgrammi per decilitro', 'μg/dL': 'microgrammi per decilitro',
+  'g/dL': 'grammi per decilitro', 'IU/L': 'unità internazionali per litro', 'U/L': 'unità per litro',
+  'mg/kg': 'milligrammi per chilogrammo', 'mmHg': 'millimetri di mercurio', 'kPa': 'chilopascal',
+  'mcg': 'microgrammi', 'µg': 'microgrammi', 'μg': 'microgrammi', 'ng': 'nanogrammi', 'pg': 'picogrammi',
+  'mg': 'milligrammi', 'kg': 'chilogrammi', 'g': 'grammi',
+  'mL': 'millilitri', 'ml': 'millilitri', 'dL': 'decilitri', 'dl': 'decilitri', 'L': 'litri',
+  'kcal': 'chilocalorie', 'cal': 'calorie', 'kJ': 'chilojoule',
+  'bpm': 'battiti al minuto', 'mmol': 'millimoli', 'µmol': 'micromoli', 'nmol': 'nanomoli',
+  'IU': 'unità internazionali', 'mIU': 'milliunità internazionali',
+  'km': 'chilometri', 'cm': 'centimetri', 'mm': 'millimetri', 'nm': 'nanometri', 'µm': 'micrometri',
+  'lb': 'libbre', 'lbs': 'libbre', 'oz': 'once',
+  'hr': 'ore', 'hrs': 'ore', 'min': 'minuti', 'sec': 'secondi', 'ms': 'millisecondi',
+  // Tier 2 scientific units
+  'GHz': 'gigahertz', 'MHz': 'megahertz', 'kHz': 'chilohertz', 'Hz': 'hertz',
+  'dB': 'decibel', 'kDa': 'chilodalton', 'Da': 'dalton', 'ppm': 'parti per milione',
+  'ppb': 'parti per miliardo', 'kW': 'chilowatt', 'mW': 'milliwatt', 'W': 'watt',
+  'mV': 'millivolt', 'V': 'volt', 'J': 'joule',
+  'mM': 'millimolare', 'µM': 'micromolare', 'μM': 'micromolare', 'nM': 'nanomolare', 'pM': 'picomolare',
+};
+// Units whose Italian noun is feminine — drives "una"/"un'" at value 1 (cardinals
+// 2+ are gender-invariable in Italian).
+const IT_FEMININE_UNITS = new Set(['calorie', 'chilocalorie', 'libbre', 'once', 'ore',
+  'millimoli', 'micromoli', 'nanomoli', 'unità internazionali', 'milliunità internazionali',
+  'unità per litro', 'parti per milione', 'parti per miliardo',
+  'millimoli per litro', 'micromoli per litro', 'unità internazionali per litro']);
+const SORTED_UNITS_IT = Object.entries(UNITS_IT).sort((a, b) => b[0].length - a[0].length);
+
+const IT_MONTHS = ['', 'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+  'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+
+// Foreign / invariable unit nouns (same singular & plural).
+const IT_INVARIABLE_UNITS = new Set(['hertz', 'gigahertz', 'megahertz', 'chilohertz', 'watt',
+  'milliwatt', 'chilowatt', 'volt', 'millivolt', 'joule', 'decibel', 'dalton', 'chilodalton',
+  'pascal', 'chilopascal', 'euro', 'unità', 'milliunità']);
+const IT_SINGULAR_IRREG = { once: 'oncia', parti: 'parte' };
+function itSingularizeWord(w) {
+  if (IT_INVARIABLE_UNITS.has(w)) return w;
+  if (IT_SINGULAR_IRREG[w]) return IT_SINGULAR_IRREG[w];
+  if (w.endsWith('molare')) return w;                 // millimolare etc. (invariable adj-unit)
+  if (w.endsWith('moli')) return w.slice(0, -4) + 'mole'; // millimoli→millimole
+  if (w.length > 2 && w.endsWith('i')) return w.slice(0, -1) + 'o'; // grammi→grammo, litri→litro
+  if (w.length > 2 && w.endsWith('e')) return w.slice(0, -1) + 'a'; // calorie→caloria, ore→ora
+  return w;
+}
+// Singularize the leading count-noun only; keep a "per …"/"di …"/"al …" tail intact.
+function itSingularize(plural) {
+  const parts = plural.split(' ');
+  parts[0] = itSingularizeWord(parts[0]);
+  return parts.join(' ');
+}
+
+// Data-driven learned terms (token → spoken Italian), grown by the weekly
+// gap-scan/learner. Additive + it-only, so it never affects en/es/fr.
+let LEARNED_IT = [];
+try { LEARNED_IT = require('./data/learned-it-terms.json'); } catch { /* none yet */ }
+function reloadLearnedItTerms() {
+  try { delete require.cache[require.resolve('./data/learned-it-terms.json')]; LEARNED_IT = require('./data/learned-it-terms.json'); }
+  catch { LEARNED_IT = []; }
+  return LEARNED_IT.length;
+}
+
+function itIsOne(raw) {
+  return String(raw).replace(/[.,\s]/g, '') === '1';
+}
+function itUnitPhrase(numWords, raw, plural) {
+  if (itIsOne(raw)) {
+    const sing = itSingularize(plural);
+    if (IT_FEMININE_UNITS.has(plural)) return (/^[aeiouàèéìòù]/i.test(sing) ? "un'" : 'una ') + sing;
+    return 'un ' + sing; // un grammo, un litro, un euro (masculine units start with consonants)
+  }
+  return `${numWords} ${plural}`;
+}
+
+function coreNormalizeIt(text) {
+  let t = ' ' + String(text) + ' ';
+
+  // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
+  t = t
+    .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*\n]+)\*/g, '$1')
+    .replace(/(^|\s)[*•#]+\s/g, '$1')
+    .replace(/[`_*#]/g, '');
+
+  // 0a2. Collapse Italian spaced thousands ("10 000" / "1 234 567" incl. narrow/
+  //      non-breaking spaces). Requires 3-digit groups, so "20 anni" is safe.
+  t = t.replace(/(\d{1,3}(?:[   ]\d{3})+)(?!\d)/g, (m) => m.replace(/[   ]/g, ''));
+
+  // 0a3. Learned terms (data-driven; grown by the weekly gap-scan). Word-bounded;
+  //      the (?!-\d{3,4}) guard keeps a learned acronym from eating a LETTERS-NNNN
+  //      compound-code prefix (handled later).
+  for (let i = 0; i < LEARNED_IT.length; i++) {
+    const e = LEARNED_IT[i];
+    if (!e || !e.find) continue;
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])(?!-\\d{3,4}\\b)`, 'g');
+    t = t.replace(re, e.replace == null ? '' : e.replace);
+  }
+
+  // 0b. Common abbreviations (deterministic backstop). Longest/most-specific first.
+  const ABBR_IT = [
+    [/\bU\.?S\.?A\.?\b/g, 'Stati Uniti'],
+    [/\bDott\.?ssa\.?\s*/g, 'dottoressa '], [/\bDr\.?ssa\.?\s*/g, 'dottoressa '],
+    [/\bDott\.?\s*/g, 'dottor '], [/\bDr\.?\s*/g, 'dottor '],
+    [/\bSig\.?ra\.?\s*/g, 'signora '], [/\bSig\.?na\.?\s*/g, 'signorina '], [/\bSig\.?\s*/g, 'signor '],
+    [/\bvs\.?(?=\W|$)/gi, 'contro'], [/\b(?:ecc|etc)\.?(?=\s|$)/gi, 'eccetera'],
+    [/\bp\.?\s?es\.?/gi, 'per esempio'], [/\bca\.\b/gi, 'circa'],
+    [/\bn[°º]\.?\s?/gi, 'numero '],
+  ];
+  for (const [re, w] of ABBR_IT) t = t.replace(re, w);
+
+  // 0c. Comparison / math operators → words (also when glued to a number).
+  t = t
+    .replace(/\s*≤\s*/g, ' minore o uguale a ').replace(/\s*≥\s*/g, ' maggiore o uguale a ')
+    .replace(/\s*[≈~]\s*/g, ' circa ').replace(/\s*±\s*/g, ' più o meno ')
+    .replace(/\s*÷\s*/g, ' diviso ').replace(/\s*&\s*/g, ' e ')
+    .replace(/(^|[\s\d])<(?=\s*[\d.])/g, '$1 minore di ')
+    .replace(/(^|[\s\d])>(?=\s*[\d.])/g, '$1 maggiore di ');
+
+  // 1. Percentages
+  t = t.replace(/(\d[\d.,]*)\s*%/g, (_, n) => `${itNumberToken(n)} per cento`);
+
+  // 2. Temperatures. Value 1 → "un grado" (apocope before the masculine noun,
+  //    not the standalone cardinal "uno").
+  t = t.replace(/(\d[\d.,]*)\s*°\s*C\b/gi, (_, n) => (itIsOne(n) ? 'un grado Celsius' : `${itNumberToken(n)} gradi Celsius`));
+  t = t.replace(/(\d[\d.,]*)\s*°\s*F\b/gi, (_, n) => (itIsOne(n) ? 'un grado Fahrenheit' : `${itNumberToken(n)} gradi Fahrenheit`));
+  t = t.replace(/(\d[\d.,]*)\s*°/g, (_, n) => (itIsOne(n) ? 'un grado' : `${itNumberToken(n)} gradi`));
+
+  // 3. Currency, symbol before OR after the number. "euro" is invariable.
+  t = t.replace(/\$\s*(\d[\d.,]*)/g, (_, n) => itUnitPhrase(itNumberToken(n), n, 'dollari'));
+  t = t.replace(/(\d[\d.,]*)\s*\$/g, (_, n) => itUnitPhrase(itNumberToken(n), n, 'dollari'));
+  t = t.replace(/€\s*(\d[\d.,]*)/g, (_, n) => itUnitPhrase(itNumberToken(n), n, 'euro'));
+  t = t.replace(/(\d[\d.,]*)\s*€/g, (_, n) => itUnitPhrase(itNumberToken(n), n, 'euro'));
+
+  // 3b. ISO dates "2026-06-20" → "venti giugno duemilaventisei" (day 1 → "primo").
+  t = t.replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (m, y, mo, d) => {
+    const mm = parseInt(mo, 10), dd = parseInt(d, 10);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return m;
+    const day = dd === 1 ? 'primo' : itIntWords(dd);
+    return `${day} ${IT_MONTHS[mm]} ${itIntWords(parseInt(y, 10))}`;
+  });
+
+  // 4. Ranges, optional trailing unit on the upper bound ("5–10 mg").
+  const unitAlt = SORTED_UNITS_IT.map(([u]) => escapeRegex(u)).join('|');
+  t = t.replace(
+    new RegExp(`(\\d[\\d.,]*)\\s*[–—-]\\s*(\\d[\\d.,]*)\\s*(${unitAlt})?(?![A-Za-z])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${itNumberToken(a)} a ${itUnitPhrase(itNumberToken(b), b, UNITS_IT[u])}`
+      : `${itNumberToken(a)} a ${itNumberToken(b)}`),
+  );
+
+  // 4b. Ratios / blood pressure: "120/80" → "centoventi su ottanta".
+  t = t.replace(
+    new RegExp(`(\\d{1,3})\\s*/\\s*(\\d{1,3})\\s*(${unitAlt})?(?![A-Za-z0-9])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${itNumberToken(a)} su ${itUnitPhrase(itNumberToken(b), b, UNITS_IT[u])}`
+      : `${itNumberToken(a)} su ${itNumberToken(b)}`),
+  );
+
+  // 5. Number + unit (longest unit keys first)
+  for (const [u, plural] of SORTED_UNITS_IT) {
+    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    t = t.replace(re, (_, n) => itUnitPhrase(itNumberToken(n), n, plural));
+  }
+
+  // 5b. Scientific letter+number tokens where the number IS spoken (vitamins,
+  //     thyroid T3/T4, coenzyme Q10, omega-N). Multi-letter gene symbols untouched.
+  t = t.replace(/\bomega[-\s]?(\d+)\b/gi, (_, n) => `omega ${itIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\bCoQ[-\s]?(\d+)\b/g, (_, n) => `CoQ ${itIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\b([BDKT])-?(\d{1,2})\b/g, (_, L, n) => `${L} ${itIntWords(parseInt(n, 10))}`);
+
+  // 5d. Compound / product codes: 2+ uppercase letters + optional hyphen + 3–4
+  //     digit tail (RLS-1496, BPC-157, AC220) → spell the tail digit-by-digit.
+  t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
+    (_, pre, digits) => `${pre} ${digits.split('').map((d) => IT_ONES[Number(d)]).join(' ')}`);
+
+  // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
+  t = t.replace(/\s\+\s/g, ' più ').replace(/\s×\s/g, ' per ').replace(/\s=\s/g, ' uguale a ');
+
+  // 7. Remaining bare numbers
+  t = t.replace(/(?<![\w.,])(\d[\d.,]*\d|\d)(?![\w])/g, (_, n) => itNumberToken(n));
+
+  return t.replace(/\s{2,}/g, ' ').trim();
+}
+
 function normalizeForTTS(text, opts = {}) {
   if (!text) return '';
   const locale = (opts && opts.locale ? String(opts.locale) : 'en').toLowerCase().split(/[-_]/)[0];
   if (locale === 'es') return coreNormalizeEs(text);
   if (locale === 'fr') return coreNormalizeFr(text);
+  if (locale === 'it') return coreNormalizeIt(text);
   return postprocessForTTS(coreNormalize(preprocessForTTS(text)));
 }
 
@@ -3403,5 +3665,6 @@ module.exports = {
   reloadLearnedIpa,
   reloadLearnedEsTerms,
   reloadLearnedFrTerms,
+  reloadLearnedItTerms,
   selfTest,
 };
