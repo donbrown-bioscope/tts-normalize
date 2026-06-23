@@ -3513,6 +3513,15 @@ function coreNormalizeIt(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => IT_ONES[Number(d)]).join(' ')}`);
 
+  // 5e. Roman numerals in clinical contexts ("fase III", "stadio IV", "tipo II")
+  //     → spoken cardinals. Scoped to a leading keyword so it never touches a
+  //     stray "I"/"V"/"X" elsewhere. Token order is longest-first; the trailing
+  //     \b also blocks partial matches.
+  const IT_ROMAN = { I: 'uno', II: 'due', III: 'tre', IV: 'quattro', V: 'cinque',
+    VI: 'sei', VII: 'sette', VIII: 'otto', IX: 'nove', X: 'dieci', XI: 'undici', XII: 'dodici' };
+  t = t.replace(/\b(fase|stadio|grado|tipo|classe|livello)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
+    (m, w, r) => `${w} ${IT_ROMAN[r.toUpperCase()] || r}`);
+
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' più ').replace(/\s×\s/g, ' per ').replace(/\s=\s/g, ' uguale a ');
 

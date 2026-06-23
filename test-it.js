@@ -69,6 +69,13 @@ const IT = [
   ['una proteina di 50 kDa', 'una proteina di cinquanta chilodalton'],
   ['200 ppm di cloro', 'duecento parti per milione di cloro'],
   ['concentrazione di 5 mM', 'concentrazione di cinque millimolare'],
+  // Roman numerals in clinical contexts (scoped to a leading keyword)
+  ['il trial di fase III PROTEUS', 'il trial di fase tre PROTEUS'],
+  ['tumore in stadio IV', 'tumore in stadio quattro'],
+  ['studio di fase II', 'studio di fase due'],
+  ['diabete di tipo II', 'diabete di tipo due'],
+  // A bare Roman-looking letter without the clinical keyword is left untouched
+  ['la vitamina V e il gruppo I', 'la vitamina V e il gruppo I'],
   // Learned terms (seeded; grown by the weekly gap-scan) — word-bounded.
   ["L'OMS raccomanda", "L'O M S raccomanda"],
   ['il DNA e RNA', 'il D N A e R N A'],
