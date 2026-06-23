@@ -86,6 +86,14 @@ const ES = [
   ['AST y GGT elevadas', 'A S T y G G T elevadas'],
   // Must NOT mangle longer tokens that merely contain a seeded acronym
   ['ARNm y ATPasa', 'ARNm y ATPasa'],
+  // Roman numerals in clinical contexts (scoped to a leading keyword)
+  ['el ensayo de fase III PROTEUS', 'el ensayo de fase tres PROTEUS'],
+  ['tumor en estadio IV', 'tumor en estadio cuatro'],
+  ['estudio de fase II', 'estudio de fase dos'],
+  ['diabetes de tipo II', 'diabetes de tipo dos'],
+  ['grado III de toxicidad', 'grado tres de toxicidad'],
+  // A bare Roman-looking letter without the clinical keyword is left untouched
+  ['la vitamina V y el grupo I', 'la vitamina V y el grupo I'],
 ];
 
 // Guard that adding the locale param didn't disturb the English path. We do NOT

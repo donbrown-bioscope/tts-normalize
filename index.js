@@ -729,19 +729,14 @@ function coreNormalize(text) {
     t = t.replace(pattern, expansion);
   }
 
-  // 6a. Replace compound terms with Roman numerals (case-insensitive, before abbreviation expansion)
-  // Must run before step 6b so "complex IV" matches before "IV" → "I V"
-  const ROMAN_COMPOUNDS = {
-    'complex I': 'complex-one', 'complex II': 'complex-two',
-    'complex III': 'complex-three', 'complex IV': 'complex-four', 'complex V': 'complex-five',
-    'type I': 'type-one', 'type II': 'type-two', 'type III': 'type-three',
-    'phase I': 'phase-one', 'phase II': 'phase-two', 'phase III': 'phase-three',
-    'class I': 'class-one', 'class II': 'class-two', 'class III': 'class-three',
-  };
-  const sortedRoman = Object.entries(ROMAN_COMPOUNDS).sort((a, b) => b[0].length - a[0].length);
-  for (const [term, expansion] of sortedRoman) {
-    t = t.replace(new RegExp(`\\b${escapeRegex(term)}\\b`, 'gi'), expansion);
-  }
+  // 6a. Clinical Roman numerals (I–XII) scoped to a preceding keyword so bare
+  //     "V" / "X" / "I" in prose don't get rewritten. Covers complex/phase/stage/
+  //     type/class/grade/level across the full I–XII range. Runs before step 6b
+  //     so "complex IV" matches before "IV" → "I-V".
+  const EN_ROMAN = { I: 'one', II: 'two', III: 'three', IV: 'four', V: 'five',
+    VI: 'six', VII: 'seven', VIII: 'eight', IX: 'nine', X: 'ten', XI: 'eleven', XII: 'twelve' };
+  t = t.replace(/\b(complex|phase|stage|type|class|grade|level)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
+    (m, w, r) => `${w} ${EN_ROMAN[r.toUpperCase()] || r}`);
 
   // 6b. Replace abbreviations (longest first to avoid partial matches)
   const sortedAbbrevs = Object.entries(ABBREVIATIONS).sort((a, b) => b[0].length - a[0].length);
@@ -2952,6 +2947,12 @@ function coreNormalizeEs(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => ES_ONES[Number(d)]).join(' ')}`);
 
+  // 5e. Roman numerals in clinical contexts ("fase III", "estadio IV", "tipo II").
+  const ES_ROMAN = { I: 'uno', II: 'dos', III: 'tres', IV: 'cuatro', V: 'cinco',
+    VI: 'seis', VII: 'siete', VIII: 'ocho', IX: 'nueve', X: 'diez', XI: 'once', XII: 'doce' };
+  t = t.replace(/\b(fase|estadio|grado|tipo|clase|nivel)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
+    (m, w, r) => `${w} ${ES_ROMAN[r.toUpperCase()] || r}`);
+
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' más ').replace(/\s×\s/g, ' por ').replace(/\s=\s/g, ' igual a ');
 
@@ -3251,6 +3252,12 @@ function coreNormalizeFr(text) {
   //     (COVID-19, phase numbers) fall through to the normal number pass.
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => FR_ONES[Number(d)]).join(' ')}`);
+
+  // 5e. Roman numerals in clinical contexts ("phase III", "stade IV", "type II").
+  const FR_ROMAN = { I: 'un', II: 'deux', III: 'trois', IV: 'quatre', V: 'cinq',
+    VI: 'six', VII: 'sept', VIII: 'huit', IX: 'neuf', X: 'dix', XI: 'onze', XII: 'douze' };
+  t = t.replace(/\b(phase|stade|grade|type|classe|niveau)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
+    (m, w, r) => `${w} ${FR_ROMAN[r.toUpperCase()] || r}`);
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' plus ').replace(/\s×\s/g, ' fois ').replace(/\s=\s/g, ' égale ');

@@ -99,6 +99,14 @@ const FR = [
   ['mRNA et ATPase', 'mRNA et ATPase'],
   // fr keeps "IL" as-is (no es-style spelling — avoids the French word "il")
   ['IL-6 et TNF-α', 'IL-six et T N F-α'],
+  // Roman numerals in clinical contexts (scoped to a leading keyword)
+  ["l'essai de phase III PROTEUS", "l'essai de phase trois PROTEUS"],
+  ['tumeur au stade IV', 'tumeur au stade quatre'],
+  ['étude de phase II', 'étude de phase deux'],
+  ['diabète de type II', 'diabète de type deux'],
+  ['grade III de toxicité', 'grade trois de toxicité'],
+  // A bare Roman-looking letter without the clinical keyword is left untouched
+  ['la vitamine V et le groupe I', 'la vitamine V et le groupe I'],
 ];
 
 // Guard that the fr locale param didn't disturb the en/es paths.
