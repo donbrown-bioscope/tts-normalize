@@ -918,6 +918,8 @@ function coreNormalize(text) {
     'anions': 'ann-eye-ons',
     'cation': 'cat-eye-on',
     'cations': 'cat-eye-ons',
+    'polycation': 'polly-cat-eye-on',
+    'polycations': 'polly-cat-eye-ons',
     'uncoupling protein one': 'uncoupling-protein-one',
     'uncoupling protein two': 'uncoupling-protein-two',
     'uncoupling protein three': 'uncoupling-protein-three',
@@ -3317,6 +3319,8 @@ function selfTest() {
     ['Akkermansia colonizes the gut', '<phoneme alphabet="ipa" ph="ˌækərˈmænsiə">Akkermansia</phoneme> colonizes the gut'],
     // OMIC_IPA phoneme wrap
     ['the genome study', 'the <phoneme alphabet="ipa" ph="ˈdʒiːnoʊm">genome</phoneme> study'],
+    // "-cation" ion sense, not "-KAY-shun" (vacation). polycation = poly + cation.
+    ['Spermine is a polycation', 'Spermine is a polly-cat-eye-on'],
     // ─── Word-form acronyms (CLINICAL_IPA post-core hyphen entries).
     ['CHIP burden rises with age',
       '<phoneme alphabet="ipa" ph="tʃɪp">C-H-I-P</phoneme> burden rises with age'],
