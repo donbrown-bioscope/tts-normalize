@@ -89,6 +89,13 @@ const FR = [
   // Seeded acronyms (letter-spelled)
   ['le taux de LDL et de HDL', 'le taux de L D L et de H D L'],
   ['une IRM cérébrale et le NAD', 'une I R M cérébrale et le N A D'],
+  ["taux d'ATP et de BDNF", "taux d'A T P et de B D N F"],
+  ['une TDM, un EEG et la CRP', 'une T D M, un E E G et la C R P'],
+  ['le DNA et le RNA', 'le D N A et le R N A'],
+  // Must NOT mangle longer tokens that merely contain a seeded acronym
+  ['mRNA et ATPase', 'mRNA et ATPase'],
+  // fr keeps "IL" as-is (no es-style spelling — avoids the French word "il")
+  ['IL-6 et TNF-α', 'IL-six et T N F-α'],
 ];
 
 // Guard that the fr locale param didn't disturb the en/es paths.

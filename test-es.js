@@ -78,6 +78,11 @@ const ES = [
   // Seeded acronyms (letter-spelled)
   ['el colesterol LDL y HDL', 'el colesterol L D L y H D L'],
   ['niveles de NAD y TNF', 'niveles de N A D y T N F'],
+  ['niveles de ATP, PCR y TSH', 'niveles de A T P, P C R y T S H'],
+  ['el DNA y el RNA', 'el D N A y el R N A'],
+  ['AST y GGT elevadas', 'A S T y G G T elevadas'],
+  // Must NOT mangle longer tokens that merely contain a seeded acronym
+  ['ARNm y ATPasa', 'ARNm y ATPasa'],
 ];
 
 // Guard that adding the locale param didn't disturb the English path. We do NOT

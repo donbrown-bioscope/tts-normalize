@@ -90,11 +90,228 @@
     "addedBy": "weekly-scan",
     "addedOn": "2026-06-21"
   },
-  { "find": "LDL", "replace": "L D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
-  { "find": "HDL", "replace": "H D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
-  { "find": "NAD", "replace": "N A D", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
-  { "find": "GLP", "replace": "G L P", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
-  { "find": "TNF", "replace": "T N F", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
-  { "find": "ALT", "replace": "A L T", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" },
-  { "find": "GSH", "replace": "G S H", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-22" }
+  {
+    "find": "LDL",
+    "replace": "L D L",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "HDL",
+    "replace": "H D L",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "NAD",
+    "replace": "N A D",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "GLP",
+    "replace": "G L P",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "TNF",
+    "replace": "T N F",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "ALT",
+    "replace": "A L T",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "GSH",
+    "replace": "G S H",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "DNA",
+    "replace": "D N A",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "RNA",
+    "replace": "R N A",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "AST",
+    "replace": "A S T",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "GGT",
+    "replace": "G G T",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "VLDL",
+    "replace": "V L D L",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "IFN",
+    "replace": "I F N",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "IGF",
+    "replace": "I G F",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "BDNF",
+    "replace": "B D N F",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "TSH",
+    "replace": "T S H",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "ATP",
+    "replace": "A T P",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "NMN",
+    "replace": "N M N",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "EEG",
+    "replace": "E E G",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "ECG",
+    "replace": "E C G",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "EKG",
+    "replace": "E K G",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "AAV",
+    "replace": "A A V",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "CGRP",
+    "replace": "C G R P",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "TMAO",
+    "replace": "T M A O",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "PCR",
+    "replace": "P C R",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "LPS",
+    "replace": "L P S",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "OMS",
+    "replace": "O M S",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "BCR",
+    "replace": "B C R",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "AAA",
+    "replace": "A A A",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "HRV",
+    "replace": "H R V",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "IL",
+    "replace": "I L",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  },
+  {
+    "find": "AIBP",
+    "replace": "A I B P",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-22"
+  }
 ]
