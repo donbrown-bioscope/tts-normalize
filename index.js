@@ -2850,7 +2850,10 @@ function coreNormalizeEs(text) {
   for (let i = 0; i < LEARNED_ES.length; i++) {
     const e = LEARNED_ES[i];
     if (!e || !e.find) continue;
-    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])`, 'g');
+    // The trailing (?!-\d{3,4}\b) keeps a learned acronym from eating the prefix
+    // of a LETTERS-NNNN compound code (e.g. "RLS-1496"), which the dedicated
+    // compound-code pass handles later.
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])(?!-\\d{3,4}\\b)`, 'g');
     t = t.replace(re, e.replace == null ? '' : e.replace);
   }
 
@@ -3153,7 +3156,10 @@ function coreNormalizeFr(text) {
   for (let i = 0; i < LEARNED_FR.length; i++) {
     const e = LEARNED_FR[i];
     if (!e || !e.find) continue;
-    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])`, 'g');
+    // The trailing (?!-\d{3,4}\b) keeps a learned acronym from eating the prefix
+    // of a LETTERS-NNNN compound code (e.g. "RLS-1496"), which the dedicated
+    // compound-code pass handles later.
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])(?!-\\d{3,4}\\b)`, 'g');
     t = t.replace(re, e.replace == null ? '' : e.replace);
   }
 

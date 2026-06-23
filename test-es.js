@@ -73,6 +73,9 @@ const ES = [
   // (Leading "uno" apocopates to "un" via step 8 — acceptable for a spelled code.)
   ['RLS-1496 redujo las lesiones', 'RLS un cuatro nueve seis redujo las lesiones'],
   ['inhibidor BPC-157 y AC220', 'inhibidor BPC un cinco siete y AC dos dos cero'],
+  // A learned acronym must not eat the prefix of a LETTERS-NNNN code, yet should
+  // still be letter-spelled standalone (guard for the gap-scan × compound-code mix).
+  ['BCR-1234 y el BCR', 'BCR un dos tres cuatro y el B C R'],
   // 2-digit tails still read as numbers (COVID-19, not a code)
   ['la pandemia de COVID-19', 'la pandemia de COVID-diecinueve'],
   // Seeded acronyms (letter-spelled)

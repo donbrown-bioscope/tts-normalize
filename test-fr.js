@@ -84,6 +84,9 @@ const FR = [
   ['RLS-1496 a réduit les lésions', 'RLS un quatre neuf six a réduit les lésions'],
   ['inhibiteur BPC-157', 'inhibiteur BPC un cinq sept'],
   ['traité avec AC220', 'traité avec AC deux deux zéro'],
+  // A learned acronym must not eat the prefix of a LETTERS-NNNN code, yet should
+  // still be letter-spelled standalone (guard for the gap-scan × compound-code mix).
+  ['TNF-1234 et le TNF', 'TNF un deux trois quatre et le T N F'],
   // 2-digit tails still read as numbers (COVID-19, not a code)
   ['la pandémie de COVID-19', 'la pandémie de COVID-dix-neuf'],
   // Seeded acronyms (letter-spelled)
