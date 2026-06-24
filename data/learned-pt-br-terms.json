@@ -1,0 +1,15 @@
+[
+  { "find": "OMS", "replace": "O M S", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "FDA", "replace": "F D A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "IMC", "replace": "I M C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "DNA", "replace": "D N A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "RNA", "replace": "R N A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "LDL", "replace": "L D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "HDL", "replace": "H D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "ATP", "replace": "A T P", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "BDNF", "replace": "B D N F", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "TC", "replace": "T C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "EEG", "replace": "E E G", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "PCR", "replace": "P C R", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "DPOC", "replace": "D P O C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" }
+]

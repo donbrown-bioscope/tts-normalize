@@ -3538,12 +3538,285 @@ function coreNormalizeIt(text) {
   return t.replace(/\s{2,}/g, ' ').trim();
 }
 
+// ─── BRAZILIAN PORTUGUESE (pt-br) ───────────────────────────
+// Modeled on coreNormalizeIt/Fr. Portuguese is phonetic (no IPA layer). The
+// key divergences from Italian: numbers are NOT glued into one word — groups
+// join with the "e" connector by the canonical pt rule (the LAST group takes
+// " e " when it is < 100 or a round hundred; earlier boundaries take a space),
+// and the value-1 article "um"/"uma" never elides before a vowel.
+const PT_ONES = ['zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez',
+  'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'];
+const PT_TENS = ['', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'];
+// Indexed by the hundreds digit; 100 exactly is special-cased to "cem".
+const PT_HUNDREDS = ['', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos',
+  'seiscentos', 'setecentos', 'oitocentos', 'novecentos'];
+
+function ptBelow100(n) {
+  if (n < 20) return PT_ONES[n];
+  const tens = Math.floor(n / 10), u = n % 10;
+  return u === 0 ? PT_TENS[tens] : PT_TENS[tens] + ' e ' + PT_ONES[u]; // vinte e um
+}
+function ptBelow1000(n) {
+  if (n < 100) return ptBelow100(n);
+  if (n === 100) return 'cem';
+  const h = Math.floor(n / 100), rem = n % 100;
+  const hWord = h === 1 ? 'cento' : PT_HUNDREDS[h];
+  return rem === 0 ? hWord : hWord + ' e ' + ptBelow100(rem); // cento e vinte e três, duzentos e cinquenta
+}
+function ptIntWords(n) {
+  if (n === 0) return 'zero';
+  if (n < 0) return 'menos ' + ptIntWords(-n);
+  const bilhoes = Math.floor(n / 1_000_000_000);
+  const milhoes = Math.floor((n % 1_000_000_000) / 1_000_000);
+  const milhares = Math.floor((n % 1_000_000) / 1000);
+  const resto = n % 1000;
+  const groups = []; // { text, connVal } — connVal governs the "e" before this group
+  if (bilhoes) groups.push({ text: bilhoes === 1 ? 'um bilhão' : ptBelow1000(bilhoes) + ' bilhões', connVal: bilhoes });
+  if (milhoes) groups.push({ text: milhoes === 1 ? 'um milhão' : ptBelow1000(milhoes) + ' milhões', connVal: milhoes });
+  if (milhares) groups.push({ text: milhares === 1 ? 'mil' : ptBelow1000(milhares) + ' mil', connVal: milhares });
+  if (resto) groups.push({ text: ptBelow1000(resto), connVal: resto });
+  let out = groups[0].text;
+  for (let i = 1; i < groups.length; i++) {
+    const isLast = i === groups.length - 1;
+    const cv = groups[i].connVal;
+    const useE = isLast && (cv < 100 || cv % 100 === 0); // "dois mil e quinze", "um milhão e quinhentos mil"
+    out += (useE ? ' e ' : ' ') + groups[i].text;
+  }
+  return out;
+}
+// Portuguese reads decimals digit-by-digit after "vírgula" (`norm` uses '.').
+function ptDecimalWords(norm) {
+  const [intp, decp = ''] = norm.split('.');
+  const intWords = ptIntWords(parseInt(intp, 10) || 0);
+  const decWords = decp.split('').map((d) => PT_ONES[Number(d)]).join(' ');
+  return `${intWords} vírgula ${decWords}`;
+}
+// Continental conventions: comma decimal, period/space thousands (same dual
+// heuristics as the it/fr/es token readers; spaced thousands pre-collapsed).
+function ptNumberToken(raw) {
+  const s = String(raw).trim();
+  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return ptDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5
+  if (/^\d{1,3}(,\d{3})+\.\d+$/.test(s)) return ptDecimalWords(s.replace(/,/g, ''));                     // 40,028.5 (en)
+  if (/^\d+,\d{1,2}$/.test(s)) return ptDecimalWords(s.replace(',', '.'));        // 99,5
+  if (/^\d{1,3}(,\d{3})+$/.test(s)) return ptIntWords(parseInt(s.replace(/,/g, ''), 10)); // 10,000
+  if (/^\d{1,3}(\.\d{3})+$/.test(s)) return ptIntWords(parseInt(s.replace(/\./g, ''), 10)); // 1.000
+  if (/^\d+\.\d+$/.test(s)) return ptDecimalWords(s);                              // 3.5
+  if (/^\d+$/.test(s)) return ptIntWords(parseInt(s, 10));
+  const cleaned = s.replace(/[.,]/g, '');
+  return /^\d+$/.test(cleaned) ? ptIntWords(parseInt(cleaned, 10)) : s;
+}
+
+const UNITS_PT = {
+  'mg/dL': 'miligramas por decilitro', 'mg/dl': 'miligramas por decilitro',
+  'mmol/L': 'milimoles por litro', 'µmol/L': 'micromoles por litro', 'μmol/L': 'micromoles por litro',
+  'ng/mL': 'nanogramas por mililitro', 'ng/ml': 'nanogramas por mililitro',
+  'pg/mL': 'picogramas por mililitro', 'µg/dL': 'microgramas por decilitro', 'μg/dL': 'microgramas por decilitro',
+  'g/dL': 'gramas por decilitro', 'IU/L': 'unidades internacionais por litro', 'U/L': 'unidades por litro',
+  'mg/kg': 'miligramas por quilograma', 'mmHg': 'milímetros de mercúrio', 'kPa': 'quilopascal',
+  'mcg': 'microgramas', 'µg': 'microgramas', 'μg': 'microgramas', 'ng': 'nanogramas', 'pg': 'picogramas',
+  'mg': 'miligramas', 'kg': 'quilogramas', 'g': 'gramas',
+  'mL': 'mililitros', 'ml': 'mililitros', 'dL': 'decilitros', 'dl': 'decilitros', 'L': 'litros',
+  'kcal': 'quilocalorias', 'cal': 'calorias', 'kJ': 'quilojoules',
+  'bpm': 'batimentos por minuto', 'mmol': 'milimoles', 'µmol': 'micromoles', 'nmol': 'nanomoles',
+  'IU': 'unidades internacionais', 'mIU': 'miliunidades internacionais',
+  'km': 'quilômetros', 'cm': 'centímetros', 'mm': 'milímetros', 'nm': 'nanômetros', 'µm': 'micrômetros',
+  'lb': 'libras', 'lbs': 'libras', 'oz': 'onças',
+  'hr': 'horas', 'hrs': 'horas', 'min': 'minutos', 'sec': 'segundos', 'ms': 'milissegundos',
+  'GHz': 'gigahertz', 'MHz': 'megahertz', 'kHz': 'quilohertz', 'Hz': 'hertz',
+  'dB': 'decibéis', 'kDa': 'quilodáltons', 'Da': 'dáltons', 'ppm': 'partes por milhão',
+  'ppb': 'partes por bilhão', 'kW': 'quilowatts', 'mW': 'miliwatts', 'W': 'watts',
+  'mV': 'milivolts', 'V': 'volts', 'J': 'joules',
+  'mM': 'milimolar', 'µM': 'micromolar', 'μM': 'micromolar', 'nM': 'nanomolar', 'pM': 'picomolar',
+};
+// Units whose Portuguese noun is feminine → drives "uma" at value 1 (cardinals
+// 2+ are gender-invariable for these). NB "grama" (mass) is masculine in pt-BR.
+const PT_FEMININE_UNITS = new Set(['calorias', 'quilocalorias', 'libras', 'onças', 'horas',
+  'unidades', 'unidades internacionais', 'miliunidades internacionais', 'unidades por litro',
+  'unidades internacionais por litro', 'partes por milhão', 'partes por bilhão']);
+const PT_INVARIABLE_UNITS = new Set(['hertz', 'gigahertz', 'megahertz', 'quilohertz']);
+const PT_SINGULAR_IRREG = {
+  'unidades internacionais': 'unidade internacional', 'miliunidades internacionais': 'miliunidade internacional',
+  'unidades por litro': 'unidade por litro', 'unidades internacionais por litro': 'unidade internacional por litro',
+  'partes por milhão': 'parte por milhão', 'partes por bilhão': 'parte por bilhão',
+  'milimoles por litro': 'milimol por litro', 'micromoles por litro': 'micromol por litro',
+  'dólares': 'dólar', 'reais': 'real', 'decibéis': 'decibel',
+};
+const SORTED_UNITS_PT = Object.entries(UNITS_PT).sort((a, b) => b[0].length - a[0].length);
+const PT_MONTHS = ['', 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+function ptSingularizeWord(w) {
+  if (PT_INVARIABLE_UNITS.has(w)) return w;
+  if (w.endsWith('molar')) return w;               // milimolar etc. (invariable adj-unit)
+  if (w.endsWith('moles')) return w.slice(0, -2);  // milimoles→milimol, moles→mol
+  if (w.endsWith('s')) return w.slice(0, -1);       // gramas→grama, litros→litro, calorias→caloria
+  return w;
+}
+// Singularize the leading count-noun only; keep a "por …"/"de …" tail intact.
+function ptSingularize(plural) {
+  if (PT_SINGULAR_IRREG[plural]) return PT_SINGULAR_IRREG[plural];
+  const parts = plural.split(' ');
+  parts[0] = ptSingularizeWord(parts[0]);
+  return parts.join(' ');
+}
+function ptIsOne(raw) { return String(raw).replace(/[.,\s]/g, '') === '1'; }
+// Feminine agreement for the spoken cardinal when it counts a feminine unit:
+// um→uma, dois→duas, and the gendered hundreds (duzentos→duzentas …). The
+// "mil" multiplier inherits the noun's gender ("duas mil calorias"), but the
+// masculine nouns milhão/bilhão keep their own gender ("dois milhões …"), so
+// those multipliers are guarded out.
+function ptFeminize(words) {
+  const guard = '(?!\\s+(?:milhão|milhões|bilhão|bilhões))';
+  return words
+    .replace(new RegExp(`\\bum\\b${guard}`, 'g'), 'uma')
+    .replace(new RegExp(`\\bdois\\b${guard}`, 'g'), 'duas')
+    .replace(new RegExp(`(duz|trez|quatroc|quinh|seisc|setec|oitoc|novec)entos\\b${guard}`, 'g'), '$1entas');
+}
+function ptUnitPhrase(numWords, raw, plural) {
+  const fem = PT_FEMININE_UNITS.has(plural);
+  if (ptIsOne(raw)) {
+    const sing = ptSingularize(plural);
+    return (fem ? 'uma ' : 'um ') + sing; // um grama, uma caloria (um/uma never elides in pt)
+  }
+  return `${fem ? ptFeminize(numWords) : numWords} ${plural}`;
+}
+
+// Data-driven learned terms (token → spoken Portuguese), grown by the weekly
+// gap-scan/learner. Additive + pt-only, so it never affects en/es/fr/it.
+let LEARNED_PT = [];
+try { LEARNED_PT = require('./data/learned-pt-br-terms.json'); } catch { /* none yet */ }
+function reloadLearnedPtBrTerms() {
+  try { delete require.cache[require.resolve('./data/learned-pt-br-terms.json')]; LEARNED_PT = require('./data/learned-pt-br-terms.json'); }
+  catch { LEARNED_PT = []; }
+  return LEARNED_PT.length;
+}
+
+function coreNormalizePtBr(text) {
+  let t = ' ' + String(text) + ' ';
+
+  // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
+  t = t
+    .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*\n]+)\*/g, '$1')
+    .replace(/(^|\s)[*•#]+\s/g, '$1')
+    .replace(/[`_*#]/g, '');
+
+  // 0a2. Collapse spaced thousands ("10 000" / "1 234 567" incl. narrow/NBSP).
+  t = t.replace(/(\d{1,3}(?:[   ]\d{3})+)(?!\d)/g, (m) => m.replace(/[   ]/g, ''));
+
+  // 0a3. Learned terms (data-driven; grown by the weekly gap-scan). Word-bounded;
+  //      the (?!-\d{3,4}) guard keeps a learned acronym from eating a LETTERS-NNNN
+  //      compound-code prefix (handled later).
+  for (let i = 0; i < LEARNED_PT.length; i++) {
+    const e = LEARNED_PT[i];
+    if (!e || !e.find) continue;
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])(?!-\\d{3,4}\\b)`, 'g');
+    t = t.replace(re, e.replace == null ? '' : e.replace);
+  }
+
+  // 0b. Common abbreviations (deterministic backstop). Longest/most-specific first.
+  const ABBR_PT = [
+    [/\bE\.?U\.?A\.?\b/g, 'Estados Unidos'], [/\bU\.?S\.?A\.?\b/g, 'Estados Unidos'],
+    [/\bDra\.?\s*/g, 'doutora '], [/\bDr\.?\s*/g, 'doutor '],
+    [/\bProfa\.?\s*/g, 'professora '], [/\bProf\.?\s*/g, 'professor '],
+    [/\bSra\.?\s*/g, 'senhora '], [/\bSrta\.?\s*/g, 'senhorita '], [/\bSr\.?\s*/g, 'senhor '],
+    [/\bvs\.?(?=\W|$)/gi, 'versus'], [/\b(?:etc)\.?(?=\s|$)/gi, 'etcétera'],
+    [/\bp\.?\s?ex\.?/gi, 'por exemplo'], [/\baprox\.\b/gi, 'aproximadamente'],
+    [/\bn[°º]\.?\s?/gi, 'número '],
+  ];
+  for (const [re, w] of ABBR_PT) t = t.replace(re, w);
+
+  // 0c. Comparison / math operators → words (also when glued to a number).
+  t = t
+    .replace(/\s*≤\s*/g, ' menor ou igual a ').replace(/\s*≥\s*/g, ' maior ou igual a ')
+    .replace(/\s*[≈~]\s*/g, ' aproximadamente ').replace(/\s*±\s*/g, ' mais ou menos ')
+    .replace(/\s*÷\s*/g, ' dividido por ').replace(/\s*&\s*/g, ' e ')
+    .replace(/(^|[\s\d])<(?=\s*[\d.])/g, '$1 menor que ')
+    .replace(/(^|[\s\d])>(?=\s*[\d.])/g, '$1 maior que ');
+
+  // 1. Percentages
+  t = t.replace(/(\d[\d.,]*)\s*%/g, (_, n) => `${ptNumberToken(n)} por cento`);
+
+  // 2. Temperatures. Value 1 → "um grau" (masculine noun).
+  t = t.replace(/(\d[\d.,]*)\s*°\s*C\b/gi, (_, n) => (ptIsOne(n) ? 'um grau Celsius' : `${ptNumberToken(n)} graus Celsius`));
+  t = t.replace(/(\d[\d.,]*)\s*°\s*F\b/gi, (_, n) => (ptIsOne(n) ? 'um grau Fahrenheit' : `${ptNumberToken(n)} graus Fahrenheit`));
+  t = t.replace(/(\d[\d.,]*)\s*°/g, (_, n) => (ptIsOne(n) ? 'um grau' : `${ptNumberToken(n)} graus`));
+
+  // 3. Currency, symbol before OR after the number (R$ before $ so it wins).
+  t = t.replace(/R\$\s*(\d[\d.,]*)/g, (_, n) => ptUnitPhrase(ptNumberToken(n), n, 'reais'));
+  t = t.replace(/(\d[\d.,]*)\s*reais\b/gi, (_, n) => ptUnitPhrase(ptNumberToken(n), n, 'reais'));
+  t = t.replace(/\$\s*(\d[\d.,]*)/g, (_, n) => ptUnitPhrase(ptNumberToken(n), n, 'dólares'));
+  t = t.replace(/(\d[\d.,]*)\s*\$/g, (_, n) => ptUnitPhrase(ptNumberToken(n), n, 'dólares'));
+  t = t.replace(/€\s*(\d[\d.,]*)/g, (_, n) => ptUnitPhrase(ptNumberToken(n), n, 'euros'));
+  t = t.replace(/(\d[\d.,]*)\s*€/g, (_, n) => ptUnitPhrase(ptNumberToken(n), n, 'euros'));
+
+  // 3b. ISO dates "2026-06-20" → "vinte de junho de dois mil e vinte e seis" (day 1 → "primeiro").
+  t = t.replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (m, y, mo, d) => {
+    const mm = parseInt(mo, 10), dd = parseInt(d, 10);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return m;
+    const day = dd === 1 ? 'primeiro' : ptIntWords(dd);
+    return `${day} de ${PT_MONTHS[mm]} de ${ptIntWords(parseInt(y, 10))}`;
+  });
+
+  // 4. Ranges, optional trailing unit on the upper bound ("5–10 mg").
+  const unitAlt = SORTED_UNITS_PT.map(([u]) => escapeRegex(u)).join('|');
+  t = t.replace(
+    new RegExp(`(\\d[\\d.,]*)\\s*[–—-]\\s*(\\d[\\d.,]*)\\s*(${unitAlt})?(?![A-Za-z])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${ptNumberToken(a)} a ${ptUnitPhrase(ptNumberToken(b), b, UNITS_PT[u])}`
+      : `${ptNumberToken(a)} a ${ptNumberToken(b)}`),
+  );
+
+  // 4b. Ratios / blood pressure: "120/80" → "cento e vinte por oitenta".
+  t = t.replace(
+    new RegExp(`(\\d{1,3})\\s*/\\s*(\\d{1,3})\\s*(${unitAlt})?(?![A-Za-z0-9])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${ptNumberToken(a)} por ${ptUnitPhrase(ptNumberToken(b), b, UNITS_PT[u])}`
+      : `${ptNumberToken(a)} por ${ptNumberToken(b)}`),
+  );
+
+  // 5. Number + unit (longest unit keys first)
+  for (const [u, plural] of SORTED_UNITS_PT) {
+    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    t = t.replace(re, (_, n) => ptUnitPhrase(ptNumberToken(n), n, plural));
+  }
+
+  // 5b. Scientific letter+number tokens where the number IS spoken (vitamins,
+  //     thyroid T3/T4, coenzyme Q10, omega-N). Multi-letter gene symbols untouched.
+  t = t.replace(/\bomega[-\s]?(\d+)\b/gi, (_, n) => `ômega ${ptIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\bCoQ[-\s]?(\d+)\b/g, (_, n) => `CoQ ${ptIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\b([BDKT])-?(\d{1,2})\b/g, (_, L, n) => `${L} ${ptIntWords(parseInt(n, 10))}`);
+
+  // 5d. Compound / product codes: 2+ uppercase letters + optional hyphen + 3–4
+  //     digit tail (RLS-1496, BPC-157, AC220) → spell the tail digit-by-digit.
+  t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
+    (_, pre, digits) => `${pre} ${digits.split('').map((d) => PT_ONES[Number(d)]).join(' ')}`);
+
+  // 5e. Roman numerals in clinical contexts ("fase III", "estágio IV", "tipo II")
+  //     → spoken cardinals. Scoped to a leading keyword so a stray "I"/"V"/"X"
+  //     elsewhere is left alone. Longest-first token order.
+  const PT_ROMAN = { I: 'um', II: 'dois', III: 'três', IV: 'quatro', V: 'cinco',
+    VI: 'seis', VII: 'sete', VIII: 'oito', IX: 'nove', X: 'dez', XI: 'onze', XII: 'doze' };
+  t = t.replace(/\b(fase|estágio|estádio|estadio|grau|tipo|classe|nível)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
+    (m, w, r) => `${w} ${PT_ROMAN[r.toUpperCase()] || r}`);
+
+  // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
+  t = t.replace(/\s\+\s/g, ' mais ').replace(/\s×\s/g, ' vezes ').replace(/\s=\s/g, ' igual a ');
+
+  // 7. Remaining bare numbers
+  t = t.replace(/(?<![\w.,])(\d[\d.,]*\d|\d)(?![\w])/g, (_, n) => ptNumberToken(n));
+
+  return t.replace(/\s{2,}/g, ' ').trim();
+}
+
 function normalizeForTTS(text, opts = {}) {
   if (!text) return '';
   const locale = (opts && opts.locale ? String(opts.locale) : 'en').toLowerCase().split(/[-_]/)[0];
   if (locale === 'es') return coreNormalizeEs(text);
   if (locale === 'fr') return coreNormalizeFr(text);
   if (locale === 'it') return coreNormalizeIt(text);
+  if (locale === 'pt') return coreNormalizePtBr(text);
   return postprocessForTTS(coreNormalize(preprocessForTTS(text)));
 }
 
@@ -3682,5 +3955,6 @@ module.exports = {
   reloadLearnedEsTerms,
   reloadLearnedFrTerms,
   reloadLearnedItTerms,
+  reloadLearnedPtBrTerms,
   selfTest,
 };
