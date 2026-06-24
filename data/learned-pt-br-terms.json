@@ -11,5 +11,18 @@
   { "find": "TC", "replace": "T C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
   { "find": "EEG", "replace": "E E G", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
   { "find": "PCR", "replace": "P C R", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "DPOC", "replace": "D P O C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" }
+  { "find": "DPOC", "replace": "D P O C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
+  { "find": "PCSK9", "replace": "P C S K nove", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "OCT4", "replace": "O C T quatro", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "CD38", "replace": "C D trinta e oito", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "LKB1", "replace": "L K B um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "Thr172", "replace": "T H R cento e setenta e dois", "category": "residue", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "SOX2", "replace": "S O X dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "CaMKK2", "replace": "C A M K K dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "HAPLN2", "replace": "H A P L N dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "GLP-1RA", "replace": "G L P um R A", "category": "acronym", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "AIFM1", "replace": "A I F M um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "BCL2", "replace": "B C L dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "WEE1", "replace": "W E E um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
+  { "find": "APOL1", "replace": "A P O L um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" }
 ]

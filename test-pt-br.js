@@ -63,7 +63,17 @@ const PT = [
   ['vitamina B12 e D3', 'vitamina B doze e D três'],
   ['omega-3 e CoQ10', 'ômega três e CoQ dez'],
   ['níveis de T3 e T4', 'níveis de T três e T quatro'],
-  ['o gene PCSK9 e TP53 e SIRT1', 'o gene PCSK9 e TP53 e SIRT1'],
+  // PCSK9 is now a learned letter-spell entry; TP53/SIRT1 are not, so stay verbatim.
+  ['o gene PCSK9 e TP53 e SIRT1', 'o gene P C S K nove e TP53 e SIRT1'],
+  // Learned gene/acronym letter-spelling (manual-scan additions): number spoken
+  // as a cardinal, embedded in the spelled letters.
+  ['inibidor de PCSK9', 'inibidor de P C S K nove'],
+  ['marcador CD38 elevado', 'marcador C D trinta e oito elevado'],
+  ['fatores OCT4 e SOX2', 'fatores O C T quatro e S O X dois'],
+  ['agonista GLP-1RA', 'agonista G L P um R A'],
+  ['via LKB1-AMPK em Thr172', 'via L K B um-AMPK em T H R cento e setenta e dois'],
+  // Word-bounded: must NOT letter-spell when the symbol is a prefix of a longer token.
+  ['o gene BCL2L1 difere de BCL2', 'o gene BCL2L1 difere de B C L dois'],
   ['publicado em 2026-06-20', 'publicado em vinte de junho de dois mil e vinte e seis'],
   ['desde 2026-06-01', 'desde primeiro de junho de dois mil e vinte e seis'],
   ['sinal de 100 Hz e 60 dB', 'sinal de cem hertz e sessenta decibéis'],

@@ -3776,9 +3776,11 @@ function coreNormalizePtBr(text) {
       : `${ptNumberToken(a)} por ${ptNumberToken(b)}`),
   );
 
-  // 5. Number + unit (longest unit keys first)
+  // 5. Number + unit (longest unit keys first). The leading (?<![A-Za-z]) keeps a
+  //    single-letter unit (L/V/W/J/g…) from eating a digit glued inside a
+  //    letter-led token, e.g. the "2L" in the gene symbol "BCL2L1".
   for (const [u, plural] of SORTED_UNITS_PT) {
-    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    const re = new RegExp(`(?<![A-Za-z])(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
     t = t.replace(re, (_, n) => ptUnitPhrase(ptNumberToken(n), n, plural));
   }
 
