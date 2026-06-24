@@ -52,6 +52,9 @@ const ES = [
   ['omega-3 y CoQ10', 'omega tres y CoQ diez'],
   ['niveles de T3 y T4', 'niveles de T tres y T cuatro'],
   ['el gen PCSK9 y TP53 y SIRT1', 'el gen PCSK9 y TP53 y SIRT1'],
+  // A single-letter unit (L) glued to a digit inside a letter-led gene symbol
+  // must NOT be consumed as a measurement ("2L" → litros). Lookbehind guard.
+  ['el gen BCL2L1 regula la apoptosis', 'el gen BCL2L1 regula la apoptosis'],
   ['publicado el 2026-06-20', 'publicado el veinte de junio de dos mil veintiséis'],
   ['desde el 2026-06-01', 'desde el primero de junio de dos mil veintiséis'],
   ['la 2.ª fase del 1.º ensayo', 'la segunda fase del primero ensayo'],

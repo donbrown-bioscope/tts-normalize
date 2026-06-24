@@ -2918,7 +2918,7 @@ function coreNormalizeEs(text) {
 
   // 5. Number + unit (longest unit keys first so "mg/dL" beats "mg")
   for (const [u, plural] of SORTED_UNITS_ES) {
-    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    const re = new RegExp(`(?<![A-Za-z])(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
     t = t.replace(re, (_, n) => esUnitPhrase(esNumberToken(n), n, plural));
   }
 
@@ -3228,7 +3228,7 @@ function coreNormalizeFr(text) {
 
   // 5. Number + unit (longest unit keys first so "mg/dL" beats "mg")
   for (const [u, plural] of SORTED_UNITS_FR) {
-    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    const re = new RegExp(`(?<![A-Za-z])(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
     t = t.replace(re, (_, n) => frUnitPhrase(frNumberToken(n), n, plural));
   }
 
@@ -3505,7 +3505,7 @@ function coreNormalizeIt(text) {
 
   // 5. Number + unit (longest unit keys first)
   for (const [u, plural] of SORTED_UNITS_IT) {
-    const re = new RegExp(`(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    const re = new RegExp(`(?<![A-Za-z])(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
     t = t.replace(re, (_, n) => itUnitPhrase(itNumberToken(n), n, plural));
   }
 
