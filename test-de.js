@@ -47,8 +47,8 @@ const DE = [
   ['kostet 50€', 'kostet fünfzig Euro'],
   ['nur 1€', 'nur ein Euro'],
   ['von 5–10 mg', 'von fünf bis zehn Milligramm'],
-  ['EPA + DHA', 'EPA plus DHA'],
-  ['EPA & DHA', 'EPA und DHA'],
+  ['EPA + DHA', 'E P A plus D H A'],
+  ['EPA & DHA', 'E P A und D H A'],
   // blood pressure / ratios
   ['Blutdruck von 120/80 mmHg', 'Blutdruck von einhundertzwanzig zu achtzig Millimeter Quecksilbersäule'],
   ['140/90', 'einhundertvierzig zu neunzig'],
@@ -103,6 +103,15 @@ const DE = [
   ['die COVID-19 Pandemie', 'die COVID-neunzehn Pandemie'],
   // Must NOT mangle longer tokens that merely contain a seeded acronym
   ['mRNA und ATPase', 'mRNA und ATPase'],
+  // Expanded medical-acronym seed (top ~50) — letter-spelled, case-sensitive.
+  ['erhöhtes CRP und TSH', 'erhöhtes C R P und T S H'],
+  ['ein MRT und ein CT', 'ein M R T und ein C T'],
+  ['NAD+ und NMN', 'N A D plus und N M N'],
+  ['EPA und DHA', 'E P A und D H A'],
+  ['die ALT- und AST-Werte', 'die A L T- und A S T-Werte'],
+  // Case-sensitivity guard: the all-caps acronym ALS is spelled, the German
+  // function word "als" (lowercase) is left untouched.
+  ['ALS unterscheidet sich von anderen als erwartet', 'A L S unterscheidet sich von anderen als erwartet'],
 ];
 
 // Guard that the de locale param didn't disturb the en/es/fr/it/pt paths.
