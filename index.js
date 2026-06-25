@@ -3812,6 +3812,258 @@ function coreNormalizePtBr(text) {
   return t.replace(/\s{2,}/g, ' ').trim();
 }
 
+// ─── GERMAN (de) ────────────────────────────────────────────
+// Modeled on coreNormalizePtBr/Fr/It. German is phonetic (no IPA layer). Key
+// divergences: cardinals are written as ONE word with the units-before-tens
+// "und" order (21 → "einundzwanzig", 123 → "einhundertdreiundzwanzig"); the
+// value-1 article is "ein" (masc/neut) / "eine" (fem), while the standalone
+// number 1 is "eins"; and MOST measurement units are invariable in the plural
+// ("fünf Milligramm", "fünf Kilometer") — only true count-nouns pluralize
+// (Kalorie→Kalorien, Stunde→Stunden, …). Decimals read digit-by-digit after
+// "Komma". Continental formatting (comma decimal, period/space thousands).
+const DE_ONES = ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn',
+  'elf', 'zwölf', 'dreizehn', 'vierzehn', 'fünfzehn', 'sechzehn', 'siebzehn', 'achtzehn', 'neunzehn'];
+const DE_TENS = ['', '', 'zwanzig', 'dreißig', 'vierzig', 'fünfzig', 'sechzig', 'siebzig', 'achtzig', 'neunzig'];
+// Spoken day ordinals 1–31 (nominative "-ter/-ster", as in "zwanzigster Juni").
+const DE_DAY_ORDINALS = ['', 'erster', 'zweiter', 'dritter', 'vierter', 'fünfter', 'sechster', 'siebter',
+  'achter', 'neunter', 'zehnter', 'elfter', 'zwölfter', 'dreizehnter', 'vierzehnter', 'fünfzehnter',
+  'sechzehnter', 'siebzehnter', 'achtzehnter', 'neunzehnter', 'zwanzigster', 'einundzwanzigster',
+  'zweiundzwanzigster', 'dreiundzwanzigster', 'vierundzwanzigster', 'fünfundzwanzigster',
+  'sechsundzwanzigster', 'siebenundzwanzigster', 'achtundzwanzigster', 'neunundzwanzigster',
+  'dreißigster', 'einunddreißigster'];
+const DE_MONTHS = ['', 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+function deBelow100(n) {
+  if (n < 20) return DE_ONES[n];
+  const tens = Math.floor(n / 10), u = n % 10;
+  if (u === 0) return DE_TENS[tens];
+  return (u === 1 ? 'ein' : DE_ONES[u]) + 'und' + DE_TENS[tens]; // einundzwanzig, fünfunddreißig
+}
+function deBelow1000(n) {
+  if (n < 100) return deBelow100(n);
+  const h = Math.floor(n / 100), rem = n % 100;
+  const hWord = (h === 1 ? 'ein' : DE_ONES[h]) + 'hundert'; // einhundert, zweihundert
+  return rem === 0 ? hWord : hWord + deBelow100(rem);        // einhundertdreiundzwanzig, einhunderteins
+}
+function deBelow1Mio(n) {
+  const th = Math.floor(n / 1000), rem = n % 1000;
+  if (th === 0) return deBelow1000(rem);
+  const tWord = (th === 1 ? 'ein' : deBelow1000(th)) + 'tausend'; // eintausend, zweitausend, einhunderttausend
+  return rem === 0 ? tWord : tWord + deBelow1000(rem);            // eintausendzweihundertvierunddreißig
+}
+function deIntWords(n) {
+  if (n === 0) return 'null';
+  if (n < 0) return 'minus ' + deIntWords(-n);
+  if (n < 1_000_000) return deBelow1Mio(n);
+  const mrd = Math.floor(n / 1_000_000_000);
+  const mio = Math.floor((n % 1_000_000_000) / 1_000_000);
+  const rest = n % 1_000_000;
+  const groups = [];
+  if (mrd) groups.push(mrd === 1 ? 'eine Milliarde' : deBelow1000(mrd) + ' Milliarden');
+  if (mio) groups.push(mio === 1 ? 'eine Million' : deBelow1000(mio) + ' Millionen');
+  if (rest) groups.push(deBelow1Mio(rest));
+  return groups.join(' '); // "eine Million zweihunderttausend"
+}
+// German reads decimals digit-by-digit after "Komma" (`norm` uses '.').
+function deDecimalWords(norm) {
+  const [intp, decp = ''] = norm.split('.');
+  const intWords = deIntWords(parseInt(intp, 10) || 0);
+  const decWords = decp.split('').map((d) => DE_ONES[Number(d)]).join(' ');
+  return `${intWords} Komma ${decWords}`;
+}
+function deNumberToken(raw) {
+  const s = String(raw).trim();
+  if (/^\d{1,3}(\.\d{3})+,\d+$/.test(s)) return deDecimalWords(s.replace(/\./g, '').replace(',', '.')); // 1.234,5
+  if (/^\d{1,3}(,\d{3})+\.\d+$/.test(s)) return deDecimalWords(s.replace(/,/g, ''));                     // 40,028.5 (en)
+  if (/^\d+,\d{1,2}$/.test(s)) return deDecimalWords(s.replace(',', '.'));        // 99,5
+  if (/^\d{1,3}(,\d{3})+$/.test(s)) return deIntWords(parseInt(s.replace(/,/g, ''), 10)); // 10,000
+  if (/^\d{1,3}(\.\d{3})+$/.test(s)) return deIntWords(parseInt(s.replace(/\./g, ''), 10)); // 1.000
+  if (/^\d+\.\d+$/.test(s)) return deDecimalWords(s);                              // 3.5
+  if (/^\d+$/.test(s)) return deIntWords(parseInt(s, 10));
+  const cleaned = s.replace(/[.,]/g, '');
+  return /^\d+$/.test(cleaned) ? deIntWords(parseInt(cleaned, 10)) : s;
+}
+
+const UNITS_DE = {
+  'mg/dL': 'Milligramm pro Deziliter', 'mg/dl': 'Milligramm pro Deziliter',
+  'mmol/L': 'Millimol pro Liter', 'µmol/L': 'Mikromol pro Liter', 'μmol/L': 'Mikromol pro Liter',
+  'ng/mL': 'Nanogramm pro Milliliter', 'ng/ml': 'Nanogramm pro Milliliter',
+  'pg/mL': 'Pikogramm pro Milliliter', 'µg/dL': 'Mikrogramm pro Deziliter', 'μg/dL': 'Mikrogramm pro Deziliter',
+  'g/dL': 'Gramm pro Deziliter', 'IU/L': 'internationale Einheiten pro Liter', 'U/L': 'Einheiten pro Liter',
+  'mg/kg': 'Milligramm pro Kilogramm', 'mmHg': 'Millimeter Quecksilbersäule', 'kPa': 'Kilopascal',
+  'mcg': 'Mikrogramm', 'µg': 'Mikrogramm', 'μg': 'Mikrogramm', 'ng': 'Nanogramm', 'pg': 'Pikogramm',
+  'mg': 'Milligramm', 'kg': 'Kilogramm', 'g': 'Gramm',
+  'mL': 'Milliliter', 'ml': 'Milliliter', 'dL': 'Deziliter', 'dl': 'Deziliter', 'L': 'Liter',
+  'kcal': 'Kilokalorien', 'cal': 'Kalorien', 'kJ': 'Kilojoule',
+  'bpm': 'Schläge pro Minute', 'mmol': 'Millimol', 'µmol': 'Mikromol', 'nmol': 'Nanomol',
+  'IU': 'internationale Einheiten', 'mIU': 'Milli-internationale Einheiten',
+  'km': 'Kilometer', 'cm': 'Zentimeter', 'mm': 'Millimeter', 'nm': 'Nanometer', 'µm': 'Mikrometer',
+  'lb': 'Pfund', 'lbs': 'Pfund', 'oz': 'Unzen',
+  'hr': 'Stunden', 'hrs': 'Stunden', 'min': 'Minuten', 'sec': 'Sekunden', 'ms': 'Millisekunden',
+  'GHz': 'Gigahertz', 'MHz': 'Megahertz', 'kHz': 'Kilohertz', 'Hz': 'Hertz',
+  'dB': 'Dezibel', 'kDa': 'Kilodalton', 'Da': 'Dalton', 'ppm': 'Teile pro Million',
+  'ppb': 'Teile pro Milliarde', 'kW': 'Kilowatt', 'mW': 'Milliwatt', 'W': 'Watt',
+  'mV': 'Millivolt', 'V': 'Volt', 'J': 'Joule',
+  'mM': 'millimolar', 'µM': 'mikromolar', 'μM': 'mikromolar', 'nM': 'nanomolar', 'pM': 'pikomolar',
+};
+// Units whose German noun is feminine → "eine" at value 1 (number words 2+ don't
+// inflect in German). Listed by the plural form stored in UNITS_DE.
+const DE_FEMININE_UNITS = new Set(['Kalorien', 'Kilokalorien', 'Stunden', 'Minuten', 'Sekunden',
+  'Millisekunden', 'Unzen', 'internationale Einheiten', 'internationale Einheiten pro Liter',
+  'Einheiten pro Liter', 'Milli-internationale Einheiten']);
+// Plural→singular for the count-nouns that actually pluralize. Measurement units
+// not listed here are invariable (Milligramm, Liter, Kilometer, Hertz …) so the
+// default identity is correct.
+const DE_SINGULAR_IRREG = {
+  'Kalorien': 'Kalorie', 'Kilokalorien': 'Kilokalorie', 'Stunden': 'Stunde', 'Minuten': 'Minute',
+  'Sekunden': 'Sekunde', 'Millisekunden': 'Millisekunde', 'Unzen': 'Unze',
+  'Schläge pro Minute': 'Schlag pro Minute', 'Teile pro Million': 'Teil pro Million',
+  'Teile pro Milliarde': 'Teil pro Milliarde',
+  'internationale Einheiten': 'internationale Einheit', 'Einheiten pro Liter': 'Einheit pro Liter',
+  'internationale Einheiten pro Liter': 'internationale Einheit pro Liter',
+  'Milli-internationale Einheiten': 'Milli-internationale Einheit',
+};
+const SORTED_UNITS_DE = Object.entries(UNITS_DE).sort((a, b) => b[0].length - a[0].length);
+
+function deIsOne(raw) { return String(raw).replace(/[.,\s]/g, '') === '1'; }
+function deSingularize(plural) { return DE_SINGULAR_IRREG[plural] || plural; }
+function deUnitPhrase(numWords, raw, plural) {
+  if (deIsOne(raw)) {
+    const art = DE_FEMININE_UNITS.has(plural) ? 'eine ' : 'ein '; // ein Milligramm, eine Kalorie
+    return art + deSingularize(plural);
+  }
+  return `${numWords} ${plural}`;
+}
+
+// Data-driven learned terms (token → spoken German), grown by the weekly
+// gap-scan/learner. Additive + de-only, so it never affects en/es/fr/it/pt.
+let LEARNED_DE = [];
+try { LEARNED_DE = require('./data/learned-de-terms.json'); } catch { /* none yet */ }
+function reloadLearnedDeTerms() {
+  try { delete require.cache[require.resolve('./data/learned-de-terms.json')]; LEARNED_DE = require('./data/learned-de-terms.json'); }
+  catch { LEARNED_DE = []; }
+  return LEARNED_DE.length;
+}
+
+function coreNormalizeDe(text) {
+  let t = ' ' + String(text) + ' ';
+
+  // 0a. Strip Markdown / formatting artifacts a TTS voice would mangle.
+  t = t
+    .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*\n]+)\*/g, '$1')
+    .replace(/(^|\s)[*•#]+\s/g, '$1')
+    .replace(/[`_*#]/g, '');
+
+  // 0a2. Collapse spaced thousands ("10 000" / "1 234 567" incl. narrow/NBSP).
+  t = t.replace(/(\d{1,3}(?:[   ]\d{3})+)(?!\d)/g, (m) => m.replace(/[   ]/g, ''));
+
+  // 0a3. Learned terms (data-driven; grown by the weekly gap-scan). Word-bounded;
+  //      the (?!-\d{3,4}) guard keeps a learned acronym from eating a LETTERS-NNNN
+  //      compound-code prefix (handled later).
+  for (let i = 0; i < LEARNED_DE.length; i++) {
+    const e = LEARNED_DE[i];
+    if (!e || !e.find) continue;
+    const re = new RegExp(`(?<![A-Za-zÀ-ÿ0-9])${escapeRegex(e.find)}(?![A-Za-zÀ-ÿ0-9])(?!-\\d{3,4}\\b)`, 'g');
+    t = t.replace(re, e.replace == null ? '' : e.replace);
+  }
+
+  // 0b. Common abbreviations (deterministic backstop). Longest/most-specific first.
+  const ABBR_DE = [
+    [/\bDr\.?\s*/g, 'Doktor '], [/\bProf\.?\s*/g, 'Professor '],
+    [/\bz\.?\s?B\.?/g, 'zum Beispiel'], [/\bu\.?\s?a\.?(?=\W|$)/g, 'unter anderem'],
+    [/\bd\.?\s?h\.?/g, 'das heißt'], [/\bbzw\.?/gi, 'beziehungsweise'],
+    [/\busw\.?/gi, 'und so weiter'], [/\b(?:etc)\.?(?=\s|$)/gi, 'et cetera'],
+    [/\bca\.?\s/gi, 'circa '], [/\bggf\.?/gi, 'gegebenenfalls'],
+    [/\bvs\.?(?=\W|$)/gi, 'versus'], [/\bNr\.?\s?/g, 'Nummer '],
+  ];
+  for (const [re, w] of ABBR_DE) t = t.replace(re, w);
+
+  // 0c. Comparison / math operators → words (also when glued to a number).
+  t = t
+    .replace(/\s*≤\s*/g, ' kleiner oder gleich ').replace(/\s*≥\s*/g, ' größer oder gleich ')
+    .replace(/\s*[≈~]\s*/g, ' ungefähr ').replace(/\s*±\s*/g, ' plus minus ')
+    .replace(/\s*÷\s*/g, ' geteilt durch ').replace(/\s*&\s*/g, ' und ')
+    .replace(/(^|[\s\d])<(?=\s*[\d.])/g, '$1 kleiner als ')
+    .replace(/(^|[\s\d])>(?=\s*[\d.])/g, '$1 größer als ');
+
+  // 1. Percentages (das Prozent, invariable → "ein Prozent" / "fünfzig Prozent").
+  t = t.replace(/(\d[\d.,]*)\s*%/g, (_, n) => (deIsOne(n) ? 'ein Prozent' : `${deNumberToken(n)} Prozent`));
+
+  // 2. Temperatures. Value 1 → "ein Grad" (der Grad, masculine).
+  t = t.replace(/(\d[\d.,]*)\s*°\s*C\b/gi, (_, n) => (deIsOne(n) ? 'ein Grad Celsius' : `${deNumberToken(n)} Grad Celsius`));
+  t = t.replace(/(\d[\d.,]*)\s*°\s*F\b/gi, (_, n) => (deIsOne(n) ? 'ein Grad Fahrenheit' : `${deNumberToken(n)} Grad Fahrenheit`));
+  t = t.replace(/(\d[\d.,]*)\s*°/g, (_, n) => (deIsOne(n) ? 'ein Grad' : `${deNumberToken(n)} Grad`));
+
+  // 3. Currency, symbol before OR after the number. Dollar/Euro are masculine and
+  //    invariable when counting money ("fünfzig Euro", "ein Euro").
+  t = t.replace(/\$\s*(\d[\d.,]*)/g, (_, n) => deUnitPhrase(deNumberToken(n), n, 'Dollar'));
+  t = t.replace(/(\d[\d.,]*)\s*\$/g, (_, n) => deUnitPhrase(deNumberToken(n), n, 'Dollar'));
+  t = t.replace(/€\s*(\d[\d.,]*)/g, (_, n) => deUnitPhrase(deNumberToken(n), n, 'Euro'));
+  t = t.replace(/(\d[\d.,]*)\s*€/g, (_, n) => deUnitPhrase(deNumberToken(n), n, 'Euro'));
+
+  // 3b. ISO dates "2026-06-20" → "zwanzigster Juni zweitausendsechsundzwanzig" (day 1 → "erster").
+  t = t.replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (m, y, mo, d) => {
+    const mm = parseInt(mo, 10), dd = parseInt(d, 10);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return m;
+    return `${DE_DAY_ORDINALS[dd]} ${DE_MONTHS[mm]} ${deIntWords(parseInt(y, 10))}`;
+  });
+
+  // 4. Ranges, optional trailing unit on the upper bound ("5–10 mg").
+  const unitAlt = SORTED_UNITS_DE.map(([u]) => escapeRegex(u)).join('|');
+  t = t.replace(
+    new RegExp(`(\\d[\\d.,]*)\\s*[–—-]\\s*(\\d[\\d.,]*)\\s*(${unitAlt})?(?![A-Za-z])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${deNumberToken(a)} bis ${deUnitPhrase(deNumberToken(b), b, UNITS_DE[u])}`
+      : `${deNumberToken(a)} bis ${deNumberToken(b)}`),
+  );
+
+  // 4b. Ratios / blood pressure: "120/80" → "einhundertzwanzig zu achtzig".
+  t = t.replace(
+    new RegExp(`(\\d{1,3})\\s*/\\s*(\\d{1,3})\\s*(${unitAlt})?(?![A-Za-z0-9])`, 'g'),
+    (_, a, b, u) => (u
+      ? `${deNumberToken(a)} zu ${deUnitPhrase(deNumberToken(b), b, UNITS_DE[u])}`
+      : `${deNumberToken(a)} zu ${deNumberToken(b)}`),
+  );
+
+  // 5. Number + unit (longest unit keys first). The leading (?<![A-Za-z]) keeps a
+  //    single-letter unit (L/V/W/J/g…) from eating a digit glued inside a
+  //    letter-led token, e.g. the "2L" in the gene symbol "BCL2L1".
+  for (const [u, plural] of SORTED_UNITS_DE) {
+    const re = new RegExp(`(?<![A-Za-z])(\\d[\\d.,]*)\\s*${escapeRegex(u)}(?![A-Za-z])`, 'g');
+    t = t.replace(re, (_, n) => deUnitPhrase(deNumberToken(n), n, plural));
+  }
+
+  // 5b. Scientific letter+number tokens where the number IS spoken (vitamins,
+  //     thyroid T3/T4, coenzyme Q10, omega-N). Multi-letter gene symbols untouched.
+  t = t.replace(/\bomega[-\s]?(\d+)\b/gi, (_, n) => `Omega ${deIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\bCoQ[-\s]?(\d+)\b/g, (_, n) => `CoQ ${deIntWords(parseInt(n, 10))}`);
+  t = t.replace(/\b([BDKT])-?(\d{1,2})\b/g, (_, L, n) => `${L} ${deIntWords(parseInt(n, 10))}`);
+
+  // 5d. Compound / product codes: 2+ uppercase letters + optional hyphen + 3–4
+  //     digit tail (RLS-1496, BPC-157, AC220) → spell the tail digit-by-digit.
+  t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
+    (_, pre, digits) => `${pre} ${digits.split('').map((d) => DE_ONES[Number(d)]).join(' ')}`);
+
+  // 5e. Roman numerals in clinical contexts ("Phase III", "Stadium IV", "Typ II")
+  //     → spoken cardinals. Scoped to a leading keyword so a stray "I"/"V"/"X"
+  //     elsewhere is left alone. Longest-first token order.
+  const DE_ROMAN = { I: 'eins', II: 'zwei', III: 'drei', IV: 'vier', V: 'fünf',
+    VI: 'sechs', VII: 'sieben', VIII: 'acht', IX: 'neun', X: 'zehn', XI: 'elf', XII: 'zwölf' };
+  t = t.replace(/\b(Phase|Stadium|Stufe|Grad|Typ|Klasse|Grade)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/g,
+    (m, w, r) => `${w} ${DE_ROMAN[r] || r}`);
+
+  // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
+  t = t.replace(/\s\+\s/g, ' plus ').replace(/\s×\s/g, ' mal ').replace(/\s=\s/g, ' gleich ');
+
+  // 7. Remaining bare numbers
+  t = t.replace(/(?<![\w.,])(\d[\d.,]*\d|\d)(?![\w])/g, (_, n) => deNumberToken(n));
+
+  return t.replace(/\s{2,}/g, ' ').trim();
+}
+
 function normalizeForTTS(text, opts = {}) {
   if (!text) return '';
   const locale = (opts && opts.locale ? String(opts.locale) : 'en').toLowerCase().split(/[-_]/)[0];
@@ -3819,6 +4071,7 @@ function normalizeForTTS(text, opts = {}) {
   if (locale === 'fr') return coreNormalizeFr(text);
   if (locale === 'it') return coreNormalizeIt(text);
   if (locale === 'pt') return coreNormalizePtBr(text);
+  if (locale === 'de') return coreNormalizeDe(text);
   return postprocessForTTS(coreNormalize(preprocessForTTS(text)));
 }
 
@@ -3958,5 +4211,6 @@ module.exports = {
   reloadLearnedFrTerms,
   reloadLearnedItTerms,
   reloadLearnedPtBrTerms,
+  reloadLearnedDeTerms,
   selfTest,
 };
