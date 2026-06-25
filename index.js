@@ -4049,10 +4049,14 @@ function coreNormalizeDe(text) {
 
   // 5e. Roman numerals in clinical contexts ("Phase III", "Stadium IV", "Typ II")
   //     → spoken cardinals. Scoped to a leading keyword so a stray "I"/"V"/"X"
-  //     elsewhere is left alone. Longest-first token order.
+  //     elsewhere is left alone. German compounds these with a HYPHEN as often as
+  //     a space ("Phase-III-Studie", "Typ-II-Diabetes"), so accept either
+  //     separator. Keywords include the longevity-relevant Komplex (mitochondrial
+  //     complexes I–V), Kollagen (collagen type I/III) and Faktor (Faktor V) —
+  //     all surfaced as surviving II/III leftovers by the de gap-scan.
   const DE_ROMAN = { I: 'eins', II: 'zwei', III: 'drei', IV: 'vier', V: 'fünf',
     VI: 'sechs', VII: 'sieben', VIII: 'acht', IX: 'neun', X: 'zehn', XI: 'elf', XII: 'zwölf' };
-  t = t.replace(/\b(Phase|Stadium|Stufe|Grad|Typ|Klasse|Grade)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/g,
+  t = t.replace(/\b(Phase|Stadium|Stufe|Grad|Grade|Typ|Klasse|Komplex|Komplexe|Kollagen|Faktor)[-\s]+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/g,
     (m, w, r) => `${w} ${DE_ROMAN[r] || r}`);
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)

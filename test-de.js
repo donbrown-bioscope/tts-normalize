@@ -112,6 +112,14 @@ const DE = [
   // Case-sensitivity guard: the all-caps acronym ALS is spelled, the German
   // function word "als" (lowercase) is left untouched.
   ['ALS unterscheidet sich von anderen als erwartet', 'A L S unterscheidet sich von anderen als erwartet'],
+  // Gap-scan finds (de corpus): more acronyms + hyphenated/extended clinical Roman.
+  ['erhöhtes IL und HIV-Risiko', 'erhöhtes I L und H I V-Risiko'],
+  ['das KI betrug', 'das K I betrug'],
+  ['PD-L1 und CD8', 'P D L eins und C D acht'],
+  ['eine Phase-III-Studie', 'eine Phase drei-Studie'],
+  ['mitochondrialer Komplex I', 'mitochondrialer Komplex eins'],
+  ['Kollagen Typ III', 'Kollagen Typ drei'],
+  ['Faktor V Leiden', 'Faktor fünf Leiden'],
 ];
 
 // Guard that the de locale param didn't disturb the en/es/fr/it/pt paths.
