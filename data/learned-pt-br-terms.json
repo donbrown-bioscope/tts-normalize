@@ -1,28 +1,275 @@
 [
-  { "find": "OMS", "replace": "O M S", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "FDA", "replace": "F D A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "IMC", "replace": "I M C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "DNA", "replace": "D N A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "RNA", "replace": "R N A", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "LDL", "replace": "L D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "HDL", "replace": "H D L", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "ATP", "replace": "A T P", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "BDNF", "replace": "B D N F", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "TC", "replace": "T C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "EEG", "replace": "E E G", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "PCR", "replace": "P C R", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "DPOC", "replace": "D P O C", "category": "acronym", "addedBy": "seed", "addedOn": "2026-06-23" },
-  { "find": "PCSK9", "replace": "P C S K nove", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "OCT4", "replace": "O C T quatro", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "CD38", "replace": "C D trinta e oito", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "LKB1", "replace": "L K B um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "Thr172", "replace": "T H R cento e setenta e dois", "category": "residue", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "SOX2", "replace": "S O X dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "CaMKK2", "replace": "C A M K K dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "HAPLN2", "replace": "H A P L N dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "GLP-1RA", "replace": "G L P um R A", "category": "acronym", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "AIFM1", "replace": "A I F M um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "BCL2", "replace": "B C L dois", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "WEE1", "replace": "W E E um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" },
-  { "find": "APOL1", "replace": "A P O L um", "category": "gene", "addedBy": "manual-scan", "addedOn": "2026-06-23" }
+  {
+    "find": "OMS",
+    "replace": "O M S",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "FDA",
+    "replace": "F D A",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "IMC",
+    "replace": "I M C",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "DNA",
+    "replace": "D N A",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "RNA",
+    "replace": "R N A",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "LDL",
+    "replace": "L D L",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "HDL",
+    "replace": "H D L",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "ATP",
+    "replace": "A T P",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "BDNF",
+    "replace": "B D N F",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "TC",
+    "replace": "T C",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "EEG",
+    "replace": "E E G",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "PCR",
+    "replace": "P C R",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "DPOC",
+    "replace": "D P O C",
+    "category": "acronym",
+    "addedBy": "seed",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "PCSK9",
+    "replace": "P C S K nove",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "OCT4",
+    "replace": "O C T quatro",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "CD38",
+    "replace": "C D trinta e oito",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "LKB1",
+    "replace": "L K B um",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "Thr172",
+    "replace": "T H R cento e setenta e dois",
+    "category": "residue",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "SOX2",
+    "replace": "S O X dois",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "CaMKK2",
+    "replace": "C A M K K dois",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "HAPLN2",
+    "replace": "H A P L N dois",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "GLP-1RA",
+    "replace": "G L P um R A",
+    "category": "acronym",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "AIFM1",
+    "replace": "A I F M um",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "BCL2",
+    "replace": "B C L dois",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "WEE1",
+    "replace": "W E E um",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "APOL1",
+    "replace": "A P O L um",
+    "category": "gene",
+    "addedBy": "manual-scan",
+    "addedOn": "2026-06-23"
+  },
+  {
+    "find": "NAD",
+    "replace": "N A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "AMPK",
+    "replace": "A M P K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "GLP",
+    "replace": "G L P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "IGF",
+    "replace": "I G F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "FOXO",
+    "replace": "F O X O",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "PGC",
+    "replace": "P G C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "AMP",
+    "replace": "A M P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "SASP",
+    "replace": "S A S P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "NMN",
+    "replace": "N M N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "HSP90",
+    "replace": "H S P noventa",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "TFEB",
+    "replace": "T F E B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "ROS",
+    "replace": "R O S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  },
+  {
+    "find": "NAMPT",
+    "replace": "N A M P T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-06-25"
+  }
 ]

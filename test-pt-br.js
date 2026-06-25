@@ -71,7 +71,7 @@ const PT = [
   ['marcador CD38 elevado', 'marcador C D trinta e oito elevado'],
   ['fatores OCT4 e SOX2', 'fatores O C T quatro e S O X dois'],
   ['agonista GLP-1RA', 'agonista G L P um R A'],
-  ['via LKB1-AMPK em Thr172', 'via L K B um-AMPK em T H R cento e setenta e dois'],
+  ['via LKB1-AMPK em Thr172', 'via L K B um-A M P K em T H R cento e setenta e dois'],
   // Word-bounded: must NOT letter-spell when the symbol is a prefix of a longer token.
   ['o gene BCL2L1 difere de BCL2', 'o gene BCL2L1 difere de B C L dois'],
   ['publicado em 2026-06-20', 'publicado em vinte de junho de dois mil e vinte e seis'],
