@@ -1992,7 +1992,7 @@ const CLINICAL_IPA = {
   'acarbose':        'ˈeɪkɑːrboʊs',
   'pioglitazone':    'ˌpaɪoʊˈɡlɪtəzoʊn',
   'berberine':       'ˈbɜːrbəriːn',
-  'spermidine':      'spɜːrˈmɪdiːn',
+  'spermidine':      'ˈspɜːrmɪdiːn',
   'thymosin':        'ˈθaɪməsɪn',
   'Thymosin':        'ˈθaɪməsɪn',
   'ergothioneine':   'ˌɜːrɡoʊθaɪoʊˈniːn',
@@ -4222,7 +4222,7 @@ function selfTest() {
       'the <phoneme alphabet="ipa" ph="ˈɛstər">E-S-T-H-E-R</phoneme> study cohort'],
     // spermidine — "sper-MID-een" (stress on MID).
     ['spermidine supplementation',
-      '<phoneme alphabet="ipa" ph="spɜːrˈmɪdiːn">spermidine</phoneme> supplementation'],
+      '<phoneme alphabet="ipa" ph="ˈspɜːrmɪdiːn">spermidine</phoneme> supplementation'],
     // toward (one syllable, not "to ward") + early (no unnatural break).
     ['progress toward the goal and early intervention',
       'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and <phoneme alphabet="ipa" ph="ˈɜːrli">early</phoneme> intervention'],
