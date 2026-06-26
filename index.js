@@ -228,6 +228,10 @@ const ABBREVIATIONS = {
   // <phoneme> tag per letter, primary stress on each, no separator.
   'ATP':  '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
   'ADP': 'A-D-P', 'AMP': 'A-M-P',
+  // SSAT (spermidine/spermine N1-acetyltransferase, polyamine tutorials) — the
+  // terminal "T" was voicing to "D" ("…ay-DEE"). Same fix as ATP/HRT/TRT/VTE:
+  // one <phoneme> tag per letter, primary stress on each, no separator.
+  'SSAT': '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'HDL': 'H-D-L', 'LDL': 'L-D-L', 'VLDL': 'V-L-D-L',
   'HbA1c': 'H-b-A-one-c', 'A1C': 'A-one-C',
   // T-helper cell subsets — "Th17" has mixed case so it misses the
@@ -4266,6 +4270,9 @@ function selfTest() {
     ['both LDLs measured', 'both <phoneme alphabet="ipa" ph="ˌɛldiːˈɛlz">L-D-Ls</phoneme> measured'],
     // Word-acronyms are NOT in the letter-spell set → stay bare (read as words).
     ['several SARMs tested', 'several SARMs tested'],
+    // SSAT — terminal "T" must not voice to "D"; per-letter stressed phonemes.
+    ['SSAT activity rose',
+      '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> activity rose'],
   ];
 
   let passed = 0;
