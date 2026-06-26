@@ -1542,6 +1542,15 @@ const LP_LITTLE_A_REGEX = /\bLp(?:\(a\)|-a\b)/g;
 function preprocessForTTS(text) {
   let t = text;
 
+  // Drop apostrophes on possessives and contractions so the TTS voice doesn't
+  // read the possessive "'s" as the letter S, and contractions stay one word.
+  // Covers straight + curly + modifier apostrophes. Intra-word first
+  // ("patient's"→"patients", "don't"→"dont", "it's"→"its"), then a word-final
+  // possessive ("researchers'"→"researchers"). English path only — the locale
+  // cores (fr/it/pt-br, which use apostrophes structurally) are separate
+  // functions and never call this.
+  t = t.replace(/(\w)[’'ʼ‘](\w)/g, '$1$2').replace(/(\w)[’'ʼ‘](?!\w)/g, '$1');
+
   // Snake_case identifiers (update_identity, is_clinician,
   // mark_conversation_sensitive, etc.) — Chirp HD reads each '_'
   // literally as the word "underscore". Replace internal underscores
@@ -1769,6 +1778,21 @@ const CLINICAL_IPA = {
   'muciniphila':   'ˌmjuːsɪnɪˈfɪlə',
   'Bacteroidetes': 'ˌbæktəˈrɔɪdɪtiːz',
   'bacteroidetes': 'ˌbæktəˈrɔɪdɪtiːz',
+  // Statistical quantile terms — long-"i" final syllable ("-tile" rhymes with
+  // "tile"; decile "DESS-ile"). Chirp HD otherwise clips them to a short i.
+  'tertile':   'ˈtɜːrtaɪl',   'tertiles':  'ˈtɜːrtaɪlz',
+  'quartile':  'ˈkwɔːrtaɪl',  'quartiles': 'ˈkwɔːrtaɪlz',
+  'quintile':  'ˈkwɪntaɪl',   'quintiles': 'ˈkwɪntaɪlz',
+  'decile':    'ˈdɛsaɪl',     'deciles':   'ˈdɛsaɪlz',
+  // ESTHER cohort study — say it like the name ("ESS-ter"), never letter-spelled.
+  // Both the bare form and the post-core letter-spelled form.
+  'ESTHER':      'ˈɛstər',
+  'E-S-T-H-E-R': 'ˈɛstər',
+  // Common words Chirp HD mis-renders: "toward" as two words ("to ward"), and
+  // "early" with an unnatural break. The inline <phoneme> wrap fixes the
+  // pronunciation without inserting a pause before/after the word.
+  'toward':  'tɔːrd',   'towards': 'tɔːrdz',
+  'early':   'ˈɜːrli',
   // HOMA — Homeostatic Model Assessment. Long-O ("HOME-uh"), not
   // letter-spelled. Case-insensitive matching covers HOMA / Homa /
   // homa, including the "Homa-I-R" rewrite from PRE_ABBREVIATIONS.
@@ -1968,7 +1992,7 @@ const CLINICAL_IPA = {
   'acarbose':        'ˈeɪkɑːrboʊs',
   'pioglitazone':    'ˌpaɪoʊˈɡlɪtəzoʊn',
   'berberine':       'ˈbɜːrbəriːn',
-  'spermidine':      'ˈspɜːrmɪdiːn',
+  'spermidine':      'spɜːrˈmɪdiːn',
   'thymosin':        'ˈθaɪməsɪn',
   'Thymosin':        'ˈθaɪməsɪn',
   'ergothioneine':   'ˌɜːrɡoʊθaɪoʊˈniːn',
@@ -4136,8 +4160,13 @@ function selfTest() {
       '<phoneme alphabet="ipa" ph="tʃɪp">C-H-I-P</phoneme> burden rises with age'],
     ['SASP and DIM',
       '<phoneme alphabet="ipa" ph="sæsp">S-A-S-P</phoneme> and <phoneme alphabet="ipa" ph="dɪm">D-I-M</phoneme>'],
+    // Possessive/contraction apostrophes are stripped in preprocess (so the
+    // possessive "'s" never reads as the letter S). For an acronym this also
+    // drops it out of letter-spelling into its merged plural-style form
+    // ("CPIC's" → "CPICs"), same as the un-spelled "RCTs"/"SNPs" plurals Chirp
+    // HD already handles — accepted tradeoff to kill the dangling letter-S.
     ["per CPIC's SSRI guideline",
-      'per <phoneme alphabet="ipa" ph="ˈsiːpɪk">C-P-I-C</phoneme>\'s <sub alias="ess ess R I">SSRI</sub> guideline'],
+      'per CPICs <sub alias="ess ess R I">SSRI</sub> guideline'],
     // SLCO1B1 — POST_OVERRIDES emits a <sub alias> rewrite (IPA stress
     // tweaks didn't keep Chirp HD from slurring the leading S).
     ['SLCO1B1 *5/*5',
@@ -4184,6 +4213,21 @@ function selfTest() {
     ['iron-rich diet', 'iron-rich diet'],
     ['twenty to twenty-five percent', 'twenty to twenty-five percent'],
     ['three-hundred patients', 'three hundred patients'],
+    // ─── Pronunciation corrections (2026-06-25).
+    // Quantile terms — long-"i" final syllable.
+    ['first tertile vs fourth quartile, top quintile, lowest decile',
+      'first <phoneme alphabet="ipa" ph="ˈtɜːrtaɪl">tertile</phoneme> versus fourth <phoneme alphabet="ipa" ph="ˈkwɔːrtaɪl">quartile</phoneme>, top <phoneme alphabet="ipa" ph="ˈkwɪntaɪl">quintile</phoneme>, lowest <phoneme alphabet="ipa" ph="ˈdɛsaɪl">decile</phoneme>'],
+    // ESTHER cohort — said like the name, not letter-spelled.
+    ['the ESTHER study cohort',
+      'the <phoneme alphabet="ipa" ph="ˈɛstər">E-S-T-H-E-R</phoneme> study cohort'],
+    // spermidine — "sper-MID-een" (stress on MID).
+    ['spermidine supplementation',
+      '<phoneme alphabet="ipa" ph="spɜːrˈmɪdiːn">spermidine</phoneme> supplementation'],
+    // toward (one syllable, not "to ward") + early (no unnatural break).
+    ['progress toward the goal and early intervention',
+      'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and <phoneme alphabet="ipa" ph="ˈɜːrli">early</phoneme> intervention'],
+    // Possessive/contraction apostrophes dropped (no possessive-S-as-letter).
+    ["the patient's chart doesn't change", 'the patients chart doesnt change'],
   ];
 
   let passed = 0;
