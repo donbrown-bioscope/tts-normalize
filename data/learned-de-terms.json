@@ -74,5 +74,18 @@
   { "find": "HCC", "replace": "H C C", "category": "acronym", "addedBy": "gap-scan-review", "addedOn": "2026-06-25" },
   { "find": "NR", "replace": "N R", "category": "acronym", "addedBy": "gap-scan-review", "addedOn": "2026-06-25" },
   { "find": "GH", "replace": "G H", "category": "acronym", "addedBy": "gap-scan-review", "addedOn": "2026-06-25" },
-  { "find": "GSH", "replace": "G S H", "category": "acronym", "addedBy": "gap-scan-review", "addedOn": "2026-06-25" }
+  { "find": "GSH", "replace": "G S H", "category": "acronym", "addedBy": "gap-scan-review", "addedOn": "2026-06-25" },
+  { "find": "FGF21", "replace": "F G F einundzwanzig", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "GDF15", "replace": "G D F fünfzehn", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "GPX4", "replace": "G P X vier", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "DLK1", "replace": "D L K eins", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "FFAR4", "replace": "F F A R vier", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "LAMP1", "replace": "L A M P eins", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "CLU", "replace": "C L U", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "RORA", "replace": "R O R A", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "HER2", "replace": "Her zwei", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "PINK1", "replace": "Pink eins", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "FOXN1", "replace": "Fox N eins", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "FURIN", "replace": "Furin", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" },
+  { "find": "tau217", "replace": "tau zweihundertsiebzehn", "category": "scientificGene", "addedBy": "gene-pass", "addedOn": "2026-06-25" }
 ]

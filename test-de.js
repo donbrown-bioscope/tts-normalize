@@ -120,6 +120,16 @@ const DE = [
   ['mitochondrialer Komplex I', 'mitochondrialer Komplex eins'],
   ['Kollagen Typ III', 'Kollagen Typ drei'],
   ['Faktor V Leiden', 'Faktor fünf Leiden'],
+  // Gene-symbol pass (gap-scan finds): letter-clusters spell + speak the number,
+  // word-form genes read as words. Genes NOT curated stay verbatim (see PCSK9
+  // test above) — there is intentionally no blanket gene rule.
+  ['erhöhtes FGF21 und GDF15', 'erhöhtes F G F einundzwanzig und G D F fünfzehn'],
+  ['GPX4 reguliert Ferroptose', 'G P X vier reguliert Ferroptose'],
+  ['HER2-positiv', 'Her zwei-positiv'],
+  ['PINK1 und Mitophagie', 'Pink eins und Mitophagie'],
+  ['das Gen FURIN', 'das Gen Furin'],
+  ['p-tau217 im Plasma', 'p-tau zweihundertsiebzehn im Plasma'],
+  ['FOXN1 im Thymus', 'Fox N eins im Thymus'],
 ];
 
 // Guard that the de locale param didn't disturb the en/es/fr/it/pt paths.
