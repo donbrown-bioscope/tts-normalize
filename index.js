@@ -2506,6 +2506,24 @@ const POST_OVERRIDES = {
 const OMIC_IPA_SORTED = Object.entries(OMIC_IPA).sort((a, b) => b[0].length - a[0].length);
 const CLINICAL_IPA_SORTED = Object.entries(CLINICAL_IPA).sort((a, b) => b[0].length - a[0].length);
 
+// Acronyms that ABBREVIATIONS letter-spells (value is a pure hyphenated letter
+// run like "D-N-A" whose letters equal the key). Their plural/possessive form
+// ("DNAs", and "DNA's"→"DNAs" after the preprocess apostrophe strip) is voiced
+// as a plural /z/ inside one phoneme ("dee-en-ay-z") instead of being left bare
+// (which Chirp spells out including the trailing s → "D-N-A-S"). Word-acronyms
+// (SARMs, NGOs, PINs) are NOT in this set and stay bare for Chirp to read aloud.
+const LETTER_SPELLED_ACRONYMS = new Set(
+  Object.entries(ABBREVIATIONS)
+    .filter(([k, v]) => typeof v === 'string'
+      && /^[A-Z]{2,}$/.test(k)                                   // key is a 2+ all-caps acronym
+      // The spoken value (tags + hyphens/spaces stripped) is exactly the key's
+      // letters — i.e. the entry letter-spells the acronym. Covers both plain
+      // "D-N-A" and the per-letter <phoneme>…</phoneme> markup forms (ATP/DNA),
+      // while excluding word expansions ("hazard ratio", "whole genome …").
+      && v.replace(/<[^>]+>/g, '').replace(/[-\s]/g, '').toUpperCase() === k)
+    .map(([k]) => k),
+);
+
 function postprocessForTTS(text) {
   let t = text;
 
@@ -2650,6 +2668,19 @@ function postprocessForTTS(text) {
       return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
     });
   }
+
+  // Acronym plural / possessive ("DNAs"; "DNA's" was reduced to "DNAs" by the
+  // preprocess apostrophe strip). For acronyms ABBREVIATIONS letter-spells,
+  // wrap the letters with a voiced plural /z/ in one phoneme ("D-N-As" →
+  // "dee-en-ay-z") so the trailing s is a plural sound, never a spelled letter.
+  // Identical output for the plural and possessive forms. Gated to
+  // LETTER_SPELLED_ACRONYMS so word-acronyms (SARMs, NGOs) stay bare.
+  t = t.replace(new RegExp(String.raw`\b([A-Z]{2,})s\b${WRAP_GUARDS}`, 'g'), (m, acr) => {
+    if (!LETTER_SPELLED_ACRONYMS.has(acr)) return m;
+    const ipa = buildLetterSpellIpa(acr);
+    if (!ipa) return m;
+    return `<phoneme alphabet="ipa" ph="${ipa}z">${acr.split('').join('-')}s</phoneme>`;
+  });
 
   // Catch-all for letter-spelled acronyms the core emitted that didn't
   // match an explicit CLINICAL_IPA / FAST_GLUE entry above. Pattern:
@@ -4228,6 +4259,13 @@ function selfTest() {
       'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and <phoneme alphabet="ipa" ph="ˈɜːrli">early</phoneme> intervention'],
     // Possessive/contraction apostrophes dropped (no possessive-S-as-letter).
     ["the patient's chart doesn't change", 'the patients chart doesnt change'],
+    // Acronym plural + possessive: letter-spelled with a voiced plural /z/
+    // ("dee-en-ay-z"), never "D-N-A-S". Possessive renders identically to plural.
+    ['two DNAs were compared', 'two <phoneme alphabet="ipa" ph="ˌdiːɛnˈeɪz">D-N-As</phoneme> were compared'],
+    ["the DNA's two strands", 'the <phoneme alphabet="ipa" ph="ˌdiːɛnˈeɪz">D-N-As</phoneme> two strands'],
+    ['both LDLs measured', 'both <phoneme alphabet="ipa" ph="ˌɛldiːˈɛlz">L-D-Ls</phoneme> measured'],
+    // Word-acronyms are NOT in the letter-spell set → stay bare (read as words).
+    ['several SARMs tested', 'several SARMs tested'],
   ];
 
   let passed = 0;
