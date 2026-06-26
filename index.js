@@ -4273,6 +4273,10 @@ function selfTest() {
     // SSAT — terminal "T" must not voice to "D"; per-letter stressed phonemes.
     ['SSAT activity rose',
       '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> activity rose'],
+    // Systematic terminal-T: any open-set acronym the core letter-spells and
+    // that ends in T gets the same per-letter stressed treatment (NAPRT here).
+    ['NAPRT enzyme',
+      '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> enzyme'],
   ];
 
   let passed = 0;
