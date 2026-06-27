@@ -1546,14 +1546,25 @@ const LP_LITTLE_A_REGEX = /\bLp(?:\(a\)|-a\b)/g;
 function preprocessForTTS(text) {
   let t = text;
 
-  // Drop apostrophes on possessives and contractions so the TTS voice doesn't
-  // read the possessive "'s" as the letter S, and contractions stay one word.
-  // Covers straight + curly + modifier apostrophes. Intra-word first
-  // ("patient's"→"patients", "don't"→"dont", "it's"→"its"), then a word-final
-  // possessive ("researchers'"→"researchers"). English path only — the locale
-  // cores (fr/it/pt-br, which use apostrophes structurally) are separate
-  // functions and never call this.
-  t = t.replace(/(\w)[’'ʼ‘](\w)/g, '$1$2').replace(/(\w)[’'ʼ‘](?!\w)/g, '$1');
+  // Apostrophe handling. We KEEP apostrophes on contractions and possessives —
+  // Chirp 3 HD pronounces them correctly with the apostrophe present, and the
+  // possessive "'s" is NOT read as the letter S (verified via TTS→STT round-trip
+  // on en-US-Chirp3-HD-Enceladus). The old approach DELETED them, which collapsed
+  // contractions into wrong words: "I'd"→"Id" (spelled "eye-dee"), "we'd"→"wed"
+  // (heard "where"), "he'd"→"head", "she'd"→"shed", "he'll"→"hell", "she'll"→
+  // "shell", "we'll"→"well", "I'll"→"ill". That was the bug this replaces.
+  //
+  // One carve-out: an acronym possessive/plural ("DNA's", "CPIC's") collapses the
+  // apostrophe so the downstream LETTER_SPELLED_ACRONYMS voicing treats it like
+  // the bare plural ("DNAs"/"CPICs") and voices a single /z/ instead of spelling
+  // a dangling letter S. (Word possessives like "patient's" are untouched.)
+  //
+  // Curly/modifier/left-quote apostrophe variants are normalized to a straight
+  // ASCII apostrophe for predictable downstream matching (POST_OVERRIDES keys,
+  // SSML &apos; escaping). English path only — the fr/it/pt-br cores use
+  // apostrophes structurally and are separate functions that never call this.
+  t = t.replace(/\b([A-Z]{2,})[’'ʼ‘]s\b/g, '$1s');
+  t = t.replace(/(\w)[’ʼ‘](\w)/g, "$1'$2").replace(/(\w)[’ʼ‘](?!\w)/g, "$1'");
 
   // Snake_case identifiers (update_identity, is_clinician,
   // mark_conversation_sensitive, etc.) — Chirp HD reads each '_'
@@ -4261,8 +4272,15 @@ function selfTest() {
     // toward (one syllable, not "to ward") + early (no unnatural break).
     ['progress toward the goal and early intervention',
       'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and <phoneme alphabet="ipa" ph="ˈɜːrli">early</phoneme> intervention'],
-    // Possessive/contraction apostrophes dropped (no possessive-S-as-letter).
-    ["the patient's chart doesn't change", 'the patients chart doesnt change'],
+    // Word contractions + possessives KEEP the apostrophe — Chirp 3 HD says them
+    // correctly and the possessive "'s" is not read as the letter S. Deleting it
+    // used to mangle contractions: "I'd"→"Id" (eye-dee), "we'd"→"wed" (heard
+    // "where"), "he'd"→"head", "she'd"→"shed", "he'll"→"hell", "I'll"→"ill".
+    ["the patient's chart doesn't change", "the patient's chart doesn't change"],
+    ["He'll and she'll and we'll begin when I'd like", "He'll and she'll and we'll begin when I'd like"],
+    ["he'd and she'd and they'd agree", "he'd and she'd and they'd agree"],
+    // Curly/modifier apostrophe variants normalize to a straight ASCII apostrophe.
+    ['curly I’d and we’ll here', "curly I'd and we'll here"],
     // Acronym plural + possessive: letter-spelled with a voiced plural /z/
     // ("dee-en-ay-z"), never "D-N-A-S". Possessive renders identically to plural.
     ['two DNAs were compared', 'two <phoneme alphabet="ipa" ph="ˌdiːɛnˈeɪz">D-N-As</phoneme> were compared'],
