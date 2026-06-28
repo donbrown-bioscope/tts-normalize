@@ -1556,7 +1556,10 @@ const SPELL_AS_CHARACTERS = [
   'HTR2A', 'SRD5A2', 'PARP1',
 ];
 const LETTER_NAME = {
-  A: 'ay', B: 'bee', C: 'see', D: 'dee', E: 'ee', F: 'eff', G: 'gee',
+  // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
+  // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
+  // ("get") on Chirp 3 HD; "jee" forces the soft /dʒiː/ letter name.
+  A: 'ey', B: 'bee', C: 'see', D: 'dee', E: 'ee', F: 'eff', G: 'jee',
   H: 'aitch', I: 'eye', J: 'jay', K: 'kay', L: 'ell', M: 'em', N: 'en',
   O: 'oh', P: 'pee', Q: 'cue', R: 'arr', S: 'ess', T: 'tee', U: 'you',
   V: 'vee', W: 'double-you', X: 'ex', Y: 'why', Z: 'zee',
@@ -1574,6 +1577,8 @@ function numToWords(str) {
   return str.split('').map((d) => NUM_ONES[+d] ?? d).join(' '); // 1000+: spell digits
 }
 function spellGeneChars(sym) {
+  // Word respellings (LETTER_NAME), NOT bare capitals: bare letters collide with
+  // the unit pass (a lone "L" → "liters", etc.), which is why this map exists.
   const parts = [];
   for (const m of sym.matchAll(/([A-Za-z])|(\d+)/g)) {
     parts.push(m[1] ? (LETTER_NAME[m[1].toUpperCase()] ?? m[1]) : numToWords(m[2]));
