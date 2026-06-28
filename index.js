@@ -1594,9 +1594,9 @@ function preprocessForTTS(text) {
   // SAMe/SAH → "SAM-E S-A-H ratio" (read the slash as the ratio it denotes;
   // consume a following literal "ratio" so it isn't doubled).
   t = t.replace(/\bSAMe\s*\/\s*SAH\b(\s+ratio\b)?/g, 'SAMe SAH ratio');
-  // TTR — transthyretin, letter-spelled; adjacent identical "tee-tee" slurs
-  // as IPA, so hand the synth spelled letter-names via <sub alias>.
-  t = t.replace(/\bTTR\b/g, '<sub alias="tee tee arr">TTR</sub>');
+  // (TTR and every other doubled-letter acronym — EEG, AAA, PPI, ATTR … — are
+  // handled generically by the adjacent-identical-letter de-slur pass at the
+  // end of postprocessForTTS, not by a per-acronym rule here.)
   // Character-string gene symbols (see SPELL_AS_CHARACTERS) → one fluid
   // <sub alias> of spelled characters. Wrapped here so the per-symbol rules
   // and letter-speller leave them alone (guards skip tokens inside a <sub>);
@@ -2861,6 +2861,64 @@ function postprocessForTTS(text) {
       `<sub alias="${alias}">${sym}</sub>`,
     );
   }
+
+  // ── De-slur adjacent identical spelled letters (whole class) ─────────────
+  // Chirp 3 HD merges two identical adjacent letter-sounds into one long smear
+  // (TTR→"TTARR", and likewise EEG / AAA / PPI / ATTR …). Stress marks and IPA
+  // syllable breaks don't separate them — see the SSRI history above — only a
+  // real <break> does. Every letter-spelling path leaves the letters in the
+  // tag's text, so split any spelled acronym whose letters contain an adjacent
+  // identical pair into separate tags with a short gap at each such boundary;
+  // non-doubled acronyms keep their fluid single-utterance form untouched.
+  // Runs last (after all phoneme generation) and emits a literal break — the
+  // unit pass that would rewrite "140ms" ran far earlier.
+  //
+  // Exception: 'S'. The letter name "ess" is a sustained fricative that Chirp
+  // re-articulates on its own (SSRI, SSAT) — it does NOT slur, and forcing a
+  // gap there only adds an unnatural beat (the very thing the SSRI sub-alias
+  // above removes). So a doubled S is left alone.
+  const LETTER_GAP = '<break time="140ms"/>';
+  const slurs = (a, b) => a.toUpperCase() === b.toUpperCase() && a.toUpperCase() !== 'S';
+  // (a) Combined letter-chain phonemes: ph="…" + hyphenated letter text.
+  t = t.replace(
+    /<phoneme alphabet="ipa" ph="[^"]*">([A-Za-z0-9](?:-[A-Za-z0-9])+)<\/phoneme>/g,
+    (full, body) => {
+      const parts = body.split('-');
+      let dup = false;
+      for (let i = 1; i < parts.length; i++) {
+        if (slurs(parts[i], parts[i - 1])) { dup = true; break; }
+      }
+      if (!dup) return full;
+      const runs = [[parts[0]]];
+      for (let i = 1; i < parts.length; i++) {
+        if (slurs(parts[i], parts[i - 1])) runs.push([parts[i]]);
+        else runs[runs.length - 1].push(parts[i]);
+      }
+      return runs.map(run => {
+        const seg = run.join('-');
+        return `<phoneme alphabet="ipa" ph="${buildFastChainIpa(seg)}">${seg}</phoneme>`;
+      }).join(LETTER_GAP);
+    }
+  );
+  // (b) Adjacent identical per-letter phoneme tags (hand-written ATTR-style
+  // chains): drop a gap between the two so they articulate separately.
+  t = t.replace(
+    /(<phoneme alphabet="ipa" ph="([^"]+)">([^<]*)<\/phoneme>)(?=<phoneme alphabet="ipa" ph="\2">[^<]*<\/phoneme>)/g,
+    (m, tag, _ph, text) => (slurs(text, text) ? tag + LETTER_GAP : m),
+  );
+  // (c) A bare leading letter left outside the wrap ("T-<phoneme>T-P…") that
+  // repeats the wrapped chain's first letter — the same slur across the wrap
+  // boundary. Promote the bare letter to its own tag and gap it.
+  t = t.replace(
+    /\b([A-Z])-(?=<phoneme alphabet="ipa" ph="[^"]*">\1(?:-|<))/g,
+    (m, L) => (slurs(L, L) ? `<phoneme alphabet="ipa" ph="${buildFastChainIpa(L)}">${L}</phoneme>${LETTER_GAP}` : m),
+  );
+  // (d) Mirror of (c): a bare trailing letter ("…G-A</phoneme>-A") repeating the
+  // wrapped chain's last letter.
+  t = t.replace(
+    /(<phoneme alphabet="ipa" ph="[^"]*">[^<]*?([A-Z])<\/phoneme>)-(\2)\b/g,
+    (m, tag, _last, L) => (slurs(L, L) ? `${tag}${LETTER_GAP}<phoneme alphabet="ipa" ph="${buildFastChainIpa(L)}">${L}</phoneme>` : m),
+  );
 
   return t;
 }
