@@ -1543,8 +1543,69 @@ const LDL_REGEX = /\bLDL(?![\w-])/g;
 // leading L through the units pipeline.
 const LP_LITTLE_A_REGEX = /\bLp(?:\(a\)|-a\b)/g;
 
+// Gene/transporter symbols read as a plain fluid string of letter+digit
+// characters — no clinical word pronunciation. Rendered as one <sub alias>
+// of spelled character names so the synth enunciates each clearly. Letters
+// → letter-names; a digit run → the spoken number (1 → "one", 15 →
+// "fifteen"); hyphens dropped. Word-pronounced symbols (CYP="sip",
+// BRCA="bracka", APOE="apo-E", SGLT2, TET2, DNMT3A, SIRT1, JAK2, NRF2,
+// NLRP3) are deliberately NOT listed. Extend as more are vetted.
+const SPELL_AS_CHARACTERS = [
+  'SLCO1B1', 'OATP1B1', 'HLA-DRB1', 'ABCG2', 'VKORC1', 'NUDT15', 'KCNQ1',
+  'PNPLA3', 'G6PD', 'UGT1A1', 'TPMT', 'DPYD', 'GSTM1', 'SLC6A4', 'ACTN3',
+  'HTR2A', 'SRD5A2', 'PARP1',
+];
+const LETTER_NAME = {
+  A: 'ay', B: 'bee', C: 'see', D: 'dee', E: 'ee', F: 'eff', G: 'gee',
+  H: 'aitch', I: 'eye', J: 'jay', K: 'kay', L: 'ell', M: 'em', N: 'en',
+  O: 'oh', P: 'pee', Q: 'cue', R: 'arr', S: 'ess', T: 'tee', U: 'you',
+  V: 'vee', W: 'double-you', X: 'ex', Y: 'why', Z: 'zee',
+};
+const NUM_ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+const NUM_TEENS = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const NUM_TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+function numToWords(str) {
+  const n = parseInt(str, 10);
+  if (!Number.isFinite(n)) return str;
+  if (n < 10) return NUM_ONES[n];
+  if (n < 20) return NUM_TEENS[n - 10];
+  if (n < 100) return NUM_TENS[Math.floor(n / 10)] + (n % 10 ? '-' + NUM_ONES[n % 10] : '');
+  if (n < 1000) return NUM_ONES[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' ' + numToWords(String(n % 100)) : '');
+  return str.split('').map((d) => NUM_ONES[+d] ?? d).join(' '); // 1000+: spell digits
+}
+function spellGeneChars(sym) {
+  const parts = [];
+  for (const m of sym.matchAll(/([A-Za-z])|(\d+)/g)) {
+    parts.push(m[1] ? (LETTER_NAME[m[1].toUpperCase()] ?? m[1]) : numToWords(m[2]));
+  }
+  return parts.join(' ');
+}
+
 function preprocessForTTS(text) {
   let t = text;
+
+  // ── Clinical-pronunciation rules (ported from the PL course wrapper so
+  // they are canonical here) — these run at the TOP of preprocess, before
+  // the acronym letter-speller and the IPA-adjacent hyphen swap below. ──
+  // -seq suffix (RNA-seq, ChIP-seq, ATAC-seq) → "seek"; must precede both
+  // the letter-speller (RNA → R-N-A) and the hyphen→space swap (which would
+  // otherwise leave a bare "seq" read as "sek").
+  t = t.replace(/-seq\b/g, ' seek');
+  // SAMe/SAH → "SAM-E S-A-H ratio" (read the slash as the ratio it denotes;
+  // consume a following literal "ratio" so it isn't doubled).
+  t = t.replace(/\bSAMe\s*\/\s*SAH\b(\s+ratio\b)?/g, 'SAMe SAH ratio');
+  // TTR — transthyretin, letter-spelled; adjacent identical "tee-tee" slurs
+  // as IPA, so hand the synth spelled letter-names via <sub alias>.
+  t = t.replace(/\bTTR\b/g, '<sub alias="tee tee arr">TTR</sub>');
+  // Character-string gene symbols (see SPELL_AS_CHARACTERS) → one fluid
+  // <sub alias> of spelled characters. Wrapped here so the per-symbol rules
+  // and letter-speller leave them alone (guards skip tokens inside a <sub>);
+  // any that get re-wrapped anyway are collapsed by the de-nest in
+  // postprocess. Longest first so a prefix symbol can't partial-match.
+  for (const sym of [...SPELL_AS_CHARACTERS].sort((a, b) => b.length - a.length)) {
+    t = t.replace(new RegExp(`\\b${escapeRegex(sym)}\\b`, 'g'),
+      `<sub alias="${spellGeneChars(sym)}">${sym}</sub>`);
+  }
 
   // Apostrophe handling. We KEEP apostrophes on contractions and possessives —
   // Chirp 3 HD pronounces them correctly with the apostrophe present, and the
@@ -2451,6 +2512,11 @@ const POST_OVERRIDES = {
   // <sub alias="…"> hands the synth seven natural English words, which
   // it articulates crisply with normal clinical cadence.
   'SLCO1B1': '<sub alias="ess L C O one B one">SLCO1B1</sub>',
+  // Variant notations — letter-digit-letter, read as one fluid phrase.
+  // The letter-digit-letter split produces "V, one twenty-two, I" /
+  // "I, one forty-eight, M"; a <sub alias> reads them without comma beats.
+  'V, one twenty-two, I': '<sub alias="vee one twenty two eye">V122I</sub>',
+  'I, one forty-eight, M': '<sub alias="eye one forty-eight em">I148M</sub>',
   // apoCIII — apolipoprotein C-III. The bare/PascalCase form ("apoCIII"
   // / "ApoCIII") passes through every letter-spell pass (mixed case +
   // Roman-numeral tail) and Chirp mumbles it; the hyphenated form
@@ -2754,6 +2820,47 @@ function postprocessForTTS(text) {
   // space between "little-a" and the next word.
   t = t.replace(/(<\/(?:phoneme|sub|say-as)>)-(?!little-a\b)([a-z])/g, '$1 $2');
   t = t.replace(/([a-z])-(<(?:phoneme|sub|say-as)\b)/g, '$1 $2');
+
+  // ── Clinical-pronunciation post-rules (ported from the PL course wrapper
+  // so they are canonical here). Run at the BOTTOM of postprocess, after the
+  // letter-speller, POST_OVERRIDES, and the hyphen swap above. ──
+  // CpG / CpGs — "C p G(s)" (from ABBREVIATIONS) elides as a period IPA;
+  // hand it natural words so each character is clear.
+  t = t.replace(/\bC p Gs\b/g, '<sub alias="see pee gees">CpGs</sub>');
+  t = t.replace(/\bC p G\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, '<sub alias="see pee gee">CpG</sub>');
+  // SNP → "snip" / SNPs → "snips". The singular letter-spells to three
+  // separate phonemes; the plural letter-spells to one glued phoneme
+  // (ˌɛsɛnˈpiːz, "ess-en-peez"). Replace both upstream forms; also catch a
+  // bare "SNPs" in case it survives unwrapped.
+  t = t.replaceAll(
+    '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+    '<phoneme alphabet="ipa" ph="snɪp">SNP</phoneme>',
+  );
+  t = t.replaceAll(
+    '<phoneme alphabet="ipa" ph="ˌɛsɛnˈpiːz">S-N-Ps</phoneme>',
+    '<phoneme alphabet="ipa" ph="snɪps">SNPs</phoneme>',
+  );
+  t = t.replace(/\bSNPs\b(?![^<]*<\/phoneme>)/g, '<phoneme alphabet="ipa" ph="snɪps">SNPs</phoneme>');
+  // Word-pronounced acronyms (CAD/PET/STING) read as plain words — the
+  // <phoneme> boundary adds an unnatural pause; <sub alias> doesn't. Keyed
+  // on the IPA value, not the display (which drifts). cGAS-STING first.
+  t = t.replaceAll(
+    '<phoneme alphabet="ipa" ph="ˌsiːˈɡæs">cGAS</phoneme>-<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">sting</phoneme>',
+    '<sub alias="see gas sting">cGAS-STING</sub>',
+  );
+  t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">[^<]*<\/phoneme>/g, '<sub alias="sting">STING</sub>');
+  t = t.replace(/<phoneme alphabet="ipa" ph="kæd">[^<]*<\/phoneme>/g, '<sub alias="cad">CAD</sub>');
+  t = t.replace(/<phoneme alphabet="ipa" ph="pɛt">[^<]*<\/phoneme>/g, '<sub alias="pet">PET</sub>');
+  // De-nest SPELL_AS_CHARACTERS symbols: a shared per-symbol POST_OVERRIDE
+  // (e.g. SLCO1B1, HLA-DRB1) re-wraps the inner display of our preprocess
+  // <sub>; collapse back to our single outer alias.
+  for (const sym of SPELL_AS_CHARACTERS) {
+    const alias = spellGeneChars(sym);
+    t = t.replace(
+      new RegExp(`<sub alias="${escapeRegex(alias)}">.*?</sub>(?:</sub>)?`, 'g'),
+      `<sub alias="${alias}">${sym}</sub>`,
+    );
+  }
 
   return t;
 }
