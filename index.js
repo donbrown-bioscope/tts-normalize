@@ -2298,13 +2298,20 @@ const LETTER_IPA = {
   O: 'oʊ', P: 'piː', Q: 'kjuː', R: 'ɑːr', S: 'ɛs', T: 'tiː', U: 'juː',
   V: 'viː', W: 'ˈdʌbəl.juː', X: 'ɛks', Y: 'waɪ', Z: 'ziː',
 };
+// Prepend a stress mark only if the chunk doesn't already begin with one.
+// "W" carries its own internal stress (ˈdʌbəl.juː), so blindly prefixing
+// ˈ/ˌ produced malformed double marks (ˈˈ / ˌˈ) when W landed first/last —
+// Chirp garbles those (R-D-W, W-B-C came out mangled).
+function stressIpa(mark, ipa) {
+  return /^[ˈˌ]/.test(ipa) ? ipa : mark + ipa;
+}
 function buildLetterSpellIpa(letters) {
   const cleaned = String(letters).toUpperCase().replace(/[^A-Z]/g, '');
   if (!cleaned) return '';
-  if (cleaned.length === 1) return `ˈ${LETTER_IPA[cleaned]}`;
+  if (cleaned.length === 1) return stressIpa('ˈ', LETTER_IPA[cleaned]);
   const head = cleaned.slice(0, -1).split('').map(l => LETTER_IPA[l]).join('');
   const tail = LETTER_IPA[cleaned.at(-1)];
-  return `ˌ${head}ˈ${tail}`;
+  return stressIpa('ˌ', head) + stressIpa('ˈ', tail);
 }
 
 // IPA names for digits used by the fast-letter-chain auto-wrap below.
