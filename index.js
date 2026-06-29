@@ -1566,7 +1566,7 @@ const SPELL_AS_CHARACTERS = [
 // which enunciates each char crisply. Only purely-alphanumeric symbols belong
 // here — say-as voices a hyphen as a pause/"dash", so hyphenated symbols
 // (HLA-DRB1) must stay on the <sub alias> path.
-const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1']);
+const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -1781,13 +1781,18 @@ function preprocessForTTS(text) {
   // defeats the POST_OVERRIDES literal-string rewrite and leaves the
   // choppy comma-beat reading. Emitting the atom now means no bare comma
   // ever exists for 12a to touch. (Generic variants keep the comma form.)
+  // Full SSML replacement per curated variant. I148M splits the trailing M
+  // into its own stressed phoneme — as one alias phrase ("…forty-eight em")
+  // Chirp reduces the sentence-final "em" to near-inaudible; a standalone
+  // stressed <phoneme ph="ˈɛm"> articulates it. V122I ends in a vowel ("eye")
+  // that lands fine, so it stays a single alias. Both still START with the
+  // "vee"/"eye" sub the gene→variant gap rule keys on (case e in postprocess).
   const VARIANT_SUB_ALIAS = {
-    V122I: 'vee one twenty two eye',
-    I148M: 'eye one forty-eight em',
+    V122I: '<sub alias="vee one twenty two eye">V122I</sub>',
+    I148M: '<sub alias="eye one forty-eight">I148</sub><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme>',
   };
   t = t.replace(/\b([A-Z])(\d{2,4})([A-Z])\b/g, (full, l1, n, l2) => {
-    const alias = VARIANT_SUB_ALIAS[full];
-    if (alias) return `<sub alias="${alias}">${full}</sub>`;
+    if (VARIANT_SUB_ALIAS[full]) return VARIANT_SUB_ALIAS[full];
     return `${l1}, ${spokenIdNumber(n)}, ${l2}`;
   });
 
@@ -2959,13 +2964,15 @@ function postprocessForTTS(text) {
     /(<phoneme alphabet="ipa" ph="[^"]*">[^<]*?([A-Z])<\/phoneme>)-(\2)\b/g,
     (m, tag, _last, L) => (slurs(L, L) ? `${tag}${LETTER_GAP}<phoneme alphabet="ipa" ph="${buildFastChainIpa(L)}">${L}</phoneme>` : m),
   );
-  // (e) Gap at a gene→variant boundary. A spelled acronym phoneme immediately
-  // followed by a protein-variant sub-alias ("TTR V122I") otherwise glides its
-  // trailing letter into the variant's leading letter ("…ɑːr" + "vee" → "RV").
-  // The curated variant aliases lead with "vee" (V…) or "eye" (I…); a 160ms
-  // break (user-approved) separates the two tokens.
+  // (e) Gap at a gene→variant boundary. A spelled gene token immediately
+  // followed by a protein-variant sub-alias otherwise glides its trailing
+  // letter into the variant's leading letter: "TTR V122I" ("…ɑːr"+"vee"→"RV"),
+  // "PNPLA3 I148M" (say-as gene + "eye…" read as one run). The gene token may
+  // close with </phoneme> (TTR), </sub> (char-gene alias), or </say-as>
+  // (VKORC1/PNPLA3); the curated variant aliases lead with "vee" (V…) or "eye"
+  // (I…). A 160ms break (user-approved) separates the two tokens.
   t = t.replace(
-    /(<\/phoneme>)\s+(<sub alias="(?:vee|eye)\b)/g,
+    /(<\/(?:phoneme|sub|say-as)>)\s+(<sub alias="(?:vee|eye)\b)/g,
     '$1<break time="160ms"/>$2',
   );
 
