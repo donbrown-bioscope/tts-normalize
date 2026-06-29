@@ -1754,7 +1754,22 @@ function preprocessForTTS(text) {
   // Letter-digit-letter variant codes (HFE C282Y, SRD5A2 V89L,
   // CFH Y402H). Bare "C282Y" runs into the synth as a single token;
   // spell as "<letter>, <digit-words>, <letter>" with comma beats.
-  t = t.replace(/\b([A-Z])(\d{2,4})([A-Z])\b/g, (_, l1, n, l2) => {
+  //
+  // Variants with a curated fluid reading (V122I, I148M) emit their
+  // <sub alias> HERE rather than the comma form. The comma form is
+  // fragile: pass 12a (long comma-list break injection) runs after this
+  // and rewrites "V, one twenty-two, I" → "V, <break/> one twenty-two,
+  // <break/> I" whenever the variant sits in a 4+ item comma list, which
+  // defeats the POST_OVERRIDES literal-string rewrite and leaves the
+  // choppy comma-beat reading. Emitting the atom now means no bare comma
+  // ever exists for 12a to touch. (Generic variants keep the comma form.)
+  const VARIANT_SUB_ALIAS = {
+    V122I: 'vee one twenty two eye',
+    I148M: 'eye one forty-eight em',
+  };
+  t = t.replace(/\b([A-Z])(\d{2,4})([A-Z])\b/g, (full, l1, n, l2) => {
+    const alias = VARIANT_SUB_ALIAS[full];
+    if (alias) return `<sub alias="${alias}">${full}</sub>`;
     return `${l1}, ${spokenIdNumber(n)}, ${l2}`;
   });
 
