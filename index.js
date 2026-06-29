@@ -2884,14 +2884,15 @@ function postprocessForTTS(text) {
 
   // ── De-slur adjacent identical spelled letters (whole class) ─────────────
   // Chirp 3 HD merges two identical adjacent letter-sounds into one long smear
-  // (TTR→"TTARR", and likewise EEG / AAA / PPI / ATTR …). Stress marks and IPA
-  // syllable breaks don't separate them — see the SSRI history above — only a
-  // real <break> does. Every letter-spelling path leaves the letters in the
-  // tag's text, so split any spelled acronym whose letters contain an adjacent
-  // identical pair into separate tags with a short gap at each such boundary;
-  // non-doubled acronyms keep their fluid single-utterance form untouched.
-  // Runs last (after all phoneme generation) and emits a literal break — the
-  // unit pass that would rewrite "140ms" ran far earlier.
+  // (TTR→"TTARR", and likewise EEG / AAA / PPI / ATTR …). The fix (case a):
+  // collapse the acronym into ONE phoneme whose ph value SPACE-separates the
+  // per-letter IPAs ("tiː tiː ˈɑːr"). Chirp honors the spaces as light
+  // separation that de-slurs the doubled pair WITHOUT the choppy inter-letter
+  // <break> beats an earlier revision used (those read as "T · T · R" with
+  // awful pauses; user A/B-tested the spaced single-phoneme form and preferred
+  // it). Cases (b)–(d) still gap hand-written chains / bare letters with a
+  // <break>; they run last (after all phoneme generation) and emit a literal
+  // break — the unit pass that would rewrite "140ms" ran far earlier.
   //
   // Exception: 'S'. The letter name "ess" is a sustained fricative that Chirp
   // re-articulates on its own (SSRI, SSAT) — it does NOT slur, and forcing a
@@ -2909,14 +2910,13 @@ function postprocessForTTS(text) {
         if (slurs(parts[i], parts[i - 1])) { dup = true; break; }
       }
       if (!dup) return full;
-      // A slur is present — spell every letter as its own gapped phoneme. A
-      // partial split (gap only at the slur boundary) leaves a glued tail that
-      // smears: TTR→"T · T-R" reads as "T · TR" and runs into the next token
-      // ("TRV"); EEG→"E · EG", PPI→"P · PI". Fully separating every letter
-      // keeps the spelling clean and unambiguous.
-      return parts
-        .map(seg => `<phoneme alphabet="ipa" ph="${buildFastChainIpa(seg)}">${seg}</phoneme>`)
-        .join(LETTER_GAP);
+      // A slur is present. Emit ONE phoneme whose ph value space-separates the
+      // per-letter IPAs — the spaces de-slur the doubled pair without choppy
+      // inter-letter breaks. Strip per-letter stress and put primary stress on
+      // the final letter for a natural spelling cadence (TTR → "tiː tiː ˈɑːr").
+      const ipas = parts.map(seg => buildFastChainIpa(seg).replace(/[ˈˌ]/g, ''));
+      ipas[ipas.length - 1] = 'ˈ' + ipas[ipas.length - 1];
+      return `<phoneme alphabet="ipa" ph="${ipas.join(' ')}">${parts.join('')}</phoneme>`;
     }
   );
   // (b) Adjacent identical per-letter phoneme tags (hand-written ATTR-style
@@ -2937,6 +2937,15 @@ function postprocessForTTS(text) {
   t = t.replace(
     /(<phoneme alphabet="ipa" ph="[^"]*">[^<]*?([A-Z])<\/phoneme>)-(\2)\b/g,
     (m, tag, _last, L) => (slurs(L, L) ? `${tag}${LETTER_GAP}<phoneme alphabet="ipa" ph="${buildFastChainIpa(L)}">${L}</phoneme>` : m),
+  );
+  // (e) Gap at a gene→variant boundary. A spelled acronym phoneme immediately
+  // followed by a protein-variant sub-alias ("TTR V122I") otherwise glides its
+  // trailing letter into the variant's leading letter ("…ɑːr" + "vee" → "RV").
+  // The curated variant aliases lead with "vee" (V…) or "eye" (I…); a 160ms
+  // break (user-approved) separates the two tokens.
+  t = t.replace(
+    /(<\/phoneme>)\s+(<sub alias="(?:vee|eye)\b)/g,
+    '$1<break time="160ms"/>$2',
   );
 
   return t;
