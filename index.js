@@ -2859,9 +2859,12 @@ function postprocessForTTS(text) {
   // so they are canonical here). Run at the BOTTOM of postprocess, after the
   // letter-speller, POST_OVERRIDES, and the hyphen swap above. ──
   // CpG / CpGs — "C p G(s)" (from ABBREVIATIONS) elides as a period IPA;
-  // hand it natural words so each character is clear.
-  t = t.replace(/\bC p Gs\b/g, '<sub alias="see pee gees">CpGs</sub>');
-  t = t.replace(/\bC p G\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, '<sub alias="see pee gee">CpG</sub>');
+  // hand it natural words so each character is clear. The letter G is spelled
+  // "jee" not "gee": Chirp 3 HD renders "gee" inconsistently — sometimes the
+  // hard /g/ of "get" — whereas "jee" reliably lands the soft /dʒiː/ letter
+  // name (same fix as the char-gene LETTER_NAME G="jee", f07e7aa).
+  t = t.replace(/\bC p Gs\b/g, '<sub alias="see pee jees">CpGs</sub>');
+  t = t.replace(/\bC p G\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, '<sub alias="see pee jee">CpG</sub>');
   // SNP → "snip" / SNPs → "snips". The singular letter-spells to three
   // separate phonemes; the plural letter-spells to one glued phoneme
   // (ˌɛsɛnˈpiːz, "ess-en-peez"). Replace both upstream forms; also catch a
