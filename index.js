@@ -774,7 +774,11 @@ function coreNormalize(text) {
   //       Must run AFTER abbreviations (step 6b) so known entries like SIRT1 are already replaced.
   //       Must run AFTER number conversion (step 9) — bare digits inside gene tokens aren't
   //       reached by step 9 (no word boundary), so we handle them here ourselves.
-  t = t.replace(/\b([A-Z]{2,})(\d{1,4})([A-Z]?)\b/g, (_, prefix, digits, suffix) => {
+  // Guard (same as the ALL-CAPS catch-all below): skip a token already inside a
+  // phoneme/sub/say-as wrap. Critical for SAY_AS_CHARACTERS genes — say-as has
+  // no alias, so its raw content is what's spoken; mangling "VKORC1" inside it
+  // to "V-K-O-R-C-one" would make Chirp read the hyphens and "one" literally.
+  t = t.replace(/\b([A-Z]{2,})(\d{1,4})([A-Z]?)\b(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, (_, prefix, digits, suffix) => {
     const numWords = geneNumberToWords(parseInt(digits, 10));
     const phonetic = GENE_PRONOUNCEABLE_PREFIXES[prefix]
       ?? prefix.split('').join('-');  // spell out unknown prefixes letter-by-letter
@@ -1555,6 +1559,14 @@ const SPELL_AS_CHARACTERS = [
   'PNPLA3', 'G6PD', 'UGT1A1', 'TPMT', 'DPYD', 'GSTM1', 'SLC6A4', 'ACTN3',
   'HTR2A', 'SRD5A2', 'PARP1',
 ];
+// Subset spelled via native <say-as interpret-as="characters"> rather than a
+// word-respelling <sub alias>. For these, the curated alias ("vee kay oh arr
+// see one") read as a connected phrase slurred/mis-stressed under Chirp 3 HD;
+// the user A/B-tested candidates and picked Chirp's native character speller,
+// which enunciates each char crisply. Only purely-alphanumeric symbols belong
+// here — say-as voices a hyphen as a pause/"dash", so hyphenated symbols
+// (HLA-DRB1) must stay on the <sub alias> path.
+const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -1608,8 +1620,10 @@ function preprocessForTTS(text) {
   // any that get re-wrapped anyway are collapsed by the de-nest in
   // postprocess. Longest first so a prefix symbol can't partial-match.
   for (const sym of [...SPELL_AS_CHARACTERS].sort((a, b) => b.length - a.length)) {
-    t = t.replace(new RegExp(`\\b${escapeRegex(sym)}\\b`, 'g'),
-      `<sub alias="${spellGeneChars(sym)}">${sym}</sub>`);
+    const wrap = SAY_AS_CHARACTERS.has(sym)
+      ? `<say-as interpret-as="characters">${sym}</say-as>`
+      : `<sub alias="${spellGeneChars(sym)}">${sym}</sub>`;
+    t = t.replace(new RegExp(`\\b${escapeRegex(sym)}\\b`, 'g'), wrap);
   }
 
   // Apostrophe handling. We KEEP apostrophes on contractions and possessives —
