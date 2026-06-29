@@ -1612,6 +1612,11 @@ function preprocessForTTS(text) {
   // then wraps the bare prefix, e.g. RNA → R-N-A, right up against this tag)
   // and the hyphen→space swap (the hyphen is consumed here).
   t = t.replace(/-seq\b/g, '<phoneme alphabet="ipa" ph="ˈsiːk">seq</phoneme>');
+  // ATAC (as in ATAC-seq) is said as the word "AY-tack" (long A), not letter-
+  // spelled. Wrap it before the catch-all letter-speller (which otherwise
+  // mangled it to "A-T-A" + a bare "-C"). With the -seq rule above, "ATAC-seq"
+  // becomes "<ph>ATAC</ph><ph>seq</ph>" → "AY-tack-seek".
+  t = t.replace(/\bATAC\b/g, '<phoneme alphabet="ipa" ph="ˈeɪtæk">ATAC</phoneme>');
   // SAMe/SAH → "SAM-E S-A-H ratio" (read the slash as the ratio it denotes;
   // consume a following literal "ratio" so it isn't doubled).
   t = t.replace(/\bSAMe\s*\/\s*SAH\b(\s+ratio\b)?/g, 'SAMe SAH ratio');
