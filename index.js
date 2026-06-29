@@ -2894,15 +2894,14 @@ function postprocessForTTS(text) {
         if (slurs(parts[i], parts[i - 1])) { dup = true; break; }
       }
       if (!dup) return full;
-      const runs = [[parts[0]]];
-      for (let i = 1; i < parts.length; i++) {
-        if (slurs(parts[i], parts[i - 1])) runs.push([parts[i]]);
-        else runs[runs.length - 1].push(parts[i]);
-      }
-      return runs.map(run => {
-        const seg = run.join('-');
-        return `<phoneme alphabet="ipa" ph="${buildFastChainIpa(seg)}">${seg}</phoneme>`;
-      }).join(LETTER_GAP);
+      // A slur is present — spell every letter as its own gapped phoneme. A
+      // partial split (gap only at the slur boundary) leaves a glued tail that
+      // smears: TTR→"T · T-R" reads as "T · TR" and runs into the next token
+      // ("TRV"); EEG→"E · EG", PPI→"P · PI". Fully separating every letter
+      // keeps the spelling clean and unambiguous.
+      return parts
+        .map(seg => `<phoneme alphabet="ipa" ph="${buildFastChainIpa(seg)}">${seg}</phoneme>`)
+        .join(LETTER_GAP);
     }
   );
   // (b) Adjacent identical per-letter phoneme tags (hand-written ATTR-style
