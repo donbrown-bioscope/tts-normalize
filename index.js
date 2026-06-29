@@ -244,6 +244,9 @@ const ABBREVIATIONS = {
   // sometimes hears with a leaked letter from adjacent words. Phonetic
   // "bracka" is how clinicians actually say it.
   'BRCA1': 'bracka-one', 'BRCA2': 'bracka-two',
+  // PARP1 — read "PARP" as a word (rhymes with harp) + "one", not letter-
+  // spelled. Phoneme tag keeps the vowel; the digit becomes "one".
+  'PARP1': '<phoneme alphabet="ipa" ph="pɑːrp">PARP</phoneme> one',
   // Amino-acid three-letter codes — "Thr-ninety-two-Ala" (residue
   // position notation common in gene-variant scripts) gets the Thr
   // read as "thar" and the whole string collapsed into "2392 ALA" by
@@ -1557,16 +1560,18 @@ const LP_LITTLE_A_REGEX = /\bLp(?:\(a\)|-a\b)/g;
 const SPELL_AS_CHARACTERS = [
   'SLCO1B1', 'OATP1B1', 'HLA-DRB1', 'ABCG2', 'VKORC1', 'NUDT15', 'KCNQ1',
   'PNPLA3', 'G6PD', 'UGT1A1', 'TPMT', 'DPYD', 'GSTM1', 'SLC6A4', 'ACTN3',
-  'HTR2A', 'SRD5A2', 'PARP1',
+  'HTR2A', 'SRD5A2',
 ];
 // Subset spelled via native <say-as interpret-as="characters"> rather than a
-// word-respelling <sub alias>. For these, the curated alias ("vee kay oh arr
-// see one") read as a connected phrase slurred/mis-stressed under Chirp 3 HD;
-// the user A/B-tested candidates and picked Chirp's native character speller,
-// which enunciates each char crisply. Only purely-alphanumeric symbols belong
-// here — say-as voices a hyphen as a pause/"dash", so hyphenated symbols
-// (HLA-DRB1) must stay on the <sub alias> path.
-const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3']);
+// word-respelling <sub alias>. The curated alias ("vee kay oh arr see one")
+// read as a connected phrase slurred/mis-stressed under Chirp 3 HD, and the
+// word-respelling of "A" ("ey") read wrong — the user A/B-tested and picked
+// Chirp's native character speller, which enunciates each char crisply
+// (including "A" natively). Hyphens are stripped from the say-as content (the
+// wrap loop below) so a hyphenated symbol like HLA-DRB1 spells as "H-L-A-D-R-
+// B-1" instead of voicing "dash". (Word-pronounced symbols like PARP1 →
+// "parp one" do NOT belong here — they go in ABBREVIATIONS.)
+const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -1630,7 +1635,7 @@ function preprocessForTTS(text) {
   // postprocess. Longest first so a prefix symbol can't partial-match.
   for (const sym of [...SPELL_AS_CHARACTERS].sort((a, b) => b.length - a.length)) {
     const wrap = SAY_AS_CHARACTERS.has(sym)
-      ? `<say-as interpret-as="characters">${sym}</say-as>`
+      ? `<say-as interpret-as="characters">${sym.replace(/-/g, '')}</say-as>`
       : `<sub alias="${spellGeneChars(sym)}">${sym}</sub>`;
     t = t.replace(new RegExp(`\\b${escapeRegex(sym)}\\b`, 'g'), wrap);
   }
@@ -1734,7 +1739,11 @@ function preprocessForTTS(text) {
   // the trailing "N" without explicit grouping. Concat two 2-phone tags
   // ("A-C", "T-N") + spoken number, matching the house pattern for
   // ≥3-character acronyms. Covers ACTN3 / Actn3 / actn3 / ACTN-3.
-  t = t.replace(/\b[Aa][Cc][Tt][Nn]-?(\d+)\b/g, (_, n) =>
+  // Guard: skip a token already wrapped (phoneme/sub/say-as) — ACTN3 is in
+  // SAY_AS_CHARACTERS and gets a native <say-as> wrap earlier in preprocess;
+  // without this guard the concat rule would clobber the say-as content. The
+  // concat still covers unwrapped ACTN1/2/4.
+  t = t.replace(/\b[Aa][Cc][Tt][Nn]-?(\d+)\b(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, (_, n) =>
     '<phoneme alphabet="ipa" ph="ˌeɪˈsiː">A-C</phoneme>' +
     '<phoneme alphabet="ipa" ph="ˌtiːˈɛn">T-N</phoneme>' +
     ` ${numWord(parseInt(n, 10))}`);
