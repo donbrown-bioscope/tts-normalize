@@ -1604,10 +1604,14 @@ function preprocessForTTS(text) {
   // ── Clinical-pronunciation rules (ported from the PL course wrapper so
   // they are canonical here) — these run at the TOP of preprocess, before
   // the acronym letter-speller and the IPA-adjacent hyphen swap below. ──
-  // -seq suffix (RNA-seq, ChIP-seq, ATAC-seq) → "seek"; must precede both
-  // the letter-speller (RNA → R-N-A) and the hyphen→space swap (which would
-  // otherwise leave a bare "seq" read as "sek").
-  t = t.replace(/-seq\b/g, ' seek');
+  // -seq suffix (RNA-seq, ChIP-seq, ATAC-seq) → a "seek" phoneme glued
+  // DIRECTLY (no space) onto the preceding token, so "RNA-seq" reads as one
+  // word — R-N-A flowing straight into "seek" with no pause. A spaced plain
+  // word (" seek") made the letter-spelled prefix and the suffix separate
+  // utterances with an audible gap. Must precede the letter-speller (which
+  // then wraps the bare prefix, e.g. RNA → R-N-A, right up against this tag)
+  // and the hyphen→space swap (the hyphen is consumed here).
+  t = t.replace(/-seq\b/g, '<phoneme alphabet="ipa" ph="ˈsiːk">seq</phoneme>');
   // SAMe/SAH → "SAM-E S-A-H ratio" (read the slash as the ratio it denotes;
   // consume a following literal "ratio" so it isn't doubled).
   t = t.replace(/\bSAMe\s*\/\s*SAH\b(\s+ratio\b)?/g, 'SAMe SAH ratio');
