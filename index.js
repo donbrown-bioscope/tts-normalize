@@ -2852,7 +2852,16 @@ function postprocessForTTS(text) {
     const pattern = isLetterSpelledAcronym ? word.toUpperCase() : word;
     const flags = isLetterSpelledAcronym ? 'g' : 'gi';
     t = t.replace(new RegExp(`\\b${escapeRegex(pattern)}\\b${WRAP_GUARDS}`, flags), (match) => {
-      return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(match)}</phoneme>`;
+      // A word-pronounced entry matched in ALL-CAPS acronym form (BEIR,
+      // UNSCEAR, HIPAA) carries the uppercase only as cosmetic visible
+      // text — Chirp speaks the ph= IPA, not the letters. Lowercase it so
+      // the uppercase form doesn't trip consumers' ALL-CAPS narration
+      // lint. Mixed-case word terms (Genome, fisetin) keep author casing.
+      const visible = !isLetterSpelledAcronym && match.length >= 3 &&
+        /[A-Z]/.test(match) && match === match.toUpperCase()
+        ? match.toLowerCase()
+        : match;
+      return `<phoneme alphabet="ipa" ph="${ipa}">${xmlEscape(visible)}</phoneme>`;
     });
   }
 
@@ -4478,6 +4487,10 @@ function selfTest() {
     // must emit lowercase "sirt" so consumers' ALL-CAPS lint stays quiet.
     ['SIRT activation', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> activation'],
     ['SIRT-one through SIRT-seven', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> one through <phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> seven'],
+    // BEIR / UNSCEAR — word-pronounced radiation acronyms; lowercase
+    // visible text inside the wrap so consumers' ALL-CAPS lint stays quiet.
+    ['BEIR VII report', '<phoneme alphabet="ipa" ph="bɪər">beir</phoneme> seven report'],
+    ['the UNSCEAR estimate', 'the <phoneme alphabet="ipa" ph="ʌnˈskɛər">unscear</phoneme> estimate'],
     ['BPC-157 peptide', '<phoneme alphabet="ipa" ph="ˌbiːpiːˈsiː">B-P-C</phoneme> one fifty-seven peptide'],
     // 78th passes through the core's number/ordinal pipeline unchanged
     // (not in ORDINAL_MAP; the trailing "th" defeats the bare-number
