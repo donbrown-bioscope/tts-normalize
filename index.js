@@ -359,6 +359,10 @@ const ABBREVIATIONS = {
   // bare and glues "D-N").
   'LDN':     '<say-as interpret-as="characters">LDN</say-as>',
   'L-D-N':   '<say-as interpret-as="characters">LDN</say-as>',
+  // SNRI — say-as (sibling of SSRI; not currently in course content, added
+  // for consistency so it never renders the disjointed "S — N-R — I").
+  'SNRI':    '<say-as interpret-as="characters">SNRI</say-as>',
+  'S-N-R-I': '<say-as interpret-as="characters">SNRI</say-as>',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
   'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
