@@ -370,6 +370,10 @@ const ABBREVIATIONS = {
   // CJC-1295 — GHRH-analog peptide. Letters "C-J-C" + "twelve ninety-five"
   // (not "one thousand two hundred ninety-five").
   'CJC-1295': '<say-as interpret-as="characters">CJC</say-as> twelve ninety-five',
+  // WMH — white-matter hyperintensities. say-as (the glued IPA slurred
+  // "double-u"+"em" into "W-U-M").
+  'WMH':     '<say-as interpret-as="characters">WMH</say-as>',
+  'W-M-H':   '<say-as interpret-as="characters">WMH</say-as>',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
   'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
