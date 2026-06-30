@@ -353,8 +353,15 @@ const ABBREVIATIONS = {
   'V-T-E':   '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
   'ITT':     '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'I-T-T':   '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
-  'ATBC':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
-  'A-T-B-C': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme>',
+  'ATBC':    '<say-as interpret-as="characters">ATBC</say-as>',
+  'A-T-B-C': '<say-as interpret-as="characters">ATBC</say-as>',
+  // LDN — low-dose naltrexone. say-as (the catch-all otherwise leaves "L"
+  // bare and glues "D-N").
+  'LDN':     '<say-as interpret-as="characters">LDN</say-as>',
+  'L-D-N':   '<say-as interpret-as="characters">LDN</say-as>',
+  // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
+  // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
+  'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
   'ACTH':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
   'A-C-T-H': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
   'ATTR':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
@@ -2931,15 +2938,12 @@ function postprocessForTTS(text) {
     }
   );
 
-  // SSRI — Chirp HD re-articulates adjacent identical fricatives, so
-  // any IPA letter-chain through "S-S" lands with an audible beat
-  // between the two /s/'s. Stress-mark tweaks (ˈɛsˌɛs, ˈɛsɛs.ˌɑːr.ˌaɪ)
-  // didn't change the output. Switching to a <sub alias="…"> rewrite
-  // hands the synth four natural English words and bypasses IPA
-  // entirely; Chirp speaks them with normal word cadence.
+  // SSRI — native say-as spelling (consistent with the rest of the clinical
+  // letter-acronyms). The doubled S is a sustained fricative Chirp
+  // re-articulates fine, so say-as needs no de-slur gap.
   t = t.replaceAll(
     '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪ">S-S-R-I</phoneme>',
-    '<sub alias="ess ess R I">SSRI</sub>',
+    '<say-as interpret-as="characters">SSRI</say-as>',
   );
 
   // Hyphenated compounds adjacent to an IPA-wrapped acronym ("AI-based",
@@ -4549,7 +4553,7 @@ function selfTest() {
     // ("CPIC's" → "CPICs"), same as the un-spelled "RCTs"/"SNPs" plurals Chirp
     // HD already handles — accepted tradeoff to kill the dangling letter-S.
     ["per CPIC's SSRI guideline",
-      'per CPICs <sub alias="ess ess R I">SSRI</sub> guideline'],
+      'per CPICs <say-as interpret-as="characters">SSRI</say-as> guideline'],
     // SLCO1B1 — native say-as spelling (SAY_AS_CHARACTERS), more fluid than
     // the old <sub alias> word-by-word form.
     ['SLCO1B1 *5/*5',
