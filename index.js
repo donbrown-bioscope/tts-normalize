@@ -374,6 +374,13 @@ const ABBREVIATIONS = {
   // "double-u"+"em" into "W-U-M").
   'WMH':     '<say-as interpret-as="characters">WMH</say-as>',
   'W-M-H':   '<say-as interpret-as="characters">WMH</say-as>',
+  // ASCO — American Society of Clinical Oncology. Said as a word "AS-koh",
+  // not letter-spelled.
+  'ASCO':    '<phoneme alphabet="ipa" ph="ˈæskoʊ">ASCO</phoneme>',
+  // Val158Met — COMT variant. Abbreviated amino acids + "one fifty-eight"
+  // (not "valine one hundred fifty eight methionine"). Lowercase val/met so
+  // the amino-acid expansion doesn't re-expand them.
+  'Val158Met': 'val one fifty-eight met',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
   'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
@@ -1628,7 +1635,7 @@ const SPELL_AS_CHARACTERS = [
 // wrap loop below) so a hyphenated symbol like HLA-DRB1 spells as "H-L-A-D-R-
 // B-1" instead of voicing "dash". (Word-pronounced symbols like PARP1 →
 // "parp one" do NOT belong here — they go in ABBREVIATIONS.)
-const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1', 'SLCO1B1']);
+const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1', 'SLCO1B1', 'OATP1B1']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -1804,8 +1811,10 @@ function preprocessForTTS(text) {
   // separators; prefix "r-s," forces letter-spelled rather than
   // currency interpretation.
   t = t.replace(/\brs(\d{3,})\b/g, (_, digits) => {
-    const words = digits.split('').map(d => DIGIT_WORD[d]).join(', ');
-    return `r-s, ${words}`;
+    // Space-separated digits (commas became 100ms breaks → choppy); "0" reads
+    // as "zero" not "oh". "r-s" prefix forces letter-spell over rupee currency.
+    const words = digits.split('').map(d => (d === '0' ? 'zero' : DIGIT_WORD[d])).join(' ');
+    return `r-s ${words}`;
   });
 
   // Nrf2 — nuclear factor erythroid 2-related factor 2. Capitalization
@@ -4530,7 +4539,7 @@ function selfTest() {
     ['CDK4 activity', '<phoneme alphabet="ipa" ph="ˌsiːˈdiː">C-D</phoneme>-K-four activity'],
     // Pre-pass course-tuned regexes
     ['CYP1A2 enzyme', 'sipp-one-A-two enzyme'],
-    ['rs1801133 variant', 'r-s, one, eight, oh, one, one, three, three variant'],
+    ['rs1801133 variant', 'r-s one eight zero one one three three variant'],
     ['SIRT3 expression', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> three expression'],
     // Bare SIRT (no digit) and the hyphen-word form authors write — both
     // must emit lowercase "sirt" so consumers' ALL-CAPS lint stays quiet.
