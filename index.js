@@ -286,6 +286,14 @@ const ABBREVIATIONS = {
   'TNF': 'T-N-F', 'TNF-α': 'T-N-F-alpha',
   'IL-6': 'interleukin six', 'IL-1': 'interleukin one',
   'IL-10': 'interleukin ten', 'IL-17': 'interleukin seventeen',
+  // IL-18 is read as letters "I-L eighteen" (house choice — the rest of the
+  // IL family stays spelled-out "interleukin").
+  'IL-18': '<say-as interpret-as="characters">IL</say-as> eighteen',
+  // TQJ230 (pelacarsen, an Lp(a) ASO) — letters "T-Q-J" + "two-thirty".
+  'TQJ230': '<say-as interpret-as="characters">TQJ</say-as> two-thirty',
+  // FOURIER-OLE — the FOURIER open-label extension. Keep "FOURIER" as the
+  // surname pronunciation; spell "OLE" as letters.
+  'FOURIER-OLE': '<phoneme alphabet="ipa" ph="fʊriˈeɪ">FOURIER</phoneme> <say-as interpret-as="characters">OLE</say-as>',
   'CRP': 'C-R-P', 'hsCRP': 'high sensitivity C-R-P',
   'IGF-1': 'I-G-F-one', 'IGF1': 'I-G-F-one',
   'MCP-1': 'M-C-P-one', 'MCP1': 'M-C-P-one',
@@ -340,7 +348,8 @@ const ABBREVIATIONS = {
   'B-H-R-T': '<phoneme alphabet="ipa" ph="ˈbiː">B</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'MHT':     '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'M-H-T':   '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
-  'VTE':     '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
+  'VTE':     '<say-as interpret-as="characters">VTE</say-as>',
+  'V-T-E':   '<say-as interpret-as="characters">VTE</say-as>',
   'V-T-E':   '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
   'ITT':     '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'I-T-T':   '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
@@ -1597,7 +1606,7 @@ const SPELL_AS_CHARACTERS = [
 // wrap loop below) so a hyphenated symbol like HLA-DRB1 spells as "H-L-A-D-R-
 // B-1" instead of voicing "dash". (Word-pronounced symbols like PARP1 →
 // "parp one" do NOT belong here — they go in ABBREVIATIONS.)
-const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1']);
+const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1', 'SLCO1B1']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -2629,12 +2638,9 @@ const POST_OVERRIDES = {
   // "L" surrounded by hyphens, which the units pipeline would expand
   // to "liters".
   'HLA-DRB1': 'H-L-A-D-R-B-one',
-  // SLCO1B1 — hepatic statin-uptake transporter gene. Chirp HD slurs
-  // an IPA letter-chain ("ɛs.ɛl.siː.oʊ.wʌn.biː.wʌn") with the leading
-  // /s/ buried; secondary-stress marks on every letter didn't help.
-  // <sub alias="…"> hands the synth seven natural English words, which
-  // it articulates crisply with normal clinical cadence.
-  'SLCO1B1': '<sub alias="ess L C O one B one">SLCO1B1</sub>',
+  // SLCO1B1 — now in SAY_AS_CHARACTERS (native say-as, more fluid than the
+  // old <sub alias> word-spelling). This POST_OVERRIDE was removed because it
+  // re-matched the SLCO1B1 inside the say-as wrap and nested.
   // Variant notations — letter-digit-letter, read as one fluid phrase.
   // The letter-digit-letter split produces "V, one twenty-two, I" /
   // "I, one forty-eight, M"; a <sub alias> reads them without comma beats.
@@ -2646,7 +2652,7 @@ const POST_OVERRIDES = {
   // ("apoC-III") is handled earlier in PRE_ABBREVIATIONS so the Roman
   // III isn't letter-spelled into I-I-I before this runs. Read as
   // "ape-O-see-three" — same family shape as apoB / apoE.
-  'apoCIII':  '<sub alias="ape oh see three">apoCIII</sub>',
+  'apoCIII':  '<sub alias="ay-po see three">apoCIII</sub>',
   // Clinical-noun "read" — assessment / quick interpretation. Chirp
   // defaults the past-tense /rɛd/ for ambiguous "read" tokens; pre-
   // rewrite the established noun phrases to "reed" so they speak as
@@ -4544,10 +4550,10 @@ function selfTest() {
     // HD already handles — accepted tradeoff to kill the dangling letter-S.
     ["per CPIC's SSRI guideline",
       'per CPICs <sub alias="ess ess R I">SSRI</sub> guideline'],
-    // SLCO1B1 — POST_OVERRIDES emits a <sub alias> rewrite (IPA stress
-    // tweaks didn't keep Chirp HD from slurring the leading S).
+    // SLCO1B1 — native say-as spelling (SAY_AS_CHARACTERS), more fluid than
+    // the old <sub alias> word-by-word form.
     ['SLCO1B1 *5/*5',
-      '<sub alias="ess L C O one B one">SLCO1B1</sub> *five/*five'],
+      '<say-as interpret-as="characters">SLCO1B1</say-as> *five/*five'],
     // ─── Snake_case identifier preprocess.
     ['call update_identity on the patient',
       'call update identity on the patient'],
