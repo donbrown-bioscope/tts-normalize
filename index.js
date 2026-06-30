@@ -387,6 +387,10 @@ const ABBREVIATIONS = {
   'LLC': '<say-as interpret-as="characters">LLC</say-as>',
   'PE':  '<say-as interpret-as="characters">PE</say-as>',
   'TCR': '<say-as interpret-as="characters">TCR</say-as>',
+  // PPI — proton-pump inhibitor. say-as singular; plural one glued tag
+  // ("pee-pee-eyez") so the s isn't spelled.
+  'PPI':  '<say-as interpret-as="characters">PPI</say-as>',
+  'PPIs': '<phoneme alphabet="ipa" ph="ˌpiːpiːˈaɪz">PPIs</phoneme>',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
   'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
@@ -2431,7 +2435,7 @@ const CLINICAL_IPA = {
   'Cytomel':    'ˈsaɪtoʊmɛl',
   // Peptides / experimental.
   'Cerebrolysin': 'ˌsɛrəbroʊˈlaɪsɪn',
-  'Epitalon':     'ˌɛpɪˈtælɒn',
+  'Epitalon':     'ˌɛpiːˈtælən',
   'Elamipretide': 'ɪˈlæmɪˌpriːtaɪd',
   'Ipamorelin':   'ɪˌpæməˈrɛlɪn',
   'Sermorelin':   'ˌsɜːrmoʊˈrɛlɪn',

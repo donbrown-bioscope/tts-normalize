@@ -2257,9 +2257,9 @@
     "source": "omic-migration"
   },
   "epitalon": {
-    "ipa": "ˌɛpɪˈtælɒn",
-    "learned": "2026-05-03",
-    "source": "clinical-migration"
+    "ipa": "ˌɛpiːˈtælən",
+    "learned": "2026-06-30",
+    "source": "manual-override"
   },
   "epr": {
     "ipa": "ˌiːpiːˈɑːr",
