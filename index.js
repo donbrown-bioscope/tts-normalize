@@ -1449,11 +1449,12 @@ const PRE_ABBREVIATIONS = {
   'CoQ-10':       'co-Q-ten',
   'Coenzyme Q10': 'coenzyme Q ten',
   'coenzyme Q10': 'coenzyme Q ten',
-  // CAR-T — chimeric antigen receptor T-cell therapy. Clinically
-  // "car-tee" (single word "car" + letter T).
-  'CAR-T':  'car-T',
-  'CAR T':  'car T',
-  'CAR-Ts': 'car-Ts',
+  // CAR-T — chimeric antigen receptor T-cell therapy. One fluid word
+  // "car-TEE" (stress on the T). Display "cartee" (no boundary) so the
+  // CAR-T rule / letter passes can't re-match and double-wrap.
+  'CAR-T':  '<phoneme alphabet="ipa" ph="kɑːrˈtiː">cartee</phoneme>',
+  'CAR T':  '<phoneme alphabet="ipa" ph="kɑːrˈtiː">cartee</phoneme>',
+  'CAR-Ts': '<phoneme alphabet="ipa" ph="kɑːrˈtiːz">cartees</phoneme>',
   // HIIT — pronounced as the word "hit" (rhymes with kit).
   'HIIT': 'hit',
   // MR-PDFF — magnetic-resonance proton-density fat fraction. Letter-
