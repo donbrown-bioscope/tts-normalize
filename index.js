@@ -367,6 +367,12 @@ const ABBREVIATIONS = {
   'G-G-T':   '<say-as interpret-as="characters">GGT</say-as>',
   'VCTE':    '<say-as interpret-as="characters">VCTE</say-as>',
   'V-C-T-E': '<say-as interpret-as="characters">VCTE</say-as>',
+  // RCT — say-as for the singular (the catch-all otherwise leaves "R" bare
+  // then glues "C-T"). Plural RCTs keeps one fluid glued tag ("arr-see-teez")
+  // — say-as'ing the plural reads the trailing s as the letter "ess".
+  'RCT':     '<say-as interpret-as="characters">RCT</say-as>',
+  'R-C-T':   '<say-as interpret-as="characters">RCT</say-as>',
+  'RCTs':    '<phoneme alphabet="ipa" ph="ˌɑːrsiːˈtiːz">RCTs</phoneme>',
   // Terminal-P / terminal-C analogs — same failure mode as terminal-T
   // (Chirp HD voicing the final consonant inside a single auto-glued
   // <phoneme> tag). SNP → "S P" (N dropped), ETC → "EDC", UCP → "USOP".
@@ -458,7 +464,7 @@ const ABBREVIATIONS = {
   'BMD': 'B-M-D', 'BUN': 'B-U-N', 'GFR': 'G-F-R', 'eGFR': 'estimated G-F-R',
   // Medical abbreviations
   'IV': 'I-V', 'IM': 'I-M', 'SQ': 'subcutaneous',
-  'RCT': 'R-C-T', 'HR': 'hazard ratio', 'CI': 'confidence interval',
+  'HR': 'hazard ratio', 'CI': 'confidence interval',
   'OR': 'odds ratio', 'RR': 'relative risk',
   'vs': 'versus', 'vs.': 'versus', 'etc.': 'et cetera', 'e.g.': 'for example',
   'i.e.': 'that is', 'approx.': 'approximately', 'approx': 'approximately',
@@ -2163,7 +2169,7 @@ const CLINICAL_IPA = {
   'lecanemab':   'ləˈkænəmæb',
   'donanemab':   'doʊˈnænəmæb',
   'aducanumab':  'ˌæduːˈkænjuːmæb',
-  'tirzepatide': 'tɜːrˈzɛpətaɪd',
+  'tirzepatide': 'tɪərˈzɛpətaɪd',
   'semaglutide': 'ˌsɛməˈɡluːtaɪd',
   'retatrutide': 'ˌrɛtəˈtruːtaɪd',
   'liraglutide': 'ˌlɪrəˈɡluːtaɪd',
