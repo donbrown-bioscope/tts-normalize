@@ -363,6 +363,13 @@ const ABBREVIATIONS = {
   // for consistency so it never renders the disjointed "S — N-R — I").
   'SNRI':    '<say-as interpret-as="characters">SNRI</say-as>',
   'S-N-R-I': '<say-as interpret-as="characters">SNRI</say-as>',
+  // JITAI — just-in-time adaptive intervention. Read "jit" (as in JIT) + the
+  // letters A-I. Plural keeps "AIs" glued so the s isn't spelled.
+  'JITAI':   '<phoneme alphabet="ipa" ph="ˈdʒɪt">JIT</phoneme> <say-as interpret-as="characters">AI</say-as>',
+  'JITAIs':  '<phoneme alphabet="ipa" ph="ˈdʒɪt">JIT</phoneme> <phoneme alphabet="ipa" ph="ˌeɪˈaɪz">AIs</phoneme>',
+  // CJC-1295 — GHRH-analog peptide. Letters "C-J-C" + "twelve ninety-five"
+  // (not "one thousand two hundred ninety-five").
+  'CJC-1295': '<say-as interpret-as="characters">CJC</say-as> twelve ninety-five',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
   'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
