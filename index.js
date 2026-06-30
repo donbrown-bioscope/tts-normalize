@@ -2909,7 +2909,9 @@ function postprocessForTTS(text) {
     '<sub alias="see gas sting">cGAS-STING</sub>',
   );
   t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">[^<]*<\/phoneme>/g, '<sub alias="sting">STING</sub>');
-  t = t.replace(/<phoneme alphabet="ipa" ph="kæd">[^<]*<\/phoneme>/g, '<sub alias="cad">CAD</sub>');
+  // CAD (coronary artery disease) is letter-spelled "C-A-D" by clinicians, not
+  // said as the word "cad" (which Chirp renders close to "cod"). A=/eɪ/.
+  t = t.replace(/<phoneme alphabet="ipa" ph="kæd">[^<]*<\/phoneme>/g, '<phoneme alphabet="ipa" ph="ˌsiːeɪˈdiː">C-A-D</phoneme>');
   t = t.replace(/<phoneme alphabet="ipa" ph="pɛt">[^<]*<\/phoneme>/g, '<sub alias="pet">PET</sub>');
   // De-nest SPELL_AS_CHARACTERS symbols: a shared per-symbol POST_OVERRIDE
   // (e.g. SLCO1B1, HLA-DRB1) re-wraps the inner display of our preprocess
