@@ -215,6 +215,7 @@ const UNITS = {
 const ABBREVIATIONS = {
   // Spell out as individual letters (hyphenated so TTS reads each letter distinctly)
   'DNA': 'D-N-A', 'RNA': 'R-N-A', 'mRNA': 'm-R-N-A', 'tRNA': 't-R-N-A',
+  'miRNA': 'micro-R-N-A', 'microRNA': 'micro-R-N-A',
   'BMI': 'B-M-I', 'BMR': 'B-M-R', 'SMR': 'S-M-R', 'RDA': 'R-D-A', 'FDA': 'F-D-A',
   'NIH': 'N-I-H', 'WHO': 'W-H-O', 'CDC': 'C-D-C',
   // BEIR VII — the 7th US NAS Biological Effects of Ionizing Radiation
@@ -1436,9 +1437,10 @@ const PRE_ABBREVIATIONS = {
   // Whole-genome sequencing — abbreviation reads awkwardly and Whisper
   // mis-aligns it; expand to the full phrase.
   'WGS': 'whole genome sequencing',
-  // CoQ10 — overrides the core's 'co-Q-ten' with the spoken clinical form.
-  'CoQ10':        'coenzyme Q ten',
-  'CoQ-10':       'coenzyme Q ten',
+  // CoQ10 — read as the abbreviation "co-Q-ten" (Q letter-named "cue").
+  // The written-out "Coenzyme Q10" still expands to the spoken clinical form.
+  'CoQ10':        'co-Q-ten',
+  'CoQ-10':       'co-Q-ten',
   'Coenzyme Q10': 'coenzyme Q ten',
   'coenzyme Q10': 'coenzyme Q ten',
   // CAR-T — chimeric antigen receptor T-cell therapy. Clinically
@@ -2557,9 +2559,9 @@ for (const acro of FAST_GLUE_ACRONYMS) {
 // output.
 const POST_OVERRIDES = {
   // MTHFR C677T — the letter-digit-letter splitter emits "C, six seventy-seven,
-  // T"; read 677 as the number with C and T as letter phonemes, a 130ms break
-  // before T so the prior "…seven" + "tee" doesn't glide into "seventy".
-  'C, six seventy-seven, T': '<phoneme alphabet="ipa" ph="siː">C</phoneme> six seventy-seven<break time="130ms"/><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  // T"; render the digits individually ("six-seven-seven") as one fluid
+  // hyphen-joined string with C and T pinned as letter phonemes ("see"/"tee").
+  'C, six seventy-seven, T': '<phoneme alphabet="ipa" ph="siː">C</phoneme>-six-seven-seven-<phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   // Contractions — apostrophe (straight or curly) confuses the letter-spell
   // pass; pin pronunciation with IPA so the synth never stumbles.
   "You'll":  '<phoneme alphabet="ipa" ph="juːl">You\'ll</phoneme>',
