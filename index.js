@@ -228,7 +228,7 @@ const ABBREVIATIONS = {
   // terminal-T cohort (HRT/TRT/VTE) — fix per the same pattern: one
   // <phoneme> tag per letter, primary stress on each, no separator.
   'ATP':  '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
-  'ADP': 'A-D-P', 'AMP': 'A-M-P',
+  'ADP': 'A-D-P', 'AMP': '<say-as interpret-as="characters">AMP</say-as>',
   // SSAT (spermidine/spermine N1-acetyltransferase, polyamine tutorials) — the
   // terminal "T" was voicing to "D" ("…ay-DEE"). Same fix as ATP/HRT/TRT/VTE:
   // one <phoneme> tag per letter, primary stress on each, no separator.
@@ -381,6 +381,12 @@ const ABBREVIATIONS = {
   // (not "valine one hundred fifty eight methionine"). Lowercase val/met so
   // the amino-acid expansion doesn't re-expand them.
   'Val158Met': 'val one fifty-eight met',
+  // Practice/business + immunology acronyms — clean letter-spells via say-as.
+  'BCR': '<say-as interpret-as="characters">BCR</say-as>',
+  'CEO': '<say-as interpret-as="characters">CEO</say-as>',
+  'LLC': '<say-as interpret-as="characters">LLC</say-as>',
+  'PE':  '<say-as interpret-as="characters">PE</say-as>',
+  'TCR': '<say-as interpret-as="characters">TCR</say-as>',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
   'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',

@@ -2142,9 +2142,9 @@
     "source": "auto-letter-spell"
   },
   "ebitda": {
-    "ipa": "ɪˈbɪtdə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˈiːbɪtˌdɑː",
+    "learned": "2026-06-30",
+    "source": "manual-override"
   },
   "ebv": {
     "ipa": "ˌiːbiːˈviː",
