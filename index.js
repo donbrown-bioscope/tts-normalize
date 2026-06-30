@@ -1603,6 +1603,26 @@ function spellGeneChars(sym) {
   return parts.join(' ');
 }
 
+// ── Cell-surface markers (CD8+, CD28−, CD45RO, CD4+, compound CD8+CD28−) ──
+// One fluid "C-D <number> <suffix>" phoneme, primary stress on the terminal
+// element (RA/RO stress BOTH R and final letter); the 160ms break is appended
+// in postprocessForTTS (after the unit pass — emitting it here would let the
+// unit pass rewrite "160ms" to words). cdNumIpa: unstressed number-word IPA
+// 1–99 (28 → "twɛnti eɪt"). The suffix alternation includes "-plus"/"-minus"
+// because the PL course's narrationize() rewrites the superscripts ⁺/⁻ to
+// those words before this runs; raw ASCII/unicode signs are handled too.
+const _CDN_O = ['', 'wʌn', 'tuː', 'θriː', 'fɔːr', 'faɪv', 'sɪks', 'sɛvən', 'eɪt', 'naɪn'];
+const _CDN_TE = { 10:'tɛn',11:'ɪlɛvən',12:'twɛlv',13:'θɜːrtiːn',14:'fɔːrtiːn',15:'fɪftiːn',16:'sɪkstiːn',17:'sɛvəntiːn',18:'eɪtiːn',19:'naɪntiːn' };
+const _CDN_T = { 2:'twɛnti',3:'θɜːrti',4:'fɔːrti',5:'fɪfti',6:'sɪksti',7:'sɛvənti',8:'eɪti',9:'naɪnti' };
+function cdNumIpa(s) {
+  const n = parseInt(s, 10);
+  if (n < 10) return _CDN_O[n] || s;
+  if (n < 20) return _CDN_TE[n] || s;
+  if (n < 100) { const t = Math.floor(n/10), o = n%10; return _CDN_T[t] + (o ? ' ' + _CDN_O[o] : ''); }
+  return s.split('').map(d => d === '0' ? 'oʊ' : _CDN_O[+d] || d).join(' ');
+}
+const CD_SUFFIX_IPA = { '-plus':' ˈplʌs','-minus':' ˈmaɪnəs','+':' ˈplʌs','⁺':' ˈplʌs','-':' ˈmaɪnəs','−':' ˈmaɪnəs','⁻':' ˈmaɪnəs','RA':' ˈɑːr ˈeɪ','RO':' ˈɑːr ˈoʊ' };
+
 function preprocessForTTS(text) {
   let t = text;
 
@@ -1622,6 +1642,12 @@ function preprocessForTTS(text) {
   // mangled it to "A-T-A" + a bare "-C"). With the -seq rule above, "ATAC-seq"
   // becomes "<ph>ATAC</ph><ph>seq</ph>" → "AY-tack-seek".
   t = t.replace(/\bATAC\b/g, '<phoneme alphabet="ipa" ph="ˈeɪtæk">ATAC</phoneme>');
+  // Cell-surface markers — runs before coreNormalize's gene-number speller and
+  // the variant splitter below (which would grab "D45R" in CD45RO). Break is
+  // appended in postprocess. See the cdNumIpa note above.
+  t = t.replace(/\bCD(\d{1,3})(RA|RO|-plus|-minus|[+⁺−⁻]|-(?![A-Za-z]))(?!\d)/g, (full, num, sfx) =>
+    `<phoneme alphabet="ipa" ph="siː diː ${cdNumIpa(num)}${CD_SUFFIX_IPA[sfx]}">CD${num}${sfx}</phoneme>`);
+  t = t.replace(/\bCD107a\b/g, '<phoneme alphabet="ipa" ph="siː diː wʌn oʊ ˈsɛvən ˌeɪ">CD107a</phoneme>');
   // SAMe/SAH → "SAM-E S-A-H ratio" (read the slash as the ratio it denotes;
   // consume a following literal "ratio" so it isn't doubled).
   t = t.replace(/\bSAMe\s*\/\s*SAH\b(\s+ratio\b)?/g, 'SAMe SAH ratio');
@@ -2520,6 +2546,10 @@ for (const acro of FAST_GLUE_ACRONYMS) {
 // or it's a whole phrase whose exact form appears in the normalized
 // output.
 const POST_OVERRIDES = {
+  // MTHFR C677T — the letter-digit-letter splitter emits "C, six seventy-seven,
+  // T"; read 677 as the number with C and T as letter phonemes, a 130ms break
+  // before T so the prior "…seven" + "tee" doesn't glide into "seventy".
+  'C, six seventy-seven, T': '<phoneme alphabet="ipa" ph="siː">C</phoneme> six seventy-seven<break time="130ms"/><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   // Contractions — apostrophe (straight or curly) confuses the letter-spell
   // pass; pin pronunciation with IPA so the synth never stumbles.
   "You'll":  '<phoneme alphabet="ipa" ph="juːl">You\'ll</phoneme>',
@@ -2911,6 +2941,10 @@ function postprocessForTTS(text) {
   t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">[^<]*<\/phoneme>/g, '<sub alias="sting">STING</sub>');
   // CAD (coronary artery disease) is letter-spelled "C-A-D" by clinicians, not
   // said as the word "cad" (which Chirp renders close to "cod"). A=/eɪ/.
+  // Cell-marker trailing break (preprocess wrapped them as ph="siː diː …").
+  // Appended here, after the unit pass, so "160ms" isn't expanded to words.
+  // The space after "diː" excludes the bare "C-D" letters phoneme (ˌsiːˈdiː).
+  t = t.replace(/(<phoneme alphabet="ipa" ph="siː diː [^"]*">[^<]*<\/phoneme>)/g, '$1<break time="160ms"/>');
   t = t.replace(/<phoneme alphabet="ipa" ph="kæd">[^<]*<\/phoneme>/g, '<phoneme alphabet="ipa" ph="ˌsiːeɪˈdiː">C-A-D</phoneme>');
   t = t.replace(/<phoneme alphabet="ipa" ph="pɛt">[^<]*<\/phoneme>/g, '<sub alias="pet">PET</sub>');
   // De-nest SPELL_AS_CHARACTERS symbols: a shared per-symbol POST_OVERRIDE
