@@ -1783,6 +1783,16 @@ function preprocessForTTS(text) {
   t = t.replace(/\bSIRT(\d+)\b/g, (_, n) => {
     return `<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>-${numWord(parseInt(n, 10))}`;
   });
+  // Bare "SIRT" with no trailing digit — the sirtuin family referenced as
+  // a word, or the hyphen-word forms authors write ("SIRT-one through
+  // SIRT-seven"). The learned-ipa "sirt" entry would otherwise pronounce
+  // it correctly but preserve the uppercase "SIRT" as the phoneme's
+  // visible text, which trips consumers' ALL-CAPS lint. Emit lowercase
+  // "sirt" inside the /sɜːrt/ wrap here, matching the SIRT(\d+) form above.
+  // (?!\w) skips SIRT1-7 (already handled) and the full word "SIRTUIN";
+  // the guards skip tokens already inside a phoneme/sub/say-as wrap.
+  t = t.replace(/\bSIRT(?!\w)(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme>');
 
   // BPC-### / TB-### / MK-### / PE-##-## peptide identifiers — spoken
   // form ("B-P-C one fifty-seven") rather than "one hundred fifty
@@ -4462,6 +4472,10 @@ function selfTest() {
     ['CYP1A2 enzyme', 'sipp-one-A-two enzyme'],
     ['rs1801133 variant', 'r-s, one, eight, oh, one, one, three, three variant'],
     ['SIRT3 expression', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> three expression'],
+    // Bare SIRT (no digit) and the hyphen-word form authors write — both
+    // must emit lowercase "sirt" so consumers' ALL-CAPS lint stays quiet.
+    ['SIRT activation', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> activation'],
+    ['SIRT-one through SIRT-seven', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> one through <phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> seven'],
     ['BPC-157 peptide', '<phoneme alphabet="ipa" ph="ˌbiːpiːˈsiː">B-P-C</phoneme> one fifty-seven peptide'],
     // 78th passes through the core's number/ordinal pipeline unchanged
     // (not in ORDINAL_MAP; the trailing "th" defeats the bare-number
