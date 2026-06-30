@@ -350,16 +350,23 @@ const ABBREVIATIONS = {
   'A-C-T-H': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
   'ATTR':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
   'A-T-T-R': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
-  // AST — aspartate aminotransferase. Terminal-T cohort; auto-glue
-  // ˌeɪɛsˈtiː slurs and the T gets voiced into a D.
-  'AST':     '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
-  'A-S-T':   '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
-  // PDFF — proton density fat fraction. Terminal double-F; the
-  // post-pass's 2+2 concat (P-D + F-F) renders the second F-F chunk
-  // as a single muddy "ef" instead of two letters. Per-letter tags
-  // force each F to articulate.
-  'PDFF':    '<phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme>',
-  'P-D-F-F': '<phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme>',
+  // AST — aspartate aminotransferase. Spell natively via say-as: per-letter
+  // phoneme tags read too clipped, dotted single-tags too fast; say-as gives
+  // clean, well-paced letters (and is guard-protected from re-wrapping).
+  'AST':     '<say-as interpret-as="characters">AST</say-as>',
+  'A-S-T':   '<say-as interpret-as="characters">AST</say-as>',
+  // PDFF — proton density fat fraction. Terminal double-F; say-as keeps
+  // both F's clean without the break-stutter of per-letter tags.
+  'PDFF':    '<say-as interpret-as="characters">PDFF</say-as>',
+  'P-D-F-F': '<say-as interpret-as="characters">PDFF</say-as>',
+  // CCTA / GGT / VCTE — coronary CT angiography, gamma-glutamyl transferase,
+  // vibration-controlled transient elastography. Native say-as spelling.
+  'CCTA':    '<say-as interpret-as="characters">CCTA</say-as>',
+  'C-C-T-A': '<say-as interpret-as="characters">CCTA</say-as>',
+  'GGT':     '<say-as interpret-as="characters">GGT</say-as>',
+  'G-G-T':   '<say-as interpret-as="characters">GGT</say-as>',
+  'VCTE':    '<say-as interpret-as="characters">VCTE</say-as>',
+  'V-C-T-E': '<say-as interpret-as="characters">VCTE</say-as>',
   // Terminal-P / terminal-C analogs — same failure mode as terminal-T
   // (Chirp HD voicing the final consonant inside a single auto-glued
   // <phoneme> tag). SNP → "S P" (N dropped), ETC → "EDC", UCP → "USOP".
@@ -407,12 +414,10 @@ const ABBREVIATIONS = {
   'TET':     '<phoneme alphabet="ipa" ph="ˈtɛt">tett</phoneme>',
   'FUT2':    '<phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
   'F-U-T-2': '<phoneme alphabet="ipa" ph="ˈɛf">F</phoneme><phoneme alphabet="ipa" ph="ˈjuː">U</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
-  // DHEA-S — 5-letter hyphenated. ABBREVIATIONS['DHEA'] expands the
-  // first 4 letters, leaving "-S" which step 11's catch-all letter-
-  // spells into auto-glue "D-H-E-A-S" — Whisper hears "DH EACE".
-  // Per-letter form keeps the terminal S clean.
-  'DHEA-S':   '<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme>',
-  'D-H-E-A-S':'<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme>',
+  // DHEA-S — dehydroepiandrosterone sulfate. Native say-as spelling of all
+  // five letters (hyphen stripped in the say-as content).
+  'DHEA-S':   '<say-as interpret-as="characters">DHEAS</say-as>',
+  'D-H-E-A-S':'<say-as interpret-as="characters">DHEAS</say-as>',
   'PI3K': 'pie-three-kay',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
@@ -755,7 +760,9 @@ function coreNormalize(text) {
   // 6b. Replace abbreviations (longest first to avoid partial matches)
   const sortedAbbrevs = Object.entries(ABBREVIATIONS).sort((a, b) => b[0].length - a[0].length);
   for (const [abbr, expansion] of sortedAbbrevs) {
-    const pattern = new RegExp(`\\b${escapeRegex(abbr)}\\b`, 'g');
+    // Guard: skip a token already inside a phoneme/sub/say-as wrap, so an
+    // earlier expansion (or a wrapper pre-pass) can't be re-matched and nested.
+    const pattern = new RegExp(`\\b${escapeRegex(abbr)}\\b(?![^<]*<\\/(?:phoneme|sub|say-as)>)`, 'g');
     t = t.replace(pattern, expansion);
   }
 
@@ -1457,11 +1464,15 @@ const PRE_ABBREVIATIONS = {
   'CAR-Ts': '<phoneme alphabet="ipa" ph="kɑːrˈtiːz">cartees</phoneme>',
   // HIIT — pronounced as the word "hit" (rhymes with kit).
   'HIIT': 'hit',
-  // MR-PDFF — magnetic-resonance proton-density fat fraction. Letter-
-  // spelling the leading "MR" with periods makes Whisper hear the
-  // title "Mr." Comma before the long suffix sidesteps that.
-  'MR-PDFF': 'M-R, P-D-F-F',
-  'MR PDFF': 'M-R, P-D-F-F',
+  // MR-PDFF — magnetic-resonance proton-density fat fraction. Native say-as
+  // for each cluster ("MR" then "PDFF") — clean letters, no Mr./stutter.
+  'MR-PDFF': '<say-as interpret-as="characters">MR</say-as> <say-as interpret-as="characters">PDFF</say-as>',
+  'MR PDFF': '<say-as interpret-as="characters">MR</say-as> <say-as interpret-as="characters">PDFF</say-as>',
+  // fT3/fT4 and LH/FSH — lab ratios. The prose already supplies "ratio"/
+  // "conversion ratio", so the slash maps to plain juxtaposition only (no
+  // appended "ratio", or it would double).
+  'fT3/fT4': 'free T-three free T-four',
+  'LH/FSH':  '<say-as interpret-as="characters">LH</say-as> <say-as interpret-as="characters">FSH</say-as>',
   // López-Otín (Carlos López-Otín, hallmarks-of-aging eponym).
   // Pre-pass ASCII spelling sidesteps the units pipeline mangling
   // the leading L.
