@@ -481,7 +481,13 @@ const ABBREVIATIONS = {
 
 // Special compound terms — replaced FIRST before any other processing
 const COMPOUND_TERMS = {
-  'NAD+': 'N-A-D-plus', 'NAD⁺': 'N-A-D-plus',
+  // One fluid tag: letters articulated (stressed N + syllable breaks),
+  // glued to a stressed "plus" — reads "N-A-D-plus" as a single word.
+  // Display "NADplus" (no hyphen/boundary) so neither the contiguous-"NAD"
+  // abbreviation rule nor the hyphen-letter pass re-matches and double-wraps
+  // the inner text; the ph drives the actual pronunciation.
+  'NAD+': '<phoneme alphabet="ipa" ph="ˈɛn.eɪ.diːˈplʌs">NADplus</phoneme>',
+  'NAD⁺': '<phoneme alphabet="ipa" ph="ˈɛn.eɪ.diːˈplʌs">NADplus</phoneme>',
   'CD4+': 'C-D-four-plus', 'CD4⁺': 'C-D-four-plus',
   'CD8+': 'C-D-eight-plus', 'CD8⁺': 'C-D-eight-plus',
   'NADH': 'N-A-D-H', 'NADPH': 'N-A-D-P-H',
@@ -4458,7 +4464,7 @@ function selfTest() {
   // that don't get the tags stripped by the synthesizer wrapper.
   const tests = [
     ['Take 200mg of NMN daily', 'Take two hundred milligrams of <phoneme alphabet="ipa" ph="ˌɛnɛmˈɛn">N-M-N</phoneme> daily'],
-    ['NAD+ levels decline by 50% after age 40', '<phoneme alphabet="ipa" ph="ˌɛneɪˈdiː">N-A-D</phoneme>-plus levels decline by fifty percent after age forty'],
+    ['NAD+ levels decline by 50% after age 40', '<phoneme alphabet="ipa" ph="ˈɛn.eɪ.diːˈplʌs">NADplus</phoneme> levels decline by fifty percent after age forty'],
     ['Blood glucose: 95 mg/dL', 'Blood glucose: ninety five milligrams per deciliter'],
     ['VO2max improved by 12%', '<phoneme alphabet="ipa" ph="ˌviːˈoʊ">V-O</phoneme>-two-max improved by twelve percent'],
     ['The 1st study used 500μg of vitamin B12', 'The first study used five hundred micrograms of vitamin-B-twelve'],
