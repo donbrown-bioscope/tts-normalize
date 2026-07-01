@@ -398,6 +398,13 @@ const ABBREVIATIONS = {
   // "double-u"+"em" into "W-U-M").
   'WMH':     '<say-as interpret-as="characters">WMH</say-as>',
   'W-M-H':   '<say-as interpret-as="characters">WMH</say-as>',
+  // VNTR — variable-number tandem repeat (PER3 VNTR). Letter say-as.
+  'VNTR':    '<say-as interpret-as="characters">VNTR</say-as>',
+  'V-N-T-R': '<say-as interpret-as="characters">VNTR</say-as>',
+  // MOTS-c — mitochondrial-derived peptide. Read as the word "mots" + the
+  // letter C ("mots-see"), not fully letter-spelled.
+  'MOTS-c':  'mots <say-as interpret-as="characters">C</say-as>',
+  'MOTS-C':  'mots <say-as interpret-as="characters">C</say-as>',
   // ASCO — American Society of Clinical Oncology. Said as a word "AS-koh",
   // not letter-spelled.
   'ASCO':    '<phoneme alphabet="ipa" ph="ˈæskoʊ">ASCO</phoneme>',
@@ -814,15 +821,18 @@ function coreNormalize(text) {
   // 5. Replace multi-word units first (e.g. "mg/dL" before "mg")
   const sortedUnits = Object.entries(UNITS).sort((a, b) => b[0].length - a[0].length);
   for (const [unit, expansion] of sortedUnits) {
-    // Match number + optional space + unit (e.g. "200mg", "200 mg")
-    const pattern = new RegExp(`(\\d+\\.?\\d*)\\s*${escapeRegex(unit)}\\b`, 'g');
+    // Match number + optional space + unit (e.g. "200mg", "200 mg").
+    // Guard skips a token already inside a phoneme/sub/say-as wrap so a
+    // variant say-as like <say-as>R46L</say-as> isn't read "forty-six liters".
+    const pattern = new RegExp(`(\\d+\\.?\\d*)\\s*${escapeRegex(unit)}\\b(?![^<]*<\\/(?:phoneme|sub|say-as)>)`, 'g');
     t = t.replace(pattern, (_, num) => `${convertNumber(num)} ${expansion}`);
   }
 
   // Also replace standalone units not preceded by a number
   for (const [unit, expansion] of sortedUnits) {
-    // Only replace if it's a standalone word (not part of a longer word)
-    const pattern = new RegExp(`\\b${escapeRegex(unit)}\\b`, 'g');
+    // Only replace if it's a standalone word (not part of a longer word),
+    // and not inside a pronunciation wrap (same guard as above).
+    const pattern = new RegExp(`\\b${escapeRegex(unit)}\\b(?![^<]*<\\/(?:phoneme|sub|say-as)>)`, 'g');
     t = t.replace(pattern, expansion);
   }
 
@@ -1659,6 +1669,13 @@ const SPELL_AS_CHARACTERS = [
   'SLCO1B1', 'OATP1B1', 'HLA-DRB1', 'ABCG2', 'VKORC1', 'NUDT15', 'KCNQ1',
   'PNPLA3', 'G6PD', 'UGT1A1', 'TPMT', 'DPYD', 'GSTM1', 'SLC6A4', 'ACTN3',
   'HTR2A', 'SRD5A2',
+  // appendix-H hormone/pharmacogenomics genes — flagged in ear QA, all
+  // read as letter say-as. Longest-first sort in the wrap loop keeps
+  // e.g. MT-ATP8 winning over any prefix.
+  'PPARGC1A', 'MT-ATP6', 'MT-ATP8', '5-HTTLPR', 'SULT1A1', 'MTNR1B',
+  'GSTP1', 'NQO1', 'PER3', 'BDNF', 'CFH', 'HFE', 'CBS', 'F5', 'OATP',
+  // (TREM2 deliberately NOT here — house style reads TREM as the word "trim",
+  // not letter-spelled; see the CLINICAL_IPA 'TREM' → 'trɪm' rule.)
 ];
 // Subset spelled via native <say-as interpret-as="characters"> rather than a
 // word-respelling <sub alias>. The curated alias ("vee kay oh arr see one")
@@ -1669,7 +1686,10 @@ const SPELL_AS_CHARACTERS = [
 // wrap loop below) so a hyphenated symbol like HLA-DRB1 spells as "H-L-A-D-R-
 // B-1" instead of voicing "dash". (Word-pronounced symbols like PARP1 →
 // "parp one" do NOT belong here — they go in ABBREVIATIONS.)
-const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1', 'SLCO1B1', 'OATP1B1']);
+const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1', 'SLCO1B1', 'OATP1B1',
+  // Native say-as (not the <sub alias> char-spell, which mis-said DPYD/SRD5A2).
+  'DPYD', 'SRD5A2', 'PPARGC1A', 'MT-ATP6', 'MT-ATP8', '5-HTTLPR', 'SULT1A1',
+  'MTNR1B', 'GSTP1', 'NQO1', 'PER3', 'BDNF', 'CFH', 'HFE', 'CBS', 'F5', 'OATP']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -1844,12 +1864,12 @@ function preprocessForTTS(text) {
   // (Indian rupee currency prefix). Spell each digit with comma
   // separators; prefix "r-s," forces letter-spelled rather than
   // currency interpretation.
-  t = t.replace(/\brs(\d{3,})\b/g, (_, digits) => {
-    // Space-separated digits (commas became 100ms breaks → choppy); "0" reads
-    // as "zero" not "oh". "r-s" prefix forces letter-spell over rupee currency.
-    const words = digits.split('').map(d => (d === '0' ? 'zero' : DIGIT_WORD[d])).join(' ');
-    return `r-s ${words}`;
-  });
+  // Native say-as spells "rs" + each digit as discrete characters ("R S four
+  // six eight zero") — the old plain-text "r-s" made Chirp voice the hyphen as
+  // an audible "dash". say-as also blocks the rupee-currency misread. Guard
+  // skips a token already wrapped (e.g. the course wrapper's own rsID pass).
+  t = t.replace(/\brs(\d{3,})\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    (_, digits) => `<say-as interpret-as="characters">rs${digits}</say-as>`);
 
   // Nrf2 — nuclear factor erythroid 2-related factor 2. Capitalization
   // is inconsistent in source text (Nrf2 / NRF2 / nrf2 / NRF-2 / Nrf-2);
@@ -1941,9 +1961,15 @@ function preprocessForTTS(text) {
     V122I: '<sub alias="vee one twenty two eye">V122I</sub>',
     I148M: '<sub alias="eye one forty-eight">I148</sub><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme>',
   };
-  t = t.replace(/\b([A-Z])(\d{2,4})([A-Z])\b/g, (full, l1, n, l2) => {
+  // Guard skips a token already inside a phoneme/sub/say-as wrap so we don't
+  // nest (or re-split a say-as the course wrapper already passed through raw).
+  t = t.replace(/\b([A-Z])(\d{2,4})([A-Z])\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, (full) => {
     if (VARIANT_SUB_ALIAS[full]) return VARIANT_SUB_ALIAS[full];
-    return `${l1}, ${spokenIdNumber(n)}, ${l2}`;
+    // Protein/nucleotide variants (C282Y, V158M, Y402H, C677T, A1298C…) read
+    // as a say-as group — "C two eight two Y" — not the old comma form
+    // ("C, two eighty-two, Y") which slurred and mis-chunked. A leading break
+    // is added at the gene→variant boundary in postprocess.
+    return `<say-as interpret-as="characters">${full}</say-as>`;
   });
 
   // Bare LDL expansion — runs before the direct-token loop so the loop
@@ -2238,7 +2264,7 @@ const CLINICAL_IPA = {
   'kisspeptin':  'ˈkɪsˌpɛptɪn',
   'Semax':       'ˈsɛmæks',
   'Selank':      'ˈsɛlæŋk',
-  'Pinealon':    'ˌpɪniˈæloʊn',
+  'Pinealon':    'paɪnˈiːəlɒn',
   // Difficult drug names — newer agents the synth mispronounces by default.
   'lecanemab':   'ləˈkænəmæb',
   'donanemab':   'doʊˈnænəmæb',
@@ -3137,6 +3163,23 @@ function postprocessForTTS(text) {
   t = t.replace(
     /(<\/(?:phoneme|sub|say-as)>)\s+(<sub alias="(?:vee|eye)\b)/g,
     '$1<break time="160ms"/>$2',
+  );
+
+  // (f) Slight pause before a protein/nucleotide-variant say-as group
+  // (C282Y, V158M, Y402H, 677T…) following a spelled gene or word, so the
+  // variant reads as its own discrete unit instead of gliding out of the
+  // gene token. The gene say-as forms (SLCO1B1, VKORC1, GSTP1 …) end in a
+  // digit or run of letters, so this letter-digits-letter shape never matches
+  // them.
+  t = t.replace(
+    /(<\/(?:phoneme|sub|say-as)>|[A-Za-z])[ \t]+(<say-as interpret-as="characters">[A-Z]?\d{2,4}[A-Z]<\/say-as>)/g,
+    '$1<break time="150ms"/> $2',
+  );
+  // (g) Slight pause before an rsID say-as ("…V158M [pause] r s four…") so it
+  // doesn't run out of the preceding variant/gene.
+  t = t.replace(
+    /(<\/(?:phoneme|sub|say-as)>|[A-Za-z])[ \t]+(<say-as interpret-as="characters">rs\d)/g,
+    '$1<break time="150ms"/> $2',
   );
 
   return t;
@@ -4573,7 +4616,7 @@ function selfTest() {
     ['CDK4 activity', '<phoneme alphabet="ipa" ph="ˌsiːˈdiː">C-D</phoneme>-K-four activity'],
     // Pre-pass course-tuned regexes
     ['CYP1A2 enzyme', 'sipp-one-A-two enzyme'],
-    ['rs1801133 variant', 'r-s one eight zero one one three three variant'],
+    ['rs1801133 variant', '<say-as interpret-as="characters">rs1801133</say-as> variant'],
     ['SIRT3 expression', '<phoneme alphabet="ipa" ph="sɜːrt">sirt</phoneme> three expression'],
     // Bare SIRT (no digit) and the hyphen-word form authors write — both
     // must emit lowercase "sirt" so consumers' ALL-CAPS lint stays quiet.
