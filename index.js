@@ -351,8 +351,32 @@ const ABBREVIATIONS = {
   'VTE':     '<say-as interpret-as="characters">VTE</say-as>',
   'V-T-E':   '<say-as interpret-as="characters">VTE</say-as>',
   'V-T-E':   '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
-  'ITT':     '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
-  'I-T-T':   '<phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
+  // ITT — intention-to-treat. say-as (the per-letter IPA read choppy, and
+  // the doubled T tripped the de-slur break-stutter). Was a learned-ipa
+  // auto-letter-spell too — removed there.
+  'ITT':     '<say-as interpret-as="characters">ITT</say-as>',
+  'I-T-T':   '<say-as interpret-as="characters">ITT</say-as>',
+  // Hormone-axis acronyms flagged in appendix-G QA (2026-06-30). Native
+  // say-as gives clean letter cadence and pre-empts the auto letter-spell /
+  // learned-ipa forms that mis-said them (GHR/AGHD glued "G-H"+bare tail,
+  // BTA/ITT auto-letter-spell, "e-t-a"→Greek "eta"). Both bare + hyphenated
+  // keys so a say-as wins whether or not an upstream pass letter-spelled first.
+  'GHR':     '<say-as interpret-as="characters">GHR</say-as>',
+  'G-H-R':   '<say-as interpret-as="characters">GHR</say-as>',
+  'AGHD':    '<say-as interpret-as="characters">AGHD</say-as>',
+  'A-G-H-D': '<say-as interpret-as="characters">AGHD</say-as>',
+  'BPS':     '<say-as interpret-as="characters">BPS</say-as>',
+  'B-P-S':   '<say-as interpret-as="characters">BPS</say-as>',
+  'BTA':     '<say-as interpret-as="characters">BTA</say-as>',
+  'B-T-A':   '<say-as interpret-as="characters">BTA</say-as>',
+  // ETA — endothelin-A receptor (uppercase only, so English "eta"/"beta" are
+  // untouched). say-as, not the Greek-letter word reading.
+  'ETA':     '<say-as interpret-as="characters">ETA</say-as>',
+  'E-T-A':   '<say-as interpret-as="characters">ETA</say-as>',
+  // GnRH — gonadotropin-releasing hormone. Mixed case; say-as spells each
+  // char (G-n-R-H → "gee-en-arr-aych"). Case-sensitive key matches "GnRH".
+  'GnRH':    '<say-as interpret-as="characters">GnRH</say-as>',
+  'G-n-R-H': '<say-as interpret-as="characters">GnRH</say-as>',
   'ATBC':    '<say-as interpret-as="characters">ATBC</say-as>',
   'A-T-B-C': '<say-as interpret-as="characters">ATBC</say-as>',
   // LDN — low-dose naltrexone. say-as (the catch-all otherwise leaves "L"

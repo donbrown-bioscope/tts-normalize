@@ -524,11 +524,6 @@
     "learned": "2026-05-10",
     "source": "manual-override"
   },
-  "aghd": {
-    "ipa": "ˌeɪdʒiːeɪtʃˈdiː",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
-  },
   "aha": {
     "ipa": "ˌeɪeɪtʃˈeɪ",
     "learned": "2026-05-05",
@@ -998,11 +993,6 @@
   },
   "brip": {
     "ipa": "ˌbiːɑːraɪˈpiː",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
-  },
-  "bta": {
-    "ipa": "ˌbiːtiːˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
@@ -2070,11 +2060,6 @@
     "ipa": "ˌiːɛsˈɑːr",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
-  },
-  "e-t-a": {
-    "ipa": "ˈeɪtə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "e-t-c": {
     "ipa": "ˌiːtiːˈsiː",
@@ -3590,11 +3575,6 @@
   },
   "itp": {
     "ipa": "ˌaɪtiːˈpiː",
-    "learned": "2026-05-03",
-    "source": "auto-letter-spell"
-  },
-  "itt": {
-    "ipa": "ˌaɪtiːˈtiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
