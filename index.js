@@ -401,6 +401,10 @@ const ABBREVIATIONS = {
   // VNTR — variable-number tandem repeat (PER3 VNTR). Letter say-as.
   'VNTR':    '<say-as interpret-as="characters">VNTR</say-as>',
   'V-N-T-R': '<say-as interpret-as="characters">VNTR</say-as>',
+  // BID — twice-daily dosing (bis in die). Letter-spelled "B-I-D", not the
+  // English word "bid". Key is case-sensitive so lowercase prose "bid" is
+  // untouched. (Removed the auto-llm learned-ipa 'b-i-d'→/bɪd/ that mis-said it.)
+  'BID':     '<say-as interpret-as="characters">BID</say-as>',
   // MOTS-c — mitochondrial-derived peptide. Read as the word "mots" + the
   // letter C ("mots-see"), not fully letter-spelled.
   'MOTS-c':  'mots <say-as interpret-as="characters">C</say-as>',
@@ -1766,6 +1770,16 @@ function preprocessForTTS(text) {
   t = t.replace(/\bCD(\d{1,3})(RA|RO|-plus|-minus|[+⁺−⁻]|-(?![A-Za-z]))(?!\d)/g, (full, num, sfx) =>
     `<phoneme alphabet="ipa" ph="siː diː ${cdNumIpa(num)}${CD_SUFFIX_IPA[sfx]}">CD${num}${sfx}</phoneme>`);
   t = t.replace(/\bCD107a\b/g, '<phoneme alphabet="ipa" ph="siː diː wʌn oʊ ˈsɛvən ˌeɪ">CD107a</phoneme>');
+  // Histone post-translational marks (H3K4me3, H3K27ac, H3K9me2…). Read the
+  // modification FIRST, then the residue, as clinicians say them: H3K4me3 →
+  // "tri-methyl H-3 K-4". me1/2/3 = mono/di/tri-methyl; ac = acetyl. Residue
+  // parts wrapped in say-as so the digits read ("H three K four") and no later
+  // pass mangles them.
+  const METHYL_LEVEL = { '1': 'mono', '2': 'di', '3': 'tri' };
+  t = t.replace(/\bH(\d+)K(\d+)(me|ac)(\d?)\b/g, (_, h, k, mod, n) => {
+    const modWord = mod === 'ac' ? 'acetyl' : (METHYL_LEVEL[n] ? `${METHYL_LEVEL[n]}-methyl` : 'methyl');
+    return `${modWord} <say-as interpret-as="characters">H${h}</say-as> <say-as interpret-as="characters">K${k}</say-as>`;
+  });
   // SAMe/SAH → "SAM-E S-A-H ratio" (read the slash as the ratio it denotes;
   // consume a following literal "ratio" so it isn't doubled).
   t = t.replace(/\bSAMe\s*\/\s*SAH\b(\s+ratio\b)?/g, 'SAMe SAH ratio');
