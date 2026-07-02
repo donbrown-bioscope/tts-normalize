@@ -2097,11 +2097,10 @@ const CLINICAL_IPA = {
   // Both the bare form and the post-core letter-spelled form.
   'ESTHER':      'ˈɛstər',
   'E-S-T-H-E-R': 'ˈɛstər',
-  // Common words Chirp HD mis-renders: "toward" as two words ("to ward"), and
-  // "early" with an unnatural break. The inline <phoneme> wrap fixes the
-  // pronunciation without inserting a pause before/after the word.
+  // "toward" — Chirp HD mis-renders as two words ("to ward"); the inline
+  // <phoneme> wrap fixes it. ("early" was wrapped here too but the phoneme
+  // boundary made it sound unnatural — removed; Chirp says "early" fine bare.)
   'toward':  'tɔːrd',   'towards': 'tɔːrdz',
-  'early':   'ˈɜːrli',
   // HOMA — Homeostatic Model Assessment. Long-O ("HOME-uh"), not
   // letter-spelled. Case-insensitive matching covers HOMA / Homa /
   // homa, including the "Homa-I-R" rewrite from PRE_ABBREVIATIONS.
@@ -2472,6 +2471,8 @@ const CLINICAL_IPA = {
   'rosuvastatin':       'roʊˌsuːvəˈstætɪn',
   'liothyronine':       'ˌlaɪoʊˈθaɪroʊniːn',
   'levothyroxine':      'ˌliːvoʊθaɪˈrɒksiːn',
+  'euthyroid':          'juːˈθaɪrɔɪd',   // "you-thyroid" — Chirp mangles the eu- prefix
+
   // Brand-name testosterone preparations.
   'Testopel':  'ˈtɛstoʊpɛl',
   'Aveed':     'əˈviːd',
