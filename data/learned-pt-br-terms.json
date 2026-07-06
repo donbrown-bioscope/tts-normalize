@@ -271,5 +271,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-06-25"
+  },
+  {
+    "find": "GHSR",
+    "replace": "G H S R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "LPS",
+    "replace": "L P S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "TDP",
+    "replace": "T D P",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "HIV",
+    "replace": "H I V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "APJ",
+    "replace": "A P J",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "IVUS",
+    "replace": "I V U S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "TNF",
+    "replace": "T N F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "MLKL",
+    "replace": "M L K L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "SRT",
+    "replace": "S R T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
   }
 ]
