@@ -439,5 +439,138 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-06-23"
+  },
+  {
+    "find": "GHSR",
+    "replace": "G H S R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "TDP",
+    "replace": "T D P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "AMPK",
+    "replace": "A M P K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "APJ",
+    "replace": "A P J",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "ROS",
+    "replace": "R O S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "IVUS",
+    "replace": "I V U S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "AMP",
+    "replace": "A M P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "SRT",
+    "replace": "S R T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "SRN",
+    "replace": "S R N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "MAP",
+    "replace": "M A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "DBS",
+    "replace": "D B S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "GHSR1a",
+    "replace": "G H S R uno a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "PI3K",
+    "replace": "P I tre K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "RNS",
+    "replace": "R N S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "LSI",
+    "replace": "L S I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "CCl4",
+    "replace": "C C l quattro",
+    "category": "symbol",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "GIP",
+    "replace": "G I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "RAS",
+    "replace": "R A S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
+  },
+  {
+    "find": "SGLT2",
+    "replace": "S G L T due",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-06"
   }
 ]
