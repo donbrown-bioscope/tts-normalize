@@ -320,5 +320,1118 @@
     "category": "symbol",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-06"
+  },
+  {
+    "find": "Faecalibacterium prausnitzii",
+    "replace": "fecalibacterium prausnitsi",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Polygenic risk score / PRS",
+    "replace": "puntuación de riesgo poligénico, pe erre ese",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "GLP-1 receptor agonists",
+    "replace": "agonistas del receptor de G L P uno",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "atherosclerosis / ASCVD",
+    "replace": "aterosclerosis / A ese ce ve de",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Akkermansia muciniphila",
+    "replace": "akermansia mucinífila",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "LDL-P / NMR LipoProfile",
+    "replace": "partículas ele de ele; lipoprofile por resonancia magnética nuclear",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Shannon diversity index",
+    "replace": "índice de diversidad de shánon",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DNA methylation / CpG",
+    "replace": "metilación del A de ene / islas ce pe ge",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Ruminococcus gnavus",
+    "replace": "ruminococus gnavus",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Prothrombin G20210A",
+    "replace": "protrombina G veinte mil doscientos diez A",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NLRP3 inflammasome",
+    "replace": "inflamasoma ene ele erre pe tres",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CoQ10 / ubiquinol",
+    "replace": "coenzima Q diez, ubiquinol",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Alzheimer disease",
+    "replace": "enfermedad de alzhéimer",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Parkinson disease",
+    "replace": "enfermedad de párkinson",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Free T3 / free T4",
+    "replace": "te tres libre, te cuatro libre",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ROS / superoxide",
+    "replace": "especies reactivas de oxígeno, superóxido",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "PCSK9 inhibitors",
+    "replace": "inhibidores de P C S K nueve",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SGLT2 inhibitors",
+    "replace": "inhibidores de S G L T dos",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SomaScan / Olink",
+    "replace": "somascan / olink",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Prevotella copri",
+    "replace": "prevotela copri",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Leucine / BCAAs",
+    "replace": "leucina, aminoácidos de cadena ramificada",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "LPS / endotoxin",
+    "replace": "lipopolisacárido, endotoxina",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Icosapent ethyl",
+    "replace": "icosapento de etilo",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "GGT / ALT / AST",
+    "replace": "ge ge te, a ele te, a ese te",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Factor V Leiden",
+    "replace": "factor cinco léiden",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ACE inhibitors",
+    "replace": "inhibidores de la eca",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Bempedoic acid",
+    "replace": "ácido bempedoico",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "MASLD / NAFLD",
+    "replace": "eme a ese ele de / ene a efe ele de",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD4:CD8 ratio",
+    "replace": "cociente ce de cuatro, ce de ocho",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Methylfolate",
+    "replace": "metilfolato",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Sulforaphane",
+    "replace": "sulforafano",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "C. difficile",
+    "replace": "ce difísile",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "semaglutide",
+    "replace": "semaglutida",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "tirzepatide",
+    "replace": "tirzepatida",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "α-synuclein",
+    "replace": "alfa sinucleína",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DunedinPACE",
+    "replace": "dúnedin peis",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "hs-troponin",
+    "replace": "troponina ultrasensible",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Colchicine",
+    "replace": "colchicina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Inclisiran",
+    "replace": "inclisirán",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Senolytics",
+    "replace": "senolíticos: dasatinib, quercetina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Cystatin C",
+    "replace": "cistatina ce",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Reverse T3",
+    "replace": "te tres reversa",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Ezetimibe",
+    "replace": "ezetimiba",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Magnesium",
+    "replace": "magnesio",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Metformin",
+    "replace": "metformina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Rapamycin",
+    "replace": "rapamicina, sirolimus",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Vitamin D",
+    "replace": "vitamina de",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Amyloid-β",
+    "replace": "beta amiloide",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "non-HDL-C",
+    "replace": "colesterol no hache de ele",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NT-proBNP",
+    "replace": "ene te pro be ene pe",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Val158Met",
+    "replace": "valina ciento cincuenta y ocho metionina",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD8+CD28−",
+    "replace": "ce de ocho positivo ce de veintiocho negativo",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD8+CD28-",
+    "replace": "ce de ocho positivo ce de veintiocho negativo",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Creatine",
+    "replace": "creatina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Curcumin",
+    "replace": "curcumina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Fibrates",
+    "replace": "fibratos",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "psyllium",
+    "replace": "psilio",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "p-tau217",
+    "replace": "pe tau doscientos diecisiete",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "PhenoAge",
+    "replace": "feno eish",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Fase III",
+    "replace": "Fase tres",
+    "category": "concept",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "fase III",
+    "replace": "fase tres",
+    "category": "concept",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "HLA-DRB1",
+    "replace": "a ele a D R B uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Fisetin",
+    "replace": "fisetina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Omega-3",
+    "replace": "omega tres: E P A, D H A",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Statins",
+    "replace": "estatinas: atorvastatina, rosuvastatina",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ClinVar",
+    "replace": "clinvar",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "GrimAge",
+    "replace": "grim eish",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "HOMA-IR",
+    "replace": "homa i erre",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Lp-PLA2",
+    "replace": "fosfolipasa a dos asociada a lipoproteínas",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CYP2C19",
+    "replace": "cip dos C diecinueve",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SLCO1B1",
+    "replace": "S L C O uno B uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "BRCA1/2",
+    "replace": "braca uno y braca dos",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "APOE ε4",
+    "replace": "apoé épsilon cuatro",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "EPA+DHA",
+    "replace": "EPA más DHA",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Fase II",
+    "replace": "Fase dos",
+    "category": "concept",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "fase II",
+    "replace": "fase dos",
+    "category": "concept",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "EE. UU.",
+    "replace": "Estados Unidos",
+    "category": "concept",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "sTREM2",
+    "replace": "ese trem dos",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "GDF-15",
+    "replace": "ge de efe quince",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "VO2max",
+    "replace": "ve o dos máximo",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SCORE2",
+    "replace": "score dos",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CYP2D6",
+    "replace": "cip dos D seis",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CYP3A4",
+    "replace": "cip tres A cuatro",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "PNPLA3",
+    "replace": "P N P L A tres",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "VKORC1",
+    "replace": "V K O R C uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TCF7L2",
+    "replace": "T C F siete L dos",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "VO₂max",
+    "replace": "ve o dos máximo",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DHEA-S",
+    "replace": "de hache e a sulfato",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TB-500",
+    "replace": "te be quinientos",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ARA-II",
+    "replace": "ara dos",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ARA II",
+    "replace": "ara dos",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "IGF-1",
+    "replace": "i ge efe uno",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SCFAs",
+    "replace": "ácidos grasos de cadena corta",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DOACs",
+    "replace": "acod: apixabán, rivaroxabán",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TREM2",
+    "replace": "trem dos",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "hsCRP",
+    "replace": "pe ce erre ultrasensible",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "PAI-1",
+    "replace": "pe a i uno",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TNF-α",
+    "replace": "factor de necrosis tumoral alfa",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Tregs",
+    "replace": "linfocitos te reguladores",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "FIB-4",
+    "replace": "fib cuatro",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "HbA1c",
+    "replace": "hemoglobina glicosilada",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "LDL-C",
+    "replace": "colesterol ele de ele",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "oxLDL",
+    "replace": "ele de ele oxidada",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SGLT2",
+    "replace": "ese ge ele te dos",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "BRCA1",
+    "replace": "braca uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "BRCA2",
+    "replace": "braca dos",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "MTHFR",
+    "replace": "M T H F R",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "PCSK9",
+    "replace": "P C S K nueve",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ACTN3",
+    "replace": "A C T N tres",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ALDH2",
+    "replace": "A L D H dos",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "rs671",
+    "replace": "r s seiscientos setenta y uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NLRP3",
+    "replace": "N L R P tres",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "APOE4",
+    "replace": "apoé cuatro",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Lp(a)",
+    "replace": "L P de a",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "GLP-1",
+    "replace": "G L P uno",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "IL-17",
+    "replace": "interleucina diecisiete",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DHEA",
+    "replace": "de hache e a",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NAD+",
+    "replace": "ene a de más",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SAMe",
+    "replace": "ese adenosilmetionina",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "ARBs",
+    "replace": "ara dos",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "MRAs",
+    "replace": "antagonistas del receptor mineralocorticoide: espironolactona, finerenona",
+    "category": "drug",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CHIP",
+    "replace": "hematopoyesis clonal de potencial indeterminado, chip",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "AMPK",
+    "replace": "a eme pe ka",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "GFAP",
+    "replace": "ge efe a pe",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "IL-6",
+    "replace": "interleucina seis",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "mTOR",
+    "replace": "eme tor",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "Th17",
+    "replace": "te hache diecisiete",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CIMT",
+    "replace": "grosor íntima-media carotídeo",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "eGFR",
+    "replace": "filtrado glomerular estimado",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "9p21",
+    "replace": "nueve p veintiuno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "COMT",
+    "replace": "C O M T",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DIO2",
+    "replace": "D I O dos",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "DPYD",
+    "replace": "D P Y D",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "LDLR",
+    "replace": "L D L R (hipercolesterolemia familiar)",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "MLH1",
+    "replace": "M L H uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "MSH2",
+    "replace": "M S H dos (linch)",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TERT",
+    "replace": "T E R T",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TPMT",
+    "replace": "T P M T",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "TP53",
+    "replace": "T P cincuenta y tres",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NRF2",
+    "replace": "N R F dos",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "HSF1",
+    "replace": "H S F uno",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "APOE",
+    "replace": "apoé",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "apoB",
+    "replace": "apobé",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "APOB",
+    "replace": "apobé",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "IL-1",
+    "replace": "interleucina uno",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD19",
+    "replace": "ce de diecinueve",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD28",
+    "replace": "ce de veintiocho",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "SNP",
+    "replace": "ese ene pe",
+    "category": "disease_test_microbe",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD4",
+    "replace": "ce de cuatro",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CD8",
+    "replace": "ce de ocho",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NfL",
+    "replace": "ene efe ele",
+    "category": "protein",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "CAC",
+    "replace": "calcio arterial coronario",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "NLR",
+    "replace": "cociente neutrófilos-linfocitos",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "RDW",
+    "replace": "erre de doble ve",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "HFE",
+    "replace": "H F E",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "LPA",
+    "replace": "L P A",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "VO₂",
+    "replace": "ve o dos",
+    "category": "biomarker",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "HLA",
+    "replace": "a ele a",
+    "category": "gene",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
+  },
+  {
+    "find": "O₂",
+    "replace": "o dos",
+    "category": "metabolite",
+    "addedBy": "precision-longevity",
+    "addedOn": "2026-07-11"
   }
 ]
