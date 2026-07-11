@@ -1,0 +1,68 @@
+name: ci
+
+# Gate for the shared multi-lingual TTS pronunciation repo.
+#
+#   test      — runs on every PR + push to main. The 5 language suites must
+#               pass green; English (selfTest) must not regress below the
+#               known baseline (the ~11 pre-existing selfTest failures are
+#               tolerated, but no NEW ones).
+#   automerge — runs only for auto-discovered contribution PRs
+#               (branch `auto/learned-*`). When `test` is green and the PR
+#               carries no `hold` label, it squash-merges automatically.
+#               Add a `hold` label to keep a PR for human review instead.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+      - name: Language suites (must pass)
+        run: |
+          set -e
+          for l in de es fr it pt-br; do
+            echo "── test-$l.js ──"
+            node "test-$l.js"
+          done
+      - name: English selfTest — no regression vs baseline
+        env:
+          BASELINE: '59'   # bump when the pre-existing selfTest failures get fixed
+        run: |
+          OUT="$(node -e "require('./index.js').selfTest()" 2>&1 || true)"
+          echo "$OUT" | grep -E '[0-9]+/[0-9]+ tests passed' || true
+          PASS="$(echo "$OUT" | grep -oE '[0-9]+/[0-9]+ tests passed' | grep -oE '^[0-9]+' | head -1)"
+          if [ -z "$PASS" ]; then echo "could not parse selfTest output"; exit 1; fi
+          echo "selfTest passed=$PASS baseline=$BASELINE"
+          if [ "$PASS" -lt "$BASELINE" ]; then
+            echo "::error::English selfTest regressed ($PASS < $BASELINE)"; exit 1
+          fi
+
+  automerge:
+    needs: test
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request' &&
+      startsWith(github.head_ref, 'auto/learned-') &&
+      !contains(github.event.pull_request.labels.*.name, 'hold')
+    steps:
+      - name: Squash-merge the auto-contribution
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --squash --delete-branch
