@@ -51,7 +51,7 @@ const ES = [
   ['tomar vitamina B12 y D3', 'tomar vitamina B doce y D tres'],
   ['omega-3 y CoQ10', 'omega tres y CoQ diez'],
   ['niveles de T3 y T4', 'niveles de T tres y T cuatro'],
-  ['el gen PCSK9 y TP53 y SIRT1', 'el gen PCSK9 y TP53 y SIRT1'],
+  ['el gen PCSK9 y TP53 y SIRT1', 'el gen P C S K nueve y T P cincuenta y tres y SIRT1'],
   // A single-letter unit (L) glued to a digit inside a letter-led gene symbol
   // must NOT be consumed as a measurement ("2L" → litros). Lookbehind guard.
   ['el gen BCL2L1 regula la apoptosis', 'el gen BCL2L1 regula la apoptosis'],
