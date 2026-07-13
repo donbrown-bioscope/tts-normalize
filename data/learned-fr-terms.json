@@ -278,5 +278,117 @@
     "category": "acronym",
     "addedBy": "seed",
     "addedOn": "2026-06-22"
+  },
+  {
+    "find": "EGFR",
+    "replace": "E G F R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "GBM",
+    "replace": "G B M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "PAI",
+    "replace": "P A I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "IPA",
+    "replace": "I P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "MGMT",
+    "replace": "M G M T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "TMZ",
+    "replace": "T M Z",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "AGCC",
+    "replace": "A G C C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "SNV",
+    "replace": "S N V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "SVCR",
+    "replace": "S V C R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "CPAP",
+    "replace": "C P A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "SOPK",
+    "replace": "S O P K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "FSH",
+    "replace": "F S H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "HIF",
+    "replace": "H I F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "VOP",
+    "replace": "V O P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "RCG",
+    "replace": "R C G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "PSA",
+    "replace": "P S A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
   }
 ]
