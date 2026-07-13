@@ -334,5 +334,75 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-06"
+  },
+  {
+    "find": "PET",
+    "replace": "P E T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "GBM",
+    "replace": "G B M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "SOP",
+    "replace": "S O P",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "PAI",
+    "replace": "P A I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "IPA",
+    "replace": "I P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "MGMT",
+    "replace": "M G M T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "TMZ",
+    "replace": "T M Z",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "VNS",
+    "replace": "V N S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "FSH",
+    "replace": "F S H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "PWV",
+    "replace": "P W V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
   }
 ]
