@@ -1433,5 +1433,89 @@
     "category": "metabolite",
     "addedBy": "precision-longevity",
     "addedOn": "2026-07-11"
+  },
+  {
+    "find": "EGFR",
+    "replace": "E G F R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "GBM",
+    "replace": "G B M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "CCR",
+    "replace": "C C R",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "IPA",
+    "replace": "I P A",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "MGMT",
+    "replace": "M G M T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "VNS",
+    "replace": "V N S",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "TMZ",
+    "replace": "T M Z",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "AGCC",
+    "replace": "A G C C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "PWV",
+    "replace": "P W V",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "FSH",
+    "replace": "F S H",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "PSA",
+    "replace": "P S A",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
+  },
+  {
+    "find": "TRE",
+    "replace": "T R E",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-13"
   }
 ]
