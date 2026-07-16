@@ -1418,6 +1418,16 @@ function xmlEscape(s) {
           .replace(/'/g, '&apos;');
 }
 
+// English possessive/plural -s allomorph, keyed off the final sound of an
+// IPA string (standard textbook rule): sibilants take a full extra syllable
+// /ɪz/, voiceless (non-sibilant) consonants take /s/, everything else
+// (vowels, voiced consonants) takes /z/.
+function possessiveIpaSuffix(ipa) {
+  if (/(?:tʃ|dʒ|[szʃʒ])$/.test(ipa)) return 'ɪz';
+  if (/[ptkfθ]$/.test(ipa)) return 's';
+  return 'z';
+}
+
 // ════════════════════════════════════════════════════════════
 //   PRE-PASS  (preprocessForTTS)
 // ════════════════════════════════════════════════════════════
@@ -2444,7 +2454,6 @@ const CLINICAL_IPA = {
   'Horvath':    'ˈhɔːrvɑːθ',
   'Dunedin':    'dʌˈniːdɪn',
   'Hashimoto':  'ˌhɑːʃɪˈmoʊtoʊ',
-  'Hashimoto’s':'ˌhɑːʃɪˈmoʊtoʊz',
   'Morgentaler':'ˈmɔːrɡəntɑːlər',
   'Attia':      'ˈætiə',
   'Naviaux':    'næviˈoʊ',
@@ -3195,6 +3204,19 @@ function postprocessForTTS(text) {
   t = t.replace(
     /(<\/(?:phoneme|sub|say-as)>|[A-Za-z])[ \t]+(<say-as interpret-as="characters">rs\d)/g,
     '$1<break time="150ms"/> $2',
+  );
+
+  // (h) Possessive/plural "'s" immediately after a closed phoneme tag reads
+  // as the isolated letter "S" on Chirp 3 HD ("Attia's" -> "Attia S")
+  // instead of a voiced possessive — the IPA substitution breaks the word's
+  // normal grapheme continuity at the tag boundary. Fold a dangling "'s"
+  // into the preceding tag (both the ph= IPA and the visible text) no
+  // matter which upstream dictionary produced the wrap. Scoped to run last,
+  // as a pure post-hoc string fixup on already-emitted tags, so it can't
+  // interact with the wrapping passes above.
+  t = t.replace(
+    /<phoneme alphabet="ipa" ph="([^"]+)">([^<]+)<\/phoneme>('s)\b/g,
+    (_, ipa, word, poss) => `<phoneme alphabet="ipa" ph="${ipa}${possessiveIpaSuffix(ipa)}">${word}${poss}</phoneme>`,
   );
 
   return t;
