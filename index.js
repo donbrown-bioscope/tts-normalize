@@ -4768,9 +4768,11 @@ function selfTest() {
     // spermidine — "sper-MID-een" (stress on MID).
     ['spermidine supplementation',
       '<phoneme alphabet="ipa" ph="ˈspɜːrmɪdiːn">spermidine</phoneme> supplementation'],
-    // toward (one syllable, not "to ward") + early (no unnatural break).
+    // toward (one syllable, not "to ward") keeps its IPA wrap. "early" reads
+    // correctly bare on Chirp — its auto-learned IPA was pruned from
+    // learned-ipa.json (2026-07-02) and isn't needed, so it stays unwrapped.
     ['progress toward the goal and early intervention',
-      'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and <phoneme alphabet="ipa" ph="ˈɜːrli">early</phoneme> intervention'],
+      'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and early intervention'],
     // Word contractions + possessives KEEP the apostrophe — Chirp 3 HD says them
     // correctly and the possessive "'s" is not read as the letter S. Deleting it
     // used to mangle contractions: "I'd"→"Id" (eye-dee), "we'd"→"wed" (heard
