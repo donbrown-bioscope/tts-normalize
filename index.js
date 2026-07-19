@@ -822,6 +822,15 @@ function coreNormalize(text) {
     t = t.replace(pattern, (_, num) => `${convertNumber(num)}-${singular}`);
   }
 
+  // 4c. Latin abbreviations "e.g." / "i.e." → spoken words, BEFORE the units
+  //     passes below. The standalone-unit pass (step 5, second loop) rewrites a
+  //     bare "g" to "grams", which matches the "g" inside "e.g." and voices
+  //     "e.grams." before the abbreviation pass (6b) can expand the whole token.
+  //     Handle it here, case-insensitively and space-tolerantly so "E.g." and
+  //     "e. g." are covered too; a trailing comma is absorbed to avoid ",,".
+  t = t.replace(/\be\.\s?g\.,?/gi, 'for example,');
+  t = t.replace(/\bi\.\s?e\.,?/gi, 'that is,');
+
   // 5. Replace multi-word units first (e.g. "mg/dL" before "mg")
   const sortedUnits = Object.entries(UNITS).sort((a, b) => b[0].length - a[0].length);
   for (const [unit, expansion] of sortedUnits) {
