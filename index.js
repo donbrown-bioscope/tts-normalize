@@ -291,6 +291,12 @@ const ABBREVIATIONS = {
   'IL-18': '<say-as interpret-as="characters">IL</say-as> eighteen',
   // TQJ230 (pelacarsen, an Lp(a) ASO) — letters "T-Q-J" + "two-thirty".
   'TQJ230': '<say-as interpret-as="characters">TQJ</say-as> two-thirty',
+  // ZNF280A — a letter-spelled gene prefix + grouped number + trailing letter.
+  // The general gene-name handler (step 10.5) produces "Z-N-F-two-eighty-A",
+  // but the downstream letter-pair phoneme pass re-wraps "N-F" and splits the
+  // hyphen run. Emit say-as for the letter runs (protected from that pass) with
+  // the number grouped as "two-eighty"; Chirp voices the trailing "A" natively.
+  'ZNF280A': '<say-as interpret-as="characters">ZNF</say-as> two-eighty <say-as interpret-as="characters">A</say-as>',
   // FOURIER-OLE — the FOURIER open-label extension. Keep "FOURIER" as the
   // surname pronunciation; spell "OLE" as letters.
   'FOURIER-OLE': '<phoneme alphabet="ipa" ph="fʊriˈeɪ">FOURIER</phoneme> <say-as interpret-as="characters">OLE</say-as>',
@@ -1697,6 +1703,10 @@ const SPELL_AS_CHARACTERS = [
   // e.g. MT-ATP8 winning over any prefix.
   'PPARGC1A', 'MT-ATP6', 'MT-ATP8', '5-HTTLPR', 'SULT1A1', 'MTNR1B',
   'GSTP1', 'NQO1', 'PER3', 'BDNF', 'CFH', 'HFE', 'CBS', 'F5', 'OATP',
+  // NAPRT — letter-spell it. The open-acronym letter-speller otherwise groups
+  // it into "N" + "A-P" + "R-T" phoneme pairs, re-exposing the terminal-T→"D"
+  // voicing the per-letter path guards against; native say-as reads it cleanly.
+  'NAPRT',
   // (TREM2 deliberately NOT here — house style reads TREM as the word "trim",
   // not letter-spelled; see the CLINICAL_IPA 'TREM' → 'trɪm' rule.)
 ];
@@ -1712,7 +1722,7 @@ const SPELL_AS_CHARACTERS = [
 const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-DRB1', 'SLCO1B1', 'OATP1B1',
   // Native say-as (not the <sub alias> char-spell, which mis-said DPYD/SRD5A2).
   'DPYD', 'SRD5A2', 'PPARGC1A', 'MT-ATP6', 'MT-ATP8', '5-HTTLPR', 'SULT1A1',
-  'MTNR1B', 'GSTP1', 'NQO1', 'PER3', 'BDNF', 'CFH', 'HFE', 'CBS', 'F5', 'OATP']);
+  'MTNR1B', 'GSTP1', 'NQO1', 'PER3', 'BDNF', 'CFH', 'HFE', 'CBS', 'F5', 'OATP', 'NAPRT']);
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -4651,7 +4661,7 @@ function selfTest() {
     ['10,000 participants enrolled', 'ten thousand participants enrolled'],
     ['2,500mg daily', 'two thousand five hundred milligrams daily'],
     // Gene names with embedded numbers
-    ['ZNF280A gene', '<phoneme alphabet="ipa" ph="ˌziːɛnˈɛf">Z-N-F</phoneme>-two-eighty-A gene'],
+    ['ZNF280A gene', '<say-as interpret-as="characters">ZNF</say-as> two eighty <say-as interpret-as="characters">A</say-as> gene'],
     ['FOXO4 transcription factor', 'fox-oh-four transcription factor'],
     ['PCSK9 inhibitor', '<phoneme alphabet="ipa" ph="ˌpiːsiːɛsˈkeɪ">P-C-S-K</phoneme>-nine inhibitor'],
     ['TP53 mutation', '<phoneme alphabet="ipa" ph="ˌtiːˈpiː">T-P</phoneme>-fifty-three mutation'],
@@ -4779,10 +4789,12 @@ function selfTest() {
     // SSAT — terminal "T" must not voice to "D"; per-letter stressed phonemes.
     ['SSAT activity rose',
       '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> activity rose'],
-    // Systematic terminal-T: any open-set acronym the core letter-spells and
-    // that ends in T gets the same per-letter stressed treatment (NAPRT here).
+    // NAPRT — letter-spelled via native say-as (SPELL_AS_CHARACTERS +
+    // SAY_AS_CHARACTERS). Chirp enunciates each char, terminal "T" included,
+    // without the per-letter IPA scaffolding. (SSAT above still exercises the
+    // per-letter terminal-T path for acronyms not in the say-as set.)
     ['NAPRT enzyme',
-      '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> enzyme'],
+      '<say-as interpret-as="characters">NAPRT</say-as> enzyme'],
   ];
 
   let passed = 0;
