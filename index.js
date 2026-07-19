@@ -4651,10 +4651,10 @@ function selfTest() {
     ['Take 200mg of NMN daily', 'Take two hundred milligrams of <phoneme alphabet="ipa" ph="ˌɛnɛmˈɛn">N-M-N</phoneme> daily'],
     ['NAD+ levels decline by 50% after age 40', '<phoneme alphabet="ipa" ph="ˈɛn.eɪ.diːˈplʌs">NADplus</phoneme> levels decline by fifty percent after age forty'],
     ['Blood glucose: 95 mg/dL', 'Blood glucose: ninety five milligrams per deciliter'],
-    ['VO2max improved by 12%', '<phoneme alphabet="ipa" ph="ˌviːˈoʊ">V-O</phoneme>-two-max improved by twelve percent'],
+    ['VO2max improved by 12%', '<phoneme alphabet="ipa" ph="ˌviːˈoʊ">V-O</phoneme> two-max improved by twelve percent'],
     ['The 1st study used 500μg of vitamin B12', 'The first study used five hundred micrograms of vitamin-B-twelve'],
     ['mTOR pathway activation', 'm-TOR pathway activation'],
-    ['IL-6 and TNF-α levels', 'interleukin six and <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme>-alpha levels'],
+    ['IL-6 and TNF-α levels', 'interleukin six and <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme> alpha levels'],
     ['3.5g of EPA + DHA', 'three point five grams of <phoneme alphabet="ipa" ph="ˌiːpiːˈeɪ">E-P-A</phoneme> plus <phoneme alphabet="ipa" ph="ˌdiːeɪtʃˈeɪ">D-H-A</phoneme>'],
     // Comma-formatted numbers
     ['over 1,000 people', 'over one thousand people'],
@@ -4663,8 +4663,8 @@ function selfTest() {
     // Gene names with embedded numbers
     ['ZNF280A gene', '<say-as interpret-as="characters">ZNF</say-as> two eighty <say-as interpret-as="characters">A</say-as> gene'],
     ['FOXO4 transcription factor', 'fox-oh-four transcription factor'],
-    ['PCSK9 inhibitor', '<phoneme alphabet="ipa" ph="ˌpiːsiːɛsˈkeɪ">P-C-S-K</phoneme>-nine inhibitor'],
-    ['TP53 mutation', '<phoneme alphabet="ipa" ph="ˌtiːˈpiː">T-P</phoneme>-fifty-three mutation'],
+    ['PCSK9 inhibitor', '<phoneme alphabet="ipa" ph="ˌpiːsiːɛsˈkeɪ">P-C-S-K</phoneme> nine inhibitor'],
+    ['TP53 mutation', '<phoneme alphabet="ipa" ph="ˌtiːˈpiː">T-P</phoneme> fifty-three mutation'],
     ['BRCA1 variant', 'bracka-one variant'],
     // CDK4 — the FAST_GLUE 'CD8' auto-registers 'C-D' too, which the
     // post-pass wraps inside "C-D-K-four". Acceptable: "see-DEE K four"
