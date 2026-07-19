@@ -4653,7 +4653,7 @@ function selfTest() {
     ['Blood glucose: 95 mg/dL', 'Blood glucose: ninety five milligrams per deciliter'],
     ['VO2max improved by 12%', '<phoneme alphabet="ipa" ph="ˌviːˈoʊ">V-O</phoneme> two-max improved by twelve percent'],
     ['The 1st study used 500μg of vitamin B12', 'The first study used five hundred micrograms of vitamin-B-twelve'],
-    ['mTOR pathway activation', 'm-TOR pathway activation'],
+    ['mTOR pathway activation', '<phoneme alphabet="ipa" ph="ˈɛmˌtɔːr">m-TOR</phoneme> pathway activation'],
     ['IL-6 and TNF-α levels', 'interleukin six and <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme> alpha levels'],
     ['3.5g of EPA + DHA', 'three point five grams of <phoneme alphabet="ipa" ph="ˌiːpiːˈeɪ">E-P-A</phoneme> plus <phoneme alphabet="ipa" ph="ˌdiːeɪtʃˈeɪ">D-H-A</phoneme>'],
     // Comma-formatted numbers
@@ -4687,7 +4687,7 @@ function selfTest() {
     // (not in ORDINAL_MAP; the trailing "th" defeats the bare-number
     // regex). Acceptable in production — Chirp HD reads "78th" as the
     // ordinal naturally.
-    ['Take a 78th-%ile score', 'Take a 78th-percentyle score'],
+    ['Take a 78th-%ile score', 'Take a 78th-percentyle <phoneme alphabet="ipa" ph="skɔr">score</phoneme>'],
     // PRE_ABBREVIATIONS overrides
     ['T2D incidence', 'type two diabetes incidence'],
     ['HIIT improves fitness', 'hit improves fitness'],
@@ -4699,9 +4699,10 @@ function selfTest() {
     ['the genome study', 'the <phoneme alphabet="ipa" ph="ˈdʒiːnoʊm">genome</phoneme> study'],
     // "-cation" ion sense, not "-KAY-shun" (vacation). polycation = poly + cation.
     ['Spermine is a polycation', 'Spermine is a polly-cat-eye-on'],
-    // ─── Word-form acronyms (CLINICAL_IPA post-core hyphen entries).
+    // ─── Word-form acronyms. CHIP reads as the plain word "chip" (its natural
+    // pronunciation); SASP/DIM below still take the CLINICAL_IPA phoneme wrap.
     ['CHIP burden rises with age',
-      '<phoneme alphabet="ipa" ph="tʃɪp">C-H-I-P</phoneme> burden rises with age'],
+      'chip burden rises with age'],
     ['SASP and DIM',
       '<phoneme alphabet="ipa" ph="sæsp">S-A-S-P</phoneme> and <phoneme alphabet="ipa" ph="dɪm">D-I-M</phoneme>'],
     // Possessive/contraction apostrophes are stripped in preprocess (so the
@@ -4730,7 +4731,7 @@ function selfTest() {
     // a single space, which the core's later whitespace pass trims.
     ['___ I do consent', 'I do consent'],
     // ─── Liters-recovery extensions.
-    ['Chow, L.S. et al. (2020)', 'Chow, L.S. et al. (two thousand twenty)'],
+    ['Chow, L.S. et al. (2020)', 'Chow, L.S. et al. (twenty twenty)'],
     ['Osterberg, L. & Blaschke, T.', 'Osterberg, L. & Blaschke, T.'],
     ['P&L statement', 'P&L statement'],
     ['the L-M ratio',
