@@ -404,5 +404,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-13"
+  },
+  {
+    "find": "CPAP",
+    "replace": "C P A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "FXR",
+    "replace": "F X R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "ETI",
+    "replace": "E T I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DMO",
+    "replace": "D M O",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "CMA",
+    "replace": "C M A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DEXA",
+    "replace": "D E X A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "SVR",
+    "replace": "S V R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "HBOT",
+    "replace": "H B O T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "UPS",
+    "replace": "U P S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "LRA",
+    "replace": "L R A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "HSF",
+    "replace": "H S F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DLBCL",
+    "replace": "D L B C L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
   }
 ]
