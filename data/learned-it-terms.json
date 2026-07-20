@@ -677,5 +677,124 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-13"
+  },
+  {
+    "find": "ETI",
+    "replace": "E T I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "CMA",
+    "replace": "C M A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "BMD",
+    "replace": "B M D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "HBOT",
+    "replace": "H B O T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "UPS",
+    "replace": "U P S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DEXA",
+    "replace": "D E X A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "SVR",
+    "replace": "S V R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "AKI",
+    "replace": "A K I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "CPAP",
+    "replace": "C P A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "HSF",
+    "replace": "H S F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DLBCL",
+    "replace": "D L B C L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DXA",
+    "replace": "D X A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "BBB",
+    "replace": "B B B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "MHT",
+    "replace": "M H T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "DEC",
+    "replace": "D E C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "PET",
+    "replace": "P E T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
+  },
+  {
+    "find": "PLP",
+    "replace": "P L P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-20"
   }
 ]
