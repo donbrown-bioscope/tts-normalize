@@ -248,6 +248,9 @@ const ABBREVIATIONS = {
   // PARP1 — read "PARP" as a word (rhymes with harp) + "one", not letter-
   // spelled. Phoneme tag keeps the vowel; the digit becomes "one".
   'PARP1': '<phoneme alphabet="ipa" ph="pɑːrp">PARP</phoneme> one',
+  // KRAS — the RAS-family oncogene is said "K-rass" (letter K + "rass"),
+  // not letter-spelled "K-R-A-S". One phoneme covers /keɪ/ + /ræs/.
+  'KRAS': '<phoneme alphabet="ipa" ph="ˌkeɪˈræs">KRAS</phoneme>',
   // Amino-acid three-letter codes — "Thr-ninety-two-Ala" (residue
   // position notation common in gene-variant scripts) gets the Thr
   // read as "thar" and the whole string collapsed into "2392 ALA" by
@@ -2850,6 +2853,15 @@ const POST_OVERRIDES = {
   // reliable than multi-word IPA inside <phoneme ph="..."> (Google's
   // SSML rejects spaces in the IPA attribute).
   "St. John's Wort": "Saint Johns Wort",
+  // "St." in an institution name is "Saint", not "Street" — Google TTS
+  // otherwise reads "City St. George's" as "…Street George's". Rewrite the
+  // proper-noun form before it reaches the synth. Period and no-period forms.
+  "St. George's": "Saint George's",
+  "St George's": "Saint George's",
+  // Broad Institute — the "Broad" (named after Eli Broad) is /broʊd/
+  // ("BROHD"), not the common word /brɔːd/ ("brawd"). Wrap only the first
+  // word; SSML rejects spaces inside a single ph="…" attribute.
+  "Broad Institute": '<phoneme alphabet="ipa" ph="broʊd">Broad</phoneme> Institute',
 };
 
 // Pre-sort the IPA dictionaries by descending length so the
