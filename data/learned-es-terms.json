@@ -1650,5 +1650,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-20"
+  },
+  {
+    "find": "MMP",
+    "replace": "M M P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "HIF",
+    "replace": "H I F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PDAC",
+    "replace": "P D A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "GIPR",
+    "replace": "G I P R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TNBC",
+    "replace": "T N B C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "BSZ",
+    "replace": "B S Z",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "ICB",
+    "replace": "I C B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "VIH",
+    "replace": "V I H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "GIP",
+    "replace": "G I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "IMC",
+    "replace": "I M C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PI3K",
+    "replace": "P I tres K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PPAR",
+    "replace": "P P A R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
   }
 ]
