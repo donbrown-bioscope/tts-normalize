@@ -334,6 +334,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "a-s-p": {
+    "ipa": "æsp",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "a-s-p-r-e-e": {
     "ipa": "ˈæsˌpriː",
     "learned": "2026-05-10",
@@ -1126,6 +1131,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "c-h-a-r-l-s": {
+    "ipa": "ˈtʃɑrlz",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "c-h-d": {
     "ipa": "ˌsiːeɪtʃˈdiː",
     "learned": "2026-05-05",
@@ -1255,6 +1265,11 @@
     "ipa": "ˈkoʊvɪd",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "c-o-x": {
+    "ipa": "kɑks",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "c-p": {
     "ipa": "ˌsiːˈpiː",
@@ -1601,10 +1616,25 @@
     "learned": "2026-05-05",
     "source": "auto-letter-spell"
   },
+  "d-a-g": {
+    "ipa": "dæɡ",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
+  "d-a-m": {
+    "ipa": "dæm",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "d-a-o": {
     "ipa": "ˈdaʊ",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "d-a-p": {
+    "ipa": "dæp",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "d-a-p-a": {
     "ipa": "ˌdiːeɪpiːˈeɪ",
@@ -1990,6 +2020,11 @@
     "ipa": "ˌiːɛlˈeɪ",
     "learned": "2026-06-09",
     "source": "auto-letter-spell"
+  },
+  "e-l-f": {
+    "ipa": "ɛlf",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "e-l-i-t-e": {
     "ipa": "ɪˈliːt",
@@ -2667,6 +2702,11 @@
     "learned": "2026-05-12",
     "source": "auto-glue"
   },
+  "g-l-a-s-t": {
+    "ipa": "ɡlæst",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "g-l-u-t": {
     "ipa": "ɡlʌt",
     "learned": "2026-07-20",
@@ -3332,6 +3372,11 @@
     "ipa": "ˌaɪɑːrˈbiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "i-r-e": {
+    "ipa": "aɪər",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "i-r-s": {
     "ipa": "ˌaɪɑːrˈɛs",
@@ -4094,6 +4139,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "m-e-r-f-i-s-h": {
+    "ipa": "ˈmɜrfɪʃ",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "m-e-s": {
     "ipa": "ˌɛmiːˈɛs",
     "learned": "2026-05-05",
@@ -4105,9 +4155,9 @@
     "source": "auto-llm"
   },
   "m-e-t": {
-    "ipa": "ˌɛmiːˈtiː",
-    "learned": "2026-05-11",
-    "source": "auto-glue"
+    "ipa": "mɛt",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "m-f-m": {
     "ipa": "ˌɛmɛfˈɛm",
@@ -4559,6 +4609,11 @@
     "learned": "2026-05-09",
     "source": "auto-letter-spell"
   },
+  "n-a-m": {
+    "ipa": "næm",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "n-a-m-s": {
     "ipa": "ˌɛneɪɛmˈɛs",
     "learned": "2026-05-03",
@@ -4605,9 +4660,9 @@
     "source": "auto-letter-spell"
   },
   "n-e-t": {
-    "ipa": "ˌɛniːˈtiː",
-    "learned": "2026-06-28",
-    "source": "auto-glue"
+    "ipa": "nɛt",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "n-e-u-r-o-i": {
     "ipa": "ˌɛniːjuːɑːroʊˈaɪ",
@@ -5139,6 +5194,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "p-a-d": {
+    "ipa": "pæd",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "p-a-h": {
     "ipa": "pɑː",
     "learned": "2026-07-20",
@@ -5348,6 +5408,11 @@
     "ipa": "ˈprɑspər",
     "learned": "2026-05-05",
     "source": "auto-llm"
+  },
+  "p-r-o-t-a-c": {
+    "ipa": "ˈproʊtæk",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "p-r-p": {
     "ipa": "ˌpiːɑːrˈpiː",
@@ -5674,6 +5739,11 @@
     "learned": "2026-05-09",
     "source": "auto-glue"
   },
+  "r-e-d": {
+    "ipa": "rɛd",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "r-e-m": {
     "ipa": "rɛm",
     "learned": "2026-05-03",
@@ -5909,6 +5979,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "s-a-l-i": {
+    "ipa": "ˈsæli",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "s-a-m": {
     "ipa": "sæm",
     "learned": "2026-05-03",
@@ -6059,6 +6134,16 @@
     "learned": "2026-05-05",
     "source": "auto-glue"
   },
+  "s-o-r-l-a": {
+    "ipa": "ˈsɔrlə",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
+  "s-o-x": {
+    "ipa": "sɑks",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "s-p": {
     "ipa": "ˌɛsˈpiː",
     "learned": "2026-05-03",
@@ -6148,6 +6233,11 @@
     "ipa": "ˌɛsˈjuː",
     "learned": "2026-05-03",
     "source": "auto-glue"
+  },
+  "s-u-d-e-p": {
+    "ipa": "ˈsuːdɛp",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "s-u-l-t": {
     "ipa": "ˌɛsjuːɛlˈtiː",
@@ -7181,6 +7271,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "v-i-d": {
+    "ipa": "vɪd",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
+  },
   "v-i-i": {
     "ipa": "ˌviːaɪˈaɪ",
     "learned": "2026-05-03",
@@ -7351,6 +7446,11 @@
     "learned": "2026-05-11",
     "source": "manual-override",
     "note": "ZEUS (cardiovascular outcomes trial, ziltivekimab). Greek-god pronunciation — one syllable /zuːs/, rhymes with 'loose'. The auto-llm result ˈzjuəs (two syllables, 'ZYOO-uhss') sounded like 'zay-oose'."
+  },
+  "z-i-p": {
+    "ipa": "zɪp",
+    "learned": "2026-07-27",
+    "source": "cafmi-en-scan"
   },
   "z-o-e": {
     "ipa": "zoʊ",
