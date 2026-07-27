@@ -495,5 +495,103 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-20"
+  },
+  {
+    "find": "PMM",
+    "replace": "P M M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "NLRP3",
+    "replace": "N L R P trois",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "MASH",
+    "replace": "M A S H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PDAC",
+    "replace": "P D A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "GIPR",
+    "replace": "G I P R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TNBC",
+    "replace": "T N B C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "SLA",
+    "replace": "S L A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "BSZ",
+    "replace": "B S Z",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PPAR",
+    "replace": "P P A R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "ICB",
+    "replace": "I C B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "SGLT2",
+    "replace": "S G L T deux",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "NASH",
+    "replace": "N A S H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "GIP",
+    "replace": "G I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "AGCI",
+    "replace": "A G C I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
   }
 ]
