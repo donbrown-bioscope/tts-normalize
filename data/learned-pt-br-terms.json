@@ -488,5 +488,61 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-20"
+  },
+  {
+    "find": "MMP",
+    "replace": "M M P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "HIF",
+    "replace": "H I F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "GIPR",
+    "replace": "G I P R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "GIP",
+    "replace": "G I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PAF",
+    "replace": "P A F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PDAC",
+    "replace": "P D A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "HIIT",
+    "replace": "H I I T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TNBC",
+    "replace": "T N B C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
   }
 ]
