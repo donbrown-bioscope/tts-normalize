@@ -796,5 +796,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-20"
+  },
+  {
+    "find": "MMP",
+    "replace": "emme emme pi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "MASH",
+    "replace": "mash",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PDAC",
+    "replace": "pi di a ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TNBC",
+    "replace": "ti enne bi ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "SLA",
+    "replace": "esse elle a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "OCFA",
+    "replace": "o ci effe a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "BSZ",
+    "replace": "bi esse zeta",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "ICB",
+    "replace": "i ci bi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "NASH",
+    "replace": "nash",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "CRISPR",
+    "replace": "crisper",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "QALY",
+    "replace": "cuali",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
+  },
+  {
+    "find": "PPAR",
+    "replace": "pi pi a erre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-07-27"
   }
 ]
