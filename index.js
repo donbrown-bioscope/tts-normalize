@@ -223,11 +223,12 @@ const ABBREVIATIONS = {
   // the Roman numeral here so it reads "beer seven" instead of "B-E-I-R
   // V-I-I". UNSCEAR also has a learned-ipa entry (/ʌnˈskɛər/, "un-scare").
   'BEIR VII': 'BEIR seven',
-  // ATP — auto-glued form heard as "ADP" (different molecule, high-risk
-  // confusion). Same terminal-voicing-consonant failure mode as the
-  // terminal-T cohort (HRT/TRT/VTE) — fix per the same pattern: one
-  // <phoneme> tag per letter, primary stress on each, no separator.
-  'ATP':  '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  // ATP — the auto-glued IPA form was heard as "ADP" (different molecule,
+  // high-risk confusion) and the terminal T voiced to "D". Originally fixed
+  // with one <phoneme> tag per letter (terminal-T cohort HRT/TRT/VTE);
+  // switched to say-as characters per request for consistency with AMP/AMPK.
+  // Watch for an ATP->ADP regression on Chirp — revert to the phoneme form if it recurs.
+  'ATP':  '<say-as interpret-as="characters">ATP</say-as>',
   'ADP': 'A-D-P', 'AMP': '<say-as interpret-as="characters">AMP</say-as>',
   // SSAT (spermidine/spermine N1-acetyltransferase, polyamine tutorials) — the
   // terminal "T" was voicing to "D" ("…ay-DEE"). Same fix as ATP/HRT/TRT/VTE:
@@ -521,7 +522,7 @@ const ABBREVIATIONS = {
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
   'DHEA': 'D-H-E-A', 'DHA': 'D-H-A', 'EPA': 'E-P-A',
   'NMN': 'N-M-N', 'NR': 'N-R', 'CoQ10': 'co-Q-ten',
-  'AMPK': 'A-M-P-K', 'mTOR': 'm-TOR', 'mTORC1': 'm-TORC-one',
+  'AMPK': '<say-as interpret-as="characters">AMPK</say-as>', 'mTOR': 'm-TOR', 'mTORC1': 'm-TORC-one',
   // SIRT1-7 — pronounce "SIRT" as a word (rhymes with "shirt"), not
   // letter-spelled. These entries are effectively dead: preprocessForTTS
   // converts SIRT(\d+) → phoneme-wrapped form before step 6b. Kept as
@@ -2675,7 +2676,9 @@ const FAST_GLUE_ACRONYMS = [
   // Short alpha and digit-suffixed gene IDs.
   'FTO', 'UCP1',
   // 4-letter.
-  'DHEA', 'AMPK', 'BDNF', 'TMAO', 'GFAP', 'AOC1', 'TLR4', 'ApoB',
+  // (AMPK moved to say-as in ABBREVIATIONS — omit here so the glue-IPA pass
+  //  doesn't re-wrap the letters inside the say-as tag.)
+  'DHEA', 'BDNF', 'TMAO', 'GFAP', 'AOC1', 'TLR4', 'ApoB',
   // CD-prefixed surface markers.
   'CD8', 'CD4', 'CD20', 'CD28', 'CD36', 'CD38', 'CD45',
   // 5+ letter: alpha-only fast IPA + trailing digit spoken.
