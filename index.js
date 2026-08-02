@@ -3138,6 +3138,13 @@ function postprocessForTTS(text) {
     '<phoneme alphabet="ipa" ph="ˌsiːˈɡæs">cGAS</phoneme>-<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">sting</phoneme>',
     '<sub alias="see gas sting">cGAS-STING</sub>',
   );
+  // Standalone cGAS (after the cGAS-STING compound above has consumed its own):
+  // same rationale — a plain-word <sub alias> reads "see gas" cleanly, where the
+  // IPA phoneme's unstressed leading /ˌsiː/ can swallow the "c" on Chirp.
+  t = t.replaceAll(
+    '<phoneme alphabet="ipa" ph="ˌsiːˈɡæs">cGAS</phoneme>',
+    '<sub alias="see gas">cGAS</sub>',
+  );
   t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">[^<]*<\/phoneme>/g, '<sub alias="sting">STING</sub>');
   // CAD (coronary artery disease) is letter-spelled "C-A-D" by clinicians, not
   // said as the word "cad" (which Chirp renders close to "cod"). A=/eɪ/.
