@@ -1734,5 +1734,75 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TFD",
+    "replace": "T F D",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "HGPS",
+    "replace": "H G P S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "RMN",
+    "replace": "R M N",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "RET",
+    "replace": "R E T",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "ISR",
+    "replace": "I S R",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "TRT",
+    "replace": "T R T",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "VPA",
+    "replace": "V P A",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "NAC",
+    "replace": "N A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "ACI",
+    "replace": "A C I",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "ELA",
+    "replace": "E L A",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
   }
 ]
