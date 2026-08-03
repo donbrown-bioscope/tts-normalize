@@ -544,5 +544,47 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TFD",
+    "replace": "T F D",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "HGPS",
+    "replace": "H G P S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "AVC",
+    "replace": "A V C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "PAFR",
+    "replace": "P A F R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "RET",
+    "replace": "R E T",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "ISR",
+    "replace": "I S R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
   }
 ]
