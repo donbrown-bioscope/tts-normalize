@@ -593,5 +593,96 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-07-27"
+  },
+  {
+    "find": "TTK",
+    "replace": "T T K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "PDT",
+    "replace": "P D T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "HGPS",
+    "replace": "H G P S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "USAG",
+    "replace": "U S A G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "RET",
+    "replace": "R E T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "ISR",
+    "replace": "I S R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "ICC",
+    "replace": "I C C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "TRT",
+    "replace": "T R T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "BPV",
+    "replace": "B P V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "CBP",
+    "replace": "C B P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "BMP",
+    "replace": "B M P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "NAC",
+    "replace": "N A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
+  },
+  {
+    "find": "NMR",
+    "replace": "N M R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-03"
   }
 ]
