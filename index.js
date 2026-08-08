@@ -517,7 +517,17 @@ const ABBREVIATIONS = {
   // five letters (hyphen stripped in the say-as content).
   'DHEA-S':   '<say-as interpret-as="characters">DHEAS</say-as>',
   'D-H-E-A-S':'<say-as interpret-as="characters">DHEAS</say-as>',
-  'PI3K': 'pie-three-kay',
+  // PI3K — phosphoinositide 3-kinase. Letter-spelled: "P-I-three-K", NOT
+  // "pie". The old 'pie-three-kay' rendering is a real mispronunciation, and
+  // the hyphenated form PI-3K previously escaped this map entirely (the "PI"
+  // got an IPA wrap while "-3K" passed through raw). Sibling PI3KCA/PIK3CA
+  // listed so the letter-spell carries through the gene name too.
+  'PI3K':   'P-I-three-K',
+  'PI-3K':  'P-I-three-K',
+  'PI3-K':  'P-I-three-K',
+  'pi3k':   'P-I-three-K',
+  'PI3KCA': 'P-I-three-K-C-A',
+  'PIK3CA': 'P-I-K-three-C-A',
   'BDNF': 'B-D-N-F', 'NGF': 'N-G-F',
   'ROS': 'R-O-S', 'RNS': 'R-N-S',
   'DHEA': 'D-H-E-A', 'DHA': 'D-H-A', 'EPA': 'E-P-A',
@@ -4720,6 +4730,10 @@ function selfTest() {
     ['P-16-INK-4A', 'p-sixteen-ink-four-A'],
     ['The p16-INK4a protein accumulates', 'The p-sixteen-ink-four-A protein accumulates'],
     ['p14ARF and p19ARF', 'p-fourteen-arf and p-nineteen-arf'],
+    // PI3K — letter-spelled, never "pie". The IPA wrap renders P-I as "pee-eye".
+    ['PI3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
+    ['PI-3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
+    ['The PI3K pathway drives growth.', 'The <phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K pathway drives growth.'],
     ['PCSK9 inhibitor', '<phoneme alphabet="ipa" ph="ˌpiːsiːɛsˈkeɪ">P-C-S-K</phoneme> nine inhibitor'],
     ['TP53 mutation', '<phoneme alphabet="ipa" ph="ˌtiːˈpiː">T-P</phoneme> fifty-three mutation'],
     ['BRCA1 variant', 'bracka-one variant'],
