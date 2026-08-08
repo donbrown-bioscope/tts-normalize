@@ -1637,10 +1637,34 @@ const PRE_ABBREVIATIONS = {
   'snRNA':  'small nuclear R-N-A',
   'snoRNA': 'small nucleolar R-N-A',
   'tRNA':   'transfer R-N-A',
-  // p16INK4a — senescence marker; lowercase "p" + all-caps collides
-  // with Chirp's letter-spell heuristic. Spell explicitly.
-  'p16INK4a': 'p-sixteen I-N-K-four-A',
-  'p16INK4A': 'p-sixteen I-N-K-four-A',
+  // p16INK4a / p16-INK4a — senescence marker (CDKN2A). Lowercase "p" plus
+  // all-caps collides with Chirp's letter-spell heuristic, so spell it
+  // explicitly. "INK" is spoken as the WORD "ink", not letter-by-letter:
+  // the locus is named for INhibitor of CDK4, and that is how the field says
+  // it — "pee-sixteen-ink-four-A".
+  //
+  // Every written variant has to be listed. The hyphenated form is the one
+  // that actually appears in our animation diagrams, and it previously fell
+  // through this map untouched (the downstream letter-spell pass then split
+  // "INK" into "I-" + an IPA-wrapped "N-K", producing "p16-I-en-kay-4a").
+  // Keys are matched case-sensitively here, hence the casing permutations.
+  'p16INK4a':   'p-sixteen-ink-four-A',
+  'p16INK4A':   'p-sixteen-ink-four-A',
+  'p16-INK4a':  'p-sixteen-ink-four-A',
+  'p16-INK4A':  'p-sixteen-ink-four-A',
+  'P16-INK4a':  'p-sixteen-ink-four-A',
+  'P16-INK4A':  'p-sixteen-ink-four-A',
+  'P-16-INK-4A': 'p-sixteen-ink-four-A',
+  'p-16-INK-4a': 'p-sixteen-ink-four-A',
+  'p16-INK-4a': 'p-sixteen-ink-four-A',
+  'p16-INK-4A': 'p-sixteen-ink-four-A',
+  'p16^INK4a':  'p-sixteen-ink-four-A',
+  'p16^INK4A':  'p-sixteen-ink-four-A',
+  // Sister locus on the same CDKN2A transcript — same "ARF" convention.
+  'p14ARF':     'p-fourteen-arf',
+  'p14-ARF':    'p-fourteen-arf',
+  'p19ARF':     'p-nineteen-arf',
+  'p19-ARF':    'p-nineteen-arf',
   // apoC-III — hyphenated form. Catch here, before the Roman-numeral
   // pass letter-spells "III" into "I-I-I" and the POST_OVERRIDES
   // wrapper for "apoCIII" can't find the original token. PascalCase
@@ -4688,6 +4712,14 @@ function selfTest() {
     // Gene names with embedded numbers
     ['ZNF280A gene', '<say-as interpret-as="characters">ZNF</say-as> two eighty <say-as interpret-as="characters">A</say-as> gene'],
     ['FOXO4 transcription factor', 'fox-oh-four transcription factor'],
+    // p16INK4a — "INK" is the WORD "ink" (INhibitor of CDK4), not I-N-K.
+    // The hyphenated form is what appears in diagram labels and used to fall
+    // through the abbreviation map entirely.
+    ['p16INK4a', 'p-sixteen-ink-four-A'],
+    ['p16-INK4a', 'p-sixteen-ink-four-A'],
+    ['P-16-INK-4A', 'p-sixteen-ink-four-A'],
+    ['The p16-INK4a protein accumulates', 'The p-sixteen-ink-four-A protein accumulates'],
+    ['p14ARF and p19ARF', 'p-fourteen-arf and p-nineteen-arf'],
     ['PCSK9 inhibitor', '<phoneme alphabet="ipa" ph="ˌpiːsiːɛsˈkeɪ">P-C-S-K</phoneme> nine inhibitor'],
     ['TP53 mutation', '<phoneme alphabet="ipa" ph="ˌtiːˈpiː">T-P</phoneme> fifty-three mutation'],
     ['BRCA1 variant', 'bracka-one variant'],
