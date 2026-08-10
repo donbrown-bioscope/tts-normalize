@@ -684,5 +684,96 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-03"
+  },
+  {
+    "find": "CSM",
+    "replace": "C S M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "PAD",
+    "replace": "P A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "1RA",
+    "replace": "un R A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "FAD",
+    "replace": "F A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "LLC",
+    "replace": "L L C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "BCAA",
+    "replace": "B C A A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "EKZ",
+    "replace": "E K Z",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "CBD",
+    "replace": "C B D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "PHI",
+    "replace": "P H I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "PSMA",
+    "replace": "P S M A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "TDP",
+    "replace": "T D P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "CHD",
+    "replace": "C H D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "EWL",
+    "replace": "E W L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
   }
 ]
