@@ -964,5 +964,103 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-03"
+  },
+  {
+    "find": "MSC",
+    "replace": "emme esse ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "1RA",
+    "replace": "uno erre a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "CAR-T",
+    "replace": "car ti",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "FAD",
+    "replace": "effe a di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "BCAA",
+    "replace": "bi ci a a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "EKZ",
+    "replace": "e kappa zeta",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "BFR",
+    "replace": "bi effe erre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "CBD",
+    "replace": "ci bi di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "PHI",
+    "replace": "pi acca i",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "PSMA",
+    "replace": "pi esse emme a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "CHD",
+    "replace": "ci acca di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "EWL",
+    "replace": "e vu elle",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "CVD",
+    "replace": "ci vu di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "IBD",
+    "replace": "i bi di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
   }
 ]
