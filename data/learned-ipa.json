@@ -299,6 +299,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "a-r-i-d": {
+    "ipa": "ˈærɪd",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "a-r-m-s": {
     "ipa": "ɑrmz",
     "learned": "2026-05-03",
@@ -840,6 +845,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "b-e-t": {
+    "ipa": "bɛt",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "b-h-m-t": {
     "ipa": "ˌbiːeɪtʃɛmˈtiː",
     "learned": "2026-05-03",
@@ -914,6 +924,11 @@
     "ipa": "ˌbiːpiːˈsiː",
     "learned": "2026-05-03",
     "source": "auto-glue"
+  },
+  "b-r-a-f": {
+    "ipa": "bræf",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
   },
   "b-r-c-a": {
     "ipa": "ˈbrækə",
@@ -1626,6 +1641,11 @@
     "learned": "2026-05-05",
     "source": "auto-letter-spell"
   },
+  "d-a-f": {
+    "ipa": "dæf",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "d-a-g": {
     "ipa": "dæɡ",
     "learned": "2026-07-27",
@@ -1651,10 +1671,20 @@
     "learned": "2026-05-10",
     "source": "auto-letter-spell"
   },
+  "d-a-s": {
+    "ipa": "dæz",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "d-a-s-h": {
     "ipa": "dæʃ",
     "learned": "2026-05-03",
     "source": "auto-llm"
+  },
+  "d-a-t": {
+    "ipa": "dæt",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
   },
   "d-a-y": {
     "ipa": "deɪ",
@@ -2817,6 +2847,11 @@
     "learned": "2026-05-12",
     "source": "auto-llm"
   },
+  "g-w-a-s": {
+    "ipa": "ɡwɑz",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "g-y-n": {
     "ipa": "ˌdʒiːwaɪˈɛn",
     "learned": "2026-05-03",
@@ -3274,9 +3309,9 @@
     "source": "auto-letter-spell"
   },
   "i-d-o": {
-    "ipa": "ˌaɪdiːˈoʊ",
-    "learned": "2026-05-03",
-    "source": "auto-glue"
+    "ipa": "aɪ.ˈdiː.oʊ",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
   },
   "i-e-n-t": {
     "ipa": "ˌaɪiːɛnˈtiː",
@@ -3778,6 +3813,11 @@
     "ipa": "ˈdʒupətər",
     "learned": "2026-05-05",
     "source": "auto-llm"
+  },
+  "k-a-t": {
+    "ipa": "kæt",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
   },
   "k-c-n-q": {
     "ipa": "ˌkeɪsiːɛnˈkjuː",
@@ -5329,6 +5369,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "p-e-g": {
+    "ipa": "pɛɡ",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "p-e-m-t": {
     "ipa": "ˌpiːiːɛmˈtiː",
     "learned": "2026-05-03",
@@ -5784,6 +5829,16 @@
     "learned": "2026-05-07",
     "source": "auto-letter-spell"
   },
+  "r-a-c": {
+    "ipa": "ræk",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
+  "r-a-d": {
+    "ipa": "ræd",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "r-b-c": {
     "ipa": "ˌɑːrbiːˈsiː",
     "learned": "2026-05-03",
@@ -5833,6 +5888,11 @@
     "ipa": "ˌɑːriːɛstiːˈkjuː",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
+  },
+  "r-e-v": {
+    "ipa": "rɛv",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
   },
   "r-f": {
     "ipa": "ˌɑːrˈɛf",
@@ -6820,6 +6880,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "t-o-x": {
+    "ipa": "tɑks",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
   "t-p": {
     "ipa": "ˌtiːˈpiː",
     "learned": "2026-05-03",
@@ -7480,6 +7545,11 @@
     "ipa": "ˈdʌbəl.juːeɪkjuːˈaɪ",
     "learned": "2026-05-12",
     "source": "auto-glue"
+  },
+  "w-a-t": {
+    "ipa": "wɑt",
+    "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
   },
   "w-b-c": {
     "ipa": "ˈdʌbəl.juːbiːˈsiː",
