@@ -586,5 +586,54 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-03"
+  },
+  {
+    "find": "KMO",
+    "replace": "K M O",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "IFN",
+    "replace": "I F N",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "FAK",
+    "replace": "F A K",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "DCV",
+    "replace": "D C V",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "FAD",
+    "replace": "F A D",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "VO2",
+    "replace": "V O dois",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
+  },
+  {
+    "find": "DII",
+    "replace": "D I I",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-10"
   }
 ]
