@@ -1156,6 +1156,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "c-h": {
+    "ipa": "ˌsiːˈeɪtʃ",
+    "learned": "2026-08-16",
+    "source": "auto-glue"
+  },
   "c-h-a-r-l-s": {
     "ipa": "ˈtʃɑrlz",
     "learned": "2026-07-27",
@@ -4794,6 +4799,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "n-h": {
+    "ipa": "ˌɛnˈeɪtʃ",
+    "learned": "2026-08-16",
+    "source": "auto-glue"
+  },
   "n-h-a-n-e-s": {
     "ipa": "ˌɛneɪtʃeɪɛniːˈɛs",
     "learned": "2026-05-03",
@@ -6198,6 +6208,11 @@
     "ipa": "sɜːrmz",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "s-h": {
+    "ipa": "ˌɛsˈeɪtʃ",
+    "learned": "2026-08-16",
+    "source": "auto-glue"
   },
   "s-h-a-p": {
     "ipa": "ʃæp",

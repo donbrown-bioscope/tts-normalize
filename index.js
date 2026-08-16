@@ -1968,6 +1968,23 @@ function preprocessForTTS(text) {
     t = t.replace(new RegExp(`\\b${c}(?![\\w]|-(?:\\d|${AA_CODES}))`, 'g'), c.toLowerCase());
   }
 
+  // Chemical-group notation that the SCRIPT GENERATOR spelled out in prose:
+  // it writes "written as dash-SH" / "dash-SSH" / "dash-SOH" when it means the
+  // -SH thiol, -SSH persulfide and -SOH sulfenic groups, and the voice duly
+  // says "dash". Drop the word and leave the bare token for the downstream
+  // letter-spell pass ("written as S-H"). Requires an UPPERCASE chemical-shaped
+  // token after the hyphen so ordinary English survives: "a dash of salt",
+  // "the 100-yard dash" and "dash-cam" are all untouched.
+  //
+  // The letters are hyphenated here rather than left to the downstream pass,
+  // which only fires on 3+ letters — a bare "SH" would otherwise survive as a
+  // word and be read "shh". Trailing digits are left for number conversion.
+  // Subscript counts are spoken too (-NH2 → "N-H-two"); glued to a letter they
+  // have no word boundary for the later number pass to find.
+  t = t.replace(/\b[Dd]ash-([A-Z]{1,6})(\d{0,2})\b/g,
+    (_, letters, digits) =>
+      letters.split('').join('-') + (digits ? `-${numWord(digits)}` : ''));
+
   // %ile shorthand — source uses "78th-%ile" / "62nd-%ile". The
   // ABBREVIATIONS-loop word-boundary regex won't match the leading "%"
   // (non-word char), so expand here.
@@ -4810,6 +4827,13 @@ function selfTest() {
     ['Pro-survival members', 'pro-survival members'],
     ['Pro-1 residue', 'proline-one residue'],
     ['Pro-Gly linkage', 'proline-glycine linkage'],
+    // The script generator writes chemical groups as "dash-SH" in prose, and
+    // the voice says "dash". Ordinary English "dash" must survive.
+    ['written as dash-SH', 'written as <phoneme alphabet="ipa" ph="ˌɛsˈeɪtʃ">S-H</phoneme>'],
+    ['dash-SSH', 'S-<phoneme alphabet="ipa" ph="ˌɛsˈeɪtʃ">S-H</phoneme>'],
+    ['dash-NH2', '<phoneme alphabet="ipa" ph="ˌɛnˈeɪtʃ">N-H</phoneme> two'],
+    ['a dash of salt', 'a dash of salt'],
+    ['dash-cam footage', 'dash-cam footage'],
     // PI3K — letter-spelled, never "pie". The IPA wrap renders P-I as "pee-eye".
     ['PI3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
     ['PI-3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
