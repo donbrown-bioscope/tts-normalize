@@ -1675,6 +1675,52 @@ const PRE_ABBREVIATIONS = {
   'p14-ARF':    'p-fourteen-arf',
   'p19ARF':     'p-nineteen-arf',
   'p19-ARF':    'p-nineteen-arf',
+  // ── Yamanaka / partial-reprogramming factors ────────────────────────
+  // OCT4 is read as a DATE ("October fourth") — the one failure mode the
+  // generic gene rule can't help with, since it would only ever produce
+  // "O-C-T-four". The field says "oct-four". OCT3/4 is the same locus.
+  'OCT3/4':  'oct-three-four',
+  'Oct3/4':  'oct-three-four',
+  'OCT4':    'oct-four',
+  'Oct4':    'oct-four',
+  'OCT-4':   'oct-four',
+  'Oct-4':   'oct-four',
+  // SOX2 — spoken as the word "socks", not letter-by-letter.
+  'SOX2':    'socks-two',
+  'Sox2':    'socks-two',
+  'SOX-2':   'socks-two',
+  'Sox-2':   'socks-two',
+  // MYC family — "mick"; the c-/N-/L- prefixes are spoken as letters.
+  // Longest-first sorting (see the loop) keeps 'c-Myc' ahead of 'Myc'.
+  'c-Myc':   'see-mick',
+  'c-MYC':   'see-mick',
+  'C-Myc':   'see-mick',
+  'cMyc':    'see-mick',
+  'N-Myc':   'en-mick',
+  'n-Myc':   'en-mick',
+  'N-MYC':   'en-mick',
+  'L-Myc':   'ell-mick',
+  'L-MYC':   'ell-mick',
+  'Myc':     'mick',
+  'MYC':     'mick',
+  // KLF4 completes the Yamanaka set. Letters are right here, but the digit
+  // must not stay hyphenated or Chirp reads the hyphen aloud.
+  'KLF4':    'K-L-F four',
+  'Klf4':    'K-L-F four',
+  'KLF-4':   'K-L-F four',
+  // ── BCL-2 apoptosis family, mixed-case spellings ────────────────────
+  // The ALL-CAPS forms are covered by the gene rule (10.5), but the
+  // mixed-case spellings used in prose fall straight through it and keep a
+  // literal hyphen before the number word ("Bcl-two"), which is exactly
+  // what gets read out as "dash two".
+  'Bcl-2':   'B-C-L two',
+  'Bcl2':    'B-C-L two',
+  'Bcl-xL':  'B-C-L ex-ell',
+  'BCL-xL':  'B-C-L ex-ell',
+  'Bcl-w':   'B-C-L w',
+  'BCL-w':   'B-C-L w',
+  'Mcl-1':   'M-C-L one',
+  'Mcl1':    'M-C-L one',
   // apoC-III — hyphenated form. Catch here, before the Roman-numeral
   // pass letter-spells "III" into "I-I-I" and the POST_OVERRIDES
   // wrapper for "apoCIII" can't find the original token. PascalCase
@@ -1913,10 +1959,13 @@ function preprocessForTTS(text) {
   // case ABBREVIATIONS would otherwise expand bare "His" / "Met" /
   // "Pro" / "Ala" into the amino-acid name in English-prose contexts
   // ("His name is Alex" → "histidine name is Alex"). The negative
-  // lookahead preserves residue-position usage (His-92, Met-9, Pro-1).
+  // lookahead preserves residue-position usage (His-92, Met-9, Pro-1) and
+  // dipeptides (Pro-Gly), but a hyphen followed by a LOWERCASE WORD is
+  // ordinary prose — "Pro-survival" / "Pro-apoptotic" were being spoken as
+  // "proline-survival" in shipped audio, so those must lowercase too.
   const ENGLISH_AA_COLLIDERS = ['His', 'Met', 'Pro', 'Ala'];
   for (const c of ENGLISH_AA_COLLIDERS) {
-    t = t.replace(new RegExp(`\\b${c}(?![\\w-])`, 'g'), c.toLowerCase());
+    t = t.replace(new RegExp(`\\b${c}(?![\\w]|-(?:\\d|${AA_CODES}))`, 'g'), c.toLowerCase());
   }
 
   // %ile shorthand — source uses "78th-%ile" / "62nd-%ile". The
@@ -1933,7 +1982,11 @@ function preprocessForTTS(text) {
   // jam them together.
   t = t.replace(new RegExp(`\\b(${AA_CODES})(\\d{1,4})(${AA_CODES})\\b`, 'g'),
     (_, a, n, b) => `${a} ${n} ${b}`);
-  t = t.replace(new RegExp(`\\b(${AA_CODES})(?=[-\\d])`, 'g'), (_, c) => AMINO_ACIDS[c]);
+  // A hyphen followed by a LETTER is English prose, not a residue position:
+  // "Pro-survival" / "Pro-apoptotic" / "Pro-inflammatory" were becoming
+  // "proline-survival" and friends (confirmed in shipped senolytic audio).
+  // Only expand before a digit, or before another AA code (Pro-Gly).
+  t = t.replace(new RegExp(`\\b(${AA_CODES})(?=-?\\d|-(?:${AA_CODES})\\b)`, 'g'), (_, c) => AMINO_ACIDS[c]);
   t = t.replace(new RegExp(`(?<=[-\\d])(${AA_CODES})\\b`, 'g'), (_, c) => AMINO_ACIDS[c]);
 
   // Cytochrome-P450 enzymes. Clinicians say "sipp-one-A-two", not
@@ -2483,8 +2536,15 @@ const CLINICAL_IPA = {
   'phagocytosis':    'ˌfæɡəsaɪˈtoʊsɪs',
   'pinocytosis':     'ˌpaɪnəsaɪˈtoʊsɪs',
   'apoptosis':       'ˌæpɒpˈtoʊsɪs',
+  // The ADJECTIVE needs its own entry — an IPA key for the noun does not
+  // cover its inflections, and untagged "apoptotic" is what the voice
+  // mangles (owner heard "A-P-optosis"). pro-/anti- forms are reached via
+  // the hyphen word-boundary, so this one key covers all three.
+  'apoptotic':       'ˌæpɒpˈtɑːtɪk',
   'necroptosis':     'ˌnɛkrɒpˈtoʊsɪs',
+  'necroptotic':     'ˌnɛkrɒpˈtɑːtɪk',
   'pyroptosis':      'ˌpaɪrɒpˈtoʊsɪs',
+  'pyroptotic':      'ˌpaɪrɒpˈtɑːtɪk',
   'ferroptosis':     'ˌfɛrɒpˈtoʊsɪs',
   'senescence':      'sɪˈnɛsəns',
   'senolytic':       'ˌsɛnoʊˈlɪtɪk',
@@ -4730,6 +4790,26 @@ function selfTest() {
     ['P-16-INK-4A', 'p-sixteen-ink-four-A'],
     ['The p16-INK4a protein accumulates', 'The p-sixteen-ink-four-A protein accumulates'],
     ['p14ARF and p19ARF', 'p-fourteen-arf and p-nineteen-arf'],
+    // Yamanaka factors. OCT4 was being read as the DATE "October fourth";
+    // the others were letter-spelled instead of said as words.
+    ['OCT4', 'oct-four'],
+    ['Oct4', 'oct-four'],
+    ['OCT-4', 'oct-four'],
+    ['SOX2', 'socks-two'],
+    ['Sox2', 'socks-two'],
+    ['c-Myc', 'see-mick'],
+    ['Myc', 'mick'],
+    ['N-Myc', 'en-mick'],
+    ['OCT4, SOX2, KLF4 and c-Myc', 'oct-four, socks-two, <phoneme alphabet="ipa" ph="ˌkeɪɛlˈɛf">K-L-F</phoneme> four and see-mick'],
+    // BCL-2 family: the mixed-case spellings used in prose fell through the
+    // ALL-CAPS gene rule and kept a literal hyphen, spoken as "dash two".
+    ['Bcl-2', 'B-<phoneme alphabet="ipa" ph="ˌsiːˈɛl">C-L</phoneme> two'],
+    ['Mcl-1', 'M-<phoneme alphabet="ipa" ph="ˌsiːˈɛl">C-L</phoneme> one'],
+    ['BCL-xL', 'B-<phoneme alphabet="ipa" ph="ˌsiːˈɛl">C-L</phoneme> ex-ell'],
+    // "Pro-" + a lowercase word is prose, not the amino acid proline.
+    ['Pro-survival members', 'pro-survival members'],
+    ['Pro-1 residue', 'proline-one residue'],
+    ['Pro-Gly linkage', 'proline-glycine linkage'],
     // PI3K — letter-spelled, never "pie". The IPA wrap renders P-I as "pee-eye".
     ['PI3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
     ['PI-3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
