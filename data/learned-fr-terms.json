@@ -775,5 +775,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-10"
+  },
+  {
+    "find": "MDM",
+    "replace": "M D M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "CHC",
+    "replace": "C H C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "FOS",
+    "replace": "F O S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "HHD",
+    "replace": "H H D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "SYS",
+    "replace": "S Y S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TNAP",
+    "replace": "T N A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TCA",
+    "replace": "T C A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "GFAP",
+    "replace": "G F A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MAPK",
+    "replace": "M A P K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "ADC",
+    "replace": "A D C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "HDAC",
+    "replace": "H D A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "LNP",
+    "replace": "L N P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
   }
 ]
