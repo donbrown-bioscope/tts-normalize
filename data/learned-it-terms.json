@@ -1062,5 +1062,103 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-10"
+  },
+  {
+    "find": "MDM",
+    "replace": "emme di emme",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "HCC",
+    "replace": "acca ci ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "FOS",
+    "replace": "effe o esse",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "HHD",
+    "replace": "acca acca di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "SYS",
+    "replace": "esse ipsilon esse",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TNAP",
+    "replace": "ti enne a pi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "HDAC",
+    "replace": "acca di a ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MnO2",
+    "replace": "biossido di manganese",
+    "category": "symbol",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TKI",
+    "replace": "ti kappa i",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TCA",
+    "replace": "ti ci a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "ADC",
+    "replace": "a di ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "GFAP",
+    "replace": "gi effe a pi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MAPK",
+    "replace": "emme a pi kappa",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "NSCLC",
+    "replace": "enne esse ci elle ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
   }
 ]
