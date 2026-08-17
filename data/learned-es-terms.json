@@ -1804,5 +1804,89 @@
     "category": "abbreviation",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-03"
+  },
+  {
+    "find": "HDAC7",
+    "replace": "H D A C siete",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MDM",
+    "replace": "M D M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TGF",
+    "replace": "T G F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "FOS",
+    "replace": "F O S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "CHC",
+    "replace": "C H C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "DHH",
+    "replace": "D H H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "SYS",
+    "replace": "S Y S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TNAP",
+    "replace": "T N A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MnO2",
+    "replace": "M n O dos",
+    "category": "symbol",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "TCA",
+    "replace": "T C A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MAPK",
+    "replace": "M A P K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MES",
+    "replace": "M E S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-17"
   }
 ]
