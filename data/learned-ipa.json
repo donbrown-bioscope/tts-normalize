@@ -2081,6 +2081,11 @@
     "learned": "2026-07-27",
     "source": "cafmi-en-scan"
   },
+  "e-l-i-s-a": {
+    "ipa": "ɪˈlaɪzə",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "e-l-i-t-e": {
     "ipa": "ɪˈliːt",
     "learned": "2026-05-03",
@@ -2155,6 +2160,11 @@
     "ipa": "ˌiːɛssiːiːeɪˈɛs",
     "learned": "2026-05-05",
     "source": "auto-glue"
+  },
+  "e-s-c-o": {
+    "ipa": "ˈɛskoʊ",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "e-s-g": {
     "ipa": "ˌiːɛsˈdʒiː",
@@ -3021,6 +3031,11 @@
     "ipa": "ˌeɪtʃaɪeɪˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "h-i-t": {
+    "ipa": "hɪt",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "h-i-v": {
     "ipa": "ˌeɪtʃaɪˈviː",
@@ -3974,6 +3989,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "l-h-o-n": {
+    "ipa": "ˈɛlhɑn",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "l-i-f-e": {
     "ipa": "laɪf",
     "learned": "2026-05-03",
@@ -4143,6 +4163,11 @@
     "ipa": "ˌɛmˈeɪ",
     "learned": "2026-05-12",
     "source": "auto-glue"
+  },
+  "m-a-c": {
+    "ipa": "mæk",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "m-a-c-e": {
     "ipa": "meɪs",
@@ -4714,6 +4739,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "n-a-i-o-n": {
+    "ipa": "ˈneɪɑn",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "n-a-l": {
     "ipa": "ˌɛneɪˈɛl",
     "learned": "2026-05-09",
@@ -5139,6 +5169,11 @@
     "learned": "2026-06-28",
     "source": "auto-glue"
   },
+  "o-p-t": {
+    "ipa": "ɑpt",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "o-r-a-c-l-e": {
     "ipa": "ˈɔrəkəl",
     "learned": "2026-05-03",
@@ -5198,6 +5233,11 @@
     "ipa": "ˌoʊˈɛks",
     "learned": "2026-05-10",
     "source": "auto-glue"
+  },
+  "o-x-p-h-o-s": {
+    "ipa": "ˈɑksfɑs",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "oatp": {
     "ipa": "ˌoʊeɪtiːˈpiː",
@@ -5309,6 +5349,11 @@
     "learned": "2026-05-05",
     "source": "auto-llm"
   },
+  "p-a-c": {
+    "ipa": "pæk",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "p-a-c-e": {
     "ipa": "peɪs",
     "learned": "2026-05-03",
@@ -5327,6 +5372,11 @@
   "p-a-m": {
     "ipa": "pæm",
     "learned": "2026-08-03",
+    "source": "cafmi-en-scan"
+  },
+  "p-a-n-k": {
+    "ipa": "pæŋk",
+    "learned": "2026-08-17",
     "source": "cafmi-en-scan"
   },
   "p-a-p": {
@@ -6354,6 +6404,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "s-t-a-g": {
+    "ipa": "stæɡ",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "s-t-a-r": {
     "ipa": "stɑɹ",
     "learned": "2026-05-03",
@@ -6388,6 +6443,11 @@
     "ipa": "ˌɛsˈjuː",
     "learned": "2026-05-03",
     "source": "auto-glue"
+  },
+  "s-u-c-r-a": {
+    "ipa": "ˈsuːkrə",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "s-u-d-e-p": {
     "ipa": "ˈsuːdɛp",
@@ -6729,6 +6789,11 @@
     "ipa": "ˌtiːˈeɪ",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "t-a-b": {
+    "ipa": "tæb",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "t-a-d": {
     "ipa": "tæd",
@@ -7621,6 +7686,11 @@
     "learned": "2026-05-13",
     "source": "auto-glue"
   },
+  "y-a-g": {
+    "ipa": "jæɡ",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
+  },
   "y-a-p": {
     "ipa": "jæp",
     "learned": "2026-08-03",
@@ -7640,6 +7710,11 @@
     "ipa": "ˈjuːvəfɛm",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "z-e-n": {
+    "ipa": "zɛn",
+    "learned": "2026-08-17",
+    "source": "cafmi-en-scan"
   },
   "z-e-u-s": {
     "ipa": "zuːs",
