@@ -1160,5 +1160,61 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-17"
+  },
+  {
+    "find": "MDP",
+    "replace": "M D P",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "TRE",
+    "replace": "T R E",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "TTH",
+    "replace": "T T H",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "MTC",
+    "replace": "M T C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "BPC",
+    "replace": "B P C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "LNT",
+    "replace": "L N T",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "CAR",
+    "replace": "C A R",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "MDD",
+    "replace": "M D D",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
   }
 ]
