@@ -164,6 +164,11 @@
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
   },
+  "a-i-c-a-r": {
+    "ipa": "ˈeɪkɑɹ",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
+  },
   "a-i-d-s": {
     "ipa": "eɪdz",
     "learned": "2026-05-03",
@@ -805,9 +810,19 @@
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
   },
+  "b-a-p-t-a": {
+    "ipa": "ˈbæptə",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
+  },
   "b-a-t": {
     "ipa": "bæt",
     "learned": "2026-07-20",
+    "source": "cafmi-en-scan"
+  },
+  "b-a-y": {
+    "ipa": "beɪ",
+    "learned": "2026-08-24",
     "source": "cafmi-en-scan"
   },
   "b-b-b": {
@@ -1085,6 +1100,11 @@
     "ipa": "ˈkærət",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "c-a-t": {
+    "ipa": "kæt",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
   },
   "c-b-s": {
     "ipa": "ˌsiːbiːˈɛs",
@@ -2737,6 +2757,11 @@
     "learned": "2026-05-03",
     "source": "clinical-migration"
   },
+  "g-a-d": {
+    "ipa": "ɡæd",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
+  },
   "g-a-l-t": {
     "ipa": "ɡɔlt",
     "learned": "2026-05-03",
@@ -2745,6 +2770,11 @@
   "g-a-t-a": {
     "ipa": "ˈɡɑːtə",
     "learned": "2026-07-20",
+    "source": "cafmi-en-scan"
+  },
+  "g-e-m-o-x": {
+    "ipa": "ˈdʒɛmɒks",
+    "learned": "2026-08-24",
     "source": "cafmi-en-scan"
   },
   "g-e-r-d": {
@@ -3292,6 +3322,11 @@
     "ipa": "ˌaɪˈsiː",
     "learned": "2026-05-05",
     "source": "auto-glue"
+  },
+  "i-c-a-m": {
+    "ipa": "ˈaɪkæm",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
   },
   "i-c-a-t": {
     "ipa": "ˌaɪsiːeɪˈtiː",
@@ -5384,6 +5419,11 @@
     "learned": "2026-08-03",
     "source": "cafmi-en-scan"
   },
+  "p-a-s": {
+    "ipa": "pæz",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
+  },
   "p-a-s-s": {
     "ipa": "ˌpiːeɪɛsˈɛs",
     "learned": "2026-05-03",
@@ -5573,6 +5613,11 @@
     "ipa": "ˌpriːdɪˈmɛd",
     "learned": "2026-05-03",
     "source": "clinical-migration"
+  },
+  "p-r-i-s-m-a": {
+    "ipa": "ˈprɪzmə",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
   },
   "p-r-o-m": {
     "ipa": "prɑm",
@@ -6018,6 +6063,11 @@
     "ipa": "ˌɑːrˈtiː",
     "learned": "2026-06-28",
     "source": "auto-glue"
+  },
+  "r-u-n-x": {
+    "ipa": "ɹʌŋks",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
   },
   "r-u-p-t-u-r-e": {
     "ipa": "ˈrʌptʃər",
@@ -6940,6 +6990,11 @@
     "learned": "2026-05-03",
     "source": "auto-glue"
   },
+  "t-o-f-a": {
+    "ipa": "ˈtoʊfə",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
+  },
   "t-o-h-b": {
     "ipa": "ˌtiːoʊeɪtʃˈbiː",
     "learned": "2026-06-09",
@@ -7019,6 +7074,11 @@
     "ipa": "ˌtiːɑːriːˈsiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "t-r-o-p": {
+    "ipa": "trɑp",
+    "learned": "2026-08-24",
+    "source": "cafmi-en-scan"
   },
   "t-r-t": {
     "ipa": "ˌtiːɑːrˈtiː",
