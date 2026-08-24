@@ -635,5 +635,61 @@
     "category": "abbreviation",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-10"
+  },
+  {
+    "find": "BHB",
+    "replace": "B H B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "SGLT2",
+    "replace": "S G L T dois",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "MOTS",
+    "replace": "M O T S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "PEMF",
+    "replace": "P E M F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "CD8",
+    "replace": "C D oito",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "TGF",
+    "replace": "T G F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "CD4",
+    "replace": "C D quatro",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
+  },
+  {
+    "find": "CCI",
+    "replace": "C C I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-24"
   }
 ]
