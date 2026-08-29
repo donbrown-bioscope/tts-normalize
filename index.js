@@ -287,6 +287,21 @@ const ABBREVIATIONS = {
   // tends to mumble.
   'MTHFR': 'M-T-H-F-R', 'COMT': 'comm-tee',
   'GLP-1': 'G-L-P-one', 'GLP1': 'G-L-P-one',
+  // Suffixed forms. ABBREVIATIONS match on a trailing \\b, so the bases above
+  // cannot match inside "GLP-1s"/"GLP-1RA" — the bare GLP letter-spell fires
+  // instead and the "-1s" reaches the voice, which says "minus". Longest key
+  // wins, so these are chosen over their own bases.
+  'GLP-1s': 'G-L-P-ones', 'GLP1s': 'G-L-P-ones',
+  'GLP-1RA': 'G-L-P-one R-A', 'GLP1RA': 'G-L-P-one R-A',
+  'GLP-1RAs': 'G-L-P-one R-As', 'GLP1RAs': 'G-L-P-one R-As',
+  'GLP-2': 'G-L-P-two', 'GLP2': 'G-L-P-two',
+  'GLP-2s': 'G-L-P-twos', 'GLP2s': 'G-L-P-twos',
+  'IGF-1s': 'I-G-F-ones', 'IGF1s': 'I-G-F-ones',
+  'PD-1': 'P-D-one', 'PD-1s': 'P-D-ones',
+  'PD-L1': 'P-D-L-one', 'PD-L1s': 'P-D-L-ones',
+  // Fatty acids: the numeral is part of the name, and the plural is spoken.
+  'omega-3s': 'omega-threes', 'omega-6s': 'omega-sixes', 'omega-9s': 'omega-nines',
+  'omega-3': 'omega-three', 'omega-6': 'omega-six', 'omega-9': 'omega-nine',
   'TNF': 'T-N-F', 'TNF-α': 'T-N-F-alpha',
   'IL-6': 'interleukin six', 'IL-1': 'interleukin one',
   'IL-10': 'interleukin ten', 'IL-17': 'interleukin seventeen',
@@ -1543,8 +1558,13 @@ const PRE_ABBREVIATIONS = {
   // lowercase "i" is the clinician shorthand for "inhibitor(s)"; left bare
   // Chirp slurs the whole token. Rewrite to the expanded form, which then
   // flows through the post-core letter-spell + "L"-recovery for SGLT-2.
-  'SGLT2i': 'SGLT-2 inhibitors',
-  'SGLT-2i': 'SGLT-2 inhibitors',
+  // Expand straight to the spoken form: 'SGLT-2 inhibitors' still contains
+  // a hyphen+digit and would re-enter the trap this block exists to close.
+  'SGLT2i': 'S-G-L-T-two inhibitors',
+  'SGLT-2i': 'S-G-L-T-two inhibitors',
+  'SGLT2is': 'S-G-L-T-two inhibitors',
+  'SGLT-2is': 'S-G-L-T-two inhibitors',
+  'SGLT-2s': 'S-G-L-T-twos', 'SGLT2s': 'S-G-L-T-twos',
   // LC3-II / LC3-I autophagy ratio.
   'LC3-II/LC3-I': 'L-C three, two over L-C three, one',
   'LC3-II / LC3-I': 'L-C three, two over L-C three, one',
@@ -4791,6 +4811,15 @@ function selfTest() {
     ['The 1st study used 500μg of vitamin B12', 'The first study used five hundred micrograms of vitamin-B-twelve'],
     ['mTOR pathway activation', '<phoneme alphabet="ipa" ph="ˈɛmˌtɔːr">m-TOR</phoneme> pathway activation'],
     ['IL-6 and TNF-α levels', 'interleukin six and <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme> alpha levels'],
+    // Suffixed hyphen+digit abbreviations. ABBREVIATIONS match on a trailing
+    // \b, so the base key cannot match inside "GLP-1s" and the "-1s" used to
+    // survive into the SSML, where the voice reads the hyphen as "minus"
+    // (heard live: "GLP-1s" spoken as "G-L-P-minus-ones").
+    ['GLP-1s doing things nobody expected', '<phoneme alphabet="ipa" ph="ˌdʒiːɛlˈpiː">G-L-P</phoneme> ones doing things nobody expected'],
+    ['GLP-1RA', '<phoneme alphabet="ipa" ph="ˌdʒiːɛlˈpiː">G-L-P</phoneme> one <phoneme alphabet="ipa" ph="ˌɑːrˈeɪ">R-A</phoneme>'],
+    ['SGLT-2i', '<phoneme alphabet="ipa" ph="ˌɛsdʒiːɛlˈtiː">S-G-L-T</phoneme> two inhibitors'],
+    ['IGF-1s', '<phoneme alphabet="ipa" ph="ˌaɪdʒiːˈɛf">I-G-F</phoneme> ones'],
+    ['omega-3s', 'omega-threes'],
     ['3.5g of EPA + DHA', 'three point five grams of <phoneme alphabet="ipa" ph="ˌiːpiːˈeɪ">E-P-A</phoneme> plus <phoneme alphabet="ipa" ph="ˌdiːeɪtʃˈeɪ">D-H-A</phoneme>'],
     // Comma-formatted numbers
     ['over 1,000 people', 'over one thousand people'],
