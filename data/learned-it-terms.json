@@ -1216,5 +1216,82 @@
     "category": "abbreviation",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-24"
+  },
+  {
+    "find": "ACPA",
+    "replace": "A C P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ATIP",
+    "replace": "A T I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "FAE",
+    "replace": "F A E",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "DKD",
+    "replace": "D K D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "CWI",
+    "replace": "C W I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ERI",
+    "replace": "E R I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "RIF",
+    "replace": "R I F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "MAFLD",
+    "replace": "M A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "CAP",
+    "replace": "C A P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "SHP",
+    "replace": "S H P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "MRI",
+    "replace": "M R I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
   }
 ]
