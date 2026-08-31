@@ -859,5 +859,82 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-17"
+  },
+  {
+    "find": "ACPA",
+    "replace": "A C P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "OHB",
+    "replace": "O H B",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "FAE",
+    "replace": "F A E",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "IEF",
+    "replace": "I E F",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "p47",
+    "replace": "p quarante-sept",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ERI",
+    "replace": "E R I",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "MAFLD",
+    "replace": "M A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "SHP",
+    "replace": "S H P",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "HbA1c",
+    "replace": "H b A un c",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "IgG1",
+    "replace": "I g G un",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "AMPK",
+    "replace": "A M P K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
   }
 ]
