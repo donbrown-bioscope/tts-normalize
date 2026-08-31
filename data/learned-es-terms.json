@@ -1888,5 +1888,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-17"
+  },
+  {
+    "find": "ACPA",
+    "replace": "A C P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "HIV",
+    "replace": "H I V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ATIP",
+    "replace": "A T I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "FAE",
+    "replace": "F A E",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "IAF",
+    "replace": "I A F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "p47",
+    "replace": "p cuarenta y siete",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ERI",
+    "replace": "E R I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "MAFLD",
+    "replace": "M A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ERD",
+    "replace": "E R D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "SHP",
+    "replace": "S H P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "OHB",
+    "replace": "O H B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ECA",
+    "replace": "E C A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
   }
 ]
