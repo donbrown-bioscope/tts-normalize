@@ -4039,6 +4039,11 @@
     "learned": "2026-08-03",
     "source": "cafmi-en-scan"
   },
+  "l-i-n-e": {
+    "ipa": "laɪn",
+    "learned": "2026-08-31",
+    "source": "cafmi-en-scan"
+  },
   "l-i-x": {
     "ipa": "ˌɛlaɪˈɛks",
     "learned": "2026-06-13",
@@ -4288,6 +4293,11 @@
     "ipa": "ˌɛmˈiː",
     "learned": "2026-06-28",
     "source": "auto-glue"
+  },
+  "m-e-d-l-i-n-e": {
+    "ipa": "ˈmɛdlaɪn",
+    "learned": "2026-08-31",
+    "source": "cafmi-en-scan"
   },
   "m-e-e-m": {
     "ipa": "ˌɛmiːiːˈɛm",
@@ -5474,6 +5484,11 @@
     "learned": "2026-05-03",
     "source": "auto-llm"
   },
+  "p-e-d-o-t": {
+    "ipa": "pɛdɑt",
+    "learned": "2026-08-31",
+    "source": "cafmi-en-scan"
+  },
   "p-e-g": {
     "ipa": "pɛɡ",
     "learned": "2026-08-10",
@@ -5483,6 +5498,11 @@
     "ipa": "ˌpiːiːɛmˈtiː",
     "learned": "2026-05-03",
     "source": "auto-letter-spell"
+  },
+  "p-e-p": {
+    "ipa": "pɛp",
+    "learned": "2026-08-31",
+    "source": "cafmi-en-scan"
   },
   "p-e-t": {
     "ipa": "pɛt",
@@ -5947,6 +5967,11 @@
   "r-a-d": {
     "ipa": "ræd",
     "learned": "2026-08-10",
+    "source": "cafmi-en-scan"
+  },
+  "r-a-s": {
+    "ipa": "ræs",
+    "learned": "2026-08-31",
     "source": "cafmi-en-scan"
   },
   "r-b-c": {
