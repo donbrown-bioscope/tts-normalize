@@ -691,5 +691,47 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-24"
+  },
+  {
+    "find": "ACPA",
+    "replace": "A C P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "ATIP",
+    "replace": "A T I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "FAE",
+    "replace": "F A E",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "OHB",
+    "replace": "O H B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "MAFLD",
+    "replace": "M A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
+  },
+  {
+    "find": "PAC",
+    "replace": "P A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-08-31"
   }
 ]
