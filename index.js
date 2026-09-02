@@ -742,6 +742,8 @@ const GENE_PRONOUNCEABLE_PREFIXES = {
   'TERT':   'tert',       // telomerase reverse transcriptase
   'TERC':   'terc',       // telomerase RNA component
   'TET':    'tet',        // ten-eleven translocation (TET2 CHIP gene)
+  'HER':    'her',        // HER1/HER2 receptors — said as the word "her"
+                          // plus the number ("her two"), never letter-spelled.
   'PRDM':   'prdm',
 };
 
@@ -1565,6 +1567,16 @@ const PRE_ABBREVIATIONS = {
   'SGLT2is': 'S-G-L-T-two inhibitors',
   'SGLT-2is': 'S-G-L-T-two inhibitors',
   'SGLT-2s': 'S-G-L-T-twos', 'SGLT2s': 'S-G-L-T-twos',
+  // HER1 / HER2 receptors — said as the word "her" plus the number
+  // ("her two"), never letter-spelled. The bare HER1/HER2 forms are
+  // handled by GENE_PRONOUNCEABLE_PREFIXES in the core; these are the
+  // hyphenated spellings, which the gene-token rule never sees (the
+  // hyphen breaks the [A-Z]{2,}\d pattern), plus the HER2/neu form
+  // whose slash Chirp otherwise reads aloud.
+  'HER-1': 'her-one',
+  'HER-2': 'her-two',
+  'HER2/neu': 'her-two new',
+  'HER-2/neu': 'her-two new',
   // LC3-II / LC3-I autophagy ratio.
   'LC3-II/LC3-I': 'L-C three, two over L-C three, one',
   'LC3-II / LC3-I': 'L-C three, two over L-C three, one',
@@ -4966,6 +4978,9 @@ function selfTest() {
     // Quantile terms — long-"i" final syllable.
     ['first tertile vs fourth quartile, top quintile, lowest decile',
       'first <phoneme alphabet="ipa" ph="ˈtɜːrtaɪl">tertile</phoneme> versus fourth <phoneme alphabet="ipa" ph="ˈkwɔːrtaɪl">quartile</phoneme>, top <phoneme alphabet="ipa" ph="ˈkwɪntaɪl">quintile</phoneme>, lowest <phoneme alphabet="ipa" ph="ˈdɛsaɪl">decile</phoneme>'],
+    // HER1 / HER2 — the word "her" plus the number, never letter-spelled.
+    ['HER2-positive tumors express HER1 and HER-2/neu',
+      'her-two-positive tumors express her-one and her-two new'],
     // ESTHER cohort — said like the name, not letter-spelled.
     ['the ESTHER study cohort',
       'the <phoneme alphabet="ipa" ph="ˈɛstər">E-S-T-H-E-R</phoneme> study cohort'],
