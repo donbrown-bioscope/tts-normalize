@@ -742,6 +742,8 @@ const GENE_PRONOUNCEABLE_PREFIXES = {
   'TERT':   'tert',       // telomerase reverse transcriptase
   'TERC':   'terc',       // telomerase RNA component
   'TET':    'tet',        // ten-eleven translocation (TET2 CHIP gene)
+  'NOTCH':  'notch',      // NOTCH1-4 — said "notch one", not letter-spelled
+  'NOX':    'nox',        // NADPH oxidases (NOX4)
   'HER':    'her',        // HER1/HER2 receptors — said as the word "her"
                           // plus the number ("her two"), never letter-spelled.
   'PRDM':   'prdm',
@@ -827,11 +829,21 @@ function coreNormalize(text) {
   //    Sort longest first to prevent partial matches (e.g. VO2max before O2)
   const sortedCompounds = Object.entries(COMPOUND_TERMS).sort((a, b) => b[0].length - a[0].length);
   for (const [term, expansion] of sortedCompounds) {
+    // Alphanumeric ends of a key must not match mid-token, or a short key
+    // bleeds into any longer word containing it: 'O2' turned TDO2 into
+    // "TDoxygen" and SPO2 into "SPoxygen", and 'NO' turned NOTCH1 into
+    // "nitric oxideTCH1" and NOX4 into "nitric oxideX4". Keys whose edge
+    // is punctuation ('NAD+', 'µg/dL') need no guard on that side — the
+    // punctuation is itself the boundary. A trailing plural "s" is kept
+    // inside the match so "CpGs"-style forms still expand as before.
+    const lead  = /[A-Za-z0-9]/.test(term[0])              ? '(?<![A-Za-z0-9])' : '';
+    const trail = /[A-Za-z0-9]/.test(term[term.length - 1]) ? '(s?)(?![A-Za-z0-9])' : '()';
     // First try: number + compound (e.g. "500μg" → "five hundred micrograms")
-    const numPattern = new RegExp(`(\\d+\\.?\\d*)\\s*${escapeRegex(term)}(?!\\w)`, 'g');
-    t = t.replace(numPattern, (_, num) => `${convertNumber(num)} ${expansion}`);
+    const numPattern = new RegExp(`${lead}(\\d+\\.?\\d*)\\s*${escapeRegex(term)}${trail}`, 'g');
+    t = t.replace(numPattern, (_, num, plural) => `${convertNumber(num)} ${expansion}${plural}`);
     // Then: standalone compound
-    t = t.replace(new RegExp(escapeRegex(term), 'g'), expansion);
+    t = t.replace(new RegExp(`${lead}${escapeRegex(term)}${trail}`, 'g'),
+      (_, plural) => `${expansion}${plural}`);
   }
 
   // 3. Replace Greek letters
@@ -1779,6 +1791,12 @@ const PRE_ABBREVIATIONS = {
   // Finnish adjective — TTS says it fine, but Whisper round-trips it
   // as "SANA" or "finish". Normalize to the homophone.
   'Finnish': 'finish',
+  // NHANES survey waves — the Roman numeral would be letter-spelled into
+  // "I-I-I" ("eye eye eye") by the post-core pass. Rewrite to the spoken
+  // ordinal here, before that runs; the acronym itself is then wrapped by
+  // its CLINICAL_IPA entry ("in-HAINES").
+  'NHANES III': 'NHANES three',
+  'NHANES II':  'NHANES two',
   // Diabetes type acronyms — clinically spoken as the full phrase.
   'T2D': 'type two diabetes',
   'T1D': 'type one diabetes',
@@ -2310,6 +2328,11 @@ const CLINICAL_IPA = {
   'N-A-S-H':   'næʃ',          // Non-alcoholic steatohepatitis
   'M-A-S-H':   'mæʃ',          // Metabolic-dysfunction-assoc. steatohepatitis
   'C-O-V-I-D': 'ˈkoʊvɪd',
+  // NHANES — National Health and Nutrition Examination Survey. Said
+  // "in-HAINES", never letter-spelled. Both the bare form and the
+  // post-core letter-spelled form.
+  'NHANES':        'ɪnˈheɪnz',
+  'N-H-A-N-E-S':   'ɪnˈheɪnz',
   'J-A-M-A':   'ˈdʒæmə',       // J. of the American Medical Assoc.
   'C-O-M-T':   'koʊmt',        // Catechol-O-methyltransferase
   'C-P-I-C':   'ˈsiːpɪk',      // Clinical Pharmacogenetics Implementation Consortium
@@ -4978,6 +5001,17 @@ function selfTest() {
     // Quantile terms — long-"i" final syllable.
     ['first tertile vs fourth quartile, top quintile, lowest decile',
       'first <phoneme alphabet="ipa" ph="ˈtɜːrtaɪl">tertile</phoneme> versus fourth <phoneme alphabet="ipa" ph="ˈkwɔːrtaɪl">quartile</phoneme>, top <phoneme alphabet="ipa" ph="ˈkwɪntaɪl">quintile</phoneme>, lowest <phoneme alphabet="ipa" ph="ˈdɛsaɪl">decile</phoneme>'],
+    // Short COMPOUND_TERMS keys must not bleed into longer tokens:
+    // 'O2' made TDO2 "TDoxygen", 'NO' made NOTCH1 "nitric oxideTCH1".
+    ['TDO2 and IDO1 expression',
+      'T-<phoneme alphabet="ipa" ph="\u02ccdi\u02d0\u02c8o\u028a">D-O</phoneme> two and <phoneme alphabet="ipa" ph="a\u026a.\u02c8di\u02d0.o\u028a">i-d-o</phoneme> one expression'],
+    ['NOTCH1 signaling and NOX4 activity',
+      'notch-one signaling and nox-four activity'],
+    ['CO2 clearance and H2O intake', 'carbon dioxide clearance and water intake'],
+    // NHANES — said "in-HAINES"; the survey wave keeps its Roman numeral
+    // out of the letter-spell pass.
+    ['NHANES III participants',
+      '<phoneme alphabet="ipa" ph="\u026an\u02c8he\u026anz">N-H-A-N-E-S</phoneme> three participants'],
     // HER1 / HER2 — the word "her" plus the number, never letter-spelled.
     ['HER2-positive tumors express HER1 and HER-2/neu',
       'her-two-positive tumors express her-one and her-two new'],
