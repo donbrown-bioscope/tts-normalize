@@ -2066,6 +2066,67 @@ const CD_SUFFIX_IPA = { '-plus':' ˈplʌs','-minus':' ˈmaɪnəs','+':' ˈplʌs'
 function preprocessForTTS(text) {
   let t = text;
 
+  // ── Pronunciation helpers are cut from spoken text entirely ──────────
+  // "Autophagy (pronounced aw-TAH-fuh-jee)" is a READING aid: it exists so
+  // an eye can guess the sound. Read aloud it is worse than useless — the
+  // voice has just SAID the word correctly, and then spells out an invented
+  // approximation of it. Owner call, 2026-09-05: cut them from audio.
+  //
+  // Every one of the 32 distinct instances in the corpus is a parenthetical
+  // opening with "pronounced", so anchoring to the paren keeps the common
+  // adjective ("the effect was more pronounced in older adults", 14 of the
+  // 51 corpus hits) untouched by construction — it never opens a paren.
+  //
+  // One instance carries real content after the respelling ("(pronounced
+  // 'aw-TAH-fuh-jee,' from Greek meaning 'self-eating')"), so a trailing
+  // clause survives as its own parenthetical rather than being cut with it.
+  t = t.replace(/\s*\(\s*(?:<[^>]+>\s*)*pronounced\b([^)]*)\)/gi, (_m, inner) => {
+    // A quoted respelling ends at its closing quote; a bare one runs to the
+    // end of the parenthetical (corpus: "fos-fo-IN-oh-SY-tide 3-KY-nase").
+    const quoted = inner.match(/^\s*(?:<[^>]+>\s*)*["'“‘][^"'”’]*["'”’]/);
+    const tail = (quoted ? inner.slice(quoted[0].length) : '')
+      .replace(/<\/?[^>]+>/g, '')
+      .replace(/^[\s,;:—–-]+/, '')
+      .trim();
+    return tail ? ` (${tail})` : '';
+  });
+
+  // ── Pronunciation respellings ("pronounced aw-TAH-fuh-jee") ──────────
+  // Tutorial prose teaches a hard word by spelling it out phonetically,
+  // and the convention is to ALL-CAP the stressed syllable. The caps then
+  // look exactly like an acronym to the letter-spell pass downstream, so
+  // "aw-TAH-fuh-jee" was spoken "aw · tee-ay-aitch · fuh-jee" — the voice
+  // reciting letters in the middle of the very word it is explaining
+  // (owner report 2026-09-05, Lactate tutorial, Listen/beginner @4:13).
+  // 16 of the 27 distinct respellings in the corpus were mangled this way.
+  //
+  // Lower-casing the stressed syllable is enough: it never reaches the
+  // letter-speller. The stress mark is lost, but a syllable read as a
+  // syllable beats a syllable read as three letters.
+  //
+  // SCOPE IS THE WHOLE PROBLEM. A hyphenated chain mixing caps and
+  // lower-case is usually NOT a respelling — "anti-TNF", "non-HDL",
+  // "anti-PD-L1" all have that shape and must keep their letters. So this
+  // fires only inside the window right after an explicit pronunciation
+  // cue, which is how the generator actually writes them.
+  t = t.replace(/\b(pronounc\w*|rhymes with|sounds like|said as)([\s\S]{0,80})/g,
+    (_m, cue, tail) => cue + tail.replace(/\b[A-Za-z]+(?:-[A-Za-z]+)+\b/g, (chain) => {
+      const segs = chain.split('-');
+      // A respelling has at least one ALL-CAPS syllable of 2+ letters (the
+      // stress mark) AND at least one lower-case syllable. An all-caps
+      // chain with no lower-case segment ("pronounced N-A-D") is a real
+      // letter sequence and is left for the letter-speller.
+      const hasStress = segs.some(x => x.length >= 2 && x === x.toUpperCase() && /[A-Z]/.test(x));
+      const hasLower  = segs.some(x => x === x.toLowerCase() && /[a-z]/.test(x));
+      // Second guard: a chain naming a term we already know how to say is a
+      // real term, not a respelling, even inside the cue window ("pronounced
+      // by clinicians as anti-PD-L1"). Respelling syllables are invented
+      // spellings and never appear in the dictionaries.
+      const isKnown = segs.some(x => x.length >= 2 &&
+        Object.prototype.hasOwnProperty.call(ABBREVIATIONS, x.toUpperCase()));
+      return (hasStress && hasLower && !isKnown) ? chain.toLowerCase() : chain;
+    }));
+
   // ── Clinical-pronunciation rules (ported from the PL course wrapper so
   // they are canonical here) — these run at the TOP of preprocess, before
   // the acronym letter-speller and the IPA-adjacent hyphen swap below. ──
@@ -5073,6 +5134,22 @@ function selfTest() {
     ['SGLT-2i', '<phoneme alphabet="ipa" ph="ˌɛsdʒiːɛlˈtiː">S-G-L-T</phoneme> two inhibitors'],
     ['IGF-1s', '<phoneme alphabet="ipa" ph="ˌaɪdʒiːˈɛf">I-G-F</phoneme> ones'],
     ['omega-3s', 'omega-threes'],
+    // Pronunciation helpers are cut from spoken text: the voice has just said
+    // the word correctly, so spelling out an approximation of it is noise.
+    // A trailing clause inside the same parenthetical survives; the common
+    // adjective ("more pronounced in older adults") never opens a paren and
+    // is untouched.
+    ['Autophagy (pronounced aw-TAH-fuh-jee) is recycling.', '<phoneme alphabet=\"ipa\" ph=\"ɔːˈtɒfədʒi\">Autophagy</phoneme> is recycling.'],
+    ['Autophagy (pronounced "aw-TAH-fuh-jee," from Greek meaning self-eating) is recycling.', '<phoneme alphabet=\"ipa\" ph=\"ɔːˈtɒfədʒi\">Autophagy</phoneme> (from Greek meaning self-eating) is recycling.'],
+    ['astrocytes (pronounced <em>AS-tro-sites</em>) are support cells', 'astrocytes are support cells'],
+    ['The effect was more pronounced in older adults.', 'The effect was more pronounced in older adults.'],
+    // Pronunciation respellings — the ALL-CAPS stressed syllable used to be
+    // letter-spelled, so the voice recited letters inside the very word it
+    // was explaining (owner report 2026-09-05). Real acronyms in the same
+    // window must keep their letters.
+    ['Autophagy is pronounced aw-TAH-fuh-jee', '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is pronounced aw-tah-fuh-jee'],
+    ['pronounced ah-SEE-til-KOH-leen', 'pronounced ah-see-til-koh-leen'],
+    ['pronounced like anti-TNF in clinic', 'pronounced like anti <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme> in clinic'],
     // HbA1c — the old hyphen-separated expansion 'H-b-A-one-c' left a literal
     // hyphen the voice read aloud ("H-B-A-one-DASH-C", owner report
     // 2026-09-05). Per-letter phoneme tags with no separator run fluidly.
