@@ -229,7 +229,10 @@ const ABBREVIATIONS = {
   // primary stress on each, no separator (terminal-T cohort HRT/TRT/VTE) — the
   // "A" is pinned to ˈeɪ ("AY") and each terminal consonant stays hard.
   'ATP':  '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
-  'ADP': 'A-D-P', 'AMP': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
+  // ADP matches ATP/AMP: per-letter tags, not the glued 'A-D-P' FAST_GLUE
+  // form. Sentences that name two of the three back to back ('the ATP to
+  // ADP ratio') were uneven when one was glued and the others were not.
+  'ADP': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>', 'AMP': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
   // SSAT (spermidine/spermine N1-acetyltransferase, polyamine tutorials) — the
   // terminal "T" was voicing to "D" ("…ay-DEE"). Same fix as ATP/HRT/TRT/VTE:
   // one <phoneme> tag per letter, primary stress on each, no separator.
