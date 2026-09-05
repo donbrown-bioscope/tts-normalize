@@ -599,6 +599,24 @@ const ABBREVIATIONS = {
   'T3': 'T-three', 'T4': 'T-four', 'TSH': 'T-S-H',
   'fT3': 'free-T-three', 'fT4': 'free-T-four', 'rT3': 'reverse-T-three',
   'PSA': 'P-S-A', 'MRI': 'M-R-I', 'CT': 'C-T', 'PET-CT': 'pet-see-tee',
+  // MCT (monocarboxylate transporters; also medium-chain triglycerides —
+  // both are said as letters, so one entry serves both). Needed because the
+  // curated 'C-T' glue key above is unanchored and matches INSIDE the
+  // letter-spelled "M-C-T", leaving a bare "M-" outside the phoneme wrap:
+  // "M-" + "seetee" + "one", which runs together instead of reading as three
+  // letters and a digit (owner report 2026-09-05, Lactate Advanced Listen).
+  // Curated keys are deliberately left unanchored — the bleed is the point
+  // for i-d-o inside IDO1 — so the fix is an explicit MCT family, not a
+  // matcher change. Numbered members, plurals and hyphenated spellings all
+  // need their own key: ABBREVIATIONS match on a trailing \b, so a key
+  // ending in a digit cannot match when an "s" follows.
+  'MCT':   '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',      'MCTs':   '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>s',
+  'MCT1':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> one',  'MCT1s':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> ones',
+  'MCT2':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',  'MCT2s':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> twos',
+  'MCT3':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> three','MCT3s':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> threes',
+  'MCT4':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> four', 'MCT4s':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> fours',
+  'MCT-1': '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> one',  'MCT-2':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> two',
+  'MCT-3': '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> three','MCT-4':  '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> four',
   'ECG': 'E-C-G', 'EKG': 'E-K-G', 'EEG': 'E-E-G',
   'DEXA': 'D-E-X-A', 'DXA': 'D-X-A',
   'BMD': 'B-M-D', 'BUN': 'B-U-N', 'GFR': 'G-F-R', 'eGFR': 'estimated G-F-R',
