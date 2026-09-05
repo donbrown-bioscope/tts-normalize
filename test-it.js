@@ -3,6 +3,9 @@
 const { normalizeForTTS } = require('./index');
 
 const IT = [
+  // Pronunciation helpers are cut from spoken text in every locale (the
+  // strip is hoisted above the locale dispatch in normalizeForTTS).
+  ['La ferroptosi (in inglese: ferroptosis, pronuncia feh-rop-TOH-sis) conta.', 'La ferroptosi (in inglese: ferroptosis) conta.'],
   // cardinals — vowel elision before uno/otto, accented -tré, concatenated words
   ['Prendere 200 mg al giorno', 'Prendere duecento milligrammi al giorno'],
   ['1 mg', 'un milligrammo'],

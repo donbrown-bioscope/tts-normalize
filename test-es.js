@@ -3,6 +3,9 @@
 const { normalizeForTTS } = require('./index');
 
 const ES = [
+  // Pronunciation helpers are cut from spoken text in every locale (the
+  // strip is hoisted above the locale dispatch in normalizeForTTS).
+  ['La glicación (en inglés, glycation, pronunciado gly-KAY-shun) daña.', 'La glicación (en inglés, glycation) daña.'],
   // cardinals
   ['Tomar 200 mg al día', 'Tomar doscientos miligramos al día'],
   ['1 mg', 'un miligramo'],

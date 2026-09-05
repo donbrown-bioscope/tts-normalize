@@ -3,6 +3,11 @@
 const { normalizeForTTS } = require('./index');
 
 const FR = [
+  // Pronunciation helpers are cut from spoken text in every locale (the
+  // strip is hoisted above the locale dispatch in normalizeForTTS).
+  // Pronunciation helpers are cut from spoken text in every locale (the
+  // strip is hoisted above the locale dispatch in normalizeForTTS).
+  ['Les sestrines (prononcé <em>ses-TRINE</em>) protègent vos cellules.', 'Les sestrines protègent vos cellules.'],
   // cardinals — the tricky 70/80/90 cases + "et un" + plural cents/vingts
   ['Prendre 200 mg par jour', 'Prendre deux cents milligrammes par jour'],
   ['1 mg', 'un milligramme'],

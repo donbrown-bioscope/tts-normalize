@@ -3,6 +3,9 @@
 const { normalizeForTTS } = require('./index');
 
 const DE = [
+  // Pronunciation helpers are cut from spoken text in every locale (the
+  // strip is hoisted above the locale dispatch in normalizeForTTS).
+  ['Autophagie (ausgesprochen: <em>aw-TAH-fuh-jee</em>) ist wichtig.', 'Autophagie ist wichtig.'],
   // cardinals — compound single-word, units-before-tens "und", ß forms
   ['200 mg täglich', 'zweihundert Milligramm täglich'],
   ['1 mg', 'ein Milligramm'],

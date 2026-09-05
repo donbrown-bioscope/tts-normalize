@@ -2066,66 +2066,32 @@ const CD_SUFFIX_IPA = { '-plus':' ˈplʌs','-minus':' ˈmaɪnəs','+':' ˈplʌs'
 function preprocessForTTS(text) {
   let t = text;
 
-  // ── Pronunciation helpers are cut from spoken text entirely ──────────
-  // "Autophagy (pronounced aw-TAH-fuh-jee)" is a READING aid: it exists so
-  // an eye can guess the sound. Read aloud it is worse than useless — the
-  // voice has just SAID the word correctly, and then spells out an invented
-  // approximation of it. Owner call, 2026-09-05: cut them from audio.
+  // ── Non-parenthetical pronunciation helpers ──────────────────────────
+  // The corpus writes every helper as a parenthetical, and
+  // stripPronunciationHelpers has already removed those. But the beginner
+  // Listen script is REWRITTEN by an LLM from the lesson text, and it can
+  // reflow one into a comma or dash clause — "autophagy, pronounced
+  // aw-TAH-fuh-jee, is your cell's recycling program". Cut that shape too,
+  // taking its closing delimiter so the sentence still reads.
   //
-  // Every one of the 32 distinct instances in the corpus is a parenthetical
-  // opening with "pronounced", so anchoring to the paren keeps the common
-  // adjective ("the effect was more pronounced in older adults", 14 of the
-  // 51 corpus hits) untouched by construction — it never opens a paren.
-  //
-  // One instance carries real content after the respelling ("(pronounced
-  // 'aw-TAH-fuh-jee,' from Greek meaning 'self-eating')"), so a trailing
-  // clause survives as its own parenthetical rather than being cut with it.
-  t = t.replace(/\s*\(\s*(?:<[^>]+>\s*)*pronounced\b([^)]*)\)/gi, (_m, inner) => {
-    // A quoted respelling ends at its closing quote; a bare one runs to the
-    // end of the parenthetical (corpus: "fos-fo-IN-oh-SY-tide 3-KY-nase").
-    const quoted = inner.match(/^\s*(?:<[^>]+>\s*)*["'“‘][^"'”’]*["'”’]/);
-    const tail = (quoted ? inner.slice(quoted[0].length) : '')
-      .replace(/<\/?[^>]+>/g, '')
-      .replace(/^[\s,;:—–-]+/, '')
-      .trim();
-    return tail ? ` (${tail})` : '';
-  });
+  // Same proximity guard throughout: the respelling must follow the cue
+  // directly. "The effect, pronounced in older adults, was clear" has prose
+  // there and is left alone.
+  t = t.replace(new RegExp(`[,;—–]\\s*${PRON_CUE_SRC}\\b[^,;.—–()]*(?:[,;—–]|(?=\\s*[.!?]|$))`, 'giu'),
+    (m) => {
+      const cue = m.match(PRON_CUE_RE);
+      return looksLikeRespelling(m.slice(cue.index + cue[0].length)) ? '' : m;
+    });
 
-  // ── Pronunciation respellings ("pronounced aw-TAH-fuh-jee") ──────────
-  // Tutorial prose teaches a hard word by spelling it out phonetically,
-  // and the convention is to ALL-CAP the stressed syllable. The caps then
-  // look exactly like an acronym to the letter-spell pass downstream, so
-  // "aw-TAH-fuh-jee" was spoken "aw · tee-ay-aitch · fuh-jee" — the voice
-  // reciting letters in the middle of the very word it is explaining
-  // (owner report 2026-09-05, Lactate tutorial, Listen/beginner @4:13).
-  // 16 of the 27 distinct respellings in the corpus were mangled this way.
-  //
-  // Lower-casing the stressed syllable is enough: it never reaches the
-  // letter-speller. The stress mark is lost, but a syllable read as a
-  // syllable beats a syllable read as three letters.
-  //
-  // SCOPE IS THE WHOLE PROBLEM. A hyphenated chain mixing caps and
-  // lower-case is usually NOT a respelling — "anti-TNF", "non-HDL",
-  // "anti-PD-L1" all have that shape and must keep their letters. So this
-  // fires only inside the window right after an explicit pronunciation
-  // cue, which is how the generator actually writes them.
-  t = t.replace(/\b(pronounc\w*|rhymes with|sounds like|said as)([\s\S]{0,80})/g,
-    (_m, cue, tail) => cue + tail.replace(/\b[A-Za-z]+(?:-[A-Za-z]+)+\b/g, (chain) => {
-      const segs = chain.split('-');
-      // A respelling has at least one ALL-CAPS syllable of 2+ letters (the
-      // stress mark) AND at least one lower-case syllable. An all-caps
-      // chain with no lower-case segment ("pronounced N-A-D") is a real
-      // letter sequence and is left for the letter-speller.
-      const hasStress = segs.some(x => x.length >= 2 && x === x.toUpperCase() && /[A-Z]/.test(x));
-      const hasLower  = segs.some(x => x === x.toLowerCase() && /[a-z]/.test(x));
-      // Second guard: a chain naming a term we already know how to say is a
-      // real term, not a respelling, even inside the cue window ("pronounced
-      // by clinicians as anti-PD-L1"). Respelling syllables are invented
-      // spellings and never appear in the dictionaries.
-      const isKnown = segs.some(x => x.length >= 2 &&
-        Object.prototype.hasOwnProperty.call(ABBREVIATIONS, x.toUpperCase()));
-      return (hasStress && hasLower && !isKnown) ? chain.toLowerCase() : chain;
-    }));
+  // Last resort: a respelling with no delimiter to cut on ("It is pronounced
+  // ah-SEE-til-KOH-leen."). Deleting it would need sentence surgery, so just
+  // lower-case the ALL-CAPS stress mark, which is what makes the letter-spell
+  // pass downstream mistake the syllable for an acronym and read out
+  // "ah · ess-ee-ee · til · kay-oh-aitch · leen".
+  t = t.replace(new RegExp(`(${PRON_CUE_SRC})((?:\\s|[:,]|<[^>]+>)*)([\\p{L}]+(?:-[\\p{L}]+)+)`, 'giu'),
+    (m, cue, gap, chain) => looksLikeRespelling(gap + chain) ? cue + gap + chain.toLowerCase() : m);
+
+  t = t.replace(/[ \t]+([,.;:!?])/g, '$1').replace(/[ \t]{2,}/g, ' ');
 
   // ── Clinical-pronunciation rules (ported from the PL course wrapper so
   // they are canonical here) — these run at the TOP of preprocess, before
@@ -5098,9 +5064,83 @@ function coreNormalizeDe(text) {
   return t.replace(/\s{2,}/g, ' ').trim();
 }
 
+// ─── PRONUNCIATION HELPERS (ALL LOCALES) ────────────────────
+//
+// "Autophagy (pronounced aw-TAH-fuh-jee)" is a READING aid: it exists so an
+// eye can guess the sound. Read aloud it is worse than useless — the voice
+// has just said the word correctly, and then recites an invented
+// approximation of it. Owner call 2026-09-05: they stay on the page, they
+// come out of the narration.
+//
+// Runs for EVERY locale (hoisted above the locale dispatch in
+// normalizeForTTS — the five non-English cores never call preprocessForTTS).
+// The translated corpus carries 68 of these across de/es/fr/it/pt-br, in
+// their own words: "ausgesprochen", "prononcé", "pronunciado", "pronuncia-se".
+//
+// TWO GUARDS, and the rule is unsafe without either one:
+//
+//  1. Only inside a parenthetical. "The effect was more pronounced in older
+//     adults" is 14 of the 51 English corpus hits and must survive untouched.
+//  2. Only when what FOLLOWS the cue actually looks like a respelling — a
+//     quoted token, or a phonetic hyphen chain. Without this, a parenthetical
+//     like "(effects most pronounced in HIV-positive men)" would be gutted.
+//
+// Whatever else the parenthetical carries is kept: the leading gloss in
+// "(en inglés, glycation, pronunciado gly-KAY-shun)" and the trailing clause
+// in "(pronounced 'aw-TAH-fuh-jee,' from Greek meaning 'self-eating')" both
+// survive as their own parenthetical. Only the pronunciation is cut.
+// Cue words, all six locales. "pronuncia-se" carries a clitic; the rest are
+// plain inflections (pronunciato/pronunciada/prononcez/ausgesprochen).
+const PRON_CUE_SRC = '(?:pronounc[\\p{L}]*|pronunc[\\p{L}]*|pron[\u00fau]nc[\\p{L}]*|prononc[\\p{L}]*|ausgesprochen|aussprache|spricht\\s+man)(?:-se)?';
+const PRON_CUE_RE  = new RegExp(PRON_CUE_SRC, 'iu');
+const QUOTE_OPEN  = '["\'“”„‘’«»]';
+
+// Does this token run read as a phonetic respelling rather than as prose?
+// PROXIMITY IS THE DISCRIMINATOR: a respelling sits immediately after the
+// cue. Anything a word or more downstream is prose that merely contains a
+// hyphenated term — "(effects most pronounced in HIV-positive men)".
+function looksLikeRespelling(after) {
+  // A quoted token is always the respelling; a short connector may precede it
+  // ("pronounced como 'see-gas'", "pronounced just 'wint'").
+  if (new RegExp(`^(?:\\s|[:,]|<[^>]+>)*(?:[\\p{L}]{1,6}\\s+)?${QUOTE_OPEN}`, 'iu').test(after)) return true;
+  const m = after.match(/^(?:\s|[:,]|<[^>]+>)*([\p{L}]+(?:-[\p{L}]+)+)/u);
+  if (!m) return false;
+  const segs = m[1].split('-');
+  // Three or more syllables is a respelling on its own. (The ABBREVIATIONS
+  // guard is deliberately NOT applied here: a long respelling can contain a
+  // two-letter run that happens to be a dictionary key — "a-STRO-ci-ti" holds
+  // "CI" — and letting that veto the match kept whole helpers in Italian.)
+  if (segs.length >= 3) return true;
+  // Two syllables are ambiguous, so they need the ALL-CAPS stress mark
+  // ("em-TOR") and must not name something we already know how to say.
+  if (segs.some(x => x.length >= 2 &&
+      Object.prototype.hasOwnProperty.call(ABBREVIATIONS, x.toUpperCase()))) return false;
+  return segs.some(x => x.length >= 2 && x === x.toUpperCase() && /\p{Lu}/u.test(x));
+}
+
+function stripPronunciationHelpers(text) {
+  return text.replace(/\(([^)]*)\)/g, (whole, inner) => {
+    const cue = inner.match(PRON_CUE_RE);
+    if (!cue) return whole;
+    const head  = inner.slice(0, cue.index);
+    const after = inner.slice(cue.index + cue[0].length);
+    if (!looksLikeRespelling(after)) return whole;
+    // The respelling ends at its closing quote, or runs to the end of the
+    // parenthetical when unquoted (corpus: "fos-fo-IN-oh-SY-tide 3-KY-nase").
+    const quoted = after.match(new RegExp(`^(?:\\s|[:,]|<[^>]+>)*(?:[\\p{L}]{1,6}\\s+)?${QUOTE_OPEN}[^"'“”„‘’«»]*${QUOTE_OPEN}`, 'iu'));
+    const tail = quoted ? after.slice(quoted[0].length) : '';
+    const trim = (x) => x.replace(/<\/?[^>]+>/g, '').replace(/^[\s,;:.—–-]+|[\s,;:—–-]+$/g, '').trim();
+    const kept = [trim(head), trim(tail)].filter(Boolean).join(', ');
+    return kept ? `(${kept})` : '';
+  }).replace(/[ \t]+([,.;:!?])/g, '$1').replace(/[ \t]{2,}/g, ' ');
+}
+
 function normalizeForTTS(text, opts = {}) {
   if (!text) return '';
   const locale = (opts && opts.locale ? String(opts.locale) : 'en').toLowerCase().split(/[-_]/)[0];
+  // Pronunciation helpers come out for every language, before the locale
+  // dispatch — the non-English cores below never run preprocessForTTS.
+  text = stripPronunciationHelpers(text);
   if (locale === 'es') return coreNormalizeEs(text);
   if (locale === 'fr') return coreNormalizeFr(text);
   if (locale === 'it') return coreNormalizeIt(text);
@@ -5143,6 +5183,10 @@ function selfTest() {
     ['Autophagy (pronounced "aw-TAH-fuh-jee," from Greek meaning self-eating) is recycling.', '<phoneme alphabet=\"ipa\" ph=\"ɔːˈtɒfədʒi\">Autophagy</phoneme> (from Greek meaning self-eating) is recycling.'],
     ['astrocytes (pronounced <em>AS-tro-sites</em>) are support cells', 'astrocytes are support cells'],
     ['The effect was more pronounced in older adults.', 'The effect was more pronounced in older adults.'],
+    ['Autophagy, pronounced aw-TAH-fuh-jee, is recycling.', '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is recycling.'],
+    ['Sestrins — pronounced SES-trinz — are bodyguards.', 'Sestrins are bodyguards.'],
+    ['The effect, pronounced in older adults, was small.', 'The effect, pronounced in older adults, was small.'],
+    ['Effects were largest (most pronounced in HIV-positive men) in that arm.', 'Effects were largest (most pronounced in <phoneme alphabet="ipa" ph="ˌeɪtʃaɪˈviː">H-I-V</phoneme> positive men) in that arm.'],
     // Pronunciation respellings — the ALL-CAPS stressed syllable used to be
     // letter-spelled, so the voice recited letters inside the very word it
     // was explaining (owner report 2026-09-05). Real acronyms in the same

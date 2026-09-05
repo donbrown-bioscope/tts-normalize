@@ -3,6 +3,9 @@
 const { normalizeForTTS } = require('./index');
 
 const PT = [
+  // Pronunciation helpers are cut from spoken text in every locale (the
+  // strip is hoisted above the locale dispatch in normalizeForTTS).
+  ['Os astrócitos (pronuncia-se <em>as-TRÓ-si-tos</em>) são células.', 'Os astrócitos são células.'],
   // cardinals — "e" connector, cem vs cento, gendered hundreds/dois/um
   ['Tomar 200 mg por dia', 'Tomar duzentos miligramas por dia'],
   ['1 mg', 'um miligrama'],
