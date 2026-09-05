@@ -94,6 +94,10 @@ const ES = [
   ['tumor en estadio IV', 'tumor en estadio cuatro'],
   ['estudio de fase II', 'estudio de fase dos'],
   ['diabetes de tipo II', 'diabetes de tipo dos'],
+  // Numerales sueltos (sin palabra clave) — antes se deletreaban letra a letra.
+  ['Luis XIV reinó', 'Luis catorce reinó'],
+  ['Angiotensina II', 'Angiotensina dos'],
+  ['la sección XXIII', 'la sección veintitrés'],
   ['grado III de toxicidad', 'grado tres de toxicidad'],
   // A bare Roman-looking letter without the clinical keyword is left untouched
   ['la vitamina V y el grupo I', 'la vitamina V y el grupo I'],

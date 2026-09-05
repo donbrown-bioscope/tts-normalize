@@ -104,6 +104,10 @@ const FR = [
   ['IL-6 et TNF-α', 'IL-six et T N F-α'],
   // Roman numerals in clinical contexts (scoped to a leading keyword)
   ["l'essai de phase III PROTEUS", "l'essai de phase trois PROTEUS"],
+  // Chiffres romains isolés (sans mot-clé) — auparavant épelés lettre par lettre.
+  ['Louis XIV régna', 'Louis quatorze régna'],
+  ['Angiotensine II', 'Angiotensine deux'],
+  ['le chapitre VII', 'le chapitre sept'],
   ['tumeur au stade IV', 'tumeur au stade quatre'],
   ['étude de phase II', 'étude de phase deux'],
   ['diabète de type II', 'diabète de type deux'],

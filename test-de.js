@@ -120,6 +120,12 @@ const DE = [
   ['mitochondrialer Komplex I', 'mitochondrialer Komplex eins'],
   ['Kollagen Typ III', 'Kollagen Typ drei'],
   ['Faktor V Leiden', 'Faktor fünf Leiden'],
+  // Bare numerals (no keyword) — previously letter-spelled by the ALL-CAPS pass.
+  ['Ludwig XIV regierte', 'Ludwig vierzehn regierte'],
+  ['Angiotensin II Rezeptor', 'Angiotensin zwei Rezeptor'],
+  ['Kapitel VII', 'Kapitel sieben'],
+  // Ambiguous bare tokens stay abbreviations.
+  ['XX und XY Chromosomen', 'XX und XY Chromosomen'],
   // Gene-symbol pass (gap-scan finds): letter-clusters spell + speak the number,
   // word-form genes read as words. Genes NOT curated stay verbatim (see PCSK9
   // test above) — there is intentionally no blanket gene rule.

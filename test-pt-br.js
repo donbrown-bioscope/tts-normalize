@@ -85,6 +85,10 @@ const PT = [
   ['tumor em estágio IV', 'tumor em estágio quatro'],
   ['estudo de fase II', 'estudo de fase dois'],
   ['diabetes tipo II', 'diabetes tipo dois'],
+  // Numerais romanos isolados (sem palavra-chave) — antes eram soletrados.
+  ['Luís XIV reinou', 'Luís quatorze reinou'],
+  ['Angiotensina II', 'Angiotensina dois'],
+  ['o capítulo VII', 'o capítulo sete'],
   // A bare Roman-looking letter without the clinical keyword is left untouched
   ['a vitamina V e o grupo I', 'a vitamina V e o grupo I'],
   // Learned terms (seeded; grown by the weekly gap-scan) — word-bounded.

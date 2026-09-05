@@ -77,6 +77,10 @@ const IT = [
   ['tumore in stadio IV', 'tumore in stadio quattro'],
   ['studio di fase II', 'studio di fase due'],
   ['diabete di tipo II', 'diabete di tipo due'],
+  // Numeri romani isolati (senza parola chiave) — prima venivano sillabati.
+  ['Luigi XIV regnò', 'Luigi quattordici regnò'],
+  ['Angiotensina II', 'Angiotensina due'],
+  ['il capitolo VII', 'il capitolo sette'],
   // A bare Roman-looking letter without the clinical keyword is left untouched
   ['la vitamina V e il gruppo I', 'la vitamina V e il gruppo I'],
   // Learned terms (seeded; grown by the weekly gap-scan) — word-bounded.

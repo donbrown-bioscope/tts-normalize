@@ -715,6 +715,22 @@ const ORDINAL_MAP = {
 
 // Prefixes whose letter cluster sounds like a word or syllable.
 // Anything NOT listed here gets spelled out letter-by-letter.
+// ─── LATIN BINOMIALS ────────────────────────────────────────
+// Species epithets that ARE also English dictionary words. The genus rule in
+// postprocessForTTS rejects an epithet found in the English wordlist — that is
+// what keeps "…37 °C. hence…" and "…the U. S. population" from being read as
+// binomials — so the epithets that collide with real words need an explicit
+// allowlist to survive that filter. Everything else generalizes for free:
+// "elegans", "coli", "melanogaster" and friends are not English words.
+const SPECIES_EPITHETS = new Set([
+  'pombe', 'aureus', 'difficile', 'tuberculosis', 'pylori', 'sapiens',
+  'elegans', 'coli', 'cerevisiae', 'melanogaster', 'musculus', 'rerio',
+  'muciniphila', 'longum', 'gingivalis', 'nucleatum', 'prausnitzii',
+  'lactis', 'rhamnosus', 'boulardii', 'animalis', 'glabrata', 'albicans',
+  'subtilis', 'norvegicus', 'bifidum', 'reuteri', 'plantarum', 'mutans',
+  'thermophilus', 'infantis', 'breve', 'faecalis', 'fragilis', 'vulgatus',
+]);
+
 const GENE_PRONOUNCEABLE_PREFIXES = {
   'FOX':    'fox',
   'FOXO':   'fox-oh',
@@ -734,7 +750,7 @@ const GENE_PRONOUNCEABLE_PREFIXES = {
   'PTEN':   'P-ten',
   'PER':    'per',        // circadian Period genes
   'CRY':    'cry',        // Cryptochrome
-  'WNT':    'wnt',        // Wingless
+  'WNT':    'went',       // Wingless — said like the word "went", never "w'nt"/W-N-T
   'CREB':   'creb',
   'RAP':    'rap',
   'RICTOR': 'ric-tor',
@@ -764,6 +780,105 @@ function geneNumberToWords(n) {
   const h = Math.floor(n / 100);
   const rem = n % 100;
   return ONES[h] + (rem === 0 ? '-hundred' : '-' + geneNumberToWords(rem));
+}
+
+// ─── ROMAN NUMERALS (SHARED) ────────────────────────────────
+// Bare Roman numerals used to fall through to the ALL-CAPS letter-spell
+// pass and be read as letters: "III" → "I-I-I" ("eye eye eye"), "VII" →
+// "vee-eye-eye", "Louis XIV" → "ex-eye-vee". Rewriting them to Arabic
+// digits here lets each locale's existing number pass speak them
+// ("Louis 14" → "Louis fourteen" / "Louis quatorze").
+//
+// Scope is deliberately narrow — only numerals that are UNAMBIGUOUS in a
+// clinical/longevity corpus:
+//
+//   • Value 1–40 only. Prose numerals are small (types, phases, factors,
+//     chapters, monarchs, world wars). Larger canonical numerals are far
+//     more often abbreviations than numbers: CMV (cytomegalovirus), CML
+//     (chronic myeloid leukemia), MCI (mild cognitive impairment), CDI,
+//     MIX, DIV. None of those can reach this map.
+//   • Length ≥ 2. Single letters are hopeless out of context — "I" is a
+//     pronoun, "V"/"X"/"C"/"D"/"M" are letters, grades and unit prefixes.
+//     Single letters stay with the keyword-scoped rule below ("Complex I",
+//     "Factor V"), which has the context to disambiguate.
+//   • ROMAN_AMBIGUOUS removes the three survivors that are commonly NOT
+//     numbers in this corpus.
+//
+// Case-sensitive UPPERCASE matching only: lowercase "vi", "mix" and "di"
+// are ordinary words in English, French, Italian and Portuguese.
+const ROMAN_AMBIGUOUS = new Set([
+  'IV', // intravenous — also an ABBREVIATIONS key ("I-V")
+  'XX', // XX/XY chromosomes — biological-sex content is common here
+  'XL', // extra large / extended-release formulations ("Glucophage XL")
+]);
+
+function romanToArabic(r) {
+  const V = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+  let n = 0;
+  for (let i = 0; i < r.length; i++) {
+    const cur = V[r[i]], next = V[r[i + 1]];
+    n += next > cur ? -cur : cur;
+  }
+  return n;
+}
+
+// Canonical spellings only — built by round-tripping, so non-canonical
+// strings ("IIII", "VX", "IM") are absent by construction and never match.
+const ROMAN_NUMERALS = (() => {
+  const m = [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'],
+    [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']];
+  const out = new Map();
+  for (let n = 1; n <= 40; n++) {
+    let rest = n, r = '';
+    for (const [v, sym] of m) { while (rest >= v) { r += sym; rest -= v; } }
+    if (r.length >= 2 && !ROMAN_AMBIGUOUS.has(r)) out.set(r, n);
+  }
+  return out;
+})();
+
+// Longest-first so "XIII" wins over "XII" over "XI".
+const ROMAN_ALT = [...ROMAN_NUMERALS.keys()].sort((a, b) => b.length - a.length).join('|');
+
+// Bare numeral. Guarded on both sides against letters, digits and hyphens
+// so gene/marker tokens are untouched (CD-XI, HIF-IX, IXth), and against
+// SSML wraps so an already-prescribed pronunciation isn't rewritten.
+const BARE_ROMAN_RE = new RegExp(
+  String.raw`(?<![\w-])(${ROMAN_ALT})(?![\w-])(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)`, 'g');
+
+// Keyword-scoped numeral. Wider than the bare rule in two ways: it accepts
+// single letters ("Complex I", "Factor V") and the ambiguous set ("Phase
+// IV", "Chapter XX"), because the preceding keyword supplies the context
+// the bare rule lacks. Any canonical numeral I–MMMCMXCIX is allowed here.
+// Each locale passes its own keyword list; German also allows a hyphen
+// separator ("Typ-II-Diabetes").
+const CANONICAL_ROMAN = String.raw`M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})`;
+const ROMAN_KEYWORDS_EN =
+  'complex|phase|stage|type|class|grade|level|factor|chapter|section|part|volume|appendix|figure|table|war';
+
+function keyedRomanRe(keywords, sep = String.raw`\s+`, flags = 'gi') {
+  return new RegExp(
+    // No `-` in the trailing guard (unlike BARE_ROMAN_RE): German writes the
+    // numeral inside a compound, "Typ-II-Diabetes" / "Phase-III-Studie", and
+    // a keyword to the left already makes it a number.
+    String.raw`\b(${keywords})(?:${sep})(${CANONICAL_ROMAN})\b(?!\w)(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)`,
+    flags);
+}
+
+// Rewrite both forms to Arabic digits. Callers run this BEFORE their
+// abbreviation and letter-spell passes and rely on their own downstream
+// number→words step to speak the digits in the right language.
+function romanNumeralsToArabic(t, keywords = ROMAN_KEYWORDS_EN, sep, flags) {
+  t = t.replace(keyedRomanRe(keywords, sep, flags), (m, kw, r) => {
+    // Every group in CANONICAL_ROMAN is optional, so it can match empty;
+    // and only an uppercase numeral is one ("type i" is prose, "Grade b"
+    // is a letter grade). Both cases fall through unchanged.
+    if (!r || r !== r.toUpperCase()) return m;
+    // The separator is always emitted as a space, even where the source
+    // hyphenated it ("Phase-III-Studie" → "Phase 3-Studie"): a hyphen
+    // between a word and a digit reads as a range or minus to the voice.
+    return `${kw} ${romanToArabic(r)}`;
+  });
+  return t.replace(BARE_ROMAN_RE, (r) => String(ROMAN_NUMERALS.get(r)));
 }
 
 // ─── CORE NORMALIZE (PRIVATE) ───────────────────────────────
@@ -901,14 +1016,10 @@ function coreNormalize(text) {
     t = t.replace(pattern, expansion);
   }
 
-  // 6a. Clinical Roman numerals (I–XII) scoped to a preceding keyword so bare
-  //     "V" / "X" / "I" in prose don't get rewritten. Covers complex/phase/stage/
-  //     type/class/grade/level across the full I–XII range. Runs before step 6b
-  //     so "complex IV" matches before "IV" → "I-V".
-  const EN_ROMAN = { I: 'one', II: 'two', III: 'three', IV: 'four', V: 'five',
-    VI: 'six', VII: 'seven', VIII: 'eight', IX: 'nine', X: 'ten', XI: 'eleven', XII: 'twelve' };
-  t = t.replace(/\b(complex|phase|stage|type|class|grade|level)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
-    (m, w, r) => `${w} ${EN_ROMAN[r.toUpperCase()] || r}`);
+  // 6a. Roman numerals → Arabic digits, spoken by step 9. See the ROMAN
+  //     NUMERALS block above for the two rules and why their scopes differ.
+  //     Runs before step 6b so "complex IV" matches before "IV" → "I-V".
+  t = romanNumeralsToArabic(t);
 
   // 6b. Replace abbreviations (longest first to avoid partial matches)
   const sortedAbbrevs = Object.entries(ABBREVIATIONS).sort((a, b) => b[0].length - a[0].length);
@@ -939,6 +1050,18 @@ function coreNormalize(text) {
 
   // 9. Replace remaining standalone numbers (not already converted)
   t = t.replace(/\b(\d+\.?\d*)\b/g, (_, num) => convertNumber(num));
+
+  // 10.4. Wnt — said as the word "went" in every capitalization the corpus
+  //       uses (Wnt, WNT, wnt, and "Wnt/β-catenin"). Left alone, ALL-CAPS
+  //       "WNT" reached the letter-spell pass and came out "W-N-T".
+  //       Canonicalized in two directions rather than one:
+  //         • numbered ligands → ALL-CAPS ("Wnt3a" → "WNT3A") so step 10.5
+  //           below matches and the WNT gene prefix speaks them "went-three-A";
+  //         • the bare form → mixed case ("WNT" → "Wnt"), which is invisible
+  //           to the [A-Z]{3,} letter-spell pass, leaving the CLINICAL_IPA
+  //           entry in postprocess to wrap it with /wɛnt/.
+  t = t.replace(/\bWnt(\d{1,3})([a-z]?)\b/gi, (_, d, sfx) => `WNT${d}${sfx.toUpperCase()}`);
+  t = t.replace(/\bWnt\b/gi, 'Wnt');
 
   // 10.5. Gene/protein names with embedded numbers (e.g. ZNF280A, FOXO4, PCSK9, TP53)
   //       Must run AFTER abbreviations (step 6b) so known entries like SIRT1 are already replaced.
@@ -1284,6 +1407,16 @@ function findPronounceableAcronyms(text) {
   while ((m = re.exec(stripped)) !== null) {
     const tok = m[0];
     if (seen.has(tok)) continue;
+    // Roman numerals are numbers, not acronyms. Without this the gap-scan
+    // re-learned "III"/"VII" as auto-letter-spell IPAs ("eye eye eye",
+    // "vee-eye-eye") and the weekly auto/learned-* PR reintroduced the very
+    // mispronunciation romanNumeralsToArabic exists to remove.
+    //
+    // Gated to ROMAN_NUMERALS — the exact set the bare rule converts — and
+    // NOT to "canonical Roman numeral" in general: MIX, CMV, MCI, CML and
+    // MCM are all canonical numerals on paper and all genuine acronyms
+    // here, so they must stay discoverable.
+    if (ROMAN_NUMERALS.has(tok.replace(/-/g, '').toUpperCase())) continue;
     if (!isPronounceableAcronym(tok)) continue;
     const bare = tok.replace(/-/g, '').toLowerCase();
     const hyphenated = tok.toLowerCase();
@@ -2005,6 +2138,27 @@ function preprocessForTTS(text) {
   // to a space so they don't surface as "underscore underscore..."
   t = t.replace(/_{2,}/g, ' ');
 
+  // Amino-acid substitution, three-letter form: residue, position, residue.
+  // Written glued ("Val277Met"), hyphenated ("Val-277-Met"), spaced
+  // ("Val 277 Met") or with the HGVS protein prefix ("p.Val277Met") — all four
+  // are the same variant and must read as ONE fluid sequence, the way it is
+  // said aloud after a gene name: "MTHFR valine 277 methionine".
+  //
+  // MUST run before the English-AA-collider rewrite below. That rewrite only
+  // looks FORWARD (it protects "Met-9" and "Pro-Gly" by their right-hand
+  // context), so a substitution's TRAILING residue has nothing after it to
+  // protect it: "Val-277-Met" was lowercased to "met" and then read as the
+  // English past tense — "valine-two hundred seventy seven-met". Matching the
+  // whole triple up front removes the ambiguity entirely.
+  //
+  // Separators become spaces rather than staying hyphens. That is deliberate
+  // and matches what the glued form already produced; the measured preference
+  // for KEEPING hyphens applies to a bare residue position ("His-92"), which
+  // this rule does not touch.
+  t = t.replace(
+    new RegExp(String.raw`\b(?:p\.)?(${AA_CODES})[-\s]?(\d{1,4})[-\s]?(${AA_CODES})\b`, 'g'),
+    (_, a, n, b) => `${AMINO_ACIDS[a]} ${n} ${AMINO_ACIDS[b]}`);
+
   // English-AA-collider lowercase rewrite. The core pipeline's title-
   // case ABBREVIATIONS would otherwise expand bare "His" / "Met" /
   // "Pro" / "Ala" into the amino-acid name in English-prose contexts
@@ -2045,10 +2199,8 @@ function preprocessForTTS(text) {
   // Residue-position notation. Amino-acid codes only fire when adjacent
   // to a hyphen or digit. Hyphens are PRESERVED (not swapped for
   // spaces). Measured A/B: hyphenated → 11.2% WER vs spaced → 13.6%.
-  // Triples without separators (Val66Met) handled first so we don't
-  // jam them together.
-  t = t.replace(new RegExp(`\\b(${AA_CODES})(\\d{1,4})(${AA_CODES})\\b`, 'g'),
-    (_, a, n, b) => `${a} ${n} ${b}`);
+  // (The glued triple "Val66Met" is handled by the substitution rule further
+  // up, which also covers the hyphenated and spaced spellings.)
   // A hyphen followed by a LETTER is English prose, not a residue position:
   // "Pro-survival" / "Pro-apoptotic" / "Pro-inflammatory" were becoming
   // "proline-survival" and friends (confirmed in shipped senolytic audio).
@@ -2270,6 +2422,10 @@ const OMIC_IPA = {
 // a new entry whenever production audio reveals a new mispronunciation
 // the synth can't get right with text alone.
 const CLINICAL_IPA = {
+  // Wnt — rhymes with "went". Matched case-insensitively like every entry
+  // here, so this one key covers Wnt / WNT / wnt. Numbered ligands (WNT3A)
+  // are handled upstream by the WNT gene prefix, not here.
+  'Wnt': 'wɛnt',
   // Latin binomials — gut commensals. Plain-text spellings wandered on
   // Whisper round-trip; IPA holds.
   'Akkermansia':   'ˌækərˈmænsiə',
@@ -3038,6 +3194,27 @@ const POST_OVERRIDES = {
 
 // Pre-sort the IPA dictionaries by descending length so the
 // substitution loops apply longer keys first.
+// Word-boundary pair for an AUTO-GENERATED learned-IPA key.
+//
+// A key that is itself a hyphenated letter chain ("s-h", "t-d-o") cannot use a
+// bare \b: "-" is a non-word character, so \bS-H\b matches the PREFIX of
+// "S-H-H" and the cached entry bleeds into the longer chain. That is how SHH
+// (sonic hedgehog) came out as "S-H" + a de-slur break + "H" — the odd spacing
+// — instead of one fluid "ess-aitch-aitch". The `s-h` entry was itself cached
+// from the unrelated -SH thiol group. Same failure class as the unanchored
+// COMPOUND_TERMS keys fixed in dc83cb8.
+//
+// Deliberately scoped to `auto-glue` / `auto-letter-spell` entries, which are
+// machine-generated chain IPAs with no authored intent behind them. Curated
+// dict keys (CLINICAL_IPA and hand-written learned entries) keep plain \b,
+// because for those the "bleed" is sometimes the point: the tuned I-D-O entry
+// is meant to fire inside "IDO1", and C-D inside "CDK4".
+function autoChainBoundaries(key) {
+  return key.includes('-')
+    ? [String.raw`(?<![\w-])`, String.raw`(?![\w-])`]
+    : ['\\b', '\\b'];
+}
+
 const OMIC_IPA_SORTED = Object.entries(OMIC_IPA).sort((a, b) => b[0].length - a[0].length);
 const CLINICAL_IPA_SORTED = Object.entries(CLINICAL_IPA).sort((a, b) => b[0].length - a[0].length);
 
@@ -3061,6 +3238,36 @@ const LETTER_SPELLED_ACRONYMS = new Set(
 
 function postprocessForTTS(text) {
   let t = text;
+
+  // Genus abbreviation in a Latin binomial ("C. elegans", "E. coli",
+  // "D. melanogaster"). The period reads as a sentence boundary, so the voice
+  // takes a full stop between the letter and the species — "see. Elegans".
+  // Emit the letter's own name as IPA and a deliberately short break instead,
+  // so it lands as "see-elegans" with a beat, not a sentence break.
+  //
+  // Two guards keep ordinary prose out, since "<capital>. <lowercase word>" is
+  // also what an abbreviation at a sentence end looks like:
+  //   • the epithet must be 4+ letters, and
+  //   • it must not be an English word — "…37 °C. hence the result" and
+  //     "…the U. S. population" are rejected on that test.
+  // SPECIES_EPITHETS overrides the wordlist for the real epithets that happen
+  // to be English words (aureus, difficile, pylori, sapiens…), and is also the
+  // only way a Capitalized epithet matches, so author initials ("J. Smith")
+  // can never be read as a species.
+  //
+  // "L. <species>" and "B. <bifidobacterium species>" never reach here: core
+  // expands those to the full genus word, because a bare "L." would otherwise
+  // hit the units pipeline and be read as "liters". Full genus is the nicer
+  // reading where we can identify it; the letter name is the general fallback.
+  t = t.replace(/\b([A-Z])\.\s*([A-Za-z][a-z]{3,})\b/g, (m, letter, epithet) => {
+    const lower = epithet.toLowerCase();
+    const known = SPECIES_EPITHETS.has(lower);
+    if (epithet !== lower && !known) return m;      // "J. Smith" — an initial
+    if (!known && _englishWords().has(lower)) return m;  // prose, not a binomial
+    const ipa = buildLetterSpellIpa(letter);
+    if (!ipa) return m;
+    return `<phoneme alphabet="ipa" ph="${ipa}">${letter}</phoneme><break time="80ms"/> ${epithet}`;
+  });
 
   // Generalized fix for the units pipeline's bare-L → "liters" expansion.
   // Any amino-acid / metabolite / drug starting with an L-prefix
@@ -3199,7 +3406,10 @@ function postprocessForTTS(text) {
       source === 'auto-letter-spell' || source === 'auto-glue';
     const pattern = isLetterSpelledAcronym ? word.toUpperCase() : word;
     const flags = isLetterSpelledAcronym ? 'g' : 'gi';
-    t = t.replace(new RegExp(`\\b${escapeRegex(pattern)}\\b${WRAP_GUARDS}`, flags), (match) => {
+    const [lb, rb] = isLetterSpelledAcronym
+      ? autoChainBoundaries(pattern)
+      : ['\\b', '\\b'];
+    t = t.replace(new RegExp(`${lb}${escapeRegex(pattern)}${rb}${WRAP_GUARDS}`, flags), (match) => {
       // A word-pronounced entry matched in ALL-CAPS acronym form (BEIR,
       // UNSCEAR, HIPAA) carries the uppercase only as cosmetic visible
       // text — Chirp speaks the ph= IPA, not the letters. Lowercase it so
@@ -3698,11 +3908,9 @@ function coreNormalizeEs(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => ES_ONES[Number(d)]).join(' ')}`);
 
-  // 5e. Roman numerals in clinical contexts ("fase III", "estadio IV", "tipo II").
-  const ES_ROMAN = { I: 'uno', II: 'dos', III: 'tres', IV: 'cuatro', V: 'cinco',
-    VI: 'seis', VII: 'siete', VIII: 'ocho', IX: 'nueve', X: 'diez', XI: 'once', XII: 'doce' };
-  t = t.replace(/\b(fase|estadio|grado|tipo|clase|nivel)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
-    (m, w, r) => `${w} ${ES_ROMAN[r.toUpperCase()] || r}`);
+  // 5e. Roman numerals → Arabic digits, spoken by the number pass below
+  //     ("fase III" → "fase 3" → "fase tres"; "Luis XIV" → "Luis catorce").
+  t = romanNumeralsToArabic(t, 'fase|estadio|grado|tipo|clase|nivel|factor|complejo|capítulo|sección|parte|figura|tabla|guerra');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' más ').replace(/\s×\s/g, ' por ').replace(/\s=\s/g, ' igual a ');
@@ -4004,11 +4212,9 @@ function coreNormalizeFr(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => FR_ONES[Number(d)]).join(' ')}`);
 
-  // 5e. Roman numerals in clinical contexts ("phase III", "stade IV", "type II").
-  const FR_ROMAN = { I: 'un', II: 'deux', III: 'trois', IV: 'quatre', V: 'cinq',
-    VI: 'six', VII: 'sept', VIII: 'huit', IX: 'neuf', X: 'dix', XI: 'onze', XII: 'douze' };
-  t = t.replace(/\b(phase|stade|grade|type|classe|niveau)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
-    (m, w, r) => `${w} ${FR_ROMAN[r.toUpperCase()] || r}`);
+  // 5e. Roman numerals → Arabic digits, spoken by the number pass below
+  //     ("phase III" → "phase 3" → "phase trois"; "Louis XIV" → "Louis quatorze").
+  t = romanNumeralsToArabic(t, 'phase|stade|grade|type|classe|niveau|facteur|complexe|chapitre|section|partie|figure|tableau|guerre');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' plus ').replace(/\s×\s/g, ' fois ').replace(/\s=\s/g, ' égale ');
@@ -4271,14 +4477,9 @@ function coreNormalizeIt(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => IT_ONES[Number(d)]).join(' ')}`);
 
-  // 5e. Roman numerals in clinical contexts ("fase III", "stadio IV", "tipo II")
-  //     → spoken cardinals. Scoped to a leading keyword so it never touches a
-  //     stray "I"/"V"/"X" elsewhere. Token order is longest-first; the trailing
-  //     \b also blocks partial matches.
-  const IT_ROMAN = { I: 'uno', II: 'due', III: 'tre', IV: 'quattro', V: 'cinque',
-    VI: 'sei', VII: 'sette', VIII: 'otto', IX: 'nove', X: 'dieci', XI: 'undici', XII: 'dodici' };
-  t = t.replace(/\b(fase|stadio|grado|tipo|classe|livello)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
-    (m, w, r) => `${w} ${IT_ROMAN[r.toUpperCase()] || r}`);
+  // 5e. Roman numerals → Arabic digits, spoken by the number pass below
+  //     ("fase III" → "fase 3" → "fase tre"; "Luigi XIV" → "Luigi quattordici").
+  t = romanNumeralsToArabic(t, 'fase|stadio|grado|tipo|classe|livello|fattore|complesso|capitolo|sezione|parte|figura|tabella|guerra');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' più ').replace(/\s×\s/g, ' per ').replace(/\s=\s/g, ' uguale a ');
@@ -4546,13 +4747,9 @@ function coreNormalizePtBr(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => PT_ONES[Number(d)]).join(' ')}`);
 
-  // 5e. Roman numerals in clinical contexts ("fase III", "estágio IV", "tipo II")
-  //     → spoken cardinals. Scoped to a leading keyword so a stray "I"/"V"/"X"
-  //     elsewhere is left alone. Longest-first token order.
-  const PT_ROMAN = { I: 'um', II: 'dois', III: 'três', IV: 'quatro', V: 'cinco',
-    VI: 'seis', VII: 'sete', VIII: 'oito', IX: 'nove', X: 'dez', XI: 'onze', XII: 'doze' };
-  t = t.replace(/\b(fase|estágio|estádio|estadio|grau|tipo|classe|nível)\s+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/gi,
-    (m, w, r) => `${w} ${PT_ROMAN[r.toUpperCase()] || r}`);
+  // 5e. Roman numerals → Arabic digits, spoken by the number pass below
+  //     ("fase III" → "fase 3" → "fase três"; "Luís XIV" → "Luís quatorze").
+  t = romanNumeralsToArabic(t, 'fase|estágio|estádio|estadio|grau|tipo|classe|nível|fator|complexo|capítulo|seção|parte|figura|tabela|guerra');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' mais ').replace(/\s×\s/g, ' vezes ').replace(/\s=\s/g, ' igual a ');
@@ -4798,17 +4995,19 @@ function coreNormalizeDe(text) {
   t = t.replace(/\b([A-Z]{2,})-?(\d{3,4})\b/g,
     (_, pre, digits) => `${pre} ${digits.split('').map((d) => DE_ONES[Number(d)]).join(' ')}`);
 
-  // 5e. Roman numerals in clinical contexts ("Phase III", "Stadium IV", "Typ II")
-  //     → spoken cardinals. Scoped to a leading keyword so a stray "I"/"V"/"X"
-  //     elsewhere is left alone. German compounds these with a HYPHEN as often as
-  //     a space ("Phase-III-Studie", "Typ-II-Diabetes"), so accept either
-  //     separator. Keywords include the longevity-relevant Komplex (mitochondrial
-  //     complexes I–V), Kollagen (collagen type I/III) and Faktor (Faktor V) —
-  //     all surfaced as surviving II/III leftovers by the de gap-scan.
-  const DE_ROMAN = { I: 'eins', II: 'zwei', III: 'drei', IV: 'vier', V: 'fünf',
-    VI: 'sechs', VII: 'sieben', VIII: 'acht', IX: 'neun', X: 'zehn', XI: 'elf', XII: 'zwölf' };
-  t = t.replace(/\b(Phase|Stadium|Stufe|Grad|Grade|Typ|Klasse|Komplex|Komplexe|Kollagen|Faktor)[-\s]+(VIII|VII|XII|III|IX|IV|VI|XI|II|X|V|I)\b/g,
-    (m, w, r) => `${w} ${DE_ROMAN[r] || r}`);
+  // 5e. Roman numerals → Arabic digits, spoken by the number pass below
+  //     ("Phase III" → "Phase 3" → "Phase drei"; "Ludwig XIV" → "Ludwig vierzehn").
+  //     German compounds the keyword form with a HYPHEN as often as a space
+  //     ("Phase-III-Studie", "Typ-II-Diabetes"), so it passes its own separator.
+  //     Its keyword list is matched case-sensitively (German nouns) and includes
+  //     the longevity-relevant Komplex (mitochondrial complexes I–V), Kollagen
+  //     (collagen type I/III) and Faktor (Faktor V) — all surfaced as surviving
+  //     II/III leftovers by the de gap-scan.
+  t = romanNumeralsToArabic(
+    t,
+    'Phase|Stadium|Stufe|Grad|Grade|Typ|Klasse|Komplex|Komplexe|Kollagen|Faktor|Kapitel|Abschnitt|Teil|Abbildung|Tabelle|Weltkrieg',
+    String.raw`[-\s]+`,
+    'g');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
   t = t.replace(/\s\+\s/g, ' plus ').replace(/\s×\s/g, ' mal ').replace(/\s=\s/g, ' gleich ');
@@ -4884,9 +5083,9 @@ function selfTest() {
     ['OCT4, SOX2, KLF4 and c-Myc', 'oct-four, socks-two, <phoneme alphabet="ipa" ph="ˌkeɪɛlˈɛf">K-L-F</phoneme> four and see-mick'],
     // BCL-2 family: the mixed-case spellings used in prose fell through the
     // ALL-CAPS gene rule and kept a literal hyphen, spoken as "dash two".
-    ['Bcl-2', 'B-<phoneme alphabet="ipa" ph="ˌsiːˈɛl">C-L</phoneme> two'],
-    ['Mcl-1', 'M-<phoneme alphabet="ipa" ph="ˌsiːˈɛl">C-L</phoneme> one'],
-    ['BCL-xL', 'B-<phoneme alphabet="ipa" ph="ˌsiːˈɛl">C-L</phoneme> ex-ell'],
+    ['Bcl-2', '<phoneme alphabet="ipa" ph="ˌbiːsiːˈɛl">B-C-L</phoneme> two'],
+    ['Mcl-1', '<phoneme alphabet="ipa" ph="ˌɛmsiːˈɛl">M-C-L</phoneme> one'],
+    ['BCL-xL', '<phoneme alphabet="ipa" ph="ˌbiːsiːˈɛl">B-C-L</phoneme> ex-ell'],
     // "Pro-" + a lowercase word is prose, not the amino acid proline.
     ['Pro-survival members', 'pro-survival members'],
     ['Pro-1 residue', 'proline-one residue'],
@@ -4894,7 +5093,7 @@ function selfTest() {
     // The script generator writes chemical groups as "dash-SH" in prose, and
     // the voice says "dash". Ordinary English "dash" must survive.
     ['written as dash-SH', 'written as <phoneme alphabet="ipa" ph="ˌɛsˈeɪtʃ">S-H</phoneme>'],
-    ['dash-SSH', 'S-<phoneme alphabet="ipa" ph="ˌɛsˈeɪtʃ">S-H</phoneme>'],
+    ['dash-SSH', '<phoneme alphabet="ipa" ph="ˌɛsɛsˈeɪtʃ">S-S-H</phoneme>'],
     ['dash-NH2', '<phoneme alphabet="ipa" ph="ˌɛnˈeɪtʃ">N-H</phoneme> two'],
     ['a dash of salt', 'a dash of salt'],
     ['dash-cam footage', 'dash-cam footage'],
@@ -5004,7 +5203,7 @@ function selfTest() {
     // Short COMPOUND_TERMS keys must not bleed into longer tokens:
     // 'O2' made TDO2 "TDoxygen", 'NO' made NOTCH1 "nitric oxideTCH1".
     ['TDO2 and IDO1 expression',
-      'T-<phoneme alphabet="ipa" ph="\u02ccdi\u02d0\u02c8o\u028a">D-O</phoneme> two and <phoneme alphabet="ipa" ph="a\u026a.\u02c8di\u02d0.o\u028a">i-d-o</phoneme> one expression'],
+      '<phoneme alphabet="ipa" ph="\u02ccti\u02d0di\u02d0\u02c8o\u028a">T-D-O</phoneme> two and <phoneme alphabet="ipa" ph="a\u026a.\u02c8di\u02d0.o\u028a">i-d-o</phoneme> one expression'],
     ['NOTCH1 signaling and NOX4 activity',
       'notch-one signaling and nox-four activity'],
     ['CO2 clearance and H2O intake', 'carbon dioxide clearance and water intake'],
@@ -5051,6 +5250,105 @@ function selfTest() {
     // per-letter terminal-T path for acronyms not in the say-as set.)
     ['NAPRT enzyme',
       '<say-as interpret-as="characters">NAPRT</say-as> enzyme'],
+
+    // ── Roman numerals ──
+    // Bare numerals used to reach the ALL-CAPS letter-spell pass and be read
+    // as letters ("III" → "eye eye eye", "XIV" → "ex-eye-vee").
+    ['Angiotensin II receptor blockers', 'Angiotensin two receptor blockers'],
+    ['Chapter VII covers this', 'Chapter seven covers this'],
+    ['Louis XIV reigned', 'Louis fourteen reigned'],
+    ['Section XXIII of the report', 'Section twenty three of the report'],
+    ['World War II changed everything', 'World War two changed everything'],
+    ['Cranial nerve VIII', 'Cranial nerve eight'],
+    // Keyword scope still handles single letters, which the bare rule skips.
+    ['Complex I and Complex IV of the chain', 'Complex one and Complex four of the chain'],
+    ['Factor V Leiden', 'Factor five Leiden'],
+    // …and it overrides the ambiguous set, because the keyword disambiguates.
+    ['a Phase IV trial', 'a Phase four trial'],
+    // Ambiguous BARE tokens must survive as abbreviations, not become numbers.
+    ['Give 500mg IV every 6 hours',
+      'Give five hundred milligrams <phoneme alphabet="ipa" ph="ˌaɪˈviː">I-V</phoneme> every six hours'],
+    ['XX and XY chromosomes', 'XX and XY chromosomes'],
+    ['Metformin XL once daily',
+      '<phoneme alphabet="ipa" ph="mɛtˈfɔːrmɪn">Metformin</phoneme> XL once daily'],
+    // Out of range (>40), so unreachable by the bare rule: still acronyms.
+    ['CMV seropositivity',
+      '<phoneme alphabet="ipa" ph="ˌsiːɛmˈviː">C-M-V</phoneme> seropositivity'],
+    ['Patients with MCI progressed',
+      'Patients with <phoneme alphabet="ipa" ph="ˌɛmsiːˈaɪ">M-C-I</phoneme> progressed'],
+    // Lowercase prose and the pronoun "I" are never numerals.
+    ['I think I saw it', 'I think I saw it'],
+    ['Mix the powder', 'Mix the powder'],
+    // Glued to a digit or hyphen it is a marker name, not a numeral.
+    ['IL-6 and CD4 levels',
+      'interleukin six and <phoneme alphabet="ipa" ph="ˌsiːˈdiː">C-D</phoneme> four levels'],
+
+    // ── Wnt — the word "went", in every capitalization ──
+    ['Wnt signaling', '<phoneme alphabet="ipa" ph="wɛnt">Wnt</phoneme> signaling'],
+    ['WNT/β-catenin', '<phoneme alphabet="ipa" ph="wɛnt">Wnt</phoneme>/beta-catenin'],
+    ['the wnt pathway', 'the <phoneme alphabet="ipa" ph="wɛnt">Wnt</phoneme> pathway'],
+    // Numbered ligands go through the WNT gene prefix, which emits the plain
+    // word — no wrap needed, "went" is already an ordinary English spelling.
+    ['Wnt3a and Wnt5a', 'went-three-A and went-five-A'],
+    ['WNT5A expression', 'went-five-A expression'],
+
+    // ── Latin binomials — the genus period must not read as a full stop ──
+    ['C. elegans lifespan',
+      '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><break time="80ms"/> elegans lifespan'],
+    ['D. melanogaster studies',
+      '<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><break time="80ms"/> melanogaster studies'],
+    // Epithets that are also English words survive on the SPECIES_EPITHETS list.
+    ['H. pylori infection',
+      '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><break time="80ms"/> pylori infection'],
+    // Prose that merely looks like a binomial must be left alone.
+    ['Studies by J. Smith et al.', 'Studies by J. Smith et al.'],
+    ['the U. S. population aged', 'the U. S. population aged'],
+
+    // ── SHH (sonic hedgehog) — one fluid chain, no mid-acronym break ──
+    // The cached auto-glue entry for "s-h" (from the unrelated -SH thiol
+    // group) used to bleed into the longer chain, so this came out as
+    // "S-H" + a de-slur <break> + "H". The doubled H is de-slurred the
+    // preferred way instead: one phoneme with space-separated letter IPAs.
+    ['SHH signaling',
+      '<phoneme alphabet="ipa" ph="ɛs eɪtʃ ˈeɪtʃ">SHH</phoneme> signaling'],
+    ['Sonic hedgehog (SHH) gradients',
+      'Sonic hedgehog (<phoneme alphabet="ipa" ph="ɛs eɪtʃ ˈeɪtʃ">SHH</phoneme>) gradients'],
+    // Sibling ligands take the identical shape.
+    ['IHH and DHH',
+      '<phoneme alphabet="ipa" ph="aɪ eɪtʃ ˈeɪtʃ">IHH</phoneme> and '
+      + '<phoneme alphabet="ipa" ph="diː eɪtʃ ˈeɪtʃ">DHH</phoneme>'],
+    // A curated key still fires inside a longer token on purpose: the tuned
+    // i-d-o entry must survive in IDO1. Only auto-generated keys are anchored.
+    ['IDO1 expression',
+      '<phoneme alphabet="ipa" ph="aɪ.ˈdiː.oʊ">i-d-o</phoneme> one expression'],
+
+    // ── Amino-acid substitutions — one fluid sequence after the gene ──
+    // All four spellings of the same variant must converge. The hyphenated
+    // form used to lose its trailing residue to the English-collider rewrite
+    // ("…seventy seven-met", the past tense of "meet").
+    ['MTHFR Val-277-Met',
+      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      + ' valine two hundred seventy seven methionine'],
+    ['MTHFR Val277Met',
+      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      + ' valine two hundred seventy seven methionine'],
+    ['MTHFR Val 277 Met',
+      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      + ' valine two hundred seventy seven methionine'],
+    ['MTHFR p.Val277Met',
+      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      + ' valine two hundred seventy seven methionine'],
+    ['Cys-282-Tyr in HFE',
+      'cysteine two hundred eighty two tyrosine in <say-as interpret-as="characters">HFE</say-as>'],
+    // Single-digit position.
+    ['Glu-6-Val', 'glutamate six valine'],
+    // Prose colliders must still lowercase — the collider guard only looks
+    // forward, so these are the cases it protects.
+    ['Pro-survival signaling', 'pro-survival signaling'],
+    ['His name is Alex', 'his name is Alex'],
+    // A bare residue position keeps its hyphen (measured: hyphen beats space).
+    ['Met-9 residue', 'methionine-nine residue'],
+    ['Pro-Gly dipeptide', 'proline-glycine dipeptide'],
   ];
 
   let passed = 0;
