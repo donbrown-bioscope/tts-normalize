@@ -2084,6 +2084,35 @@ const CD_SUFFIX_IPA = { '-plus':' ˈplʌs','-minus':' ˈmaɪnəs','+':' ˈplʌs'
 function preprocessForTTS(text) {
   let t = text;
 
+  // ── "read" as a past participle is /rɛd/, not /riːd/ ─────────────────
+  // "This alters how DNA is packaged and read" was spoken "…and REED"
+  // (owner report 2026-09-05, Lactate Advanced Listen). The voice defaults
+  // every ambiguous "read" to /riːd/, which is right for the majority of this
+  // corpus — "to read" (6 of the 16 tutorial hits), the sequencing noun ("a
+  // mean read depth"), and the present tense ("AMPK read nutrient signals").
+  // Only an auxiliary makes it past: is/are/was/were/be/been/being, get/got,
+  // have/has/had. Everything else is left to the voice's default.
+  //
+  // The auxiliary can sit a few words back — "is packaged and read", "has
+  // been properly read" — so adverbs, participles and "and" may intervene.
+  // The trailing guard keeps the genomics noun safe: "samples had read depths
+  // above 30x" is /riːd/ despite the "had".
+  t = t.replace(
+    /\b(is|are|was|were|be|been|being|get|gets|got|gotten|have|has|had|having)((?:\s+(?:and|not|never|[a-z]+ly|[a-z]+ed),?)*\s+)read\b(?!\s+(?:depths?|counts?|lengths?|pairs?|coverage|alignments?|quality))/gi,
+    (_m, aux, gap) => `${aux}${gap}<phoneme alphabet="ipa" ph="ˈrɛd">read</phoneme>`);
+
+  // Two participle shapes the auxiliary rule cannot see. "Samples were
+  // amplified and read using standard protocols" often drops its auxiliary
+  // entirely; and in trial write-ups "centrally read" / "independently read"
+  // is a fixed pre-nominal participle ("centrally read liver biopsy").
+  t = t.replace(/\b([a-z]+ed,?\s+and\s+)read\b/gi,
+    (_m, lead) => `${lead}<phoneme alphabet="ipa" ph="ˈrɛd">read</phoneme>`);
+  t = t.replace(/\b(centrally|independently|blindly|manually|automatically|locally|externally)(\s+)read\b/gi,
+    (_m, adv, gap) => `${adv}${gap}<phoneme alphabet="ipa" ph="ˈrɛd">read</phoneme>`);
+  // The two fixed adjectives the retired PL block also meant to catch.
+  t = t.replace(/\b(well-|widely\s+)read\b/gi,
+    (_m, lead) => `${lead}<phoneme alphabet="ipa" ph="ˈrɛd">read</phoneme>`);
+
   // ── Non-parenthetical pronunciation helpers ──────────────────────────
   // The corpus writes every helper as a parenthetical, and
   // stripPronunciationHelpers has already removed those. But the beginner
@@ -3192,22 +3221,12 @@ const POST_OVERRIDES = {
   'metabolomic read': 'metabolomic reed',
   'genomic read':     'genomic reed',
   'epigenetic read':  'epigenetic reed',
-  // The core normalizes "read" → "reed" globally. In course lessons
-  // the verb most often appears as past-perfect ("have read") which is
-  // the /rɛd/ sound. Override auxiliary-verb contexts back to "red".
-  'have reed':    'have red',
-  'had reed':     'had red',
-  'has reed':     'has red',
-  'having reed':  'having red',
-  "haven't reed": "haven't red",
-  "hadn't reed":  "hadn't red",
-  "hasn't reed":  "hasn't red",
-  "you've reed":  "you've red",
-  "we've reed":   "we've red",
-  "i've reed":    "i've red",
-  "they've reed": "they've red",
-  "well-reed":    "well-red",
-  "widely reed":  "widely red",
+  // (An auxiliary-context block lived here — 'have reed' → 'have red' and
+  // friends — inherited from the PL course, which globally rewrote "read"
+  // to "reed" first. This core never did that rewrite, so those keys could
+  // not match anything. Auxiliary contexts are tagged with real IPA in
+  // preprocessForTTS now. The "<noun> read" → "<noun> reed" entries above
+  // are LIVE and stay: they force /riːd/ on the clinical noun.)
   // Misapplied phonetic on "breadth".
   'BREDTH': 'breadth',
   // Units pipeline expands a lone "L" surrounded by hyphens to "liters"
@@ -5201,6 +5220,13 @@ function selfTest() {
     ['Autophagy (pronounced "aw-TAH-fuh-jee," from Greek meaning self-eating) is recycling.', '<phoneme alphabet=\"ipa\" ph=\"ɔːˈtɒfədʒi\">Autophagy</phoneme> (from Greek meaning self-eating) is recycling.'],
     ['astrocytes (pronounced <em>AS-tro-sites</em>) are support cells', 'astrocytes are support cells'],
     ['The effect was more pronounced in older adults.', 'The effect was more pronounced in older adults.'],
+    // "read" is /rɛd/ after an auxiliary, /riːd/ otherwise. The voice guesses,
+    // and guessed wrong on the Lactate Advanced track — but only inside the
+    // full paragraph, which is why the sentence alone probed clean.
+    ['how DNA is packaged and read, changing genes', 'how <phoneme alphabet=\"ipa\" ph=\"ˌdiː.ɛn.ˈeɪ\">D-N-A</phoneme> is packaged and <phoneme alphabet=\"ipa\" ph=\"ˈrɛd\">read</phoneme>, changing genes'],
+    ['every base was read thirty times', 'every base was <phoneme alphabet=\"ipa\" ph=\"ˈrɛd\">read</phoneme> thirty times'],
+    ['samples had read depths above thirty', 'samples had read depths above thirty'],
+    ['which pages to read and which to skip', 'which pages to read and which to skip'],
     ['Autophagy, pronounced aw-TAH-fuh-jee, is recycling.', '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is recycling.'],
     ['Sestrins — pronounced SES-trinz — are bodyguards.', 'Sestrins are bodyguards.'],
     ['The effect, pronounced in older adults, was small.', 'The effect, pronounced in older adults, was small.'],
