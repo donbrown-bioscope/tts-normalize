@@ -504,6 +504,13 @@ const ABBREVIATIONS = {
   // RCT — say-as for the singular (the catch-all otherwise leaves "R" bare
   // then glues "C-T"). Plural RCTs keeps one fluid glued tag ("arr-see-teez")
   // — say-as'ing the plural reads the trailing s as the letter "ess".
+  // DMARD — disease-modifying antirheumatic drug. Said as a word, "dee-mard"
+  // (owner, 2026-09-06), not letter-spelled. The generic all-caps path spelled
+  // it D-M-A-R-D, and the plural escaped the singular's \b and passed through
+  // raw. A TTS->Whisper probe could not separate the two readings — it
+  // normalises both to "DMARD" — so this one came from the owner's ear.
+  'DMARD':   '<sub alias="dee-mard">DMARD</sub>',
+  'DMARDs':  '<sub alias="dee-mards">DMARDs</sub>',
   // ANRIL — the 9p21 long non-coding RNA. Said as a word, "ann-rill", not
   // letter-spelled (owner, 2026-09-06). The generic all-caps path letter-spelled
   // it, and the glued chain then bled A into N (see the note on
@@ -5571,6 +5578,11 @@ function selfTest() {
     ['HLA-B27 positive', 'aitch-ell-ey-bee-twenty-seven positive'],
     ['HLA-DR expression', 'aitch-ell-ey-dee-arr expression'],
     ['HLA-DQ8', 'aitch-ell-ey-dee-cue-eight'],
+    // DMARD is a word, "dee-mard" — owner's ear. A TTS->Whisper probe normalises
+    // both readings to "DMARD" and could not tell them apart, so ASR was no help
+    // here; the plural also escaped the singular's \b and passed through raw.
+    ['a DMARD was started', 'a <sub alias="dee-mard">DMARD</sub> was started'],
+    ['conventional DMARDs', 'conventional <sub alias="dee-mards">DMARDs</sub>'],
     // Bare HLA, with no gene after it, keeps its own IPA.
     ['HLA typing generally',
       '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing generally'],
