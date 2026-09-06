@@ -497,6 +497,11 @@ const ABBREVIATIONS = {
   // RCT — say-as for the singular (the catch-all otherwise leaves "R" bare
   // then glues "C-T"). Plural RCTs keeps one fluid glued tag ("arr-see-teez")
   // — say-as'ing the plural reads the trailing s as the letter "ess".
+  // ANRIL — the 9p21 long non-coding RNA. Said as a word, "ann-rill", not
+  // letter-spelled (owner, 2026-09-06). The generic all-caps path letter-spelled
+  // it, and the glued chain then bled A into N (see the note on
+  // buildLetterSpellIpa): "ˌeɪɛn…" was heard as "I-N-R-I-L".
+  'ANRIL':   '<sub alias="ann-rill">ANRIL</sub>',
   // GWAS — said as a word, "jee-wazz": the letter name G, then a short A
   // (owner, 2026-09-06). The auto-glued acronym pass built it from letter
   // sounds and produced "gwahz" -- hard G, broad /ɑ/ -- which is neither.
@@ -3130,13 +3135,39 @@ const LETTER_IPA = {
 function stressIpa(mark, ipa) {
   return /^[ˈˌ]/.test(ipa) ? ipa : mark + ipa;
 }
+// Join letter-name IPA parts for a spelled chain.
+//
+// The chain is glued with no separators so the synth says it as one fluid
+// utterance instead of per-letter staccato -- but where one letter name ENDS in
+// a vowel and the next BEGINS with one, Chirp resyllabifies across the seam and
+// the first letter is lost. Measured via TTS->Whisper round-trip (2026-09-06):
+// ASCVD as "ˌeɪɛssiːviːˈdiː" came back as "ISCVD", the A swallowed into the
+// following ɛ. Owner reported the same thing by ear on ANRIL ("I-N-R-I-L").
+//
+// A "." at just those seams is an IPA syllable break, and it fixes ASCVD
+// ("ASCVD" on the same round-trip) without touching any other boundary. It is
+// already the house idiom -- LETTER_IPA spells W as "ˈdʌbəl.juː" for exactly
+// this reason. 21 of the 141 listed acronyms have such a seam; every other
+// chain is emitted byte-for-byte as before, so fluidity is unchanged where it
+// was already right.
+const IPA_VOWELS = 'aeiouɛɪɑɔʊəæ';
+function joinLetterIpa(parts) {
+    let out = '';
+    for (const part of parts) {
+        if (out && IPA_VOWELS.includes(out.at(-1)) && IPA_VOWELS.includes(part[0])) out += '.';
+        out += part;
+    }
+    return out;
+}
+
 function buildLetterSpellIpa(letters) {
   const cleaned = String(letters).toUpperCase().replace(/[^A-Z]/g, '');
   if (!cleaned) return '';
   if (cleaned.length === 1) return stressIpa('ˈ', LETTER_IPA[cleaned]);
-  const head = cleaned.slice(0, -1).split('').map(l => LETTER_IPA[l]).join('');
+  const head = joinLetterIpa(cleaned.slice(0, -1).split('').map(l => LETTER_IPA[l]));
   const tail = LETTER_IPA[cleaned.at(-1)];
-  return stressIpa('ˌ', head) + stressIpa('ˈ', tail);
+  const sep = IPA_VOWELS.includes(head.at(-1)) && IPA_VOWELS.includes(tail[0]) ? '.' : '';
+  return stressIpa('ˌ', head) + sep + stressIpa('ˈ', tail);
 }
 
 // IPA names for digits used by the fast-letter-chain auto-wrap below.
@@ -3157,7 +3188,10 @@ function buildFastChainIpa(hyphenated) {
   if (!parts.length) return '';
   const ipa = parts.map(p => LETTER_IPA[p] ?? DIGIT_IPA[p] ?? p.toLowerCase());
   if (ipa.length === 1) return `ˈ${ipa[0]}`;
-  return `ˌ${ipa.slice(0, -1).join('')}ˈ${ipa.at(-1)}`;
+  const head = joinLetterIpa(ipa.slice(0, -1));
+  const tail = ipa.at(-1);
+  const sep = IPA_VOWELS.includes(head.at(-1)) && IPA_VOWELS.includes(tail[0]) ? '.' : '';
+  return `ˌ${head}${sep}ˈ${tail}`;
 }
 
 const FAST_GLUE_ACRONYMS = [
@@ -5504,6 +5538,17 @@ function selfTest() {
     // broad /ɑ/. A respelling, not IPA, because the failure is the consonant.
     ['European GWAS data', 'European <sub alias="jee-wazz">GWAS</sub> data'],
     ['many GWASs', 'many <sub alias="jee-wazz-iz">GWASs</sub>'],
+    // ANRIL is said as a word. Letter-spelled it came back from a TTS->Whisper
+    // round-trip as "Ionol-Riel"; the owner heard "I-N-R-I-L".
+    ['the ANRIL transcript', 'the <sub alias="ann-rill">ANRIL</sub> transcript'],
+    // A letter chain gets a syllable break ONLY where one letter name ends in a
+    // vowel and the next starts with one -- otherwise Chirp resyllabifies across
+    // the seam and eats the first letter (ASCVD was heard as "ISCVD").
+    ['the ASCVD score',
+      'the <phoneme alphabet="ipa" ph="\u02CCe\u026A.\u025Bssi\u02D0vi\u02D0\u02C8di\u02D0">A-S-C-V-D</phoneme> <phoneme alphabet="ipa" ph="sk\u0254r">score</phoneme>'],
+    // No vowel-vowel seam: emitted exactly as before, no break inserted.
+    ['MTHFR testing',
+      '<phoneme alphabet="ipa" ph="\u02CC\u025Bmti\u02D0e\u026At\u0283\u025Bf\u02C8\u0251\u02D0r">M-T-H-F-R</phoneme> testing'],
     // loci = "low-sigh". Singular locus is deliberately absent -- its default
     // is already right, and the rule is to override only what is heard wrong.
     ['independent coronary loci',
