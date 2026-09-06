@@ -214,7 +214,9 @@ const UNITS = {
 
 const ABBREVIATIONS = {
   // Spell out as individual letters (hyphenated so TTS reads each letter distinctly)
-  'DNA': 'D-N-A', 'RNA': 'R-N-A', 'mRNA': 'm-R-N-A', 'tRNA': 't-R-N-A',
+  // ('DNA' is NOT here — it carries an explicit dotted-IPA entry below. A second
+  //  'DNA' key here was shadowed by it, so this one never applied.)
+  'RNA': 'R-N-A', 'mRNA': 'm-R-N-A', 'tRNA': 't-R-N-A',
   'miRNA': 'micro-R-N-A', 'microRNA': 'micro-R-N-A',
   'BMI': 'B-M-I', 'BMR': 'B-M-R', 'SMR': 'S-M-R', 'RDA': 'R-D-A', 'FDA': 'F-D-A',
   'NIH': 'N-I-H', 'WHO': 'W-H-O', 'CDC': 'C-D-C',
@@ -349,7 +351,9 @@ const ABBREVIATIONS = {
   // articulates each chunk crisply, and back-to-back tags read as one
   // fluid utterance instead of a punctuation-paused sequence.
   'DNMT3A': '<phoneme alphabet="ipa" ph="ˌdiːˈɛn">D-N</phoneme><phoneme alphabet="ipa" ph="ˌɛmˈtiː">M-T</phoneme><phoneme alphabet="ipa" ph="ˌθriːˈeɪ">3-A</phoneme>',
-  'ASXL1':  '<phoneme alphabet="ipa" ph="ˌeɪˈɛs">A-S</phoneme><phoneme alphabet="ipa" ph="ˌɛksɛlˈwʌn">X-L-1</phoneme>',
+  // A+S is a vowel-vowel seam, so it carries the break the chain builders now
+  // insert automatically — without it the A is swallowed, the ASCVD defect.
+  'ASXL1':  '<phoneme alphabet="ipa" ph="ˌeɪ.ˈɛs">A-S</phoneme><phoneme alphabet="ipa" ph="ˌɛksɛlˈwʌn">X-L-1</phoneme>',
   // Same 2-phone-chunk pattern for SRSF2 (4 letters + digit, same shape
   // as ASXL1) and CCP / ANA (3 letters). For the 3-letter forms we split
   // into a single-letter tag + a 2-letter tag so the front letter is
@@ -393,8 +397,11 @@ const ABBREVIATIONS = {
   'MHT':     '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'M-H-T':   '<phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'VTE':     '<say-as interpret-as="characters">VTE</say-as>',
+  // One key only: a second 'V-T-E' with per-letter tags used to shadow this and
+  // made the hyphenated form render differently from bare 'VTE' — every other
+  // bare/hyphenated pair in this map is identical. say-as is the house choice
+  // for these (see AST: per-letter tags read clipped, single glued tags rush).
   'V-T-E':   '<say-as interpret-as="characters">VTE</say-as>',
-  'V-T-E':   '<phoneme alphabet="ipa" ph="ˈviː">V</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈiː">E</phoneme>',
   // ITT — intention-to-treat. say-as (the per-letter IPA read choppy, and
   // the doubled T tripped the de-slur break-stutter). Was a learned-ipa
   // auto-letter-spell too — removed there.
@@ -3151,10 +3158,16 @@ function stressIpa(mark, ipa) {
 // chain is emitted byte-for-byte as before, so fluidity is unchanged where it
 // was already right.
 const IPA_VOWELS = 'aeiouɛɪɑɔʊəæ';
+// Length marks and stress marks are not vowels but sit ON one, so they must be
+// ignored when testing a boundary. Missing this hid every seam whose left-hand
+// letter ends in a long vowel -- C (siː), D (diː), E, G, P, T, V, Z -- which is
+// most of the alphabet: "I-D-O" kept its glued diː+oʊ and read as one syllable.
+const endsVowel = (s) => IPA_VOWELS.includes(s.replace(/[ːˑˈˌ.]+$/, '').at(-1) ?? '');
+const startsVowel = (s) => IPA_VOWELS.includes(s.replace(/^[ˈˌ.]+/, '')[0] ?? '');
 function joinLetterIpa(parts) {
     let out = '';
     for (const part of parts) {
-        if (out && IPA_VOWELS.includes(out.at(-1)) && IPA_VOWELS.includes(part[0])) out += '.';
+        if (out && endsVowel(out) && startsVowel(part)) out += '.';
         out += part;
     }
     return out;
@@ -3166,7 +3179,7 @@ function buildLetterSpellIpa(letters) {
   if (cleaned.length === 1) return stressIpa('ˈ', LETTER_IPA[cleaned]);
   const head = joinLetterIpa(cleaned.slice(0, -1).split('').map(l => LETTER_IPA[l]));
   const tail = LETTER_IPA[cleaned.at(-1)];
-  const sep = IPA_VOWELS.includes(head.at(-1)) && IPA_VOWELS.includes(tail[0]) ? '.' : '';
+  const sep = endsVowel(head) && startsVowel(tail) ? '.' : '';
   return stressIpa('ˌ', head) + sep + stressIpa('ˈ', tail);
 }
 
@@ -3190,8 +3203,22 @@ function buildFastChainIpa(hyphenated) {
   if (ipa.length === 1) return `ˈ${ipa[0]}`;
   const head = joinLetterIpa(ipa.slice(0, -1));
   const tail = ipa.at(-1);
-  const sep = IPA_VOWELS.includes(head.at(-1)) && IPA_VOWELS.includes(tail[0]) ? '.' : '';
+  const sep = endsVowel(head) && startsVowel(tail) ? '.' : '';
   return `ˌ${head}${sep}ˈ${tail}`;
+}
+
+/**
+ * Regex matching a <phoneme> the chain builders would emit for `letters`.
+ *
+ * Several postprocess rules turn a letter-spelled acronym back into a
+ * word-pronounced <sub> (MAPQ, FASTQ, BAM, STING, apoB). They used to carry the
+ * IPA as a hardcoded literal, which silently stopped matching the moment the
+ * builders changed -- adding the vowel-seam break broke FASTQ, BAM and STING all
+ * at once and they fell back to being spelled out. Deriving the pattern from the
+ * builder keeps them in step by construction.
+ */
+function spelledChainRe(letters) {
+  return new RegExp(`<phoneme alphabet="ipa" ph="${escapeRegex(buildFastChainIpa(letters))}">[^<]*<\\/phoneme>`, 'g');
 }
 
 const FAST_GLUE_ACRONYMS = [
@@ -3228,7 +3255,6 @@ const FAST_GLUE_ACRONYMS = [
   'HLA', 'DRB',
   // MR-PDFF fragments.
   'MR', 'PDFF',
-  // Standardized mortality ratio — the 'MR' tail above would otherwise
   // wrap only the M-R, leaving a bare leading "S-" that Chirp slurs into
   // the next phoneme ("S-em-ar" → "sim-are").
   'SMR',
@@ -3243,7 +3269,7 @@ const FAST_GLUE_ACRONYMS = [
   // Polygenic risk score.
   'PRS',
   // Standard imaging / clinical / genomic acronyms.
-  'MRI', 'TSH', 'SNP', 'RNA', 'VUS', 'LPS', 'MMP', 'HRV', 'FDA', 'SSRI', 'ASCVD',
+  'MRI', 'TSH', 'SNP', 'RNA', 'VUS', 'MMP', 'HRV', 'FDA', 'SSRI', 'ASCVD',
 ];
 
 for (const acro of FAST_GLUE_ACRONYMS) {
@@ -3325,6 +3351,11 @@ const POST_OVERRIDES = {
   // III isn't letter-spelled into I-I-I before this runs. Read as
   // "ape-O-see-three" — same family shape as apoB / apoE.
   'apoCIII':  '<sub alias="ay-po see three">apoCIII</sub>',
+  // The Arabic spelling is at least as common in prose and was falling through
+  // raw. Same pronunciation, so it routes to the same alias -- list every
+  // written variant, not just the one the rule was written around.
+  'apoC3':    '<sub alias="ay-po see three">apoC3</sub>',
+  'apoC-3':   '<sub alias="ay-po see three">apoC-3</sub>',
   // Clinical-noun "read" — assessment / quick interpretation. Chirp
   // defaults the past-tense /rɛd/ for ambiguous "read" tokens; pre-
   // rewrite the established noun phrases to "reed" so they speak as
@@ -3718,7 +3749,7 @@ function postprocessForTTS(text) {
     '<phoneme alphabet="ipa" ph="ˌsiːˈɡæs">cGAS</phoneme>',
     '<sub alias="see gas">cGAS</sub>',
   );
-  t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">[^<]*<\/phoneme>/g, '<sub alias="sting">STING</sub>');
+  t = t.replace(spelledChainRe('S-T-I-N-G'), '<sub alias="sting">STING</sub>');
   // ── Clinical eponyms ───────────────────────────────────────────────────
   // Owner report 2026-09-05: "Angelman" was spoken with a soft G, as though it
   // were "angel". It is Harry Angelman, and he said it with a hard G — the
@@ -3810,9 +3841,9 @@ function postprocessForTTS(text) {
   // word-pronounced token the phoneme boundary inserts a pause the word should
   // not have. "cue" not "Q" — the letter name spelled as a word is what makes
   // the -Q suffix land as one fluid unit with the stem.
-  t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛmeɪpiːˈkjuː">[^<]*<\/phoneme>/g, '<sub alias="map cue">MAPQ</sub>');
-  t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛfeɪɛstiːˈkjuː">[^<]*<\/phoneme>/g, '<sub alias="fast cue">FASTQ</sub>');
-  t = t.replace(/<phoneme alphabet="ipa" ph="ˌbiːeɪˈɛm">[^<]*<\/phoneme>/g, '<sub alias="bam">BAM</sub>');
+  t = t.replace(spelledChainRe('M-A-P-Q'), '<sub alias="map cue">MAPQ</sub>');
+  t = t.replace(spelledChainRe('F-A-S-T-Q'), '<sub alias="fast cue">FASTQ</sub>');
+  t = t.replace(spelledChainRe('B-A-M'), '<sub alias="bam">BAM</sub>');
   // Bare forms, in case the all-caps pass did not wrap them (e.g. inside a
   // token the letter-speller skipped).
   t = t.replace(/\bMAPQ\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, '<sub alias="map cue">MAPQ</sub>');
@@ -3821,8 +3852,13 @@ function postprocessForTTS(text) {
 
   // apoB — "apo" is a word (apolipoprotein), so "ay-pee-oh-bee" is wrong; every
   // lipidologist says "AY-po-B". The generic path treats the lowercase run as
-  // letters. Also catches apoA1 / apoA-I.
-  t = t.replace(/<phoneme alphabet="ipa" ph="ˌeɪpiːoʊˈbiː">[^<]*<\/phoneme>/g, '<sub alias="ay-po B">apoB</sub>');
+  // letters. It does NOT catch the rest of the family:
+  // apoA1, apoA-I, apoE, apoE4, apoL1 and apoB100 all still pass through raw.
+  // Left that way deliberately -- each needs its own respelling verified by ear,
+  // and a TTS->Whisper probe could not separate the candidates for apoB itself
+  // ("ay-po B" came back as both "A-pole B" and "IPO-B" across runs), so
+  // inventing five more on the same evidence would be guessing.
+  t = t.replace(spelledChainRe('A-P-O-B'), '<sub alias="ay-po B">apoB</sub>');
 
   // dbSNP — "dee-bee-snip", not the unwrapped token, which Chirp reads as a
   // single nonsense word. Built from the SNP="snip" rule above.
@@ -3888,7 +3924,7 @@ function postprocessForTTS(text) {
   // Appended here, after the unit pass, so "160ms" isn't expanded to words.
   // The space after "diː" excludes the bare "C-D" letters phoneme (ˌsiːˈdiː).
   t = t.replace(/(<phoneme alphabet="ipa" ph="siː diː [^"]*">[^<]*<\/phoneme>)/g, '$1<break time="160ms"/>');
-  t = t.replace(/<phoneme alphabet="ipa" ph="kæd">[^<]*<\/phoneme>/g, '<phoneme alphabet="ipa" ph="ˌsiːeɪˈdiː">C-A-D</phoneme>');
+  t = t.replace(/<phoneme alphabet="ipa" ph="kæd">[^<]*<\/phoneme>/g, `<phoneme alphabet="ipa" ph="${buildFastChainIpa('C-A-D')}">C-A-D</phoneme>`);
   t = t.replace(/<phoneme alphabet="ipa" ph="pɛt">[^<]*<\/phoneme>/g, '<sub alias="pet">PET</sub>');
   // De-nest SPELL_AS_CHARACTERS symbols: a shared per-symbol POST_OVERRIDE
   // (e.g. SLCO1B1, HLA-DRB1) re-wraps the inner display of our preprocess
@@ -5483,18 +5519,18 @@ function selfTest() {
     ['Take 200mg of NMN daily', 'Take two hundred milligrams of <phoneme alphabet="ipa" ph="ˌɛnɛmˈɛn">N-M-N</phoneme> daily'],
     ['NAD+ levels decline by 50% after age 40', '<phoneme alphabet="ipa" ph="ˈɛn.eɪ.diːˈplʌs">NADplus</phoneme> levels decline by fifty percent after age forty'],
     ['Blood glucose: 95 mg/dL', 'Blood glucose: ninety five milligrams per deciliter'],
-    ['VO2max improved by 12%', '<phoneme alphabet="ipa" ph="ˌviːˈoʊ">V-O</phoneme> two-max improved by twelve percent'],
+    ['VO2max improved by 12%', "<phoneme alphabet=\"ipa\" ph=\"ˌviː.ˈoʊ\">V-O</phoneme> two-max improved by twelve percent"],
     ['The 1st study used 500μg of vitamin B12', 'The first study used five hundred micrograms of vitamin-B-twelve'],
     ['mTOR pathway activation', '<phoneme alphabet="ipa" ph="ˈɛmˌtɔːr">m-TOR</phoneme> pathway activation'],
-    ['IL-6 and TNF-α levels', 'interleukin six and <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme> alpha levels'],
+    ['IL-6 and TNF-α levels', "interleukin six and <phoneme alphabet=\"ipa\" ph=\"ˌtiː.ɛnˈɛf\">T-N-F</phoneme> alpha levels"],
     // Suffixed hyphen+digit abbreviations. ABBREVIATIONS match on a trailing
     // \b, so the base key cannot match inside "GLP-1s" and the "-1s" used to
     // survive into the SSML, where the voice reads the hyphen as "minus"
     // (heard live: "GLP-1s" spoken as "G-L-P-minus-ones").
-    ['GLP-1s doing things nobody expected', '<phoneme alphabet="ipa" ph="ˌdʒiːɛlˈpiː">G-L-P</phoneme> ones doing things nobody expected'],
-    ['GLP-1RA', '<phoneme alphabet="ipa" ph="ˌdʒiːɛlˈpiː">G-L-P</phoneme> one <phoneme alphabet="ipa" ph="ˌɑːrˈeɪ">R-A</phoneme>'],
-    ['SGLT-2i', '<phoneme alphabet="ipa" ph="ˌɛsdʒiːɛlˈtiː">S-G-L-T</phoneme> two inhibitors'],
-    ['IGF-1s', '<phoneme alphabet="ipa" ph="ˌaɪdʒiːˈɛf">I-G-F</phoneme> ones'],
+    ['GLP-1s doing things nobody expected', "<phoneme alphabet=\"ipa\" ph=\"ˌdʒiː.ɛlˈpiː\">G-L-P</phoneme> ones doing things nobody expected"],
+    ['GLP-1RA', "<phoneme alphabet=\"ipa\" ph=\"ˌdʒiː.ɛlˈpiː\">G-L-P</phoneme> one <phoneme alphabet=\"ipa\" ph=\"ˌɑːrˈeɪ\">R-A</phoneme>"],
+    ['SGLT-2i', "<phoneme alphabet=\"ipa\" ph=\"ˌɛsdʒiː.ɛlˈtiː\">S-G-L-T</phoneme> two inhibitors"],
+    ['IGF-1s', "<phoneme alphabet=\"ipa\" ph=\"ˌaɪdʒiː.ˈɛf\">I-G-F</phoneme> ones"],
     ['omega-3s', 'omega-threes'],
     // ── Genomics tokens that are word-pronounced, not letter-spelled ──
     // Owner report 2026-09-05: MAPQ was heard as a slurred "emaypeekyoo".
@@ -5503,7 +5539,7 @@ function selfTest() {
     // <phoneme> boundary puts inside a word.
     ['A MAPQ of zero', 'A <sub alias="map cue">MAPQ</sub> of zero'],
     ['the FASTQ files', 'the <sub alias="fast cue">FASTQ</sub> files'],
-    ['a BAM then a VCF', 'a <sub alias="bam">BAM</sub> then a <phoneme alphabet="ipa" ph="ˌviːsiːˈɛf">V-C-F</phoneme>'],
+    ['a BAM then a VCF', "a <sub alias=\"bam\">BAM</sub> then a <phoneme alphabet=\"ipa\" ph=\"ˌviːsiː.ˈɛf\">V-C-F</phoneme>"],
     // "apo" is a word; "ay-pee-oh-bee" is not how anyone says apoB.
     ['his apoB', 'his <sub alias="ay-po B">apoB</sub>'],
     // Mixed-case tokens the all-caps path never sees, so they used to pass
@@ -5541,6 +5577,24 @@ function selfTest() {
     // ANRIL is said as a word. Letter-spelled it came back from a TTS->Whisper
     // round-trip as "Ionol-Riel"; the owner heard "I-N-R-I-L".
     ['the ANRIL transcript', 'the <sub alias="ann-rill">ANRIL</sub> transcript'],
+    // Bare and hyphenated forms of the same acronym must agree. A duplicate
+    // 'V-T-E' key used to shadow the say-as and made them diverge.
+    ['a VTE event', 'a <say-as interpret-as="characters">VTE</say-as> event'],
+    ['a V-T-E event', 'a <say-as interpret-as="characters">VTE</say-as> event'],
+    // The seam break reaches the LEARNED store too, not just freshly built
+    // chains: 425 machine-made entries were written glued before the fix.
+    ['an ALS diagnosis',
+      'an <phoneme alphabet="ipa" ph="\u02CCe\u026A.\u025Bl\u02C8\u025Bs">A-L-S</phoneme> diagnosis'],
+    // A seam after a LONG vowel (siː, diː, tiː …) — the length mark is not a
+    // vowel character, so the first version of the detector missed all of these.
+    ['a CAD locus',
+      'a <phoneme alphabet="ipa" ph="\u02CCsi\u02D0.e\u026A\u02C8di\u02D0">C-A-D</phoneme> locus'],
+    // Word-pronounced tokens must survive the seam change: these rules matched
+    // a hardcoded IPA literal and silently stopped firing when it moved.
+    ['the FASTQ files', 'the <sub alias="fast cue">FASTQ</sub> files'],
+    ['STING agonists', '<sub alias="sting">STING</sub> agonists'],
+    // Arabic spelling of the same apolipoprotein, previously raw.
+    ['apoC3 levels', '<sub alias="ay-po see three">apoC3</sub> levels'],
     // A letter chain gets a syllable break ONLY where one letter name ends in a
     // vowel and the next starts with one -- otherwise Chirp resyllabifies across
     // the seam and eats the first letter (ASCVD was heard as "ISCVD").
@@ -5548,14 +5602,14 @@ function selfTest() {
       'the <phoneme alphabet="ipa" ph="\u02CCe\u026A.\u025Bssi\u02D0vi\u02D0\u02C8di\u02D0">A-S-C-V-D</phoneme> <phoneme alphabet="ipa" ph="sk\u0254r">score</phoneme>'],
     // No vowel-vowel seam: emitted exactly as before, no break inserted.
     ['MTHFR testing',
-      '<phoneme alphabet="ipa" ph="\u02CC\u025Bmti\u02D0e\u026At\u0283\u025Bf\u02C8\u0251\u02D0r">M-T-H-F-R</phoneme> testing'],
+      "<phoneme alphabet=\"ipa\" ph=\"ˌɛmtiː.eɪtʃɛfˈɑːr\">M-T-H-F-R</phoneme> testing"],
     // loci = "low-sigh". Singular locus is deliberately absent -- its default
     // is already right, and the rule is to override only what is heard wrong.
     ['independent coronary loci',
       'independent coronary <phoneme alphabet="ipa" ph="\u02C8lo\u028As\u0061\u026A">loci</phoneme>'],
     // The numbered form keeps its say-as; \brs\b cannot reach inside it.
     ['rs1801133 was reported', '<say-as interpret-as="characters">rs1801133</say-as> was reported'],
-    ['aligned to GRCh38', 'aligned to <phoneme alphabet="ipa" ph="\u02CCd\u0292i\u02D0\u0251\u02D0rsi\u02D0\u02C8e\u026At\u0283">G-R-C-h</phoneme> thirty eight'],
+    ['aligned to GRCh38', "aligned to <phoneme alphabet=\"ipa\" ph=\"ˌdʒiː.ɑːrsiː.ˈeɪtʃ\">G-R-C-h</phoneme> thirty eight"],
     // Isoform numbers are said as digit-pairs, and the number-to-words pass
     // does not reach inside a <sub alias> attribute, so they are spelled here.
     ['plasma p-tau217', 'plasma <sub alias="pee tau two seventeen">p-tau217</sub>'],
@@ -5608,7 +5662,7 @@ function selfTest() {
     // window must keep their letters.
     ['Autophagy is pronounced aw-TAH-fuh-jee', '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is pronounced aw-tah-fuh-jee'],
     ['pronounced ah-SEE-til-KOH-leen', 'pronounced ah-see-til-koh-leen'],
-    ['pronounced like anti-TNF in clinic', 'pronounced like anti <phoneme alphabet="ipa" ph="ˌtiːɛnˈɛf">T-N-F</phoneme> in clinic'],
+    ['pronounced like anti-TNF in clinic', "pronounced like anti <phoneme alphabet=\"ipa\" ph=\"ˌtiː.ɛnˈɛf\">T-N-F</phoneme> in clinic"],
     // HbA1c — the old hyphen-separated expansion 'H-b-A-one-c' left a literal
     // hyphen the voice read aloud ("H-B-A-one-DASH-C", owner report
     // 2026-09-05). Per-letter phoneme tags with no separator run fluidly.
@@ -5641,12 +5695,12 @@ function selfTest() {
     ['c-Myc', 'see-mick'],
     ['Myc', 'mick'],
     ['N-Myc', 'en-mick'],
-    ['OCT4, SOX2, KLF4 and c-Myc', 'oct-four, socks-two, <phoneme alphabet="ipa" ph="ˌkeɪɛlˈɛf">K-L-F</phoneme> four and see-mick'],
+    ['OCT4, SOX2, KLF4 and c-Myc', "oct-four, socks-two, <phoneme alphabet=\"ipa\" ph=\"ˌkeɪ.ɛlˈɛf\">K-L-F</phoneme> four and see-mick"],
     // BCL-2 family: the mixed-case spellings used in prose fell through the
     // ALL-CAPS gene rule and kept a literal hyphen, spoken as "dash two".
-    ['Bcl-2', '<phoneme alphabet="ipa" ph="ˌbiːsiːˈɛl">B-C-L</phoneme> two'],
-    ['Mcl-1', '<phoneme alphabet="ipa" ph="ˌɛmsiːˈɛl">M-C-L</phoneme> one'],
-    ['BCL-xL', '<phoneme alphabet="ipa" ph="ˌbiːsiːˈɛl">B-C-L</phoneme> ex-ell'],
+    ['Bcl-2', "<phoneme alphabet=\"ipa\" ph=\"ˌbiːsiː.ˈɛl\">B-C-L</phoneme> two"],
+    ['Mcl-1', "<phoneme alphabet=\"ipa\" ph=\"ˌɛmsiː.ˈɛl\">M-C-L</phoneme> one"],
+    ['BCL-xL', "<phoneme alphabet=\"ipa\" ph=\"ˌbiːsiː.ˈɛl\">B-C-L</phoneme> ex-ell"],
     // "Pro-" + a lowercase word is prose, not the amino acid proline.
     ['Pro-survival members', 'pro-survival members'],
     ['Pro-1 residue', 'proline-one residue'],
@@ -5659,10 +5713,10 @@ function selfTest() {
     ['a dash of salt', 'a dash of salt'],
     ['dash-cam footage', 'dash-cam footage'],
     // PI3K — letter-spelled, never "pie". The IPA wrap renders P-I as "pee-eye".
-    ['PI3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
-    ['PI-3K', '<phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K'],
-    ['The PI3K pathway drives growth.', 'The <phoneme alphabet="ipa" ph="\u02ccpi\u02d0\u02c8a\u026a">P-I</phoneme> three-K pathway drives growth.'],
-    ['PCSK9 inhibitor', '<phoneme alphabet="ipa" ph="ˌpiːsiːɛsˈkeɪ">P-C-S-K</phoneme> nine inhibitor'],
+    ['PI3K', "<phoneme alphabet=\"ipa\" ph=\"ˌpiː.ˈaɪ\">P-I</phoneme> three-K"],
+    ['PI-3K', "<phoneme alphabet=\"ipa\" ph=\"ˌpiː.ˈaɪ\">P-I</phoneme> three-K"],
+    ['The PI3K pathway drives growth.', "The <phoneme alphabet=\"ipa\" ph=\"ˌpiː.ˈaɪ\">P-I</phoneme> three-K pathway drives growth."],
+    ['PCSK9 inhibitor', "<phoneme alphabet=\"ipa\" ph=\"ˌpiːsiː.ɛsˈkeɪ\">P-C-S-K</phoneme> nine inhibitor"],
     ['TP53 mutation', '<phoneme alphabet="ipa" ph="ˌtiːˈpiː">T-P</phoneme> fifty-three mutation'],
     ['BRCA1 variant', 'bracka-one variant'],
     // CDK4 — the FAST_GLUE 'CD8' auto-registers 'C-D' too, which the
@@ -5738,7 +5792,7 @@ function selfTest() {
     // ─── Auto-wrap fallback for arbitrary letter-spelled acronyms not
     // in any explicit dictionary.
     ['the C-H-D-H pathway',
-      'the <phoneme alphabet="ipa" ph="ˌsiːeɪtʃdiːˈeɪtʃ">C-H-D-H</phoneme> pathway'],
+      "the <phoneme alphabet=\"ipa\" ph=\"ˌsiː.eɪtʃdiː.ˈeɪtʃ\">C-H-D-H</phoneme> pathway"],
     // ─── Hyphenated number-word handling (v0.9.0).
     // 2-word ONES + TENS_PREFIX: spoken compound 3-digit number, not range.
     ['above one-eighty milligrams', 'above one eighty milligrams'],
@@ -5764,7 +5818,7 @@ function selfTest() {
     // Short COMPOUND_TERMS keys must not bleed into longer tokens:
     // 'O2' made TDO2 "TDoxygen", 'NO' made NOTCH1 "nitric oxideTCH1".
     ['TDO2 and IDO1 expression',
-      '<phoneme alphabet="ipa" ph="\u02ccti\u02d0di\u02d0\u02c8o\u028a">T-D-O</phoneme> two and <phoneme alphabet="ipa" ph="a\u026a.\u02c8di\u02d0.o\u028a">i-d-o</phoneme> one expression'],
+      '<phoneme alphabet="ipa" ph="\u02ccti\u02d0di\u02d0.\u02c8o\u028a">T-D-O</phoneme> two and <phoneme alphabet="ipa" ph="a\u026a.\u02c8di\u02d0.o\u028a">i-d-o</phoneme> one expression'],
     ['NOTCH1 signaling and NOX4 activity',
       'notch-one signaling and nox-four activity'],
     ['CO2 clearance and H2O intake', 'carbon dioxide clearance and water intake'],
@@ -5797,9 +5851,9 @@ function selfTest() {
     ['curly I’d and we’ll here', "curly I'd and we'll here"],
     // Acronym plural + possessive: letter-spelled with a voiced plural /z/
     // ("dee-en-ay-z"), never "D-N-A-S". Possessive renders identically to plural.
-    ['two DNAs were compared', 'two <phoneme alphabet="ipa" ph="ˌdiːɛnˈeɪz">D-N-As</phoneme> were compared'],
-    ["the DNA's two strands", 'the <phoneme alphabet="ipa" ph="ˌdiːɛnˈeɪz">D-N-As</phoneme> two strands'],
-    ['both LDLs measured', 'both <phoneme alphabet="ipa" ph="ˌɛldiːˈɛlz">L-D-Ls</phoneme> measured'],
+    ['two DNAs were compared', "two <phoneme alphabet=\"ipa\" ph=\"ˌdiː.ɛnˈeɪz\">D-N-As</phoneme> were compared"],
+    ["the DNA's two strands", 'the <phoneme alphabet="ipa" ph="ˌdiː.ɛnˈeɪz">D-N-As</phoneme> two strands'],
+    ['both LDLs measured', "both <phoneme alphabet=\"ipa\" ph=\"ˌɛldiː.ˈɛlz\">L-D-Ls</phoneme> measured"],
     // Word-acronyms are NOT in the letter-spell set → stay bare (read as words).
     ['several SARMs tested', 'several SARMs tested'],
     // SSAT — terminal "T" must not voice to "D"; per-letter stressed phonemes.
@@ -5834,9 +5888,9 @@ function selfTest() {
       '<phoneme alphabet="ipa" ph="mɛtˈfɔːrmɪn">Metformin</phoneme> XL once daily'],
     // Out of range (>40), so unreachable by the bare rule: still acronyms.
     ['CMV seropositivity',
-      '<phoneme alphabet="ipa" ph="ˌsiːɛmˈviː">C-M-V</phoneme> seropositivity'],
+      "<phoneme alphabet=\"ipa\" ph=\"ˌsiː.ɛmˈviː\">C-M-V</phoneme> seropositivity"],
     ['Patients with MCI progressed',
-      'Patients with <phoneme alphabet="ipa" ph="ˌɛmsiːˈaɪ">M-C-I</phoneme> progressed'],
+      "Patients with <phoneme alphabet=\"ipa\" ph=\"ˌɛmsiː.ˈaɪ\">M-C-I</phoneme> progressed"],
     // Lowercase prose and the pronoun "I" are never numerals.
     ['I think I saw it', 'I think I saw it'],
     ['Mix the powder', 'Mix the powder'],
@@ -5888,16 +5942,16 @@ function selfTest() {
     // form used to lose its trailing residue to the English-collider rewrite
     // ("…seventy seven-met", the past tense of "meet").
     ['MTHFR Val-277-Met',
-      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      '<phoneme alphabet="ipa" ph="ˌɛmtiː.eɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
       + ' valine two hundred seventy seven methionine'],
     ['MTHFR Val277Met',
-      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      '<phoneme alphabet="ipa" ph="ˌɛmtiː.eɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
       + ' valine two hundred seventy seven methionine'],
     ['MTHFR Val 277 Met',
-      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      '<phoneme alphabet="ipa" ph="ˌɛmtiː.eɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
       + ' valine two hundred seventy seven methionine'],
     ['MTHFR p.Val277Met',
-      '<phoneme alphabet="ipa" ph="ˌɛmtiːeɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
+      '<phoneme alphabet="ipa" ph="ˌɛmtiː.eɪtʃɛfˈɑːr">M-T-H-F-R</phoneme>'
       + ' valine two hundred seventy seven methionine'],
     ['Cys-282-Tyr in HFE',
       'cysteine two hundred eighty two tyrosine in <say-as interpret-as="characters">HFE</say-as>'],
