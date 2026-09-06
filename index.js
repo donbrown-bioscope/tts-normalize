@@ -2030,6 +2030,11 @@ const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-D
   // Native say-as (not the <sub alias> char-spell, which mis-said DPYD/SRD5A2).
   'DPYD', 'SRD5A2', 'PPARGC1A', 'MT-ATP6', 'MT-ATP8', '5-HTTLPR', 'SULT1A1',
   'MTNR1B', 'GSTP1', 'NQO1', 'PER3', 'BDNF', 'CFH', 'HFE', 'CBS', 'F5', 'OATP', 'NAPRT']);
+// Placeholder alphabet for the HLA-allele rule in preprocessForTTS: lowercase
+// letters only, so no later pass has a hyphen, digit or space to act on. Decoded
+// at the end of postprocessForTTS. "xqx" is not a substring of any English word.
+const HLA_ALLELE_PREFIX = 'ttshlaallele';
+const HLA_ALLELE_SEP = 'xqx';
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -2193,6 +2198,46 @@ function preprocessForTTS(text) {
   // (TTR and every other doubled-letter acronym — EEG, AAA, PPI, ATTR … — are
   // handled generically by the adjacent-identical-letter de-slur pass at the
   // end of postprocessForTTS, not by a per-acronym rule here.)
+  // HLA alleles — HLA-B*57:01 and friends — spoken as ONE fluid unit:
+  // "aitch-ell-ey-bee-star-fifty-seven-zero-one" (owner, 2026-09-06).
+  //
+  // Before this the "*" and ":" survived into the spoken text and the leading
+  // zero was lost: HLA-B*57:01 came out as an IPA "H-L-A" followed by a raw
+  // "-B*fifty seven:one" — a pause mid-symbol, a literal asterisk and colon for
+  // the voice to guess at, and "01" read as "one".
+  //
+  // Emitted as a lowercase alpha-only PLACEHOLDER, not as the finished text or
+  // a <sub alias>, and decoded at the end of postprocessForTTS. coreNormalize
+  // runs in between and de-hyphenates a run of number words even inside an
+  // alias attribute ("star-fifty-seven-zero-one" -> "star fifty seven zero
+  // one"), which would put a beat on every field. A placeholder of nothing but
+  // [a-z] has no hyphen, digit or space for any pass to act on — the same trick
+  // the [[pause-*]] tokens use, for the same reason.
+  //
+  // Hyphens everywhere in the final form and NO spaces: the result is read as
+  // ordinary words, so each space is a beat the voice lands on. Deliberately
+  // not spellGeneChars(), which gives a digit run its own space-separated
+  // segment ("N-U-D-T fifteen") — right for a gene symbol, wrong for an allele.
+  //
+  // Letter NAMES, not bare capitals: a lone "A" or "G" has more than one
+  // reading (see LETTER_NAME), and the whole point is one unambiguous reading.
+  //
+  // A field is a cardinal unless it carries a leading zero, which is read
+  // digit-by-digit — *57:01 is "fifty-seven zero-one", *06:02 is "zero-six
+  // zero-two". Third and later fields (HLA-B*57:01:01) follow the same rule.
+  t = t.replace(/\bHLA-([A-Z]{1,4}\d?)\*(\d{2,3}(?::\d{2,3})*)\b/g, (_full, gene, fields) => {
+    const words = [];
+    const push = (s) => { for (const w of String(s).split(/[\s-]+/)) if (w) words.push(w); };
+    for (const m of `HLA${gene}`.matchAll(/([A-Za-z])|(\d+)/g)) {
+      push(m[1] ? (LETTER_NAME[m[1].toUpperCase()] ?? m[1]) : numToWords(m[2]));
+    }
+    push('star');
+    for (const f of fields.split(':')) {
+      push(f.startsWith('0') ? f.split('').map((d) => NUM_ONES[+d]).join('-') : numToWords(f));
+    }
+    return HLA_ALLELE_PREFIX + words.join(HLA_ALLELE_SEP);
+  });
+
   // Character-string gene symbols (see SPELL_AS_CHARACTERS) → one fluid
   // <sub alias> of spelled characters. Wrapped here so the per-symbol rules
   // and letter-speller leave them alone (guards skip tokens inside a <sub>);
@@ -3732,6 +3777,25 @@ function postprocessForTTS(text) {
   t = t.replace(/\bdbSNPs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
     m => `<sub alias="dee-bee-snip${m.endsWith('s') ? 's' : ''}">${m}</sub>`);
 
+  // A bare "rs" — as in "the letters rs", or "an rs number" — is read by Chirp
+  // as a syllable, which lands as the plural of R rather than the two letter
+  // names (owner report on the pharmacogenomics tutorial, 2026-09-06). The
+  // numbered form rs1801133 is already handled by the say-as pass above; this
+  // is only the prefix discussed on its own.
+  //
+  // Hyphen-bound, not spaced: "arr ess" is two words and an audible beat inside
+  // one term, the same defect the eponym and gene tables hit.
+  //
+  // Lowercase only, and only as a whole word: "Rs" is the rupee abbreviation,
+  // and \brs\b cannot reach inside rs1801133 or rsID (no word boundary before
+  // a digit or a capital), so those keep their own handling.
+  t = t.replace(/\brs\b(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    '<sub alias="arr-ess">rs</sub>');
+  // rsID / rsIDs — mixed case, so the all-caps letter-speller never sees it and
+  // it passed through raw to be read as a single nonsense word.
+  t = t.replace(/\brsIDs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    m => `<sub alias="arr-ess-eye-dee${m.endsWith('s') ? 'z' : ''}">${m}</sub>`);
+
   // NOTE for everything below: the number-to-words pass does NOT reach inside a
   // <sub alias="…"> attribute, so a digit written into an alias is delivered to
   // the voice as a digit. Spell numbers out by hand in alias text.
@@ -3879,6 +3943,14 @@ function postprocessForTTS(text) {
   t = t.replace(
     /<phoneme alphabet="ipa" ph="([^"]+)">([^<]+)<\/phoneme>('s)\b/g,
     (_, ipa, word, poss) => `<phoneme alphabet="ipa" ph="${ipa}${possessiveIpaSuffix(ipa)}">${word}${poss}</phoneme>`,
+  );
+
+  // Decode the HLA-allele placeholder emitted in preprocessForTTS. Runs LAST:
+  // everything above is free to rewrite hyphens and number words, and the point
+  // of the placeholder is that none of it could see any. See HLA_ALLELE_PREFIX.
+  t = t.replace(
+    new RegExp(`${HLA_ALLELE_PREFIX}((?:[a-z]+${HLA_ALLELE_SEP})*[a-z]+)`, 'g'),
+    (_m, body) => body.split(HLA_ALLELE_SEP).join('-'),
   );
 
   return t;
@@ -5383,6 +5455,26 @@ function selfTest() {
     // Mixed-case tokens the all-caps path never sees, so they used to pass
     // through raw and get read as single nonsense words.
     ['a dbSNP lookup', 'a <sub alias="dee-bee-snip">dbSNP</sub> lookup'],
+    // HLA alleles as ONE fluid unit (owner, 2026-09-06). Hyphens throughout and
+    // no spaces: every space in the spoken form is a beat the voice lands on.
+    // A field is a cardinal unless it has a leading zero, which goes
+    // digit-by-digit — that is how the allele is said, and it is also the only
+    // way "01" does not collapse to "one".
+    ['Screening for HLA-B*57:01 before abacavir',
+      'Screening for aitch-ell-ey-bee-star-fifty-seven-zero-one before <phoneme alphabet="ipa" ph="\u0259\u02C8b\u00E6k\u0259\u02CCv\u026Ar">abacavir</phoneme>'],
+    ['HLA-B*15:02', 'aitch-ell-ey-bee-star-fifteen-zero-two'],
+    ['HLA-DQB1*06:02', 'aitch-ell-ey-dee-cue-bee-one-star-zero-six-zero-two'],
+    // Third and later fields follow the same leading-zero rule.
+    ['HLA-B*57:01:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one-zero-one'],
+    // Bare HLA and the DRB1 gene symbol keep their own handling.
+    ['HLA typing', '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing'],
+    // A bare "rs" was read as a syllable — the plural of R, not two letter
+    // names (owner report on the pharmacogenomics tutorial, 2026-09-06).
+    ['The letters rs identify the variant',
+      'The letters <sub alias="arr-ess">rs</sub> identify the variant'],
+    ['the rsID column', 'the <sub alias="arr-ess-eye-dee">rsID</sub> column'],
+    // The numbered form keeps its say-as; \brs\b cannot reach inside it.
+    ['rs1801133 was reported', '<say-as interpret-as="characters">rs1801133</say-as> was reported'],
     ['aligned to GRCh38', 'aligned to <phoneme alphabet="ipa" ph="\u02CCd\u0292i\u02D0\u0251\u02D0rsi\u02D0\u02C8e\u026At\u0283">G-R-C-h</phoneme> thirty eight'],
     // Isoform numbers are said as digit-pairs, and the number-to-words pass
     // does not reach inside a <sub alias> attribute, so they are spelled here.
