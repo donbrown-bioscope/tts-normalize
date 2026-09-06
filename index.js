@@ -2054,11 +2054,26 @@ function numToWords(str) {
 function spellGeneChars(sym) {
   // Word respellings (LETTER_NAME), NOT bare capitals: bare letters collide with
   // the unit pass (a lone "L" → "liters", etc.), which is why this map exists.
-  const parts = [];
+  //
+  // Letter names are joined with HYPHENS, not spaces. A <sub alias> is read as
+  // ordinary words, so a space is a word boundary the voice puts a beat on —
+  // "tee pee em tee" was four words and three audible pauses inside a single
+  // gene symbol (owner report 2026-09-05, the same defect that made the eponym
+  // respellings choppy). A hyphenated run reads as one fluid token, which is
+  // why LETTER_NAME already spells W as "double-you" rather than "double you".
+  //
+  // A digit group DOES start a new space-separated segment: clinicians say
+  // "N-U-D-T fifteen", with the number as its own beat. So letters bind to
+  // letters, and numbers stand alone.
+  const segments = [];
+  let letterRun = [];
+  const flush = () => { if (letterRun.length) { segments.push(letterRun.join('-')); letterRun = []; } };
   for (const m of sym.matchAll(/([A-Za-z])|(\d+)/g)) {
-    parts.push(m[1] ? (LETTER_NAME[m[1].toUpperCase()] ?? m[1]) : numToWords(m[2]));
+    if (m[1]) letterRun.push(LETTER_NAME[m[1].toUpperCase()] ?? m[1]);
+    else { flush(); segments.push(numToWords(m[2])); }
   }
-  return parts.join(' ');
+  flush();
+  return segments.join(' ');
 }
 
 // ── Cell-surface markers (CD8+, CD28−, CD45RO, CD4+, compound CD8+CD28−) ──
@@ -3605,6 +3620,148 @@ function postprocessForTTS(text) {
     '<sub alias="see gas">cGAS</sub>',
   );
   t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛstiːaɪɛnˈdʒiː">[^<]*<\/phoneme>/g, '<sub alias="sting">STING</sub>');
+  // ── Clinical eponyms ───────────────────────────────────────────────────
+  // Owner report 2026-09-05: "Angelman" was spoken with a soft G, as though it
+  // were "angel". It is Harry Angelman, and he said it with a hard G — the
+  // first syllable is the geometric "angle". This is the single most common
+  // mispronunciation in the whole eponym class.
+  //
+  // Respellings rather than IPA, deliberately. These are proper names whose
+  // failure mode is a wrong consonant, and this file already documents that
+  // Chirp renders the letter G inconsistently (see the CpG "jee" note) — the
+  // exact hazard here. A natural English respelling routes around the IPA
+  // engine entirely and cannot land a soft G by accident.
+  //
+  // Only names where an English speaker's default reading is WRONG are listed.
+  // Alzheimer, Marfan, Wilson, Lynch, Huntington and Tay-Sachs are deliberately
+  // absent: the default is already right, and an unnecessary override can only
+  // introduce error. Add a name here when it is heard wrong, not on suspicion.
+  // SPACES ARE PAUSES. A <sub alias> is read as ordinary words, so every space
+  // is a word boundary the voice puts a beat on. The first version of this
+  // table spelled each name syllable-by-syllable ("ay lerz dan loss") and the
+  // owner reported the long ones as choppy and unnatural — four tokens meant
+  // three pauses inside one surname.
+  //
+  // The rule: join the syllables WITHIN a surname into one token, and use a
+  // space only between genuinely separate surnames, where a small beat is
+  // correct anyway. Hyphenated eponyms are two people.
+  const EPONYM_SAY = {
+    'Angelman':          'angleman',        // Harry Angelman — hard G, "angle"
+    'Prader-Willi':      'prayderwilly',    // long A, no internal pause
+    'Creutzfeldt-Jakob': 'kroytsfelt yahkob',
+    'Ehlers-Danlos':     'aylersdanlohs',   // long A, long O, fully fluid
+    'Li-Fraumeni':       'lee fraumenny',
+    // "doo", not "do": bare "do" is ambiguous in English — the verb /duː/ but
+    // also the solfège note /doʊ/ — and the voice picked the long-O reading in
+    // some sentence positions and not others. "doo" only has the one value.
+    'Duchenne':          'doo-shayne',  // rhymes with Shane, not with 'shen'
+    'Sjogren':           'showgren',
+    'Gaucher':           'goshay',
+    'Pompe':             'pompay',
+    'Niemann-Pick':      'neeman pick',
+    'Fabry':             'fabree',
+    'Behcet':            'behchet',
+    'Guillain-Barre':    'gheeyan bahray',
+  };
+  for (const [name, say] of Object.entries(EPONYM_SAY)) {
+    // Accents are stripped for the lookup key, so match the accented spellings
+    // too (Barré, Sjögren, Behçet), and carry a possessive through into the
+    // alias — "Angelman's" must not become "angle man s".
+    const pattern = name
+      .replace(/e/g, '[eé]').replace(/o/g, '[oö]').replace(/c/g, '[cç]')
+      .replace(/-/g, '[- ]');
+    t = t.replace(
+      // Trailing boundary is (?![A-Za-z]), not \\b: \\b is defined over
+      // [A-Za-z0-9_], so a name ending in an accented letter (Guillain-Barré)
+      // has NO boundary between the é and the following space — both sides are
+      // non-word — and the match silently fails.
+      new RegExp(`\\b${pattern}(\u2019s|'s)?(?![A-Za-z])(?![^<]*<\\/(?:phoneme|sub|say-as)>)`, 'gi'),
+      (m, poss) => `<sub alias="${say}${poss ? 's' : ''}">${m}</sub>`);
+  }
+
+  // ── "read" in the sequencing sense is /riːd/, never /rɛd/ ──────────────
+  // Owner report 2026-09-05: "short-read" was spoken "short-RED". Nothing in
+  // the pipeline touched it, so Chirp was choosing, and inside a hyphenated
+  // compound it defaults to the past participle.
+  //
+  // This is independent of the auxiliary-driven /rɛd/ rule in preprocessForTTS:
+  // that one requires whitespace before "read", so a hyphenated compound can
+  // never reach it. The two do not overlap, and the phoneme guard below keeps
+  // this from reaching inside anything already wrapped.
+  //
+  // "reads" is the free case — the plural noun ("three hundred million reads")
+  // and the verb ("she reads the report") are both /riːdz/, so it can be forced
+  // unconditionally with no disambiguation.
+  t = t.replace(/\b(short|long|single|paired)-read\b(?![^<]*<\/phoneme>)/gi,
+    (_m, mod) => `${mod}-<phoneme alphabet="ipa" ph="ˈriːd">read</phoneme>`);
+  t = t.replace(/\breads\b(?![^<]*<\/phoneme>)/gi, '<phoneme alphabet="ipa" ph="ˈriːdz">reads</phoneme>');
+  // The noun compounds. The auxiliary rule already declines to make these
+  // /rɛd/; this states the positive case so the voice is not left guessing.
+  t = t.replace(/\bread\s+(depths?|lengths?|pairs?|counts?|coverage|alignments?|quality|groups?)\b(?![^<]*<\/phoneme>)/gi,
+    (_m, noun) => `<phoneme alphabet="ipa" ph="ˈriːd">read</phoneme> ${noun}`);
+
+  // ── Genomics file formats and metrics: word-pronounced, not letter-spelled ──
+  // These read as words (or word + letter name) at the bench and in clinic, and
+  // the generic all-caps path letter-spells them, which is what an owner report
+  // on 2026-09-05 heard as slurring: MAPQ came out "emaypeekyoo" rather than
+  // "map cue". Note SAM already resolved to /sæm/ while BAM letter-spelled —
+  // the same file-format pair, treated two different ways.
+  //
+  // <sub alias> rather than <phoneme>, for the reason given at cGAS above: on a
+  // word-pronounced token the phoneme boundary inserts a pause the word should
+  // not have. "cue" not "Q" — the letter name spelled as a word is what makes
+  // the -Q suffix land as one fluid unit with the stem.
+  t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛmeɪpiːˈkjuː">[^<]*<\/phoneme>/g, '<sub alias="map cue">MAPQ</sub>');
+  t = t.replace(/<phoneme alphabet="ipa" ph="ˌɛfeɪɛstiːˈkjuː">[^<]*<\/phoneme>/g, '<sub alias="fast cue">FASTQ</sub>');
+  t = t.replace(/<phoneme alphabet="ipa" ph="ˌbiːeɪˈɛm">[^<]*<\/phoneme>/g, '<sub alias="bam">BAM</sub>');
+  // Bare forms, in case the all-caps pass did not wrap them (e.g. inside a
+  // token the letter-speller skipped).
+  t = t.replace(/\bMAPQ\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, '<sub alias="map cue">MAPQ</sub>');
+  t = t.replace(/\bFASTQs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    m => `<sub alias="fast cue${m.endsWith('s') ? 's' : ''}">${m}</sub>`);
+
+  // apoB — "apo" is a word (apolipoprotein), so "ay-pee-oh-bee" is wrong; every
+  // lipidologist says "AY-po-B". The generic path treats the lowercase run as
+  // letters. Also catches apoA1 / apoA-I.
+  t = t.replace(/<phoneme alphabet="ipa" ph="ˌeɪpiːoʊˈbiː">[^<]*<\/phoneme>/g, '<sub alias="ay-po B">apoB</sub>');
+
+  // dbSNP — "dee-bee-snip", not the unwrapped token, which Chirp reads as a
+  // single nonsense word. Built from the SNP="snip" rule above.
+  t = t.replace(/\bdbSNPs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    m => `<sub alias="dee bee snip${m.endsWith('s') ? 's' : ''}">${m}</sub>`);
+
+  // NOTE for everything below: the number-to-words pass does NOT reach inside a
+  // <sub alias="…"> attribute, so a digit written into an alias is delivered to
+  // the voice as a digit. Spell numbers out by hand in alias text.
+  const ONES_WORD = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+  const TEENS_WORD = ['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  const TENS_WORD = { 2:'twenty', 3:'thirty', 4:'forty', 5:'fifty', 6:'sixty', 7:'seventy', 8:'eighty', 9:'ninety' };
+  // A two-digit number the way it is said aloud: "thirty eight", "nineteen".
+  const twoDigitWords = (n) => {
+    const v = parseInt(n, 10);
+    if (v < 10) return ONES_WORD[v];
+    if (v <= 19) return TEENS_WORD[v - 10];
+    const t10 = Math.floor(v / 10), u = v % 10;
+    return u ? `${TENS_WORD[t10]} ${ONES_WORD[u]}` : TENS_WORD[t10];
+  };
+  // Assay isoform numbers are read as digit-pairs, not as a cardinal: p-tau217
+  // is "two seventeen", never "two hundred and seventeen".
+  const TAU_ISOFORM = { '217':'two seventeen', '181':'one eighty one', '231':'two thirty one', '205':'two oh five' };
+  // Reference-genome builds. "GRCh38" unwrapped is read as a word; clinicians
+  // say "G-R-C-h thirty-eight". T2T-CHM13's leading "T2T" was surviving raw.
+  // Letters GLUED via IPA, not spaced in an alias. A spaced alias ("G R C h")
+  // is four words and therefore four audible pauses — the same defect the
+  // eponym table hit. buildFastChainIpa is the house idiom for a fluid letter
+  // run; the build number follows as ordinary words.
+  t = t.replace(/\bGRCh(\d+)\b/g, (_m, n) =>
+    `<phoneme alphabet="ipa" ph="${buildFastChainIpa('G-R-C-H')}">G-R-C-h</phoneme> ${twoDigitWords(n)}`);
+  t = t.replace(/\bT2T\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g, '<sub alias="T two T">T2T</sub>');
+
+  // p-tau217 / p-tau181 — the plasma Alzheimer's markers. Unwrapped, the whole
+  // token is read as one word. Said "pee-tau two-seventeen".
+  t = t.replace(/\bp-tau\s?(\d+)\b/gi,
+    (m, n) => `<sub alias="pee tau ${TAU_ISOFORM[n] ?? n.split('').map(d => ONES_WORD[+d]).join(' ')}">${m}</sub>`);
+
   // CAD (coronary artery disease) is letter-spelled "C-A-D" by clinicians, not
   // said as the word "cad" (which Chirp renders close to "cod"). A=/eɪ/.
   // Cell-marker trailing break (preprocess wrapped them as ph="siː diː …").
@@ -5211,6 +5368,41 @@ function selfTest() {
     ['SGLT-2i', '<phoneme alphabet="ipa" ph="ˌɛsdʒiːɛlˈtiː">S-G-L-T</phoneme> two inhibitors'],
     ['IGF-1s', '<phoneme alphabet="ipa" ph="ˌaɪdʒiːˈɛf">I-G-F</phoneme> ones'],
     ['omega-3s', 'omega-threes'],
+    // ── Genomics tokens that are word-pronounced, not letter-spelled ──
+    // Owner report 2026-09-05: MAPQ was heard as a slurred "emaypeekyoo".
+    // The generic all-caps path letter-spells any unknown capital run; these
+    // read as words at the bench, and <sub alias> avoids the pause that a
+    // <phoneme> boundary puts inside a word.
+    ['A MAPQ of zero', 'A <sub alias="map cue">MAPQ</sub> of zero'],
+    ['the FASTQ files', 'the <sub alias="fast cue">FASTQ</sub> files'],
+    ['a BAM then a VCF', 'a <sub alias="bam">BAM</sub> then a <phoneme alphabet="ipa" ph="ˌviːsiːˈɛf">V-C-F</phoneme>'],
+    // "apo" is a word; "ay-pee-oh-bee" is not how anyone says apoB.
+    ['his apoB', 'his <sub alias="ay-po B">apoB</sub>'],
+    // Mixed-case tokens the all-caps path never sees, so they used to pass
+    // through raw and get read as single nonsense words.
+    ['a dbSNP lookup', 'a <sub alias="dee bee snip">dbSNP</sub> lookup'],
+    ['aligned to GRCh38', 'aligned to <phoneme alphabet="ipa" ph="\u02CCd\u0292i\u02D0\u0251\u02D0rsi\u02D0\u02C8e\u026At\u0283">G-R-C-h</phoneme> thirty eight'],
+    // Isoform numbers are said as digit-pairs, and the number-to-words pass
+    // does not reach inside a <sub alias> attribute, so they are spelled here.
+    ['plasma p-tau217', 'plasma <sub alias="pee tau two seventeen">p-tau217</sub>'],
+    // "short-read" was heard as "short-RED": Chirp defaults to the past
+    // participle inside a hyphenated compound. The sequencing sense is /riːd/.
+    ['short-read sequencing', 'short-<phoneme alphabet="ipa" ph="ˈriːd">read</phoneme> sequencing'],
+    ['long-read platforms', 'long-<phoneme alphabet="ipa" ph="ˈriːd">read</phoneme> platforms'],
+    // Plural is unambiguous — noun and verb are both /riːdz/.
+    ['millions of reads', 'millions of <phoneme alphabet="ipa" ph="ˈriːdz">reads</phoneme>'],
+    ['adequate read depth', 'adequate <phoneme alphabet="ipa" ph="ˈriːd">read</phoneme> depth'],
+    // Eponyms. Angelman is the hard-G one: Harry Angelman, "angle" not "angel".
+    ['Angelman syndrome', '<sub alias="angleman">Angelman</sub> syndrome'],
+    ["Angelman's syndrome", '<sub alias="anglemans">Angelman\'s</sub> syndrome'],
+    ['Prader-Willi syndrome', '<sub alias="prayderwilly">Prader-Willi</sub> syndrome'],
+    ['Duchenne muscular dystrophy', '<sub alias="doo-shayne">Duchenne</sub> muscular dystrophy'],
+    ['Gaucher disease', '<sub alias="goshay">Gaucher</sub> disease'],
+    // Ends in an accented letter — the \b trailing boundary did not hold here.
+    ['Guillain-Barr\u00e9 syndrome', '<sub alias="gheeyan bahray">Guillain-Barr\u00e9</sub> syndrome'],
+    // Names whose English default is already correct stay untouched — an
+    // unnecessary override can only introduce error.
+    ['Huntington disease', 'Huntington disease'],
     // Pronunciation helpers are cut from spoken text: the voice has just said
     // the word correctly, so spelling out an approximation of it is noise.
     // A trailing clause inside the same parenthetical survives; the common
@@ -5225,7 +5417,12 @@ function selfTest() {
     // full paragraph, which is why the sentence alone probed clean.
     ['how DNA is packaged and read, changing genes', 'how <phoneme alphabet=\"ipa\" ph=\"ˌdiː.ɛn.ˈeɪ\">D-N-A</phoneme> is packaged and <phoneme alphabet=\"ipa\" ph=\"ˈrɛd\">read</phoneme>, changing genes'],
     ['every base was read thirty times', 'every base was <phoneme alphabet=\"ipa\" ph=\"ˈrɛd\">read</phoneme> thirty times'],
-    ['samples had read depths above thirty', 'samples had read depths above thirty'],
+    // Was asserted as unchanged when the auxiliary rule landed: the trailing
+    // guard stopped "had read depths" becoming /rɛd/, leaving the voice to
+    // pick. The genomics noun-compound rule now states /riːd/ positively, so
+    // the expectation moves from "not wrong" to "explicitly right". Same
+    // audible result the guard was protecting, one fewer guess.
+    ['samples had read depths above thirty', 'samples had <phoneme alphabet="ipa" ph="ˈriːd">read</phoneme> depths above thirty'],
     ['which pages to read and which to skip', 'which pages to read and which to skip'],
     ['Autophagy, pronounced aw-TAH-fuh-jee, is recycling.', '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is recycling.'],
     ['Sestrins — pronounced SES-trinz — are bodyguards.', 'Sestrins are bodyguards.'],
