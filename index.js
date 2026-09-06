@@ -2064,8 +2064,13 @@ const SAY_AS_CHARACTERS = new Set(['VKORC1', 'UGT1A1', 'PNPLA3', 'ACTN3', 'HLA-D
 // Placeholder alphabet for the HLA-allele rule in preprocessForTTS: lowercase
 // letters only, so no later pass has a hyphen, digit or space to act on. Decoded
 // at the end of postprocessForTTS. "xqx" is not a substring of any English word.
-const HLA_ALLELE_PREFIX = 'ttshlaallele';
-const HLA_ALLELE_SEP = 'xqx';
+const HLA_ALLELE_PREFIX = 'ttshla';
+const HLA_ALLELE_SEP = 'zqz';
+// Explicit terminator: without it the letters group is [a-z]+ and greedily eats
+// its own separators, so the whole placeholder came back as the gene name.
+// The separator must not collide with a gene letter at the boundary: "qq" made
+// HLA-DQ2 ambiguous (gene "dq" + "qq" = "dqqq"), splitting it as D + "qtwo".
+const HLA_ALLELE_END = 'zzz';
 const LETTER_NAME = {
   // A: "ey" not "ay" — bare "ay" reads as /aɪ/ ("eye", colliding with I); "ey"
   // (hey/grey/they) holds /eɪ/. G: "jee" not "gee" — "gee" lands as a hard /g/
@@ -2229,54 +2234,40 @@ function preprocessForTTS(text) {
   // (TTR and every other doubled-letter acronym — EEG, AAA, PPI, ATTR … — are
   // handled generically by the adjacent-identical-letter de-slur pass at the
   // end of postprocessForTTS, not by a per-acronym rule here.)
-  // HLA alleles — HLA-B*57:01 and friends — spoken as ONE fluid unit:
-  // "aitch-ell-ey-bee-star-fifty-seven-zero-one" (owner, 2026-09-06).
+  // HLA alleles and serotypes — HLA-B*57:01, HLA-B27, HLA-DR, HLA-DQB1*06:02.
   //
-  // Before this the "*" and ":" survived into the spoken text and the leading
-  // zero was lost: HLA-B*57:01 came out as an IPA "H-L-A" followed by a raw
-  // "-B*fifty seven:one" — a pause mid-symbol, a literal asterisk and colon for
-  // the voice to guess at, and "01" read as "one".
+  // The LETTERS go through IPA, not a respelling. An earlier version spelled
+  // them as words ("aitch-ell-ey-ey") and Chirp read the respelling for A —
+  // "ey" — as the two letters E and Y, so HLA-A was heard as "H-L-E-Y-E-Y"
+  // (owner, 2026-09-06). Measured on Chirp 3 HD via TTS->Whisper:
   //
-  // Emitted as a lowercase alpha-only PLACEHOLDER, not as the finished text or
-  // a <sub alias>, and decoded at the end of postprocessForTTS. coreNormalize
-  // runs in between and de-hyphenates a run of number words even inside an
-  // alias attribute ("star-fifty-seven-zero-one" -> "star fifty seven zero
-  // one"), which would put a beat on every field. A placeholder of nothing but
-  // [a-z] has no hyphen, digit or space for any pass to act on — the same trick
-  // the [[pause-*]] tokens use, for the same reason.
+  //   aitch-ell-ey-ey                   -> "H-L-E-Y-E-Y"
+  //   <sub alias="aitch-ell-ey-ey">     -> "HLEI"
+  //   aitch-ell-ay-ay                   -> "HLI"
+  //   <phoneme ph="ˌeɪtʃɛleɪ.ˈeɪ">      -> "HLAA"      <-- this one
   //
-  // Hyphens everywhere in the final form and NO spaces: the result is read as
-  // ordinary words, so each space is a beat the voice lands on. Deliberately
-  // not spellGeneChars(), which gives a digit run its own space-separated
-  // segment ("N-U-D-T fifteen") — right for a gene symbol, wrong for an allele.
+  // So: IPA for the letter run (seam-aware, via buildFastChainIpa), then the
+  // numeric tail as ordinary words after the tag — the same shape GRCh38 uses.
+  // A digit tail is read as a cardinal ("B twenty-seven"); allele fields keep
+  // the leading-zero rule (*57:01 -> "star fifty-seven zero one").
   //
-  // Letter NAMES, not bare capitals: a lone "A" or "G" has more than one
-  // reading (see LETTER_NAME), and the whole point is one unambiguous reading.
-  //
-  // A field is a cardinal unless it carries a leading zero, which is read
-  // digit-by-digit — *57:01 is "fifty-seven zero-one", *06:02 is "zero-six
-  // zero-two". Third and later fields (HLA-B*57:01:01) follow the same rule.
-  // The separator is matched as "*" OR the WORD "star": the tutorial generator
-  // writes "HLA-B star-57:01", not "HLA-B*57:01", so a rule keyed only on the
-  // asterisk silently misses every allele in generated narration. List every
-  // written variant, not just the canonical one.
-  // The allele fields are OPTIONAL, so the same rule covers the serotype forms.
-  // HLA-B27 left "B27" raw after an H-L-A phoneme, and HLA-DR left a bare "DR"
-  // — which Chirp can read as "Doctor". Both are everyday clinical terms.
-  t = t.replace(/\bHLA-([A-Z]{1,4}\d{0,3})(?:[\s-]*(?:\*|\bstar\b)[\s-]*(\d{2,3}(?::\d{2,3})*))?\b/g, (_full, gene, fields) => {
-    const words = [];
-    const push = (s) => { for (const w of String(s).split(/[\s-]+/)) if (w) words.push(w); };
-    for (const m of `HLA${gene}`.matchAll(/([A-Za-z])|(\d+)/g)) {
-      push(m[1] ? (LETTER_NAME[m[1].toUpperCase()] ?? m[1]) : numToWords(m[2]));
-    }
-    if (fields) {
-      push('star');
-      for (const f of fields.split(':')) {
-        push(f.startsWith('0') ? f.split('').map((d) => NUM_ONES[+d]).join('-') : numToWords(f));
+  // Emitted as a lowercase alpha-only placeholder and decoded at the very end
+  // of postprocessForTTS: coreNormalize runs in between and rewrites hyphens
+  // between number words even inside an attribute.
+  t = t.replace(/\bHLA-([A-Z]{1,4})(\d{0,3})(?:[\s-]*(?:\*|\bstar\b)[\s-]*(\d{2,3}(?::\d{2,3})*))?\b/g,
+    (_full, geneLetters, geneDigits, fields) => {
+      const words = [];
+      const push = (str) => { for (const w of String(str).split(/[\s-]+/)) if (w) words.push(w); };
+      if (geneDigits) push(numToWords(geneDigits));
+      if (fields) {
+        push('star');
+        for (const f of fields.split(':')) {
+          push(f.startsWith('0') ? f.split('').map((d) => NUM_ONES[+d]).join(' ') : numToWords(f));
+        }
       }
-    }
-    return HLA_ALLELE_PREFIX + words.join(HLA_ALLELE_SEP);
-  });
+      return HLA_ALLELE_PREFIX + geneLetters.toLowerCase()
+        + words.map((w) => HLA_ALLELE_SEP + w).join('') + HLA_ALLELE_END;
+    });
 
   // Character-string gene symbols (see SPELL_AS_CHARACTERS) → one fluid
   // <sub alias> of spelled characters. Wrapped here so the per-symbol rules
@@ -4047,12 +4038,18 @@ function postprocessForTTS(text) {
     (_, ipa, word, poss) => `<phoneme alphabet="ipa" ph="${ipa}${possessiveIpaSuffix(ipa)}">${word}${poss}</phoneme>`,
   );
 
-  // Decode the HLA-allele placeholder emitted in preprocessForTTS. Runs LAST:
-  // everything above is free to rewrite hyphens and number words, and the point
-  // of the placeholder is that none of it could see any. See HLA_ALLELE_PREFIX.
+  // Decode the HLA placeholder emitted in preprocessForTTS. Runs LAST: the
+  // passes above rewrite hyphens and number words, and the point of the
+  // placeholder is that none of them could see any. See HLA_ALLELE_PREFIX.
   t = t.replace(
-    new RegExp(`${HLA_ALLELE_PREFIX}((?:[a-z]+${HLA_ALLELE_SEP})*[a-z]+)`, 'g'),
-    (_m, body) => body.split(HLA_ALLELE_SEP).join('-'),
+    new RegExp(`${HLA_ALLELE_PREFIX}([a-z]+?)((?:${HLA_ALLELE_SEP}[a-z]+)*)${HLA_ALLELE_END}`, 'g'),
+    (_m, letters, tail) => {
+      const gene = letters.toUpperCase();
+      const chain = ['H', 'L', 'A', ...gene].join('-');
+      const words = tail ? tail.split(HLA_ALLELE_SEP).filter(Boolean).join(' ') : '';
+      return `<phoneme alphabet="ipa" ph="${buildFastChainIpa(chain)}">HLA-${gene}</phoneme>`
+        + (words ? ` ${words}` : '');
+    },
   );
 
   return t;
@@ -5563,21 +5560,21 @@ function selfTest() {
     // digit-by-digit — that is how the allele is said, and it is also the only
     // way "01" does not collapse to "one".
     ['Screening for HLA-B*57:01 before abacavir',
-      'Screening for aitch-ell-ey-bee-star-fifty-seven-zero-one before <phoneme alphabet="ipa" ph="\u0259\u02C8b\u00E6k\u0259\u02CCv\u026Ar">abacavir</phoneme>'],
-    ['HLA-B*15:02', 'aitch-ell-ey-bee-star-fifteen-zero-two'],
+      "Screening for <phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪˈbiː\">HLA-B</phoneme> star fifty seven zero one before <phoneme alphabet=\"ipa\" ph=\"əˈbækəˌvɪr\">abacavir</phoneme>"],
+    ['HLA-B*15:02', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪˈbiː\">HLA-B</phoneme> star fifteen zero two"],
     // The tutorial generator writes the separator as the WORD "star", not "*".
     // A rule keyed only on the asterisk missed every allele in real narration
     // (found by listening, not by the pre-flight scan).
     ['HLA-B star-57:01 predicts abacavir hypersensitivity',
-      'aitch-ell-ey-bee-star-fifty-seven-zero-one predicts <phoneme alphabet="ipa" ph="\u0259\u02C8b\u00E6k\u0259\u02CCv\u026Ar">abacavir</phoneme> hypersensitivity'],
-    ['HLA-B star 57:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one'],
+      "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪˈbiː\">HLA-B</phoneme> star fifty seven zero one predicts <phoneme alphabet=\"ipa\" ph=\"əˈbækəˌvɪr\">abacavir</phoneme> hypersensitivity"],
+    ['HLA-B star 57:01', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪˈbiː\">HLA-B</phoneme> star fifty seven zero one"],
     // Serotype forms carry no allele fields. HLA-B27 used to leave "B27" raw
     // after an H-L-A phoneme, and HLA-DR left a bare "DR" that Chirp can read
     // as "Doctor" — both everyday clinical terms, found while reviewing the
     // HLA-typing tutorial.
-    ['HLA-B27 positive', 'aitch-ell-ey-bee-twenty-seven positive'],
-    ['HLA-DR expression', 'aitch-ell-ey-dee-arr expression'],
-    ['HLA-DQ8', 'aitch-ell-ey-dee-cue-eight'],
+    ['HLA-B27 positive', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪˈbiː\">HLA-B</phoneme> twenty seven positive"],
+    ['HLA-DR expression', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪdiː.ˈɑːr\">HLA-DR</phoneme> expression"],
+    ['HLA-DQ8', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪdiːˈkjuː\">HLA-DQ</phoneme> eight"],
     // DMARD is a word, "dee-mard" — owner's ear. A TTS->Whisper probe normalises
     // both readings to "DMARD" and could not tell them apart, so ASR was no help
     // here; the plural also escaped the singular's \b and passed through raw.
@@ -5586,9 +5583,9 @@ function selfTest() {
     // Bare HLA, with no gene after it, keeps its own IPA.
     ['HLA typing generally',
       '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing generally'],
-    ['HLA-DQB1*06:02', 'aitch-ell-ey-dee-cue-bee-one-star-zero-six-zero-two'],
+    ['HLA-DQB1*06:02', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪdiːkjuːˈbiː\">HLA-DQB</phoneme> one star zero six zero two"],
     // Third and later fields follow the same leading-zero rule.
-    ['HLA-B*57:01:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one-zero-one'],
+    ['HLA-B*57:01:01', "<phoneme alphabet=\"ipa\" ph=\"ˌeɪtʃɛleɪˈbiː\">HLA-B</phoneme> star fifty seven zero one zero one"],
     // Bare HLA and the DRB1 gene symbol keep their own handling.
     ['HLA typing', '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing'],
     // A bare "rs" was read as a syllable — the plural of R, not two letter
