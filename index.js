@@ -2225,7 +2225,11 @@ function preprocessForTTS(text) {
   // A field is a cardinal unless it carries a leading zero, which is read
   // digit-by-digit — *57:01 is "fifty-seven zero-one", *06:02 is "zero-six
   // zero-two". Third and later fields (HLA-B*57:01:01) follow the same rule.
-  t = t.replace(/\bHLA-([A-Z]{1,4}\d?)\*(\d{2,3}(?::\d{2,3})*)\b/g, (_full, gene, fields) => {
+  // The separator is matched as "*" OR the WORD "star": the tutorial generator
+  // writes "HLA-B star-57:01", not "HLA-B*57:01", so a rule keyed only on the
+  // asterisk silently misses every allele in generated narration. List every
+  // written variant, not just the canonical one.
+  t = t.replace(/\bHLA-([A-Z]{1,4}\d?)[\s-]*(?:\*|\bstar\b)[\s-]*(\d{2,3}(?::\d{2,3})*)\b/g, (_full, gene, fields) => {
     const words = [];
     const push = (s) => { for (const w of String(s).split(/[\s-]+/)) if (w) words.push(w); };
     for (const m of `HLA${gene}`.matchAll(/([A-Za-z])|(\d+)/g)) {
@@ -5463,6 +5467,12 @@ function selfTest() {
     ['Screening for HLA-B*57:01 before abacavir',
       'Screening for aitch-ell-ey-bee-star-fifty-seven-zero-one before <phoneme alphabet="ipa" ph="\u0259\u02C8b\u00E6k\u0259\u02CCv\u026Ar">abacavir</phoneme>'],
     ['HLA-B*15:02', 'aitch-ell-ey-bee-star-fifteen-zero-two'],
+    // The tutorial generator writes the separator as the WORD "star", not "*".
+    // A rule keyed only on the asterisk missed every allele in real narration
+    // (found by listening, not by the pre-flight scan).
+    ['HLA-B star-57:01 predicts abacavir hypersensitivity',
+      'aitch-ell-ey-bee-star-fifty-seven-zero-one predicts <phoneme alphabet="ipa" ph="\u0259\u02C8b\u00E6k\u0259\u02CCv\u026Ar">abacavir</phoneme> hypersensitivity'],
+    ['HLA-B star 57:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one'],
     ['HLA-DQB1*06:02', 'aitch-ell-ey-dee-cue-bee-one-star-zero-six-zero-two'],
     // Third and later fields follow the same leading-zero rule.
     ['HLA-B*57:01:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one-zero-one'],
