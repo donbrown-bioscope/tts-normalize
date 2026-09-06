@@ -3727,8 +3727,10 @@ function postprocessForTTS(text) {
 
   // dbSNP — "dee-bee-snip", not the unwrapped token, which Chirp reads as a
   // single nonsense word. Built from the SNP="snip" rule above.
+  // Hyphen-bound, not spaced: "dee bee snip" is three words and two audible
+  // pauses inside one term, the same defect the eponym and gene tables hit.
   t = t.replace(/\bdbSNPs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
-    m => `<sub alias="dee bee snip${m.endsWith('s') ? 's' : ''}">${m}</sub>`);
+    m => `<sub alias="dee-bee-snip${m.endsWith('s') ? 's' : ''}">${m}</sub>`);
 
   // NOTE for everything below: the number-to-words pass does NOT reach inside a
   // <sub alias="…"> attribute, so a digit written into an alias is delivered to
@@ -5380,7 +5382,7 @@ function selfTest() {
     ['his apoB', 'his <sub alias="ay-po B">apoB</sub>'],
     // Mixed-case tokens the all-caps path never sees, so they used to pass
     // through raw and get read as single nonsense words.
-    ['a dbSNP lookup', 'a <sub alias="dee bee snip">dbSNP</sub> lookup'],
+    ['a dbSNP lookup', 'a <sub alias="dee-bee-snip">dbSNP</sub> lookup'],
     ['aligned to GRCh38', 'aligned to <phoneme alphabet="ipa" ph="\u02CCd\u0292i\u02D0\u0251\u02D0rsi\u02D0\u02C8e\u026At\u0283">G-R-C-h</phoneme> thirty eight'],
     // Isoform numbers are said as digit-pairs, and the number-to-words pass
     // does not reach inside a <sub alias> attribute, so they are spelled here.
