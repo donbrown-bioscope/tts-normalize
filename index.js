@@ -2900,6 +2900,12 @@ const CLINICAL_IPA = {
   // IL-6 receptor monoclonal — tocilizumab (RA, COVID-19, CRS).
   'tocilizumab':       'ˌtoʊsɪlˈɪzuːˌmæb',
   // HIV antiretrovirals (NRTI + PI).
+  // coeliac / celiac — "see-lee-ack" (owner, 2026-09-06). Unhandled, the "oe"
+  // digraph is anyone's guess. Both spellings carry an entry: the British form
+  // is what the clinical tutorials use, the American one is at least as common
+  // in the source literature, and a rule keyed on one silently misses the other.
+  'coeliac':           'ˈsiːliæk',
+  'celiac':            'ˈsiːliæk',
   // loci — "low-sigh" (owner, 2026-09-06). Unhandled, the plural of locus is a
   // coin toss between LOH-see, LOH-kee and LOH-chee. Singular "locus" is left
   // alone: its English default is already right.
@@ -5580,6 +5586,11 @@ function selfTest() {
     // here; the plural also escaped the singular's \b and passed through raw.
     ['a DMARD was started', 'a <sub alias="dee-mard">DMARD</sub> was started'],
     ['conventional DMARDs', 'conventional <sub alias="dee-mards">DMARDs</sub>'],
+    // coeliac / celiac — "see-lee-ack" (owner's ear). Both spellings, because a
+    // rule keyed on one silently misses the other.
+    ['biopsy-proven coeliac disease',
+      'biopsy-proven <phoneme alphabet="ipa" ph="\u02C8si\u02D0li\u00E6k">coeliac</phoneme> disease'],
+    ['celiac serology', '<phoneme alphabet="ipa" ph="\u02C8si\u02D0li\u00E6k">celiac</phoneme> serology'],
     // Bare HLA, with no gene after it, keeps its own IPA.
     ['HLA typing generally',
       '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing generally'],
