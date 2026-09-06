@@ -2253,15 +2253,20 @@ function preprocessForTTS(text) {
   // writes "HLA-B star-57:01", not "HLA-B*57:01", so a rule keyed only on the
   // asterisk silently misses every allele in generated narration. List every
   // written variant, not just the canonical one.
-  t = t.replace(/\bHLA-([A-Z]{1,4}\d?)[\s-]*(?:\*|\bstar\b)[\s-]*(\d{2,3}(?::\d{2,3})*)\b/g, (_full, gene, fields) => {
+  // The allele fields are OPTIONAL, so the same rule covers the serotype forms.
+  // HLA-B27 left "B27" raw after an H-L-A phoneme, and HLA-DR left a bare "DR"
+  // — which Chirp can read as "Doctor". Both are everyday clinical terms.
+  t = t.replace(/\bHLA-([A-Z]{1,4}\d{0,3})(?:[\s-]*(?:\*|\bstar\b)[\s-]*(\d{2,3}(?::\d{2,3})*))?\b/g, (_full, gene, fields) => {
     const words = [];
     const push = (s) => { for (const w of String(s).split(/[\s-]+/)) if (w) words.push(w); };
     for (const m of `HLA${gene}`.matchAll(/([A-Za-z])|(\d+)/g)) {
       push(m[1] ? (LETTER_NAME[m[1].toUpperCase()] ?? m[1]) : numToWords(m[2]));
     }
-    push('star');
-    for (const f of fields.split(':')) {
-      push(f.startsWith('0') ? f.split('').map((d) => NUM_ONES[+d]).join('-') : numToWords(f));
+    if (fields) {
+      push('star');
+      for (const f of fields.split(':')) {
+        push(f.startsWith('0') ? f.split('').map((d) => NUM_ONES[+d]).join('-') : numToWords(f));
+      }
     }
     return HLA_ALLELE_PREFIX + words.join(HLA_ALLELE_SEP);
   });
@@ -5559,6 +5564,16 @@ function selfTest() {
     ['HLA-B star-57:01 predicts abacavir hypersensitivity',
       'aitch-ell-ey-bee-star-fifty-seven-zero-one predicts <phoneme alphabet="ipa" ph="\u0259\u02C8b\u00E6k\u0259\u02CCv\u026Ar">abacavir</phoneme> hypersensitivity'],
     ['HLA-B star 57:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one'],
+    // Serotype forms carry no allele fields. HLA-B27 used to leave "B27" raw
+    // after an H-L-A phoneme, and HLA-DR left a bare "DR" that Chirp can read
+    // as "Doctor" — both everyday clinical terms, found while reviewing the
+    // HLA-typing tutorial.
+    ['HLA-B27 positive', 'aitch-ell-ey-bee-twenty-seven positive'],
+    ['HLA-DR expression', 'aitch-ell-ey-dee-arr expression'],
+    ['HLA-DQ8', 'aitch-ell-ey-dee-cue-eight'],
+    // Bare HLA, with no gene after it, keeps its own IPA.
+    ['HLA typing generally',
+      '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing generally'],
     ['HLA-DQB1*06:02', 'aitch-ell-ey-dee-cue-bee-one-star-zero-six-zero-two'],
     // Third and later fields follow the same leading-zero rule.
     ['HLA-B*57:01:01', 'aitch-ell-ey-bee-star-fifty-seven-zero-one-zero-one'],
