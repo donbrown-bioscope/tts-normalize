@@ -497,6 +497,18 @@ const ABBREVIATIONS = {
   // RCT — say-as for the singular (the catch-all otherwise leaves "R" bare
   // then glues "C-T"). Plural RCTs keeps one fluid glued tag ("arr-see-teez")
   // — say-as'ing the plural reads the trailing s as the letter "ess".
+  // GWAS — said as a word, "jee-wazz": the letter name G, then a short A
+  // (owner, 2026-09-06). The auto-glued acronym pass built it from letter
+  // sounds and produced "gwahz" -- hard G, broad /ɑ/ -- which is neither.
+  //
+  // A respelling rather than IPA, for the reason at CpG: the failure mode here
+  // is the consonant, and Chirp renders the letter G inconsistently. "jee" is
+  // LETTER_NAME's own spelling for G and cannot land a hard /g/ by accident.
+  // Hyphen-bound so it reads as one word rather than two beats.
+  'GWAS':    '<sub alias="jee-wazz">GWAS</sub>',
+  // Plural, for the same reason PPIs/SSRIs/RCTs/FASTQs carry one: without it
+  // the trailing s escapes the singular's \b and the token is read raw.
+  'GWASs':   '<sub alias="jee-wazz-iz">GWASs</sub>',
   'RCT':     '<say-as interpret-as="characters">RCT</say-as>',
   'R-C-T':   '<say-as interpret-as="characters">RCT</say-as>',
   'RCTs':    '<phoneme alphabet="ipa" ph="ˌɑːrsiːˈtiːz">RCTs</phoneme>',
@@ -2873,6 +2885,10 @@ const CLINICAL_IPA = {
   // IL-6 receptor monoclonal — tocilizumab (RA, COVID-19, CRS).
   'tocilizumab':       'ˌtoʊsɪlˈɪzuːˌmæb',
   // HIV antiretrovirals (NRTI + PI).
+  // loci — "low-sigh" (owner, 2026-09-06). Unhandled, the plural of locus is a
+  // coin toss between LOH-see, LOH-kee and LOH-chee. Singular "locus" is left
+  // alone: its English default is already right.
+  'loci':              'ˈloʊsaɪ',
   'abacavir':          'əˈbækəˌvɪr',
   'atazanavir':        'ˌætəˈzænəˌvɪr',
   // Mineralocorticoid-receptor antagonists.
@@ -5483,6 +5499,15 @@ function selfTest() {
     ['The letters rs identify the variant',
       'The letters <sub alias="arr-ess">rs</sub> identify the variant'],
     ['the rsID column', 'the <sub alias="arr-ess-eye-dee">rsID</sub> column'],
+    // GWAS is said as a word: letter-name G then a short A (owner, 2026-09-06).
+    // The auto-glued acronym pass built "gwahz" from letter sounds -- hard G,
+    // broad /ɑ/. A respelling, not IPA, because the failure is the consonant.
+    ['European GWAS data', 'European <sub alias="jee-wazz">GWAS</sub> data'],
+    ['many GWASs', 'many <sub alias="jee-wazz-iz">GWASs</sub>'],
+    // loci = "low-sigh". Singular locus is deliberately absent -- its default
+    // is already right, and the rule is to override only what is heard wrong.
+    ['independent coronary loci',
+      'independent coronary <phoneme alphabet="ipa" ph="\u02C8lo\u028As\u0061\u026A">loci</phoneme>'],
     // The numbered form keeps its say-as; \brs\b cannot reach inside it.
     ['rs1801133 was reported', '<say-as interpret-as="characters">rs1801133</say-as> was reported'],
     ['aligned to GRCh38', 'aligned to <phoneme alphabet="ipa" ph="\u02CCd\u0292i\u02D0\u0251\u02D0rsi\u02D0\u02C8e\u026At\u0283">G-R-C-h</phoneme> thirty eight'],
