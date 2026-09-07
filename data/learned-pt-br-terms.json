@@ -733,5 +733,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-31"
+  },
+  {
+    "find": "SAM",
+    "replace": "S A M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "REST",
+    "replace": "R E S T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "ALT",
+    "replace": "A L T",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "EMT",
+    "replace": "E M T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "CPPC",
+    "replace": "C P P C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "ILCHSCN",
+    "replace": "I L C H S C N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "CUP-CC",
+    "replace": "C U P C C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "SBRT",
+    "replace": "S B R T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
+  },
+  {
+    "find": "ACR",
+    "replace": "A C R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-07"
   }
 ]
