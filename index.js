@@ -3387,12 +3387,16 @@ const POST_OVERRIDES = {
   // ("apoC-III") is handled earlier in PRE_ABBREVIATIONS so the Roman
   // III isn't letter-spelled into I-I-I before this runs. Read as
   // "ape-O-see-three" — same family shape as apoB / apoE.
-  'apoCIII':  '<sub alias="ay-po see three">apoCIII</sub>',
+  // IPA, not "ay-po see three": a respelled "ay" has TWO readings, /eɪ/ as in
+  // "hay" and /aɪ/ as in "aye", and Chirp takes the second -- the owner heard
+  // apoB's identical "ay-po B" alias as "I-po-B" (2026-09-08). /ˌeɪpoʊ/ is the
+  // verified apo prefix already in the OMIC dict above.
+  'apoCIII':  '<phoneme alphabet="ipa" ph="ˌeɪpoʊsiːˈθriː">apoCIII</phoneme>',
   // The Arabic spelling is at least as common in prose and was falling through
-  // raw. Same pronunciation, so it routes to the same alias -- list every
+  // raw. Same pronunciation, so it routes to the same IPA -- list every
   // written variant, not just the one the rule was written around.
-  'apoC3':    '<sub alias="ay-po see three">apoC3</sub>',
-  'apoC-3':   '<sub alias="ay-po see three">apoC-3</sub>',
+  'apoC3':    '<phoneme alphabet="ipa" ph="ˌeɪpoʊsiːˈθriː">apoC3</phoneme>',
+  'apoC-3':   '<phoneme alphabet="ipa" ph="ˌeɪpoʊsiːˈθriː">apoC-3</phoneme>',
   // Clinical-noun "read" — assessment / quick interpretation. Chirp
   // defaults the past-tense /rɛd/ for ambiguous "read" tokens; pre-
   // rewrite the established noun phrases to "reed" so they speak as
@@ -3891,15 +3895,57 @@ function postprocessForTTS(text) {
   t = t.replace(/\bFASTQs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
     m => `<sub alias="fast cue${m.endsWith('s') ? 's' : ''}">${m}</sub>`);
 
-  // apoB — "apo" is a word (apolipoprotein), so "ay-pee-oh-bee" is wrong; every
-  // lipidologist says "AY-po-B". The generic path treats the lowercase run as
-  // letters. It does NOT catch the rest of the family:
-  // apoA1, apoA-I, apoE, apoE4, apoL1 and apoB100 all still pass through raw.
-  // Left that way deliberately -- each needs its own respelling verified by ear,
-  // and a TTS->Whisper probe could not separate the candidates for apoB itself
-  // ("ay-po B" came back as both "A-pole B" and "IPO-B" across runs), so
-  // inventing five more on the same evidence would be guessing.
-  t = t.replace(spelledChainRe('A-P-O-B'), '<sub alias="ay-po B">apoB</sub>');
+  // apo-family — "apo" is a word (apolipoprotein), so "ay-pee-oh-bee" is wrong;
+  // every lipidologist says "AY-po-B".
+  //
+  // This used to emit <sub alias="ay-po B">, and the alias WAS the bug: a
+  // respelled "ay" has two readings, /eɪ/ ("hay") and /aɪ/ ("aye"), and Chirp
+  // took the second -- the owner heard "I-po-B" on clin-009 step 10
+  // (2026-09-08). The old note here recorded a Whisper probe returning both
+  // "A-pole B" and "IPO-B" across runs and read that as the probe failing to
+  // separate candidates; it was really the synth varying on an ambiguous
+  // spelling. The alias also had a space before "B" -- an audible pause inside
+  // one term.
+  //
+  // IPA removes the ambiguity and is not invented: /ˌeɪpoʊ/ is the verified apo
+  // prefix from the OMIC dict (A-P-O-E / A-P-O-B) and the tail is LETTER_IPA
+  // for the gene letter. That composition is what makes the rest of the family
+  // safe to add -- apoA1, apoA-I, apoE, apoE4, apoL1 and apoB100 were passing
+  // through RAW, which is worse than any candidate reading.
+  const APO_IPA = letter => `ˌeɪpoʊˈ${LETTER_IPA[letter]}`;
+  const apoTag = (text, letter) =>
+    `<phoneme alphabet="ipa" ph="${APO_IPA(letter)}">${text}</phoneme>`;
+  // Tails are spoken as words HERE, not left to the number-to-words pass --
+  // that pass has already run by this point, so a digit left behind is
+  // delivered to the voice as a digit.
+  const APO_TAIL = {
+    I: 'one', II: 'two', III: 'three',
+    1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 100: 'one hundred',
+  };
+
+  // (a) The lowercase run reaches here already letter-spelled by the generic
+  // pass, so the match has to be the emitted <phoneme>, not the source text --
+  // wrapping the text again nests one phoneme inside another and Chirp drops
+  // the lot.
+  t = t.replace(spelledChainRe('A-P-O-B'), apoTag('apoB', 'B'));
+
+  // (b) Everything that arrives raw. Includes the "apo-B" spelling that an
+  // earlier pass produces from a sentence-initial "ApoB" -- before this, that
+  // form was a third distinct reading of the same word.
+  //
+  // The gene letter must be written uppercase, which is what keeps this off
+  // "apolipoprotein" and "apoptosis" (lowercase l / p after "apo"). All-caps
+  // APOB / APOE keep their own OMIC dict entries. The trailing guard is the
+  // house in-tag guard: without it this re-wraps the apoCIII/apoC3 entries
+  // above and nests phonemes.
+  t = t.replace(
+    /\b([Aa]po)-?([ABCEL])(?:-?(I{1,3}|\d{1,3}))?\b(?![a-z])(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    (m, apo, letter, tail) => {
+      const head = apoTag(`${apo}${letter}`, letter);
+      if (!tail) return head;
+      const spoken = APO_TAIL[tail];
+      return spoken ? `${head} ${spoken}` : `${head} ${tail}`;
+    });
 
   // dbSNP — "dee-bee-snip", not the unwrapped token, which Chirp reads as a
   // single nonsense word. Built from the SNP="snip" rule above.
@@ -5604,8 +5650,18 @@ function selfTest() {
     ['A MAPQ of zero', 'A <sub alias="map cue">MAPQ</sub> of zero'],
     ['the FASTQ files', 'the <sub alias="fast cue">FASTQ</sub> files'],
     ['a BAM then a VCF', "a <sub alias=\"bam\">BAM</sub> then a <phoneme alphabet=\"ipa\" ph=\"ˌviːsiː.ˈɛf\">V-C-F</phoneme>"],
-    // "apo" is a word; "ay-pee-oh-bee" is not how anyone says apoB.
-    ['his apoB', 'his <sub alias="ay-po B">apoB</sub>'],
+    // "apo" is a word; "ay-pee-oh-bee" is not how anyone says apoB. IPA rather
+    // than a respelling: "ay-po B" was heard as "I-po-B" (owner, 2026-09-08).
+    ['his apoB', 'his <phoneme alphabet="ipa" ph="\u02CCe\u026Apo\u028A\u02C8bi\u02D0">apoB</phoneme>'],
+    // Sentence-initial "ApoB" reaches the rule as "apo-B" and used to be a
+    // third distinct reading of the same word.
+    ['ApoB quantifies burden', '<phoneme alphabet="ipa" ph="\u02CCe\u026Apo\u028A\u02C8bi\u02D0">apoB</phoneme> quantifies burden'],
+    // The family that used to pass through raw. Numeric tails are spoken here,
+    // not by the number pass -- that has already run.
+    ['apoE4 carriers', '<phoneme alphabet="ipa" ph="\u02CCe\u026Apo\u028A\u02C8i\u02D0">apoE</phoneme> four carriers'],
+    ['apoL1 variants', '<phoneme alphabet="ipa" ph="\u02CCe\u026Apo\u028A\u02C8\u025Bl">apoL</phoneme> one variants'],
+    // Not the apo rule's business.
+    ['an apolipoprotein B of seventy', 'an apolipoprotein B of seventy'],
     // Mixed-case tokens the all-caps path never sees, so they used to pass
     // through raw and get read as single nonsense words.
     ['a dbSNP lookup', 'a <sub alias="dee-bee-snip">dbSNP</sub> lookup'],
@@ -5683,7 +5739,7 @@ function selfTest() {
     ['the FASTQ files', 'the <sub alias="fast cue">FASTQ</sub> files'],
     ['STING agonists', '<sub alias="sting">STING</sub> agonists'],
     // Arabic spelling of the same apolipoprotein, previously raw.
-    ['apoC3 levels', '<sub alias="ay-po see three">apoC3</sub> levels'],
+    ['apoC3 levels', '<phoneme alphabet="ipa" ph="\u02CCe\u026Apo\u028Asi\u02D0\u02C8\u03B8ri\u02D0">apoC3</phoneme> levels'],
     // A letter chain gets a syllable break ONLY where one letter name ends in a
     // vowel and the next starts with one -- otherwise Chirp resyllabifies across
     // the seam and eats the first letter (ASCVD was heard as "ISCVD").
