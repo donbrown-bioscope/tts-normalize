@@ -6086,4 +6086,12 @@ module.exports = {
   reloadLearnedPtBrTerms,
   reloadLearnedDeTerms,
   selfTest,
+  // Exported for scripts/rederive-cached-chains.js and the CI drift guard.
+  // data/learned-ipa.json caches builder output, and a cached entry bypasses
+  // the builders entirely at normalize time -- so when a builder changes, the
+  // cache silently keeps saying the old thing. That is how 63 chains kept a
+  // pre-0.38.0 rhotic seam. Exporting the builders lets the cache be checked
+  // against them mechanically instead of by hand.
+  buildFastChainIpa,
+  buildLetterSpellIpa,
 };
