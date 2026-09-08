@@ -479,7 +479,9 @@ const ABBREVIATIONS = {
   'PPIs': '<phoneme alphabet="ipa" ph="ˌpiːpiːˈaɪz">PPIs</phoneme>',
   // SSRIs (plural) — one glued tag "ess-ess-arr-eyez"; say-as'ing the plural
   // would spell the trailing s. (Singular SSRI → say-as, handled downstream.)
-  'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪz">SSRIs</phoneme>',
+  // Break after the rhotic, same as the singular's builder output: glued,
+  // "ˌɛsɛsɑːrˈaɪz" resyllabifies to "ess-ess-ah-RIZE".
+  'SSRIs':   '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːr.ˈaɪz">SSRIs</phoneme>',
   'ACTH':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
   'A-C-T-H': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme>',
   'ATTR':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme><phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme>',
@@ -3173,10 +3175,36 @@ const IPA_VOWELS = 'aeiouɛɪɑɔʊəæ';
 // most of the alphabet: "I-D-O" kept its glued diː+oʊ and read as one syllable.
 const endsVowel = (s) => IPA_VOWELS.includes(s.replace(/[ːˑˈˌ.]+$/, '').at(-1) ?? '');
 const startsVowel = (s) => IPA_VOWELS.includes(s.replace(/^[ˈˌ.]+/, '')[0] ?? '');
+// A rhotic coda is the OTHER way a letter gets lost across a seam, and the
+// vowel-vowel test above cannot see it: /ɑːr/ ends in a consonant, so R + a
+// vowel-initial letter name looked safe. It is not -- glued, Chirp reanalyses
+// the /r/ as the ONSET of the next syllable, so "ˌɑːrɛs" is syllabified
+// /ɑː.rɛs/ and says "ah-RESS" rather than "arr-ess". Owner heard exactly this
+// on "the rsID" (2026-09-06) after the <sub> respelling had been replaced with
+// a <phoneme>: "the R and S kind of smoosh together".
+//
+// R is the only letter name in LETTER_IPA ending in a rhotic, so this test adds
+// a break at R-before-vowel and nowhere else. Measured over FAST_GLUE_ACRONYMS:
+// 7 of the 113 listed chains move (MRI, RNA, SSRI, NRF2, PRS, TREM2, CHRNA),
+// plus rs and rsID; the other 106 are emitted byte-for-byte as before. Owner
+// A/B/C-ed this against the glued form and native say-as and picked the break
+// (2026-09-08).
+//
+// It is not a complete answer: on the same comparison the owner noted letter
+// names in the longer chains are still "not clearly articulated in all cases".
+// The break stops a letter being LOST; it does not make each letter crisp.
+// Those are two defects and only the first one is fixed here.
+//
+// The 63 chains cached in data/learned-ipa.json with this seam are NOT reached
+// by this fix -- cached entries bypass the builders entirely (see the 0.37.0
+// audit). mRNA, siRNA, ORF and RA are among them.
+const endsRhotic = (s) => /r$/.test(s.replace(/[ːˑˈˌ.]+$/, ''));
+const needsBreak = (left, right) =>
+  startsVowel(right) && (endsVowel(left) || endsRhotic(left));
 function joinLetterIpa(parts) {
     let out = '';
     for (const part of parts) {
-        if (out && endsVowel(out) && startsVowel(part)) out += '.';
+        if (out && needsBreak(out, part)) out += '.';
         out += part;
     }
     return out;
@@ -3188,7 +3216,7 @@ function buildLetterSpellIpa(letters) {
   if (cleaned.length === 1) return stressIpa('ˈ', LETTER_IPA[cleaned]);
   const head = joinLetterIpa(cleaned.slice(0, -1).split('').map(l => LETTER_IPA[l]));
   const tail = LETTER_IPA[cleaned.at(-1)];
-  const sep = endsVowel(head) && startsVowel(tail) ? '.' : '';
+  const sep = needsBreak(head, tail) ? '.' : '';
   return stressIpa('ˌ', head) + sep + stressIpa('ˈ', tail);
 }
 
@@ -3212,7 +3240,7 @@ function buildFastChainIpa(hyphenated) {
   if (ipa.length === 1) return `ˈ${ipa[0]}`;
   const head = joinLetterIpa(ipa.slice(0, -1));
   const tail = ipa.at(-1);
-  const sep = endsVowel(head) && startsVowel(tail) ? '.' : '';
+  const sep = needsBreak(head, tail) ? '.' : '';
   return `ˌ${head}${sep}ˈ${tail}`;
 }
 
@@ -3699,8 +3727,12 @@ function postprocessForTTS(text) {
   // SSRI — native say-as spelling (consistent with the rest of the clinical
   // letter-acronyms). The doubled S is a sustained fricative Chirp
   // re-articulates fine, so say-as needs no de-slur gap.
-  t = t.replaceAll(
-    '<phoneme alphabet="ipa" ph="ˌɛsɛsɑːrˈaɪ">S-S-R-I</phoneme>',
+  // Derived from the builder, not an inlined literal: this rule carried
+  // "ˌɛsɛsɑːrˈaɪ" verbatim and stopped matching the moment the rhotic-seam
+  // break landed, silently dropping SSRI back to a spelled phoneme. That is
+  // the seventh time an inlined builder output has broken this way.
+  t = t.replace(
+    spelledChainRe('S-S-R-I'),
     '<say-as interpret-as="characters">SSRI</say-as>',
   );
 
@@ -3882,18 +3914,35 @@ function postprocessForTTS(text) {
   // numbered form rs1801133 is already handled by the say-as pass above; this
   // is only the prefix discussed on its own.
   //
-  // Hyphen-bound, not spaced: "arr ess" is two words and an audible beat inside
-  // one term, the same defect the eponym and gene tables hit.
+  // IPA, not a respelling. "arr-ess" / "arr-ess-eye-dee" are plain text, so
+  // Chirp re-tokenises them and the vowel-initial "arr" FUSES with a preceding
+  // vowel-final article: "the rsID" came back from a TTS->Whisper round-trip as
+  // "Ferris ID", and "the letters rs" as "the letters Aries" — the R absorbed
+  // into "the" exactly as ASCVD lost its A at an internal seam (see
+  // joinLetterIpa). Owner heard "First, fear-S-I-D" on the SNP-panels tutorial,
+  // 2026-09-06. joinLetterIpa's "." guard only protects seams INSIDE a chain;
+  // nothing protects the boundary with the word before it, and a <sub> gives no
+  // phone-level guarantee at all. A <phoneme> does — the voice must realise
+  // /ɑːr/ whatever precedes it. Same fix as HLA (b21e73c).
+  //
+  // Built from buildFastChainIpa, never a hardcoded IPA literal: six rules that
+  // inlined builder output silently stopped matching when the seam guard landed.
+  //
+  // NOTE: ASR cannot police this. On "The rsID is the street corner" Whisper
+  // transcribed the BROKEN audio as a clean "The RSID" — it snaps a fused blob
+  // back to the expected token. Both defects above were found by ear first.
   //
   // Lowercase only, and only as a whole word: "Rs" is the rupee abbreviation,
   // and \brs\b cannot reach inside rs1801133 or rsID (no word boundary before
   // a digit or a capital), so those keep their own handling.
   t = t.replace(/\brs\b(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
-    '<sub alias="arr-ess">rs</sub>');
+    `<phoneme alphabet="ipa" ph="${buildFastChainIpa('R-S')}">rs</phoneme>`);
   // rsID / rsIDs — mixed case, so the all-caps letter-speller never sees it and
-  // it passed through raw to be read as a single nonsense word.
+  // it passed through raw to be read as a single nonsense word. The plural takes
+  // a "z" on the final letter name ("…eye-deez"), which is why it appends to the
+  // built chain rather than spelling R-S-I-D-S.
   t = t.replace(/\brsIDs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
-    m => `<sub alias="arr-ess-eye-dee${m.endsWith('s') ? 'z' : ''}">${m}</sub>`);
+    m => `<phoneme alphabet="ipa" ph="${buildFastChainIpa('R-S-I-D')}${m.endsWith('s') ? 'z' : ''}">${m}</phoneme>`);
 
   // NOTE for everything below: the number-to-words pass does NOT reach inside a
   // <sub alias="…"> attribute, so a digit written into an alias is delivered to
@@ -5601,9 +5650,14 @@ function selfTest() {
     ['HLA typing', '<phoneme alphabet="ipa" ph="\u02CCe\u026At\u0283\u025Bl\u02C8e\u026A">H-L-A</phoneme> typing'],
     // A bare "rs" was read as a syllable — the plural of R, not two letter
     // names (owner report on the pharmacogenomics tutorial, 2026-09-06).
+    // IPA, not a respelling: the plain-text "arr-ess" fused with a preceding
+    // vowel-final article ("the letters Aries", "Ferris ID"). See the rule.
     ['The letters rs identify the variant',
-      'The letters <sub alias="arr-ess">rs</sub> identify the variant'],
-    ['the rsID column', 'the <sub alias="arr-ess-eye-dee">rsID</sub> column'],
+      'The letters <phoneme alphabet="ipa" ph="\u02CC\u0251\u02D0r.\u02C8\u025Bs">rs</phoneme> identify the variant'],
+    ['the rsID column',
+      'the <phoneme alphabet="ipa" ph="\u02CC\u0251\u02D0r.\u025Bsa\u026A\u02C8di\u02D0">rsID</phoneme> column'],
+    ['millions of rsIDs',
+      'millions of <phoneme alphabet="ipa" ph="\u02CC\u0251\u02D0r.\u025Bsa\u026A\u02C8di\u02D0z">rsIDs</phoneme>'],
     // GWAS is said as a word: letter-name G then a short A (owner, 2026-09-06).
     // The auto-glued acronym pass built "gwahz" from letter sounds -- hard G,
     // broad /ɑ/. A respelling, not IPA, because the failure is the consonant.
