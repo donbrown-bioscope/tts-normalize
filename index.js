@@ -1787,6 +1787,23 @@ function spokenIdNumber(n) {
 const PRE_ABBREVIATIONS = {
   // Combined Treg/Th17 form must come before the individual entries
   // below so the longer key wins the longest-first sort.
+  // UPRmt / UPRer — the compartment-specific unfolded protein responses. Mixed
+  // case, so the all-caps letter-spellers never saw them and both reached the
+  // voice RAW as one nonsense word. Said with the compartment first: "the
+  // mitochondrial U-P-R", "the E-R U-P-R" (owner, 2026-09-10). Rewritten to
+  // words + the bare acronym here so the existing chain pass spells UPR and ER
+  // normally, rather than hand-writing IPA for each.
+  //
+  // mtUPR is the same thing written the other way round and is common in the
+  // literature; UPR^mt shows up when a superscript survives the extract.
+  'UPRmt':       'mitochondrial UPR',
+  'UPR-mt':      'mitochondrial UPR',
+  'UPR^mt':      'mitochondrial UPR',
+  'mtUPR':       'mitochondrial UPR',
+  'UPRer':       'ER UPR',
+  'UPR-er':      'ER UPR',
+  'UPR^er':      'ER UPR',
+  'erUPR':       'ER UPR',
   'Treg/Th17':   'T-reg, T-helper-seventeen',
   'Tregs/Th17':  'T-regs, T-helper-seventeen',
   // 2'-FL — 2'-fucosyllactose, a human-milk oligosaccharide. The
@@ -3636,7 +3653,15 @@ function postprocessForTTS(text) {
     if (!known && _englishWords().has(lower)) return m;  // prose, not a binomial
     const ipa = buildLetterSpellIpa(letter);
     if (!ipa) return m;
-    return `<phoneme alphabet="ipa" ph="${ipa}">${letter}</phoneme><break time="80ms"/> ${epithet}`;
+    // No explicit break. The defect this rule exists for is the PERIOD reading
+    // as a sentence boundary ("see. Elegans"), and dropping the period fixes
+    // that on its own; the <phoneme> tag boundary plus the ordinary word space
+    // are what keep the letter from sliding into the epithet. The 80ms break
+    // that used to sit here was heard on top of both -- owner, on a Deep Dive
+    // transcript, 2026-09-10: "there's still an unnaturally long pause between
+    // C and elegans". Same redundant-pause class as the de-slur break removed
+    // in 0.40.0.
+    return `<phoneme alphabet="ipa" ph="${ipa}">${letter}</phoneme> ${epithet}`;
   });
 
   // Generalized fix for the units pipeline's bare-L → "liters" expansion.
@@ -6180,12 +6205,12 @@ function selfTest() {
 
     // ── Latin binomials — the genus period must not read as a full stop ──
     ['C. elegans lifespan',
-      '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme><break time="80ms"/> elegans lifespan'],
+      '<phoneme alphabet="ipa" ph="ˈsiː">C</phoneme> elegans lifespan'],
     ['D. melanogaster studies',
-      '<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><break time="80ms"/> melanogaster studies'],
+      '<phoneme alphabet="ipa" ph="ˈdiː">D</phoneme> melanogaster studies'],
     // Epithets that are also English words survive on the SPECIES_EPITHETS list.
     ['H. pylori infection',
-      '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><break time="80ms"/> pylori infection'],
+      '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme> pylori infection'],
     // Prose that merely looks like a binomial must be left alone.
     ['Studies by J. Smith et al.', 'Studies by J. Smith et al.'],
     ['the U. S. population aged', 'the U. S. population aged'],
