@@ -847,9 +847,38 @@ function geneNumberToWords(n) {
     const ones = n % 10;
     return TENS[tenIdx] + (ones ? '-' + ONES[ones] : '');
   }
-  const h = Math.floor(n / 100);
-  const rem = n % 100;
-  return ONES[h] + (rem === 0 ? '-hundred' : '-' + geneNumberToWords(rem));
+  if (n < 1000) {
+    const h = Math.floor(n / 100);
+    const rem = n % 100;
+    if (rem === 0) return `${ONES[h]}-hundred`;
+    // A remainder under ten needs the "oh": 105 is "one-oh-five", not
+    // "one-five", which is what this returned before and is how TRC105 has
+    // been read aloud.
+    if (rem < 10) return `${ONES[h]}-oh-${ONES[rem]}`;
+    return `${ONES[h]}-${geneNumberToWords(rem)}`;
+  }
+  // Four digits and up: read as two two-digit pairs, the same way the house
+  // already reads shorter compound IDs ("BPC-157" is "BPC one fifty-seven",
+  // not "one hundred fifty-seven"). A leading zero in the second pair is "oh".
+  //
+  // This branch did not exist, and the fallthrough indexed ONES with the
+  // HUNDREDS count -- ONES[40] for 4064 -- so it returned the literal string
+  // "undefined". 17 narration steps in the library speak it aloud today:
+  // "S-R-T undefined four" for SRT2104, "G-W undefined sixty-four" for GW4064,
+  // and the same for PLX5622, MLN4924, GYY4137, TM5614, OTR4120, SR9009,
+  // TRC105 and MISEV2023. Found by diffing normalizer output across all 4968
+  // English narration steps, not by any test.
+  //
+  // The pair reading also happens to be right for the year-shaped ones:
+  // MISEV2023 becomes "twenty twenty-three".
+  const pairs = String(n).padStart(4, '0').match(/\d{2}/g) ?? [];
+  return pairs
+    .map((pair, i) => {
+      const v = Number(pair);
+      if (i > 0 && v < 10) return `oh-${ONES[v]}`;     // 9009 -> "ninety oh-nine"
+      return geneNumberToWords(v);
+    })
+    .join(' ');
 }
 
 // ─── ROMAN NUMERALS (SHARED) ────────────────────────────────
