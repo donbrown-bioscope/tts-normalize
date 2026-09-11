@@ -240,23 +240,36 @@ const ABBREVIATIONS = {
   // one <phoneme> tag per letter, primary stress on each, no separator.
   'SSAT': '<phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'HDL': 'H-D-L', 'LDL': 'L-D-L', 'VLDL': 'V-L-D-L',
-  // HbA1c — the old 'H-b-A-one-c' expansion left literal hyphens for the
-  // voice, which read the last one aloud: "H-B-A-one-DASH-C" (owner report
-  // 2026-09-05, EN newscast). Same cure as ATP/HRT/ACTH: one <phoneme> per
-  // letter, no separator, so the five sounds run together fluidly. Every
-  // written casing needs its own key (matching is case-sensitive), and the
-  // bare 'A1c' form covers "hemoglobin A1c" — a preceding word character
-  // stops \\b from letting it bleed into HbA1c itself.
-  'HbA1c':  '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'HbA1C':  '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'HBA1c':  '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'HBA1C':  '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'hbA1c':  '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'Hba1c':  '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'HgbA1c': '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈdʒiː">g</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'HgbA1C': '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈdʒiː">g</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'A1c':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
-  'A1C':    '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">1</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>',
+  // HbA1c — ONE <phoneme>, a syllable break at every foot, and DNA's stress
+  // shape: secondary on the first foot, NONE in the middle, primary on the
+  // last. Owner A/B/C-ed this against the two alternatives on clin-013's four
+  // real sentences and picked it (2026-09-11).
+  //
+  // What it replaces: five tags each carrying PRIMARY stress. Five consecutive
+  // stressed syllables failed in two opposite ways depending on position, which
+  // is why one A/B on a single sentence could not settle it —
+  //   - a bare fragment ("HbA1c five point five percent.", step 0) had no
+  //     surrounding prosody to ride on and read as spaced-out letters;
+  //   - mid-clause after "and" (steps 9 and 20) the voice compressed it and,
+  //     with uniform stress giving nothing to anchor on, slurred it.
+  // Uniform stress was already rejected once for exactly this on DNA, whose
+  // comment calls this shape "the hybrid that survives both".
+  //
+  // Every written casing needs its own key (matching is case-sensitive), and
+  // the bare 'A1c' form covers "hemoglobin A1c" — a preceding word character
+  // stops \b from letting it bleed into HbA1c itself.
+  'HbA1c':  '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">HbA1c</phoneme>',
+  'HbA1C':  '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">HbA1C</phoneme>',
+  'HBA1c':  '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">HBA1c</phoneme>',
+  'HBA1C':  '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">HBA1C</phoneme>',
+  'hbA1c':  '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">hbA1c</phoneme>',
+  'Hba1c':  '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">Hba1c</phoneme>',
+  // HgbA1c is H-g-b: the previous entries spelled it aitch-BEE-GEE, with b
+  // and g transposed against their own visible text.
+  'HgbA1c': '<phoneme alphabet="ipa" ph="ˌeɪtʃ.dʒiː.biː.eɪ.wʌn.ˈsiː">HgbA1c</phoneme>',
+  'HgbA1C': '<phoneme alphabet="ipa" ph="ˌeɪtʃ.dʒiː.biː.eɪ.wʌn.ˈsiː">HgbA1C</phoneme>',
+  'A1c':    '<phoneme alphabet="ipa" ph="ˌeɪ.wʌn.ˈsiː">A1c</phoneme>',
+  'A1C':    '<phoneme alphabet="ipa" ph="ˌeɪ.wʌn.ˈsiː">A1C</phoneme>',
   // T-helper cell subsets — "Th17" has mixed case so it misses the
   // gene-number regex; Whisper hears raw "Th17" as "TH17" and "Treg"
   // as "DTREG". Make them explicit.
@@ -6029,9 +6042,9 @@ function selfTest() {
     // HbA1c — the old hyphen-separated expansion 'H-b-A-one-c' left a literal
     // hyphen the voice read aloud ("H-B-A-one-DASH-C", owner report
     // 2026-09-05). Per-letter phoneme tags with no separator run fluidly.
-    ['HbA1c and triglycerides', '<phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">one</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme> and triglycerides'],
-    ['fasting blood glucose, HBA1C', 'fasting blood glucose, <phoneme alphabet="ipa" ph="ˈeɪtʃ">H</phoneme><phoneme alphabet="ipa" ph="ˈbiː">b</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">one</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme>'],
-    ['hemoglobin A1c of 6.2', 'hemoglobin <phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈwʌn">one</phoneme><phoneme alphabet="ipa" ph="ˈsiː">c</phoneme> of six point two'],
+    ['HbA1c and triglycerides', '<phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">HbA1c</phoneme> and triglycerides'],
+    ['fasting blood glucose, HBA1C', 'fasting blood glucose, <phoneme alphabet="ipa" ph="ˌeɪtʃ.biː.eɪ.wʌn.ˈsiː">HBA1C</phoneme>'],
+    ['hemoglobin A1c of 6.2', 'hemoglobin <phoneme alphabet="ipa" ph="ˌeɪ.wʌn.ˈsiː">A1c</phoneme> of six point two'],
     ['3.5g of EPA + DHA', 'three point five grams of <phoneme alphabet="ipa" ph="ˌiːpiːˈeɪ">E-P-A</phoneme> plus <phoneme alphabet="ipa" ph="ˌdiːeɪtʃˈeɪ">D-H-A</phoneme>'],
     // Comma-formatted numbers
     ['over 1,000 people', 'over one thousand people'],
