@@ -809,7 +809,10 @@ const GENE_PRONOUNCEABLE_PREFIXES = {
   'TORC':   'torc',
   'ACE':    'ace',
   'APO':    'apo',
-  'AKT':    'akt',
+  // NOT AKT. It is letter-spelled "A-K-T", never the word "act" — owner, on
+  // clin-013, 2026-09-11. Every other prefix in this map really is said as a
+  // word (fox, sirt, erk, mek, jak, stat, parp); AKT was the odd one out and
+  // the map turned it into /ækt/.
   'ERK':    'erk',
   'MEK':    'mek',
   'JAK':    'jak',
@@ -2954,6 +2957,37 @@ const CLINICAL_IPA = {
   // in the source literature, and a rule keyed on one silently misses the other.
   'coeliac':           'ˈsiːliæk',
   'celiac':            'ˈsiːliæk',
+  // The glycaemia family — "gly-SEE-mia" / "gly-SEE-mic". Entirely unhandled,
+  // so Chirp fell back to a HARD c: "gly-KEE-mick", "hyper-gly-KAY-mia" (owner,
+  // on clin-013, 2026-09-11). The "c" before "ae"/"e" is soft, which is exactly
+  // the coeliac problem above one vowel over.
+  //
+  // Both spellings of every member. The clinical generator writes British
+  // "-aemia" (that is what clin-013 shipped), the molecular track and most US
+  // sources write "-emia", and either can appear in a quotation — listing only
+  // the one that prompted the fix is how "dash-SH" survived three releases.
+  'glycemia':          'ɡlaɪˈsiːmiə',
+  'glycaemia':         'ɡlaɪˈsiːmiə',
+  'glycemic':          'ɡlaɪˈsiːmɪk',
+  'glycaemic':         'ɡlaɪˈsiːmɪk',
+  'hyperglycemia':     'ˌhaɪpərɡlaɪˈsiːmiə',
+  'hyperglycaemia':    'ˌhaɪpərɡlaɪˈsiːmiə',
+  'hyperglycemic':     'ˌhaɪpərɡlaɪˈsiːmɪk',
+  'hyperglycaemic':    'ˌhaɪpərɡlaɪˈsiːmɪk',
+  'hypoglycemia':      'ˌhaɪpoʊɡlaɪˈsiːmiə',
+  'hypoglycaemia':     'ˌhaɪpoʊɡlaɪˈsiːmiə',
+  'hypoglycemic':      'ˌhaɪpoʊɡlaɪˈsiːmɪk',
+  'hypoglycaemic':     'ˌhaɪpoʊɡlaɪˈsiːmɪk',
+  'euglycemia':        'ˌjuːɡlaɪˈsiːmiə',
+  'euglycaemia':       'ˌjuːɡlaɪˈsiːmiə',
+  'euglycemic':        'ˌjuːɡlaɪˈsiːmɪk',
+  'euglycaemic':       'ˌjuːɡlaɪˈsiːmɪk',
+  'dysglycemia':       'ˌdɪsɡlaɪˈsiːmiə',
+  'dysglycaemia':      'ˌdɪsɡlaɪˈsiːmiə',
+  'normoglycemia':     'ˌnɔːrmoʊɡlaɪˈsiːmiə',
+  'normoglycaemia':    'ˌnɔːrmoʊɡlaɪˈsiːmiə',
+  'normoglycemic':     'ˌnɔːrmoʊɡlaɪˈsiːmɪk',
+  'normoglycaemic':    'ˌnɔːrmoʊɡlaɪˈsiːmɪk',
   // loci — "low-sigh" (owner, 2026-09-06). Unhandled, the plural of locus is a
   // coin toss between LOH-see, LOH-kee and LOH-chee. Singular "locus" is left
   // alone: its English default is already right.
@@ -4131,6 +4165,30 @@ function postprocessForTTS(text) {
   // built chain rather than spelling R-S-I-D-S.
   t = t.replace(/\brsIDs?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
     m => buildChainTags('R-S-I-D', { plural: m.endsWith('s') }));
+
+  // Akt / PKB — letter-spelled "A-K-T", never the word "act" (owner, clin-013,
+  // 2026-09-11). Three separate things were saying it wrong:
+  //   - GENE_PRONOUNCEABLE_PREFIXES mapped AKT -> "akt", the one prefix in that
+  //     map that is not actually said as a word (fox, sirt, erk, mek, jak, stat
+  //     all are);
+  //   - a hand-added learned-ipa entry akt -> /ækt/ (source "manual",
+  //     2026-04-27) caught the mixed-case form, which no all-caps letter-speller
+  //     ever sees;
+  //   - and the numbered and phospho- forms fell through raw.
+  //
+  // Every written variant, because the mixed-case blind spot hits them all:
+  // Akt/AKT bare, the isoforms Akt1-3, and pAkt / p-Akt / phospho-Akt.
+  const AKT_N = { 1: 'one', 2: 'two', 3: 'three' };
+  t = t.replace(/\b(phospho-|p-|p)?(?:Akt|AKT)([123])?\b(?![^<]*<\/(?:phoneme|sub|say-as)>)/g,
+    (_m, pre, n) => {
+      const chain = buildChainTags('A-K-T');
+      // "phospho-Akt" keeps the word; "pAkt"/"p-Akt" is said "P-A-K-T", so the
+      // p joins the chain rather than sitting outside it as a bare letter.
+      const head = pre === 'phospho-' ? 'phospho ' + chain
+                 : pre                ? buildChainTags('P-A-K-T')
+                 : chain;
+      return n ? `${head} ${AKT_N[n]}` : head;
+    });
 
   // NOTE for everything below: the number-to-words pass does NOT reach inside a
   // <sub alias="…"> attribute, so a digit written into an alias is delivered to
@@ -5863,6 +5921,15 @@ function selfTest() {
       'The letters <phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme> identify the variant'],
     ['the rsID column',
       'the <phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme> column'],
+    // Akt is letter-spelled, never the word "act" (owner, 2026-09-11). Three
+    // mechanisms were saying it wrong; see the rule. Mixed case matters — no
+    // all-caps letter-speller ever sees "Akt".
+    ['Akt signaling',
+      '<phoneme alphabet="ipa" ph="\u02C8e\u026A">A</phoneme><phoneme alphabet="ipa" ph="\u02C8ke\u026A">K</phoneme><phoneme alphabet="ipa" ph="\u02C8ti\u02D0">T</phoneme> signaling'],
+    // The prefixes that ARE said as words must be unaffected.
+    ['ERK and MEK and JAK', 'erk and meck and jack'],
+    // Not a gene.
+    ['akathisia and akinesia', 'akathisia and akinesia'],
     ['millions of rsIDs',
       'millions of <phoneme alphabet="ipa" ph="ˈɑːr">R</phoneme><phoneme alphabet="ipa" ph="ˈɛs">S</phoneme><phoneme alphabet="ipa" ph="ˈaɪ">I</phoneme><phoneme alphabet="ipa" ph="ˈdiːz">Ds</phoneme>'],
     // GWAS is said as a word: letter-name G then a short A (owner, 2026-09-06).
