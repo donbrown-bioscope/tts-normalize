@@ -1812,6 +1812,16 @@ const PRE_ABBREVIATIONS = {
   //
   // mtUPR is the same thing written the other way round and is common in the
   // literature; UPR^mt shows up when a superscript survives the extract.
+  // IMPROVE-IT — the ezetimibe trial. The "IT" is the end of a WORD, not an
+  // acronym, but the all-caps letter-speller cannot know that and said
+  // "improve-eye-tee" (owner, 2026-09-12). Rewritten to words so both halves
+  // are spoken. Lowercase "improve-it" already read correctly, which is why
+  // this only shows up in trial-name casing.
+  //
+  // Same shape as any other trial acronym whose tail spells a word; add them
+  // here as they surface rather than trying to guess which tails are words.
+  'IMPROVE-IT':  'improve it',
+  'IMPROVE IT':  'improve it',
   'UPRmt':       'mitochondrial UPR',
   'UPR-mt':      'mitochondrial UPR',
   'UPR^mt':      'mitochondrial UPR',
