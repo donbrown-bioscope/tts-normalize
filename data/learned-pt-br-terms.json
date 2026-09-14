@@ -796,5 +796,40 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-07"
+  },
+  {
+    "find": "PBM",
+    "replace": "P B M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "A3R",
+    "replace": "A três R",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "TLR2",
+    "replace": "T L R dois",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "DRC",
+    "replace": "D R C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "PD-L2",
+    "replace": "P D-L dois",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
   }
 ]
