@@ -936,5 +936,40 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-31"
+  },
+  {
+    "find": "PBM",
+    "replace": "P B M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "NIC",
+    "replace": "N I C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "PMOS",
+    "replace": "P M O S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "CMLV",
+    "replace": "C M L V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
+  },
+  {
+    "find": "NCG",
+    "replace": "N C G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-14"
   }
 ]
