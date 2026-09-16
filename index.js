@@ -764,6 +764,30 @@ const GREEK = {
   'Ω': 'omega', 'Δ': 'delta',
 };
 
+// ─── GREEK-SUFFIX SPELLING VARIANTS (derived) ───────────────
+//
+// A cytokine with a Greek suffix is written four ways in the wild — IFN-γ,
+// IFNγ, IFN-gamma, IFNgamma — and COMPOUND_TERMS only ever listed the
+// hyphenated-Greek one. The other three fell through to the Greek-letter
+// pass, which replaced the character in place and glued the result into one
+// nonsense token: "IFNgamma", "TNFalpha", "NFkappaB". Heard live in the
+// 2026-09-16 newscast, where IFNγ should have been "interferon gamma".
+//
+// This was previously patched one instance at a time — HIF-1α picked up two
+// of its variants and still missed the third — so derive them instead. Every
+// hyphenated-Greek key contributes its three siblings, all mapping to the
+// SAME expansion, so each family keeps its own established reading
+// ("interferon gamma" for IFN, the letter-spelled "T-N-F alpha" for TNF).
+// An explicitly listed key always wins; this only fills gaps, and any Greek
+// compound added later gets its variants for free.
+for (const [key, expansion] of Object.entries({ ...COMPOUND_TERMS })) {
+  if (!/[α-ωΑ-Ω]/.test(key)) continue;
+  const spelled = key.replace(/[α-ωΑ-Ω]/g, (c) => GREEK[c] || c);
+  for (const variant of [key.replace(/-/g, ''), spelled, spelled.replace(/-/g, '')]) {
+    if (variant !== key && !(variant in COMPOUND_TERMS)) COMPOUND_TERMS[variant] = expansion;
+  }
+}
+
 // ─── SYMBOLS ────────────────────────────────────────────────
 
 const SYMBOLS = {
@@ -1115,11 +1139,18 @@ function coreNormalize(text) {
 
   // 5. Replace multi-word units first (e.g. "mg/dL" before "mg")
   const sortedUnits = Object.entries(UNITS).sort((a, b) => b[0].length - a[0].length);
+  //     A measurement's number never follows a letter, but the tail of a gene
+  //     symbol looks exactly like one: "Bnip3lb" ends in digit + "lb" and was
+  //     read "Bnip, three pounds" — the symbol destroyed, mid-sentence. So the
+  //     digits must not be preceded by a letter. This is the same guard the
+  //     five non-English cores have always carried on their unit passes;
+  //     English was the one that went without it.
+  const NOT_MID_TOKEN = '(?<![A-Za-z])';
   for (const [unit, expansion] of sortedUnits) {
     // Match number + optional space + unit (e.g. "200mg", "200 mg").
     // Guard skips a token already inside a phoneme/sub/say-as wrap so a
     // variant say-as like <say-as>R46L</say-as> isn't read "forty-six liters".
-    const pattern = new RegExp(`(\\d+\\.?\\d*)\\s*${escapeRegex(unit)}\\b(?![^<]*<\\/(?:phoneme|sub|say-as)>)`, 'g');
+    const pattern = new RegExp(`${NOT_MID_TOKEN}(\\d+\\.?\\d*)\\s*${escapeRegex(unit)}\\b(?![^<]*<\\/(?:phoneme|sub|say-as)>)`, 'g');
     t = t.replace(pattern, (_, num) => `${convertNumber(num)} ${expansion}`);
   }
 
@@ -2040,6 +2071,31 @@ const PRE_ABBREVIATIONS = {
   'BCL-w':   'B-C-L w',
   'Mcl-1':   'M-C-L one',
   'Mcl1':    'M-C-L one',
+  // ── BNIP3 family (BCL2-interacting protein 3) ──────────────────────
+  // Said "bee-nip-three": the "BNIP" is spoken as a letter plus a syllable,
+  // not letter-by-letter and not as a word. The paralog suffixes are letters
+  // again ("bee-nip-three-ell-bee"). Written as one hyphen-joined chain so it
+  // stays a single fluid unit rather than four pauses.
+  //
+  // Every casing that appears in prose is listed: the mouse/zebrafish
+  // literature uses Bnip3lb and bnip3lb as often as the human ALL-CAPS form,
+  // and a casing that is not listed here falls through to the voice raw.
+  'BNIP3LB': 'bee-nip-three-ell-bee',
+  'Bnip3lb': 'bee-nip-three-ell-bee',
+  'bnip3lb': 'bee-nip-three-ell-bee',
+  'BNIP3LA': 'bee-nip-three-ell-ay',
+  'Bnip3la': 'bee-nip-three-ell-ay',
+  'bnip3la': 'bee-nip-three-ell-ay',
+  'BNIP3L':  'bee-nip-three-ell',
+  'Bnip3l':  'bee-nip-three-ell',
+  'bnip3l':  'bee-nip-three-ell',
+  'BNIP-3':  'bee-nip-three',
+  // NIX is BNIP3L's alias and shares its sentences. It is an English word,
+  // but the all-caps letter-speller cannot tell, and said "en-eye-ex".
+  'NIX':     'nix',
+  'BNIP3':   'bee-nip-three',
+  'Bnip3':   'bee-nip-three',
+  'bnip3':   'bee-nip-three',
   // apoC-III — hyphenated form. Catch here, before the Roman-numeral
   // pass letter-spells "III" into "I-I-I" and the POST_OVERRIDES
   // wrapper for "apoCIII" can't find the original token. PascalCase
@@ -3752,9 +3808,15 @@ function postprocessForTTS(text) {
   // splits to "L, <digits>, V" and the units pipeline then rewrites the
   // comma-isolated L. Detect the post-core shape and reverse.
   t = t.replace(/\bliters(,\s[a-z][a-z\s-]*?,\s[A-Z])\b/g, 'L$1');
-  // Variant codes with a trailing L where the core fused the prefix
-  // letter and digit, then expanded the L (F5L → "Ffive liters").
-  // Recover as "<letter>-<digit-word>-L".
+  // Variant codes with a trailing L and a single digit (F5L — the factor V
+  // Leiden shape). Two-digit forms (R46L, V89L) are caught by the variant
+  // say-as rule; a single digit falls through it. These used to be spoken
+  // only by accident: the units pass fused the prefix into "Ffive liters"
+  // and the rule below turned that back into "F-five-L". The units pass no
+  // longer mangles a token mid-word, so spell the token itself.
+  t = t.replace(/\b([A-Z])([1-9])L\b/g, (m, letter, digit) => `${letter}-${NUM_ONES[Number(digit)]}-L`);
+  // Belt-and-suspenders for the shape above, in case any other pass still
+  // produces the fused "<letter><digit-word> liters" form.
   t = t.replace(/\b([A-Z])(one|two|three|four|five|six|seven|eight|nine)\sliters\b/g, '$1-$2-L');
 
   // Lp(a) — replaced here, after the bare-L → "liters" pass has run,
@@ -5874,6 +5936,37 @@ function selfTest() {
     ['SGLT-2i', "<phoneme alphabet=\"ipa\" ph=\"ˈɛs\">S</phoneme><phoneme alphabet=\"ipa\" ph=\"ˈdʒiː\">G</phoneme><phoneme alphabet=\"ipa\" ph=\"ˈɛl\">L</phoneme><phoneme alphabet=\"ipa\" ph=\"ˈtiː\">T</phoneme> two inhibitors"],
     ['IGF-1s', "<phoneme alphabet=\"ipa\" ph=\"ˈaɪ\">I</phoneme><phoneme alphabet=\"ipa\" ph=\"ˈdʒiː\">G</phoneme><phoneme alphabet=\"ipa\" ph=\"ˈɛf\">F</phoneme> ones"],
     ['omega-3s', 'omega-threes'],
+    // ── The units pass must not reach inside a token ──────────────────
+    // Heard live in the 2026-09-16 newscast: "Bnip3lb" was read
+    // "B-nip-three-POUNDS". The number+unit pass had no left boundary, so
+    // the "3lb" tail of a gene symbol looked exactly like a measurement.
+    // The same hole read BNIP3L as "BNIP three liters".
+    ['a receptor called Bnip3lb', 'a receptor called bee-nip-three-ell-bee'],
+    ['BNIP3L, also known as NIX', 'bee-nip-three-ell, also known as nix'],
+    ['BNIP3 drives mitophagy', 'bee-nip-three drives <phoneme alphabet="ipa" ph="ma\u026A\u02C8t\u0252f\u0259d\u0292i">mitophagy</phoneme>'],
+    // A measurement still expands — the guard is about the letter before it.
+    ['she lost 3 lb', 'she lost three pounds'],
+    ['a 30g serving', 'a thirty grams serving'],
+    // Single-digit variant codes used to be spoken only because the units
+    // pass mangled them ("Ffive liters") and a recovery rule reversed it.
+    // With the mangling gone the spelling is done from the token itself.
+    ['factor V Leiden F5L', 'factor five Leiden F-five-L'],
+    // ── All four spellings of a Greek-suffix cytokine ─────────────────
+    // Heard live in the same 2026-09-16 newscast: "IFNγ" was voiced as the
+    // glued token "IFNgamma". Only the hyphenated-Greek spelling was listed;
+    // the other three fell through to the Greek-letter pass. Each family
+    // keeps its own established reading — "interferon gamma" for IFN, the
+    // letter-spelled "T-N-F alpha" for TNF.
+    ['Tregs are producing IFNγ', 'T-regs are producing interferon gamma'],
+    ['IFN-γ drives it', 'interferon gamma drives it'],
+    ['IFNgamma levels', 'interferon gamma levels'],
+    ['IFN-gamma levels', 'interferon gamma levels'],
+    ['IL1β and IL-1β', 'interleukin one beta and interleukin one beta'],
+    ['HIF1alpha stabilized', 'hiff-one-alpha stabilized'],
+    // The derived variants must not touch ordinary prose that merely
+    // contains a spelled-out Greek letter.
+    ['alpha-lipoic acid supports', 'alpha-lipoic acid supports'],
+    ['amyloid beta plaques', 'amyloid beta plaques'],
     // ── Genomics tokens that are word-pronounced, not letter-spelled ──
     // Owner report 2026-09-05: MAPQ was heard as a slurred "emaypeekyoo".
     // The generic all-caps path letter-spells any unknown capital run; these
