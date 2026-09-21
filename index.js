@@ -2761,6 +2761,15 @@ const CLINICAL_IPA = {
   // <phoneme> wrap fixes it. ("early" was wrapped here too but the phoneme
   // boundary made it sound unnatural — removed; Chirp says "early" fine bare.)
   'toward':  'tɔːrd',   'towards': 'tɔːrdz',
+  // "apt" — Chirp's own text normalization reads the bare word as the
+  // POSTAL ABBREVIATION and says "apartment" ("an apt comparison" ->
+  // "an apartment comparison"). Nothing in this file touched the token;
+  // the expansion happens inside the voice, so the only fix is to hand it
+  // a pronunciation it cannot reinterpret. Same shape as the HLA-DR ->
+  // "Doctor" case. \b-bound, so adapt / aptitude / adaptive are untouched;
+  // "aptly" is not an abbreviation and is deliberately left bare (see the
+  // "early" note above — a phoneme wrap on an ordinary adverb reads stiff).
+  'apt': 'æpt',
   // HOMA — Homeostatic Model Assessment. Long-O ("HOME-uh"), not
   // letter-spelled. Case-insensitive matching covers HOMA / Homa /
   // homa, including the "Homa-I-R" rewrite from PRE_ABBREVIATIONS.
@@ -6319,6 +6328,10 @@ function selfTest() {
     // learned-ipa.json (2026-07-02) and isn't needed, so it stays unwrapped.
     ['progress toward the goal and early intervention',
       'progress <phoneme alphabet="ipa" ph="tɔːrd">toward</phoneme> the goal and early intervention'],
+    // "apt" — Chirp expands the bare word to "apartment" (postal abbreviation).
+    // Wrapped; adapt / aptitude / adaptive must stay bare.
+    ['an apt comparison as cells adapt, whatever their aptitude for adaptive repair',
+      'an <phoneme alphabet="ipa" ph="æpt">apt</phoneme> comparison as cells adapt, whatever their aptitude for adaptive repair'],
     // Word contractions + possessives KEEP the apostrophe — Chirp 3 HD says them
     // correctly and the possessive "'s" is not read as the letter S. Deleting it
     // used to mangle contractions: "I'd"→"Id" (eye-dee), "we'd"→"wed" (heard
