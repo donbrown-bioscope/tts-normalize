@@ -971,5 +971,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-14"
+  },
+  {
+    "find": "DMG",
+    "replace": "D M G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "VO2",
+    "replace": "V O deux",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "BSTOA",
+    "replace": "B S T O A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "MRC",
+    "replace": "M R C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "CSC",
+    "replace": "C S C",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "HSA",
+    "replace": "H S A",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "HMB",
+    "replace": "H M B",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "TGF",
+    "replace": "T G F",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "BBM",
+    "replace": "B B M",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
   }
 ]
