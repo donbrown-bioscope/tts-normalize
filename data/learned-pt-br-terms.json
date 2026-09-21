@@ -831,5 +831,40 @@
     "category": "abbreviation",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-14"
+  },
+  {
+    "find": "MASLD",
+    "replace": "M A S L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "DMG",
+    "replace": "D M G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "HMB",
+    "replace": "H M B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "BSTOA",
+    "replace": "B S T O A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
+  },
+  {
+    "find": "CAR",
+    "replace": "C A R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
   }
 ]
