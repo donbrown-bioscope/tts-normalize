@@ -1972,5 +1972,12 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-31"
+  },
+  {
+    "find": "VO2",
+    "replace": "VO dos",
+    "category": "symbol",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-21"
   }
 ]
