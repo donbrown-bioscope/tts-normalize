@@ -1287,8 +1287,14 @@ function coreNormalize(text) {
   // 4+ letter ALL-CAPS tokens that ARE English words but should letter-spell
   // anyway because the field reads them as acronyms (BRCA→B-R-C-A is in the
   // gene-rule above; this list is for surprise word/acronym collisions like
-  // EORTC, AICR, etc. — currently empty; add as collisions surface).
-  const LETTER_SPELL_OVERRIDE = new Set([]);
+  // EORTC, AICR, etc.).
+  //
+  // ARDS (acute respiratory distress syndrome) is the first collision to
+  // surface: "ards" is in the bundled English wordlist, so the auto-downcase
+  // below silently turned it into a word. Owner's ear: it is letter-spelled.
+  // AIDS and SIRS take the same downcase path and are deliberately NOT here —
+  // both really are said as words, so the wordlist happens to be right for them.
+  const LETTER_SPELL_OVERRIDE = new Set(['ARDS']);
   // Skip matches inside SSML elements whose contents are
   // pronunciation-prescribed (sub alias / say-as / existing phoneme).
   // Without this guard the catch-all would letter-spell SSRI to S-S-R-I
@@ -6323,6 +6329,10 @@ function selfTest() {
     // spermidine — "sper-MID-een" (stress on MID).
     ['spermidine supplementation',
       '<phoneme alphabet="ipa" ph="ˈspɜːrmɪdiːn">spermidine</phoneme> supplementation'],
+    // ARDS letter-spells despite "ards" being in the English wordlist
+    // (LETTER_SPELL_OVERRIDE). AIDS/SIRS take the same path and stay words.
+    ['ARDS and AIDS and SIRS in one line',
+      '<phoneme alphabet="ipa" ph="\u02c8e\u026a">A</phoneme><phoneme alphabet="ipa" ph="\u02c8\u0251\u02d0r">R</phoneme><phoneme alphabet="ipa" ph="\u02c8di\u02d0">D</phoneme><phoneme alphabet="ipa" ph="\u02c8\u025bs">S</phoneme> and aids and sirs in one line'],
     // toward (one syllable, not "to ward") keeps its IPA wrap. "early" reads
     // correctly bare on Chirp — its auto-learned IPA was pruned from
     // learned-ipa.json (2026-07-02) and isn't needed, so it stays unwrapped.
