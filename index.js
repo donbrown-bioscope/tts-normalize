@@ -234,6 +234,14 @@ const ABBREVIATIONS = {
   // ADP matches ATP/AMP: per-letter tags, not the glued 'A-D-P' FAST_GLUE
   // form. Sentences that name two of the three back to back ('the ATP to
   // ADP ratio') were uneven when one was glued and the others were not.
+  // NAMPT / NMNAT — the NAD salvage enzymes. Letter-spelled (owner's ear).
+  // EXPLICIT because cached chain keys otherwise eat them: `a-m-p` (auto-llm)
+  // matched mid-chain in N-A-M-P-T giving "N-amp-T", and `n-a-m`
+  // (cafmi-en-scan) matched at the head giving "nam-P-T". A head match is
+  // indistinguishable from a legitimate prefix key, so no boundary rule can
+  // fix this one — the term needs its own entry, which wins longest-first and
+  // is then protected from the learned pass by WRAP_GUARDS.
+  'NAMPT': '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>', 'NMNAT': '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme>',
   'ADP': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈdiː">D</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>', 'AMP': '<phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme>',
   // SSAT (spermidine/spermine N1-acetyltransferase, polyamine tutorials) — the
   // terminal "T" was voicing to "D" ("…ay-DEE"). Same fix as ATP/HRT/TRT/VTE:
@@ -783,7 +791,27 @@ const GREEK = {
 for (const [key, expansion] of Object.entries({ ...COMPOUND_TERMS })) {
   if (!/[α-ωΑ-Ω]/.test(key)) continue;
   const spelled = key.replace(/[α-ωΑ-Ω]/g, (c) => GREEK[c] || c);
-  for (const variant of [key.replace(/-/g, ''), spelled, spelled.replace(/-/g, '')]) {
+  const variants = [key.replace(/-/g, ''), spelled, spelled.replace(/-/g, '')];
+
+  // A Greek letter sitting MID-token takes a hyphen on BOTH sides as well:
+  // NF-κB is written "NF-kappa-B" in narration scripts. That exact spelling
+  // appears 4× in the ketones tutorial's content.json and survived into
+  // tts-texts.json untouched — heard live as "Nitrogen Fluoride Kappa B",
+  // because a raw "NF" reaches the voice and it reads the element symbols.
+  // The lookahead means a trailing Greek (HIF-1α, IL-1β) adds nothing.
+  const spelledHyph = key.replace(/([α-ωΑ-Ω])(?=[A-Za-z0-9])/g, (c) => `${GREEK[c] || c}-`);
+  variants.push(spelledHyph, spelledHyph.replace(/^(\w+)-/, '$1'));
+
+  // Kappa is the ONE Greek letter conventionally transliterated to a single
+  // Latin letter (NF-kB, NF-KB). Deliberately not generalized: nobody writes
+  // TNF-a for TNF-α, and minting those would create collisions. `NF-kB` was
+  // already hand-listed in lowercase only — the same instance-by-instance
+  // patching this derivation exists to stop.
+  if (key.includes('κ')) {
+    for (const k of ['k', 'K']) variants.push(key.replace(/κ/g, k), key.replace(/κ/g, k).replace(/-/g, ''));
+  }
+
+  for (const variant of variants) {
     if (variant !== key && !(variant in COMPOUND_TERMS)) COMPOUND_TERMS[variant] = expansion;
   }
 }
@@ -999,7 +1027,13 @@ function keyedRomanRe(keywords, sep = String.raw`\s+`, flags = 'gi') {
     // No `-` in the trailing guard (unlike BARE_ROMAN_RE): German writes the
     // numeral inside a compound, "Typ-II-Diabetes" / "Phase-III-Studie", and
     // a keyword to the left already makes it a number.
-    String.raw`\b(${keywords})(?:${sep})(${CANONICAL_ROMAN})\b(?!\w)(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)`,
+    // A RANGE tail is part of the match: "a phase I-II study". Without it the
+    // keyword rule converted only the first numeral and left "-II" behind,
+    // which BARE_ROMAN_RE then refuses (its left guard excludes `-`, to stop
+    // mid-chain matches), so the leftover fell to the ALL-CAPS letter-speller
+    // and was read "eye-eye". The slash form was always fine — `/` is not in
+    // that guard — so only the hyphen/dash shape was broken.
+    String.raw`\b(${keywords})(?:${sep})(${CANONICAL_ROMAN})(?:\s*[-–]\s*(${CANONICAL_ROMAN}))?\b(?!\w)(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)`,
     flags);
 }
 
@@ -1007,7 +1041,7 @@ function keyedRomanRe(keywords, sep = String.raw`\s+`, flags = 'gi') {
 // abbreviation and letter-spell passes and rely on their own downstream
 // number→words step to speak the digits in the right language.
 function romanNumeralsToArabic(t, keywords = ROMAN_KEYWORDS_EN, sep, flags) {
-  t = t.replace(keyedRomanRe(keywords, sep, flags), (m, kw, r) => {
+  t = t.replace(keyedRomanRe(keywords, sep, flags), (m, kw, r, r2) => {
     // Every group in CANONICAL_ROMAN is optional, so it can match empty;
     // and only an uppercase numeral is one ("type i" is prose, "Grade b"
     // is a letter grade). Both cases fall through unchanged.
@@ -1015,7 +1049,12 @@ function romanNumeralsToArabic(t, keywords = ROMAN_KEYWORDS_EN, sep, flags) {
     // The separator is always emitted as a space, even where the source
     // hyphenated it ("Phase-III-Studie" → "Phase 3-Studie"): a hyphen
     // between a word and a digit reads as a range or minus to the voice.
-    return `${kw} ${romanToArabic(r)}`;
+    // The range tail is joined with a SPACE, not a hyphen: "phase 1 2", read
+    // "phase one two", which is how clinicians say it. A hyphen between two
+    // digits would reach the voice as "minus" (the GLP-1s bug), and "to" or
+    // "or" would be an interpretation — "MHC class I/II" is not a range.
+    const tail = r2 && r2 === r2.toUpperCase() ? ` ${romanToArabic(r2)}` : '';
+    return `${kw} ${romanToArabic(r)}${tail}`;
   });
   return t.replace(BARE_ROMAN_RE, (r) => String(ROMAN_NUMERALS.get(r)));
 }
@@ -3922,9 +3961,21 @@ function postprocessForTTS(text) {
       source === 'auto-letter-spell' || source === 'auto-glue';
     const pattern = isLetterSpelledAcronym ? word.toUpperCase() : word;
     const flags = isLetterSpelledAcronym ? 'g' : 'gi';
+    // A key that is itself a HYPHENATED CHAIN gets a left anchor whatever its
+    // source. `\b` does not stop a chain key matching in the MIDDLE of a longer
+    // chain, because `-` is a non-word character: the cached auto-llm entry
+    // `a-m-p` (/æmp/, 2026-05-03) matched inside `N-A-M-P-T`, so NAMPT was
+    // spoken "N-amp-T" instead of being letter-spelled. Fourth recurrence of
+    // this bug (COMPOUND_TERMS dc83cb8, HER1/HER2 7fed346, SHH auto-glue).
+    //
+    // LEFT ONLY for non-auto sources, deliberately. Anchoring both ends broke
+    // curated prefix keys last time: `i-d-o` is MEANT to fire inside `I-D-O-1`
+    // and `C-D` inside `C-D-K-4`, and a right anchor vetoes both. A prefix
+    // match starts at the chain head, so the left anchor leaves it alone while
+    // still blocking a match that begins mid-chain.
     const [lb, rb] = isLetterSpelledAcronym
       ? autoChainBoundaries(pattern)
-      : ['\\b', '\\b'];
+      : [pattern.includes('-') ? String.raw`(?<![\w-])` : '\\b', '\\b'];
     t = t.replace(new RegExp(`${lb}${escapeRegex(pattern)}${rb}${WRAP_GUARDS}`, flags), (match) => {
       // A word-pronounced entry matched in ALL-CAPS acronym form (BEIR,
       // UNSCEAR, HIPAA) carries the uppercase only as cosmetic visible
@@ -6355,6 +6406,15 @@ function selfTest() {
     // spermidine — "sper-MID-een" (stress on MID).
     ['spermidine supplementation',
       '<phoneme alphabet="ipa" ph="ˈspɜːrmɪdiːn">spermidine</phoneme> supplementation'],
+    // NAMPT letter-spells. Cached chain keys used to eat it: `a-m-p` matched
+    // mid-chain ("N-amp-T") and `n-a-m` at the head ("nam-P-T").
+    ['NAMPT is the rate-limiting enzyme', '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈeɪ">A</phoneme><phoneme alphabet="ipa" ph="ˈɛm">M</phoneme><phoneme alphabet="ipa" ph="ˈpiː">P</phoneme><phoneme alphabet="ipa" ph="ˈtiː">T</phoneme> is the rate-limiting enzyme'],
+    // Every written spelling of NF-kappa-B converges. "NF-kappa-B" is the one
+    // the narration scripts actually use, and it used to pass through raw.
+    ['NF-kappa-B activation', '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme> kappa-B activation'],
+    ['NF-KB activation', '<phoneme alphabet="ipa" ph="ˈɛn">N</phoneme><phoneme alphabet="ipa" ph="ˈɛf">F</phoneme> kappa-B activation'],
+    // Roman range: the second numeral used to survive and be letter-spelled.
+    ['a phase I-II study', 'a phase one two study'],
     // Pronunciation helpers are cut from narration in every delimiter shape.
     // The ASCII-hyphen form needs the non-greedy inner match, or the rest of
     // the sentence goes with it.
