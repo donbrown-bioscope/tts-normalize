@@ -6,6 +6,13 @@ const ES = [
   // Pronunciation helpers are cut from spoken text in every locale (the
   // strip is hoisted above the locale dispatch in normalizeForTTS).
   ['La glicación (en inglés, glycation, pronunciado gly-KAY-shun) daña.', 'La glicación (en inglés, glycation) daña.'],
+  // NON-parenthetical forms. These leaked in es/fr/it/pt-br/de until
+  // 2026-09-23: the rule lived in preprocessForTTS, which is ENGLISH-ONLY,
+  // even though PRON_CUE_SRC already listed every locale's cue word.
+  ['La autofagia, pronunciado au-to-FA-khia, es el proceso.', 'La autofagia es el proceso.'],
+  ['La autofagia - pronunciado au-to-FA-khia - es el proceso.', 'La autofagia es el proceso.'],
+  // Real prose using the same word must survive untouched.
+  ['El efecto fue mas pronunciado en adultos mayores.', 'El efecto fue mas pronunciado en adultos mayores.'],
   // cardinals
   ['Tomar 200 mg al día', 'Tomar doscientos miligramos al día'],
   ['1 mg', 'un miligramo'],

@@ -2306,31 +2306,14 @@ function preprocessForTTS(text) {
     (_m, lead) => `${lead}<phoneme alphabet="ipa" ph="ˈrɛd">read</phoneme>`);
 
   // ── Non-parenthetical pronunciation helpers ──────────────────────────
-  // The corpus writes every helper as a parenthetical, and
-  // stripPronunciationHelpers has already removed those. But the beginner
-  // Listen script is REWRITTEN by an LLM from the lesson text, and it can
-  // reflow one into a comma or dash clause — "autophagy, pronounced
-  // aw-TAH-fuh-jee, is your cell's recycling program". Cut that shape too,
-  // taking its closing delimiter so the sentence still reads.
-  //
-  // Same proximity guard throughout: the respelling must follow the cue
-  // directly. "The effect, pronounced in older adults, was clear" has prose
-  // there and is left alone.
-  t = t.replace(new RegExp(`[,;—–]\\s*${PRON_CUE_SRC}\\b[^,;.—–()]*(?:[,;—–]|(?=\\s*[.!?]|$))`, 'giu'),
-    (m) => {
-      const cue = m.match(PRON_CUE_RE);
-      return looksLikeRespelling(m.slice(cue.index + cue[0].length)) ? '' : m;
-    });
-
-  // Last resort: a respelling with no delimiter to cut on ("It is pronounced
-  // ah-SEE-til-KOH-leen."). Deleting it would need sentence surgery, so just
-  // lower-case the ALL-CAPS stress mark, which is what makes the letter-spell
-  // pass downstream mistake the syllable for an acronym and read out
-  // "ah · ess-ee-ee · til · kay-oh-aitch · leen".
-  t = t.replace(new RegExp(`(${PRON_CUE_SRC})((?:\\s|[:,]|<[^>]+>)*)([\\p{L}]+(?:-[\\p{L}]+)+)`, 'giu'),
-    (m, cue, gap, chain) => looksLikeRespelling(gap + chain) ? cue + gap + chain.toLowerCase() : m);
-
-  t = t.replace(/[ \t]+([,.;:!?])/g, '$1').replace(/[ \t]{2,}/g, ' ');
+  // MOVED OUT 2026-09-23 to stripNonParentheticalHelpers(), which runs above
+  // the locale dispatch in normalizeForTTS. It lived here, and preprocess is
+  // ENGLISH-ONLY, so the five other locales never received it: the
+  // parenthetical form was cut in all six, but
+  // "la autofagia, pronunciado au-to-FA-khia, es..." sailed straight through.
+  // PRON_CUE_SRC already listed every locale's cue word, so the rule was
+  // multilingual in everything except where it was called from. Do not move
+  // it back. → the same trap recorded for preprocessForTTS generally.
 
   // ── Clinical-pronunciation rules (ported from the PL course wrapper so
   // they are canonical here) — these run at the TOP of preprocess, before
@@ -5895,6 +5878,48 @@ function looksLikeRespelling(after) {
   return segs.some(x => x.length >= 2 && x === x.toUpperCase() && /\p{Lu}/u.test(x));
 }
 
+function stripNonParentheticalHelpers(text) {
+  // Runs for ALL SIX LOCALES, above the locale dispatch. See the note left
+  // behind in preprocessForTTS for why it does not live there.
+  //
+  // The ASCII hyphen is in the delimiter class as `\\s-` (whitespace then
+  // hyphen), never a bare `-`: an em dash is the house style but an LLM
+  // reflow writes " - ", and matching a bare hyphen would eat the inside of
+  // every hyphenated word.
+  // ── Non-parenthetical pronunciation helpers ──────────────────────────
+  // The corpus writes every helper as a parenthetical, and
+  // stripPronunciationHelpers has already removed those. But the beginner
+  // Listen script is REWRITTEN by an LLM from the lesson text, and it can
+  // reflow one into a comma or dash clause — "autophagy, pronounced
+  // aw-TAH-fuh-jee, is your cell's recycling program". Cut that shape too,
+  // taking its closing delimiter so the sentence still reads.
+  //
+  // Same proximity guard throughout: the respelling must follow the cue
+  // directly. "The effect, pronounced in older adults, was clear" has prose
+  // there and is left alone.
+  // `[^,;.—–()]*?` is NON-GREEDY on purpose: the ASCII hyphen is not in that
+  // class (excluding it would break every hyphenated respelling), so a greedy
+  // match runs straight past the closing " - " and swallows the rest of the
+  // sentence — "Autophagy - pronounced aw-TAH-fuh-jee - is the cleanup."
+  // collapsed to "Autophagy." Non-greedy stops at the first closing delimiter.
+  text = text.replace(new RegExp(`(?:[,;—–]|\\s-)\\s*${PRON_CUE_SRC}\\b[^,;.—–()]*?(?:[,;—–]|\\s-|(?=\\s*[.!?]|$))`, 'giu'),
+    (m) => {
+      const cue = m.match(PRON_CUE_RE);
+      return looksLikeRespelling(m.slice(cue.index + cue[0].length)) ? '' : m;
+    });
+
+  // Last resort: a respelling with no delimiter to cut on ("It is pronounced
+  // ah-SEE-til-KOH-leen."). Deleting it would need sentence surgery, so just
+  // lower-case the ALL-CAPS stress mark, which is what makes the letter-spell
+  // pass downstream mistake the syllable for an acronym and read out
+  // "ah · ess-ee-ee · til · kay-oh-aitch · leen".
+  text = text.replace(new RegExp(`(${PRON_CUE_SRC})((?:\\s|[:,]|<[^>]+>)*)([\\p{L}]+(?:-[\\p{L}]+)+)`, 'giu'),
+    (m, cue, gap, chain) => looksLikeRespelling(gap + chain) ? cue + gap + chain.toLowerCase() : m);
+
+  text = text.replace(/[ \t]+([,.;:!?])/g, '$1').replace(/[ \t]{2,}/g, ' ');
+  return text;
+}
+
 function stripPronunciationHelpers(text) {
   return text.replace(/\(([^)]*)\)/g, (whole, inner) => {
     const cue = inner.match(PRON_CUE_RE);
@@ -5918,6 +5943,7 @@ function normalizeForTTS(text, opts = {}) {
   // Pronunciation helpers come out for every language, before the locale
   // dispatch — the non-English cores below never run preprocessForTTS.
   text = stripPronunciationHelpers(text);
+  text = stripNonParentheticalHelpers(text);
   if (locale === 'es') return coreNormalizeEs(text);
   if (locale === 'fr') return coreNormalizeFr(text);
   if (locale === 'it') return coreNormalizeIt(text);
@@ -6329,6 +6355,16 @@ function selfTest() {
     // spermidine — "sper-MID-een" (stress on MID).
     ['spermidine supplementation',
       '<phoneme alphabet="ipa" ph="ˈspɜːrmɪdiːn">spermidine</phoneme> supplementation'],
+    // Pronunciation helpers are cut from narration in every delimiter shape.
+    // The ASCII-hyphen form needs the non-greedy inner match, or the rest of
+    // the sentence goes with it.
+    ['Autophagy - pronounced aw-TAH-fuh-jee - is the cleanup process.',
+      '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is the cleanup process.'],
+    ['Autophagy, pronounced aw-TAH-fuh-jee, is the cleanup process.',
+      '<phoneme alphabet="ipa" ph="ɔːˈtɒfədʒi">Autophagy</phoneme> is the cleanup process.'],
+    // Prose that merely contains the cue word is left alone.
+    ['The effect was more pronounced in older adults.',
+      'The effect was more pronounced in older adults.'],
     // ARDS letter-spells despite "ards" being in the English wordlist
     // (LETTER_SPELL_OVERRIDE). AIDS/SIRS take the same path and stay words.
     ['ARDS and AIDS and SIRS in one line',
