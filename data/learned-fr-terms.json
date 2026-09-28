@@ -1034,5 +1034,75 @@
     "category": "abbreviation",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-21"
+  },
+  {
+    "find": "PGRN",
+    "replace": "P G R N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "NAFLD",
+    "replace": "N A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "PARP",
+    "replace": "P A R P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "FFR-CT",
+    "replace": "F F R C T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "SEP-P",
+    "replace": "S E P P",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "SBT",
+    "replace": "S B T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "CAA",
+    "replace": "C A A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "FPI",
+    "replace": "F P I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "LUAD",
+    "replace": "L U A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "REM",
+    "replace": "R E M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
   }
 ]
