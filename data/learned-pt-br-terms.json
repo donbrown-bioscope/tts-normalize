@@ -866,5 +866,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-21"
+  },
+  {
+    "find": "mTORC1",
+    "replace": "m T O R C um",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "CD33",
+    "replace": "C D trinta e três",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "FFR-CT",
+    "replace": "F F R C T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "NAFLD",
+    "replace": "N A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "TSH",
+    "replace": "T S H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "BPTES",
+    "replace": "B P T E S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "EGCG",
+    "replace": "E G C G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "mTORC2",
+    "replace": "m T O R C dois",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "ENV",
+    "replace": "E N V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "SBT",
+    "replace": "S B T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "LUAD",
+    "replace": "L U A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "LLC",
+    "replace": "L L C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
   }
 ]
