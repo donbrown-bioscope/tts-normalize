@@ -1293,5 +1293,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-08-31"
+  },
+  {
+    "find": "NAFLD",
+    "replace": "N A F L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "PARP",
+    "replace": "P A R P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "FFR-CT",
+    "replace": "F F R C T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "SBT",
+    "replace": "S B T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "CAA",
+    "replace": "C A A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "ENV",
+    "replace": "E N V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "IPF",
+    "replace": "I P F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "LUAD",
+    "replace": "L U A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
+  },
+  {
+    "find": "HRV",
+    "replace": "H R V",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-09-28"
   }
 ]
