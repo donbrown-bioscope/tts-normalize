@@ -266,9 +266,10 @@
     "seam_fix": "2026-09-06"
   },
   "a-m-p": {
-    "ipa": "æmp",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˌeɪ.ɛmˈpiː",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /æmp/)"
   },
   "a-m-p-k-t-f-e-b": {
     "ipa": "ˌeɪ.ɛmpiːkeɪtiː.ɛfiːˈbiː",
@@ -283,9 +284,10 @@
     "seam_fix": "2026-09-06"
   },
   "a-n-a": {
-    "ipa": "ˈænə",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˌeɪ.ɛnˈeɪ",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /ˈænə/)"
   },
   "a-p": {
     "ipa": "ˌeɪˈpiː",
@@ -1144,9 +1146,10 @@
     "seam_fix": "2026-09-06"
   },
   "c-a-d": {
-    "ipa": "kæd",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˌsiː.eɪˈdiː",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /kæd/)"
   },
   "c-a-g-e": {
     "ipa": "keɪdʒ",
@@ -1820,9 +1823,10 @@
     "seam_fix": "2026-09-06"
   },
   "d-a-s": {
-    "ipa": "dæz",
-    "learned": "2026-08-10",
-    "source": "cafmi-en-scan"
+    "ipa": "ˌdiː.eɪ.ˈɛs",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /dæz/)"
   },
   "d-a-s-h": {
     "ipa": "dæʃ",
@@ -1830,9 +1834,10 @@
     "source": "auto-llm"
   },
   "d-a-t": {
-    "ipa": "dæt",
-    "learned": "2026-08-10",
-    "source": "cafmi-en-scan"
+    "ipa": "ˌdiː.eɪˈtiː",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /dæt/)"
   },
   "d-a-y": {
     "ipa": "deɪ",
@@ -2427,9 +2432,10 @@
     "seam_fix": "2026-09-06"
   },
   "e-x-e-r-c-i-s-e": {
-    "ipa": "ɪɡˈzɜrsaɪz",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˈɛksərˌsaɪz",
+    "learned": "2026-09-28",
+    "source": "manual-fix",
+    "note": "2026-09-28 audit: was /ɪɡˈzɜrsaɪz/; now matches the bare 'exercise' manual-fix"
   },
   "e-y": {
     "ipa": "ˌiːˈwaɪ",
@@ -4645,9 +4651,10 @@
     "source": "cafmi-en-scan"
   },
   "m-e-n": {
-    "ipa": "mɛn",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˌɛmiː.ˈɛn",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /mɛn/)"
   },
   "m-e-r-c-u-r-i": {
     "ipa": "mɛrˈkjʊri",
@@ -5809,14 +5816,16 @@
     "source": "auto-llm"
   },
   "p-a-d": {
-    "ipa": "pæd",
-    "learned": "2026-07-27",
-    "source": "cafmi-en-scan"
+    "ipa": "ˌpiː.eɪˈdiː",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /pæd/)"
   },
   "p-a-h": {
-    "ipa": "pɑː",
-    "learned": "2026-07-20",
-    "source": "cafmi-en-scan"
+    "ipa": "ˌpiː.eɪ.ˈeɪtʃ",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /pɑː/)"
   },
   "p-a-m": {
     "ipa": "pæm",
@@ -5834,9 +5843,10 @@
     "source": "cafmi-en-scan"
   },
   "p-a-s": {
-    "ipa": "pæz",
-    "learned": "2026-08-24",
-    "source": "cafmi-en-scan"
+    "ipa": "ˌpiː.eɪ.ˈɛs",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /pæz/)"
   },
   "p-a-s-s": {
     "ipa": "ˌpiː.eɪ.ɛsˈɛs",
@@ -6707,9 +6717,10 @@
     "source": "auto-llm"
   },
   "s-a-h": {
-    "ipa": "sæ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "ˌɛseɪ.ˈeɪtʃ",
+    "learned": "2026-09-28",
+    "source": "auto-letter-spell",
+    "note": "2026-09-28 audit: clinical convention spells this acronym out; the learned word reading was wrong (was /sæ/)"
   },
   "s-a-l-i": {
     "ipa": "ˈsæli",
@@ -7064,11 +7075,6 @@
     "ipa": "ˌɛseɪdiːˈɛl",
     "learned": "2026-05-12",
     "source": "auto-letter-spell"
-  },
-  "sah": {
-    "ipa": "sæ",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
   },
   "sams": {
     "ipa": "ˌɛseɪɛmˈɛs",
@@ -7576,9 +7582,10 @@
     "seam_fix": "2026-09-06"
   },
   "t-o-w-a-r-d": {
-    "ipa": "ˈtoʊwərd",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "tɔːrd",
+    "learned": "2026-09-28",
+    "source": "manual-fix",
+    "note": "2026-09-28 audit: was /ˈtoʊwərd/ ('TOH-werd'); aligned with the built-in 'toward' → tɔːrd, which already won in prose"
   },
   "t-o-x": {
     "ipa": "tɑks",
@@ -7853,9 +7860,10 @@
     "source": "auto-letter-spell"
   },
   "toward": {
-    "ipa": "ˈtoʊwərd",
-    "learned": "2026-05-03",
-    "source": "auto-llm"
+    "ipa": "tɔːrd",
+    "learned": "2026-09-28",
+    "source": "manual-fix",
+    "note": "2026-09-28 audit: was /ˈtoʊwərd/ ('TOH-werd'); aligned with the built-in 'toward' → tɔːrd, which already won in prose"
   },
   "trace": {
     "ipa": "treɪs",

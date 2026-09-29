@@ -1037,6 +1037,56 @@ function keyedRomanRe(keywords, sep = String.raw`\s+`, flags = 'gi') {
     flags);
 }
 
+// ─── ROMAN LISTS AFTER A KEYWORD (ALL LOCALES) ──────────────
+// The keyed rule converts ONE numeral (plus a hyphen range) after a keyword.
+// Electron-transport-chain text writes LISTS, and in the plural, and they were
+// heard as letters in the mitochondria tutorials' Combo Audio (2026-09-28):
+//
+//   "Complex I, III, IV, and ATP synthase"  → "one, three, I-V"   (IV = intravenous)
+//   "Complexes I and II feed coenzyme Q"    → "I and two"          (plural missed)
+//   "los complejos I, III y IV"             → "I, tres y IV"       (every locale)
+//
+// This pass runs first and converts EVERY numeral in a list of two or more
+// that follows a keyword (singular or plural), joined by , / - – or the
+// locale's and / or / through / to. Numerals must be uppercase and canonical.
+// A list with no keyword, "(I-IV)", is left alone: without the keyword "IV"
+// is as likely intravenous as four. A single numeral stays the keyed rule's.
+//
+// Separators are kept, except a dash, which becomes a space for the reason
+// given below ("phase 1 2" — a hyphen between digits is read "minus").
+const ROMAN_LIST_EN = {
+  keywords: 'complex(?:es)?|phases?|stages?|types?|class(?:es)?|grades?|levels?|factors?|chapters?|sections?|parts?|volumes?|figures?|tables?|wars?',
+  conj: 'and|or|through|to',
+};
+const ROMAN_LIST_LOCALES = {
+  es: { keywords: 'complejos?|fases?|estadios?|grados?|tipos?|clases?|niveles?|nivel|factor(?:es)?|capítulos?|secciones|sección|partes?|figuras?|tablas?', conj: 'y|e|o|u|a|hasta' },
+  fr: { keywords: 'complexes?|phases?|stades?|grades?|types?|classes?|niveaux?|facteurs?|chapitres?|sections?|parties?|figures?|tableaux?', conj: 'et|ou|à' },
+  it: { keywords: 'compless[oi]|fas[ei]|stadi[o]?|grad[oi]|tip[oi]|class[ei]|livell[oi]|fattor[ei]|capitol[oi]|sezion[ei]|part[ei]|figur[ae]|tabell[ae]', conj: 'e|ed|o|a' },
+  'pt-br': { keywords: 'complexos?|fases?|estágios?|estádios?|graus?|tipos?|classes?|níveis|nível|fator(?:es)?|capítulos?|seções|seção|partes?|figuras?|tabelas?', conj: 'e|ou|a' },
+  de: { keywords: 'Komplex(?:e|en)?|Phasen?|Stadi(?:um|en)|Stufen?|Grade?|Typen?|Typ|Klassen?|Faktor(?:en)?|Kapitel|Abschnitte?|Teile?|Abbildungen?|Tabellen?', conj: 'und|oder|bis', flags: 'g' },
+};
+// Left guard: the list regex is case-insensitive (for the keyword), so
+// without it the "d" of "and" is a numeral D — lowercase, which then
+// rejected the whole list.
+// Hyphens on either side are allowed only between numerals ("I-IV");
+// "IV-drip" or "II-type" is not a list.
+const ROMAN_ONE = String.raw`(?<![\p{L}\d])(?<!(?<![IVXLCDM])-)(?=[IVXLCDM])${CANONICAL_ROMAN}(?![\p{L}\d]|-(?![IVXLCDM]))`;
+
+function romanListsAfterKeyword(t, { keywords, conj, flags = 'gi' } = ROMAN_LIST_EN) {
+  const sep = String.raw`(?:\s*[,/]\s*(?:(?:${conj})\s+)?|\s*[-–]\s*|\s+(?:${conj})\s+)`;
+  const re = new RegExp(
+    String.raw`(?<![\p{L}\d])(${keywords})(\s+)(${ROMAN_ONE}(?:${sep}${ROMAN_ONE})+)(?![^<>]*>)(?![^<]*<\/(?:phoneme|sub|say-as)>)`,
+    flags + 'u');
+  return t.replace(re, (m, kw, sp, list) => {
+    const numerals = list.match(new RegExp(ROMAN_ONE, 'giu')) || [];
+    if (numerals.some(r => r !== r.toUpperCase())) return m; // "type i" is prose
+    const spoken = list
+      .replace(new RegExp(ROMAN_ONE, 'gu'), r => String(romanToArabic(r)))
+      .replace(/\s*[-–]\s*/g, ' ');
+    return `${kw}${sp}${spoken}`;
+  });
+}
+
 // Rewrite both forms to Arabic digits. Callers run this BEFORE their
 // abbreviation and letter-spell passes and rely on their own downstream
 // number→words step to speak the digits in the right language.
@@ -1204,6 +1254,7 @@ function coreNormalize(text) {
   // 6a. Roman numerals → Arabic digits, spoken by step 9. See the ROMAN
   //     NUMERALS block above for the two rules and why their scopes differ.
   //     Runs before step 6b so "complex IV" matches before "IV" → "I-V".
+  t = romanListsAfterKeyword(t);
   t = romanNumeralsToArabic(t);
 
   // 6b. Replace abbreviations (longest first to avoid partial matches)
@@ -4767,6 +4818,7 @@ function coreNormalizeEs(text) {
 
   // 5e. Roman numerals → Arabic digits, spoken by the number pass below
   //     ("fase III" → "fase 3" → "fase tres"; "Luis XIV" → "Luis catorce").
+  t = romanListsAfterKeyword(t, ROMAN_LIST_LOCALES['es']);
   t = romanNumeralsToArabic(t, 'fase|estadio|grado|tipo|clase|nivel|factor|complejo|capítulo|sección|parte|figura|tabla|guerra');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
@@ -5071,6 +5123,7 @@ function coreNormalizeFr(text) {
 
   // 5e. Roman numerals → Arabic digits, spoken by the number pass below
   //     ("phase III" → "phase 3" → "phase trois"; "Louis XIV" → "Louis quatorze").
+  t = romanListsAfterKeyword(t, ROMAN_LIST_LOCALES['fr']);
   t = romanNumeralsToArabic(t, 'phase|stade|grade|type|classe|niveau|facteur|complexe|chapitre|section|partie|figure|tableau|guerre');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
@@ -5336,6 +5389,7 @@ function coreNormalizeIt(text) {
 
   // 5e. Roman numerals → Arabic digits, spoken by the number pass below
   //     ("fase III" → "fase 3" → "fase tre"; "Luigi XIV" → "Luigi quattordici").
+  t = romanListsAfterKeyword(t, ROMAN_LIST_LOCALES['it']);
   t = romanNumeralsToArabic(t, 'fase|stadio|grado|tipo|classe|livello|fattore|complesso|capitolo|sezione|parte|figura|tabella|guerra');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
@@ -5606,6 +5660,7 @@ function coreNormalizePtBr(text) {
 
   // 5e. Roman numerals → Arabic digits, spoken by the number pass below
   //     ("fase III" → "fase 3" → "fase três"; "Luís XIV" → "Luís quatorze").
+  t = romanListsAfterKeyword(t, ROMAN_LIST_LOCALES['pt-br']);
   t = romanNumeralsToArabic(t, 'fase|estágio|estádio|estadio|grau|tipo|classe|nível|fator|complexo|capítulo|seção|parte|figura|tabela|guerra');
 
   // 6. Arithmetic / connector symbols (spaced, to avoid hyphenated words)
@@ -5860,6 +5915,7 @@ function coreNormalizeDe(text) {
   //     the longevity-relevant Komplex (mitochondrial complexes I–V), Kollagen
   //     (collagen type I/III) and Faktor (Faktor V) — all surfaced as surviving
   //     II/III leftovers by the de gap-scan.
+  t = romanListsAfterKeyword(t, ROMAN_LIST_LOCALES.de);
   t = romanNumeralsToArabic(
     t,
     'Phase|Stadium|Stufe|Grad|Grade|Typ|Klasse|Komplex|Komplexe|Kollagen|Faktor|Kapitel|Abschnitt|Teil|Abbildung|Tabelle|Weltkrieg',
