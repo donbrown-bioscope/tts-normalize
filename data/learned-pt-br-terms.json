@@ -950,5 +950,33 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-28"
+  },
+  {
+    "find": "LPA",
+    "replace": "L P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "DAC",
+    "replace": "D A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "AT1",
+    "replace": "A T um",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "PRP",
+    "replace": "P R P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
   }
 ]
