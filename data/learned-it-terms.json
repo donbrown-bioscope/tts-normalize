@@ -1356,5 +1356,124 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-28"
+  },
+  {
+    "find": "FGF21",
+    "replace": "F G F ventuno",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "REST",
+    "replace": "R E S T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "LPA",
+    "replace": "L P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "CTHRC1",
+    "replace": "C T H R C uno",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "SIRT7",
+    "replace": "S I R T sette",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "AT1",
+    "replace": "A T uno",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "HSF1",
+    "replace": "H S F uno",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "PURPL",
+    "replace": "P U R P L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "Sirt3",
+    "replace": "S I R T tre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "G3P",
+    "replace": "G tre P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "CAD",
+    "replace": "C A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "CRF",
+    "replace": "C R F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "AKT",
+    "replace": "A K T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "CD4",
+    "replace": "C D quattro",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "CCL5",
+    "replace": "C C L cinque",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "PRP",
+    "replace": "P R P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
+  },
+  {
+    "find": "p21",
+    "replace": "p ventuno",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-05"
   }
 ]
