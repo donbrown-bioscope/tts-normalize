@@ -2056,5 +2056,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-28"
+  },
+  {
+    "find": "MSC",
+    "replace": "eme ese ce",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "FDG-P",
+    "replace": "efe de ge pe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "ADN",
+    "replace": "a de ene",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "TNT",
+    "replace": "te ene te",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "EAAD",
+    "replace": "e a a de",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "FDG",
+    "replace": "efe de ge",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "PVAT",
+    "replace": "pe uve a te",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "MASLD",
+    "replace": "eme a ese ele de",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "GAM",
+    "replace": "ge a eme",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
   }
 ]
