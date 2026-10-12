@@ -1475,5 +1475,75 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-05"
+  },
+  {
+    "find": "FDG-P",
+    "replace": "effe di gi pet",
+    "category": "fixedToken",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "CRC",
+    "replace": "ci erre ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "QL01",
+    "replace": "cu elle zero uno",
+    "category": "fixedToken",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "ADAD",
+    "replace": "a di a di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "FDG",
+    "replace": "effe di gi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "GAM",
+    "replace": "gi a emme",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "ECL",
+    "replace": "e ci elle",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "ALC",
+    "replace": "a elle ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "tau217",
+    "replace": "tau duecentodiciassette",
+    "category": "fixedToken",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "SNV",
+    "replace": "esse enne vu",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
   }
 ]
