@@ -978,5 +978,61 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-05"
+  },
+  {
+    "find": "RAGE",
+    "replace": "Rêidji",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "THC",
+    "replace": "T H C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "CCR",
+    "replace": "C C R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "FDG-P",
+    "replace": "F D G P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "FDG",
+    "replace": "F D G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "NAC",
+    "replace": "N A C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "DAAD",
+    "replace": "D A A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "GAM",
+    "replace": "G A M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
   }
 ]
