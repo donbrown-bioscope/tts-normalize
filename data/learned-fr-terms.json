@@ -1104,5 +1104,75 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-09-28"
+  },
+  {
+    "find": "FDG",
+    "replace": "F D G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "SEP",
+    "replace": "S E P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "CCR",
+    "replace": "C C R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "QL01",
+    "replace": "Q L zéro un",
+    "category": "fixedToken",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "TNT",
+    "replace": "T N T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "MASLD",
+    "replace": "M A S L D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "MAAD",
+    "replace": "M A A D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "PVAT",
+    "replace": "P V A T",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "GAM",
+    "replace": "G A M",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
+  },
+  {
+    "find": "ECL",
+    "replace": "E C L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-12"
   }
 ]
