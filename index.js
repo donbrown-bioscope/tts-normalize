@@ -1921,7 +1921,9 @@ function spokenIdNumber(n) {
     if (rest === 0) return `${numWord(hundreds)} hundred`;
     return `${numWord(hundreds)} ${twoDigitWord(rest)}`;
   }
-  return String(n);
+  // 4+ digits: digit-by-digit. Returning the raw digits let the core number
+  // pass read "MK-6884" as "six thousand eight hundred eighty four".
+  return String(n).split('').map((c) => DIGIT_WORD[c]).join(' ');
 }
 
 // Mixed-case / hyphenated / English-colliding tokens the core
@@ -2670,6 +2672,30 @@ function preprocessForTTS(text) {
   t = t.replace(/\bTB-(\d+)\b/g, (_, n) => `T-B ${spokenIdNumber(n)}`);
   t = t.replace(/\bMK-(\d+)\b/g, (_, n) => `M-K ${spokenIdNumber(n)}`);
   t = t.replace(/\bPE-(\d+)-(\d+)\b/g, (_, a, b) => `P-E ${spokenIdNumber(a)} ${spokenIdNumber(b)}`);
+
+  // Generic drug-candidate codes with a long numeric tail — PF-04457845,
+  // BIA 10-2474, BAY 59-7939, RLS-1496, LY3437943, SR141716A. Without this the
+  // hyphen leaves the tail a standalone number, so the core number pass read
+  // "PF-four million four hundred fifty seven thousand…" and the range pass
+  // turned "BIA 10-2474" into "ten to two thousand four hundred seventy four".
+  // The tail is read digit-by-digit (as the other locales' step 5d does); the
+  // letter prefix is left as-is for the normal acronym passes. Only 4+ digit
+  // tails (5+ when unhyphenated, so FOXO4/PCSK9/AZD1656-style gene and code
+  // tokens keep their step-10.5 reading); a hyphenated 19xx/20xx tail is
+  // treated as a year, and a space-separated tail only when it has a leading
+  // zero ("FDA 2024" must stay a year).
+  const CODE_GUARD = '(?![^<>]*>)(?![^<]*<\\/(?:phoneme|sub|say-as)>)';
+  const digitsSpoken = (d) => d.split('').map((c) => DIGIT_WORD[c]).join(' ');
+  const codeSuffix = (sfx) => (sfx ? `-${sfx}` : '');
+  // Two-group form: "BIA 10-2474", "BAY 59-7939".
+  t = t.replace(new RegExp(`\\b([A-Z]{2,5})[- ](\\d{1,3})-(\\d{3,})([A-Z]?)\\b${CODE_GUARD}`, 'g'),
+    (_, pre, a, b, sfx) => `${pre} ${spokenIdNumber(a)} ${digitsSpoken(b)}${codeSuffix(sfx)}`);
+  // Hyphenated / leading-zero-spaced single tail: "PF-04457845", "RLS-1496".
+  t = t.replace(new RegExp(`\\b([A-Z]{2,5})(?:-|\\s(?=0))(\\d{4,})([A-Z]?)\\b${CODE_GUARD}`, 'g'),
+    (m, pre, d, sfx) => (/^(19|20)\d\d$/.test(d) ? m : `${pre} ${digitsSpoken(d)}${codeSuffix(sfx)}`));
+  // Unhyphenated 5+ digit tail: "LY3437943", "SR141716A".
+  t = t.replace(new RegExp(`\\b([A-Z]{2,5})(\\d{5,})([A-Z]?)\\b${CODE_GUARD}`, 'g'),
+    (_, pre, d, sfx) => `${pre} ${digitsSpoken(d)}${codeSuffix(sfx)}`);
 
   // Lactobacillus / Bifidobacterium genus abbreviations — bare "L." in
   // "L. casei" gets read as the liter symbol and expands to "liters."

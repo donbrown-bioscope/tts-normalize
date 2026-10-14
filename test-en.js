@@ -9,6 +9,16 @@ const plain = s => s.replace(/<break[^>]*\/>/g, '').replace(/<phoneme[^>]*>([^<]
   .replace(/\s+/g, ' ').replace(/\s+([,.])/g, '$1').trim();
 
 const CASES = [
+  // Drug-candidate codes with a long numeric tail — read digit-by-digit, never
+  // as a cardinal or a range (endocannabinoid intermediate tutorial, 2026-10-13).
+  ['PF-04457845 was safe.', 'PF oh four four five seven eight four five was safe.'],
+  ['BIA 10-2474 killed a volunteer.', 'BIA ten two four seven four killed a volunteer.'],
+  ['MK-6884 and MK-677.', 'MK six eight eight four and MK six seventy-seven.'],
+  ['RLS-1496 and LY3437943.', 'RLS one four nine six and LY three four three seven nine four three.'],
+  ['SR141716A blocks CB1.', 'SR one four one seven one six-A blocks CB one.'],
+  // Must NOT change: years after an acronym, short gene/code tails
+  ['The FDA 2024 guidance.', 'The FDA twenty twenty four guidance.'],
+  ['COVID-2019 wave.', 'C-O-V-I-D twenty nineteen wave.'],
   // Lists after a singular keyword — the mitochondria tutorials (2026-09-28)
   ['Complex I, III, IV, and ATP synthase subunits.', 'Complex one, three, four, and ATP synthase subunits.'],
   ['names like Complex I, II, III, and IV.', 'names like Complex one, two, three, and four.'],
