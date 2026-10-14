@@ -2875,6 +2875,13 @@ const CLINICAL_IPA = {
   // "aptly" is not an abbreviation and is deliberately left bare (see the
   // "early" note above — a phoneme wrap on an ordinary adverb reads stiff).
   'apt': 'æpt',
+  // "rep" — same failure as "apt": Chirp expands the bare word to
+  // "representative" in EVERY position ("another rep.", "a rep over time",
+  // "one-rep max"), confirmed by synthesis + ASR on the mechanotransduction
+  // tutorials 2026-10-14. "reps" reads correctly bare and is left alone.
+  // All-caps REP is letter-spelled earlier in the pipeline, so this only
+  // reaches the word.
+  'rep': 'ɹɛp',
   // HOMA — Homeostatic Model Assessment. Long-O ("HOME-uh"), not
   // letter-spelled. Case-insensitive matching covers HOMA / Homa /
   // homa, including the "Homa-I-R" rewrite from PRE_ABBREVIATIONS.
