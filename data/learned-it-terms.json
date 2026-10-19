@@ -1545,5 +1545,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-12"
+  },
+  {
+    "find": "TGF",
+    "replace": "ti gi effe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "RCP",
+    "replace": "rianimazione cardiopolmonare",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "BPA",
+    "replace": "bi pi a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "SAH",
+    "replace": "esse a acca",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "A1c",
+    "replace": "a uno ci",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "ARDS",
+    "replace": "a erre di esse",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "GFP",
+    "replace": "gi effe pi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "ARMM",
+    "replace": "a erre emme emme",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "LVEF",
+    "replace": "elle vu e effe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
   }
 ]
