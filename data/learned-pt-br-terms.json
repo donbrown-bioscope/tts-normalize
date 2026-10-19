@@ -1034,5 +1034,75 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-12"
+  },
+  {
+    "find": "TMAO",
+    "replace": "T M A O",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "CB1",
+    "replace": "C B um",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "CHIP",
+    "replace": "chip",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "CRISPR",
+    "replace": "crísper",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "A1c",
+    "replace": "A um C",
+    "category": "symbol",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "RCP",
+    "replace": "R C P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "BPA",
+    "replace": "B P A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "SAH",
+    "replace": "S A H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "MASH",
+    "replace": "M A S H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
+  },
+  {
+    "find": "SDRA",
+    "replace": "S D R A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-19"
   }
 ]
