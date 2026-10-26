@@ -1608,5 +1608,82 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-19"
+  },
+  {
+    "find": "NET",
+    "replace": "enne e ti",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CDNP",
+    "replace": "ci di enne pi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "FMD",
+    "replace": "effe emme di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "FGR",
+    "replace": "effe gi erre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "HbA1c",
+    "replace": "emoglobina glicata",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "UVB",
+    "replace": "u vu bi",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "JNK",
+    "replace": "i lunga enne cappa",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "HIIT",
+    "replace": "hit",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "TCR",
+    "replace": "ti ci erre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "REVEAL",
+    "replace": "rivìl",
+    "category": "fixedToken",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "MASLD",
+    "replace": "emme a esse elle di",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
   }
 ]
