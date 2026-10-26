@@ -1174,5 +1174,96 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-12"
+  },
+  {
+    "find": "NET",
+    "replace": "nette",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "MICI",
+    "replace": "mici",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CDNP",
+    "replace": "C D N P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CAR",
+    "replace": "car",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "FMD",
+    "replace": "F M D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "RCF",
+    "replace": "R C F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "UVB",
+    "replace": "U V B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "JNK",
+    "replace": "J N K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CD4",
+    "replace": "C D quatre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "BLU",
+    "replace": "B L U",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "HIIT",
+    "replace": "hit",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "TCR",
+    "replace": "T C R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CD44",
+    "replace": "C D quarante-quatre",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
   }
 ]
