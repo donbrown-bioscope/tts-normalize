@@ -1104,5 +1104,47 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-19"
+  },
+  {
+    "find": "FMD",
+    "replace": "F M D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CHC",
+    "replace": "C H C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "RCF",
+    "replace": "R C F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "UVB",
+    "replace": "U V B",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "JNK",
+    "replace": "J N K",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
+  },
+  {
+    "find": "TCR",
+    "replace": "T C R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-10-26"
   }
 ]
