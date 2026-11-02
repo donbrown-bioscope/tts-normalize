@@ -1146,5 +1146,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-26"
+  },
+  {
+    "find": "AMH",
+    "replace": "A M H",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "HbA1c",
+    "replace": "hemoglobina glicada",
+    "category": "fixedToken",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "MCC",
+    "replace": "M C C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "FDR",
+    "replace": "taxa de falsas descobertas",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "NAION",
+    "replace": "neuropatia óptica isquêmica anterior não arterítica",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "TRE",
+    "replace": "T R E",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "TOFA",
+    "replace": "T O F A",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "TRF",
+    "replace": "T R F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "GDS",
+    "replace": "G D S",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
   }
 ]
