@@ -1685,5 +1685,89 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-26"
+  },
+  {
+    "find": "AMH",
+    "replace": "a emme acca",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "MCC",
+    "replace": "emme ci ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "FDR",
+    "replace": "false discovery rate",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "TOFA",
+    "replace": "tofa",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "TRF",
+    "replace": "ti erre effe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "NAION",
+    "replace": "enne a i o enne",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "MDS",
+    "replace": "emme di esse",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "EMT",
+    "replace": "e emme ti",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "GDS",
+    "replace": "gi di esse",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "CTC",
+    "replace": "ci ti ci",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "SGLT2i",
+    "replace": "esse gi elle ti due i",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
+  },
+  {
+    "find": "BAL",
+    "replace": "bi a elle",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-02"
   }
 ]
