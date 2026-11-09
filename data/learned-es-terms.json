@@ -2119,5 +2119,68 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-12"
+  },
+  {
+    "find": "LNP",
+    "replace": "ele ene pe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "CIN",
+    "replace": "ce i ene",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "LMA",
+    "replace": "ele eme a",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "TPP",
+    "replace": "te pe pe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "AUC",
+    "replace": "a u ce",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "FAD",
+    "replace": "efe a de",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "GNRI",
+    "replace": "ge ene erre i",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "DMG",
+    "replace": "de eme ge",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "UPF",
+    "replace": "u pe efe",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
   }
 ]
