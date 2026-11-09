@@ -1265,5 +1265,61 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-10-26"
+  },
+  {
+    "find": "CIN",
+    "replace": "C I N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "PD-L1",
+    "replace": "P D L un",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "TPP",
+    "replace": "T P P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "CD8",
+    "replace": "C D huit",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "AUT",
+    "replace": "aliments ultra-transformés",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "AUC",
+    "replace": "aire sous la courbe",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "GNRI",
+    "replace": "G N R I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "CHIP",
+    "replace": "tchip",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
   }
 ]
