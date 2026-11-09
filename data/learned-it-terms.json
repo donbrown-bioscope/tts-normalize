@@ -1769,5 +1769,61 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-11-02"
+  },
+  {
+    "find": "PD-L1",
+    "replace": "P D elle uno",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "CIN",
+    "replace": "C I N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "LMA",
+    "replace": "leucemia mieloide acuta",
+    "category": "abbreviation",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "UPF",
+    "replace": "U P F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "AUC",
+    "replace": "A U C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "GNRI",
+    "replace": "G N R I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "DMG",
+    "replace": "D M G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
+  },
+  {
+    "find": "CHIP",
+    "replace": "C H I P",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-09"
   }
 ]
