@@ -1825,5 +1825,47 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-11-09"
+  },
+  {
+    "find": "GDF",
+    "replace": "G D F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "CKD",
+    "replace": "C K D",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "BEC",
+    "replace": "B E C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "ICI",
+    "replace": "I C I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "MPR",
+    "replace": "M P R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "MCL",
+    "replace": "M C L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
   }
 ]
