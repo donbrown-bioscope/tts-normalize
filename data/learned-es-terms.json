@@ -2182,5 +2182,47 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-11-09"
+  },
+  {
+    "find": "ARN",
+    "replace": "A R N",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "ERC",
+    "replace": "E R C",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "BCG",
+    "replace": "B C G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "EII",
+    "replace": "E I I",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "MPR",
+    "replace": "M P R",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "MCL",
+    "replace": "M C L",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
   }
 ]
