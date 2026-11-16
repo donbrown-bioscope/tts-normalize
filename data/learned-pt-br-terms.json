@@ -1251,5 +1251,19 @@
     "category": "acronym",
     "addedBy": "weekly-scan",
     "addedOn": "2026-11-09"
+  },
+  {
+    "find": "GDF",
+    "replace": "G D F",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
+  },
+  {
+    "find": "BCG",
+    "replace": "B C G",
+    "category": "acronym",
+    "addedBy": "weekly-scan",
+    "addedOn": "2026-11-16"
   }
 ]
